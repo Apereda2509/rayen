@@ -173,7 +173,7 @@ export default async function EspeciePage({ params }: Props) {
       </Section>
 
       {/* Distribución */}
-      {(species.regionCodes?.length > 0 || species.ecosystemSlugs?.length > 0 || species.countries?.length > 0) && (
+      {((species.regionCodes?.length ?? 0) > 0 || (species.ecosystemSlugs?.length ?? 0) > 0 || (species.countries?.length ?? 0) > 0) && (
         <Section title="Distribución">
           {species.countries?.length ? (
             <p className="text-sm text-stone-600 mb-3">
