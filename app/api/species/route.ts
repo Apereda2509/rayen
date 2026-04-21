@@ -1,4 +1,6 @@
 // app/api/species/route.ts
+export const dynamic = 'force-dynamic'
+
 import { NextRequest, NextResponse } from 'next/server'
 import { getSpeciesSummaries, searchSpecies } from '@/lib/db'
 import type { SpeciesFilters } from '@/lib/types'

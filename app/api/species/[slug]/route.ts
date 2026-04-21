@@ -1,8 +1,9 @@
 // app/api/species/[slug]/route.ts
+export const dynamic = 'force-dynamic'
+export const runtime = 'nodejs'
+
 import { NextRequest, NextResponse } from 'next/server'
 import { getSpeciesBySlug } from '@/lib/db'
-
-export const runtime = 'nodejs'
 export const revalidate = 600 // 10 minutos de caché
 
 interface Params {

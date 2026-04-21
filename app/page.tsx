@@ -1,4 +1,6 @@
 // app/page.tsx
+export const dynamic = 'force-dynamic'
+
 import Link from 'next/link'
 import { ArrowRight, MapPin, Users, AlertTriangle } from 'lucide-react'
 import { getPlatformStats } from '@/lib/db'

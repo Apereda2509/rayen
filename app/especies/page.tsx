@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic'
+
 import { getSpeciesSummaries } from '@/lib/db'
 import { SpeciesCard } from '@/components/species/SpeciesCard'
 

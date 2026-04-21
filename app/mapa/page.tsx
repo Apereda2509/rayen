@@ -1,12 +1,14 @@
 // app/mapa/page.tsx
+export const dynamic = 'force-dynamic'
+
 import { Suspense } from 'react'
-import dynamic from 'next/dynamic'
+import nextDynamic from 'next/dynamic'
 import { MapFilters } from '@/components/map/MapFilters'
 import { MapLegend } from '@/components/map/MapLegend'
 import { MobileFiltersButton } from '@/components/map/MobileFiltersButton'
 import { getSightingsForMap } from '@/lib/db'
 
-const RayenMap = dynamic(
+const RayenMap = nextDynamic(
   () => import('@/components/map/RayenMap').then((m) => m.RayenMap),
   { ssr: false, loading: () => <MapSkeleton /> }
 )
