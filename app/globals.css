@@ -1,0 +1,103 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Mapbox GL — estilos base obligatorios ─────────────────── */
+@import 'mapbox-gl/dist/mapbox-gl.css';
+
+/* ── Variables CSS RAYEN ───────────────────────────────────── */
+:root {
+  --rayen-teal:        #1D9E75;
+  --rayen-teal-dark:   #085041;
+  --rayen-teal-light:  #E1F5EE;
+  --rayen-coral:       #D85A30;
+  --rayen-amber:       #BA7517;
+  --rayen-carbon:      #2C2C2A;
+}
+
+/* ── Estilos personalizados de Mapbox ──────────────────────── */
+.mapboxgl-popup-content {
+  padding: 0 !important;
+  border-radius: 12px !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12) !important;
+  background: white !important;
+}
+
+.mapboxgl-popup-tip {
+  border-top-color: white !important;
+}
+
+.mapboxgl-popup-close-button {
+  font-size: 20px !important;
+  color: var(--rayen-carbon) !important;
+  padding: 4px 8px !important;
+  z-index: 10;
+}
+
+.mapboxgl-ctrl-bottom-right .mapboxgl-ctrl {
+  margin: 0 12px 12px 0 !important;
+}
+
+/* ── Marcadores personalizados ─────────────────────────────── */
+.rayen-marker {
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+
+.rayen-marker:hover {
+  transform: scale(1.15);
+}
+
+.rayen-marker-pulse {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  animation: pulse 2s ease-out infinite;
+}
+
+@keyframes pulse {
+  0%   { transform: scale(1);   opacity: 0.6; }
+  100% { transform: scale(2.5); opacity: 0; }
+}
+
+/* ── Cluster styling ──────────────────────────────────────── */
+.rayen-cluster {
+  background: rgba(8, 80, 65, 0.92);
+  color: white;
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: transform 0.15s;
+  border: 2px solid white;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.rayen-cluster:hover {
+  transform: scale(1.08);
+}
+
+/* ── Scrollbar minimalista ────────────────────────────────── */
+.scroll-thin {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.15) transparent;
+}
+
+.scroll-thin::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.scroll-thin::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scroll-thin::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 3px;
+}
+
+.scroll-thin::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.25);
+}

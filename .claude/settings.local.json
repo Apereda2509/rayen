@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm --version)",
+      "Bash(openssl rand *)",
+      "Bash(npm install *)",
+      "Bash(npm run *)",
+      "Bash(pkill -f \"next dev\")",
+      "Bash(curl -s http://localhost:3000)",
+      "Bash(node scripts/import-pilot-species.js)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3000/especies)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3000/especies/huemul)",
+      "Bash(node -e ' *)",
+      "Bash(curl -s \"http://localhost:3000/api/species\")",
+      "Bash(node -e \"const d=require\\('fs'\\).readFileSync\\('/dev/stdin','utf8'\\); const j=JSON.parse\\(d\\); j.data.forEach\\(s => console.log\\(s.slug, '|', s.primaryPhoto\\)\\)\")",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" \"https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Huemul_in_Chile.jpg/800px-Huemul_in_Chile.jpg\")",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" -H \"Referer: \" \"https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Huemul_in_Chile.jpg/800px-Huemul_in_Chile.jpg\")",
+      "Bash(curl -s \"http://localhost:3000/api/species/huemul\")",
+      "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\)['data']; print\\(list\\(d.keys\\(\\)\\)[:10]\\)\")"
+    ]
+  }
+}

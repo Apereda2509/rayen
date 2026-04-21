@@ -1,0 +1,71 @@
+// app/mapa/page.tsx
+import { Suspense } from 'react'
+import dynamic from 'next/dynamic'
+import { MapFilters } from '@/components/map/MapFilters'
+import { MapLegend } from '@/components/map/MapLegend'
+import { MobileFiltersButton } from '@/components/map/MobileFiltersButton'
+import { getSightingsForMap } from '@/lib/db'
+
+const RayenMap = dynamic(
+  () => import('@/components/map/RayenMap').then((m) => m.RayenMap),
+  { ssr: false, loading: () => <MapSkeleton /> }
+)
+
+export const metadata = {
+  title: 'Mapa interactivo',
+  description: 'Explora la biodiversidad chilena en el mapa. Encuentra especies por región, ecosistema y estado de conservación.',
+}
+
+export default async function MapaPage() {
+  const rawSightings = await getSightingsForMap({ verified: true, limit: 1000 })
+
+  const features = rawSightings.map((s: any) => ({
+    type: 'Feature' as const,
+    geometry: {
+      type: 'Point' as const,
+      coordinates: [s.lng, s.lat] as [number, number],
+    },
+    properties: {
+      id: s.id,
+      speciesId: s.speciesId,
+      slug: s.slug,
+      commonName: s.commonName,
+      scientificName: '',
+      uicnStatus: s.uicnStatus,
+      photoUrl: s.photoUrl,
+    },
+  }))
+
+  return (
+    <div className="relative h-[calc(100vh-3.5rem)] flex">
+      <aside className="hidden lg:block w-64 border-r border-stone-200 bg-white overflow-y-auto scroll-thin">
+        <Suspense fallback={<div className="p-4 text-sm text-stone-400">Cargando filtros…</div>}>
+          <MapFilters />
+        </Suspense>
+      </aside>
+
+      <div className="flex-1 relative">
+        <Suspense fallback={<MapSkeleton />}>
+          <RayenMap sightings={features} />
+        </Suspense>
+
+        <div className="absolute bottom-4 left-4 z-10">
+          <MapLegend />
+        </div>
+
+        <MobileFiltersButton />
+      </div>
+    </div>
+  )
+}
+
+function MapSkeleton() {
+  return (
+    <div className="h-full w-full flex items-center justify-center bg-stone-100">
+      <div className="text-center">
+        <div className="h-12 w-12 mx-auto rounded-full border-2 border-teal-400 border-t-transparent animate-spin" />
+        <p className="mt-4 text-sm text-stone-500">Cargando mapa...</p>
+      </div>
+    </div>
+  )
+}

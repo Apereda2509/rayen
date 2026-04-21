@@ -1,0 +1,324 @@
+{
+  "species": [
+    {
+      "slug": "huemul",
+      "commonName": "Huemul",
+      "scientificName": "Hippocamelus bisulcus",
+      "type": "mamifero",
+      "alternativeNames": ["Güemul", "Taruca del sur"],
+      "indigenousNames": [
+        { "language": "mapudungun", "name": "huemul", "meaning": "el que camina por el borde" }
+      ],
+      "taxonomy": {
+        "kingdom": "Animalia",
+        "phylum":  "Chordata",
+        "class":   "Mammalia",
+        "order":   "Artiodactyla",
+        "family":  "Cervidae",
+        "genus":   "Hippocamelus",
+        "species": "bisulcus"
+      },
+      "uicnStatus": "EN",
+      "uicnYear": 2018,
+      "uicnUrl": "https://www.iucnredlist.org/species/10054/22158124",
+      "chileStatus": "en_peligro",
+      "chileDecree": "DS-41-2023",
+      "populationTrend": "disminuyendo",
+      "estimatedPopulation": "Menos de 2.500 individuos maduros",
+      "isEndemic": false,
+      "isNationalSymbol": true,
+      "citesAppendix": "I",
+      "altitudeMin": 500,
+      "altitudeMax": 3000,
+      "countries": ["Chile", "Argentina"],
+      "regionCodes": ["NB", "BI", "AR", "LR", "LL", "AI", "MA"],
+      "ecosystemSlugs": ["bosque_andino_patagonico", "andes"],
+      "typeDiet": "herbivoro",
+      "dietDescription": "Hierbas de altura, arbustos nativos (lenga, ñirre, notro), musgos, líquenes, hongos. En invierno consume corteza de árboles.",
+      "sizeData": {
+        "lengthCm": 152,
+        "heightCm": 90,
+        "weightKg": { "min": 50, "max": 100 }
+      },
+      "sizeCategory": "mediano",
+      "weightKgAvg": 75,
+      "lifespanYears": 13,
+      "activePeriod": "crepuscular",
+      "dangerLevel": "ninguno",
+      "colors": ["cafe", "gris", "marron", "blanco"],
+      "description": "El huemul es un ciervo mediano de cuerpo compacto y patas cortas, adaptado para moverse con agilidad en terrenos rocosos y escarpados de montaña. Su pelaje es pardo-grisáceo en invierno y más rojizo-marrón en verano. Los machos desarrollan astas bifurcadas que mudan anualmente. Es uno de los dos animales del escudo nacional de Chile.",
+      "funFacts": [
+        { "text": "Está en el escudo nacional de Chile desde 1834, pero podría desaparecer antes de que muchos chilenos lo hayan visto en persona." },
+        { "text": "Su número en Chile podría ser inferior a 1.500 individuos, distribuidos en pequeñas poblaciones aisladas." },
+        { "text": "Es el único ciervo nativo del extremo sur de América del Sur adaptado a vivir en zona de hielos y nieves patagónicas." },
+        { "text": "Su nombre mapuche significa 'el que camina por el borde', refiriéndose a su hábito de moverse por las laderas escarpadas." }
+      ],
+      "ecosystemRole": "Herbívoro regulador que controla el crecimiento de vegetación arbustiva. Dispersor de semillas de plantas nativas. Presa principal del puma en los Andes patagónicos.",
+      "humanImpactDaily": "Si vives en Aysén, Los Lagos, Biobío o Magallanes, el ecosistema del huemul regula directamente el agua que llega a tus ríos. Los bosques andinos y humedales que necesita actúan como esponjas que capturan la nieve y la liberan lentamente hacia los ríos durante el año.",
+      "threatsLocal": [
+        { "name": "Perros domésticos sin control", "magnitude": "alta", "description": "Los perros ahuyentan, hieren y matan huemules, especialmente crías. Es la amenaza más inmediata." },
+        { "name": "Ganado doméstico", "magnitude": "alta", "description": "Compite por alimento, transmite enfermedades como brucelosis, y fragmenta el hábitat." },
+        { "name": "Fragmentación de hábitat", "magnitude": "alta", "description": "Caminos, cercas, plantaciones y urbanización cortan las rutas naturales entre poblaciones." }
+      ],
+      "threatsGlobal": [
+        { "name": "Aumento de temperatura", "magnitude": "alta", "description": "Desplaza los ecosistemas de altura hacia arriba, comprimiendo el hábitat disponible." },
+        { "name": "Incendios forestales", "magnitude": "alta", "description": "La mega-sequía y el cambio climático aumentan la frecuencia e intensidad." }
+      ],
+      "visitorTips": "Mantén al menos 200 metros de distancia. Lleva tus perros con correa o déjalos en casa. No te acerques a crías solas: la madre está cerca. Reporta cada avistamiento a CONAF.",
+      "residentTips": "Si tienes ganado, vacúnalo contra brucelosis. Mantén tus perros encerrados o con collar GPS. Si tienes terrenos en zona de huemul, considera dejar corredores naturales sin cercar.",
+      "emergencyContacts": [
+        { "region": "Aysén", "org": "CONAF Coyhaique", "phone": "+56 67 2212225", "url": "https://conaf.cl" }
+      ],
+      "media": [
+        {
+          "type": "foto",
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Huemul_in_Chile.jpg/800px-Huemul_in_Chile.jpg",
+          "credit": "Pablo Berrios / Wikimedia",
+          "license": "CC-BY-SA",
+          "isPrimary": true
+        }
+      ]
+    },
+    {
+      "slug": "araucaria",
+      "commonName": "Araucaria",
+      "scientificName": "Araucaria araucana",
+      "type": "planta",
+      "alternativeNames": ["Pehuén", "Pino chileno"],
+      "indigenousNames": [
+        { "language": "mapudungun", "name": "pewén", "meaning": "el árbol del pueblo pehuenche" }
+      ],
+      "taxonomy": {
+        "kingdom": "Plantae",
+        "phylum":  "Pinophyta",
+        "class":   "Pinopsida",
+        "order":   "Araucariales",
+        "family":  "Araucariaceae",
+        "genus":   "Araucaria",
+        "species": "araucana"
+      },
+      "uicnStatus": "EN",
+      "uicnYear": 2013,
+      "uicnUrl": "https://www.iucnredlist.org/species/32442/2818039",
+      "chileStatus": "en_peligro",
+      "chileDecree": "DS-43-1990",
+      "populationTrend": "disminuyendo",
+      "isEndemic": true,
+      "isNationalSymbol": false,
+      "citesAppendix": "I",
+      "altitudeMin": 900,
+      "altitudeMax": 1800,
+      "countries": ["Chile", "Argentina"],
+      "regionCodes": ["BI", "AR", "LR"],
+      "ecosystemSlugs": ["bosque_araucarias", "bosque_andino_patagonico", "andes"],
+      "typeDiet": "autotrofo",
+      "sizeData": { "heightCm": 4000, "note": "Hasta 50 metros de altura, diámetro hasta 2 metros." },
+      "sizeCategory": "muy_grande",
+      "lifespanYears": 1500,
+      "colors": ["verde_oscuro", "gris", "cafe"],
+      "description": "Una de las coníferas más antiguas del planeta. Sus ramas se disponen en pisos horizontales perfectamente simétricos formando una copa de paraguas característica. Sus hojas son duras y triangulares como agujas. Sus enormes conos contienen los piñones, alimento sagrado del pueblo pehuenche durante miles de años.",
+      "funFacts": [
+        { "text": "Sus ancestros coexistieron con los dinosaurios hace más de 200 millones de años." },
+        { "text": "Un solo árbol puede producir más de 100 kilos de piñones al año." },
+        { "text": "El pueblo pehuenche organizó toda su cultura alrededor de este árbol — ciclos de recolección, migración, ceremonias y gastronomía." },
+        { "text": "Es Monumento Natural de Chile desde 1990, lo que prohíbe su tala incluso en terrenos privados." }
+      ],
+      "ecosystemRole": "Productora primaria dominante de las pehuenerías. Sus piñones alimentan al loro tricahue, carpinteros, roedores nativos y al pueblo pehuenche.",
+      "humanImpactDaily": "Si vives en el centro-sur de Chile, el agua de tus ríos viene en parte de cuencas reguladas por bosques de araucaria. Es una torre de agua de 40 metros funcionando desde antes de que existiera Chile.",
+      "threatsLocal": [
+        { "name": "Incendios forestales", "magnitude": "muy_alta", "description": "Los incendios de 2015 y 2022 mataron árboles milenarios en el Parque Nacional Conguillio." },
+        { "name": "Ganado bajo el dosel", "magnitude": "alta", "description": "El ganado consume las plántulas, impidiendo la regeneración." }
+      ],
+      "threatsGlobal": [
+        { "name": "Mayor frecuencia de incendios", "magnitude": "muy_alta", "description": "El cambio climático amplifica el riesgo de fuego en zona de araucarias." }
+      ],
+      "visitorTips": "Mantente en los senderos. No extraigas piñones — la recolección está reservada a comunidades pehuenche. Reporta humo o fuego al 130.",
+      "media": [
+        {
+          "type": "foto",
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/Araucaria_araucana.jpg/800px-Araucaria_araucana.jpg",
+          "credit": "Wikimedia Commons",
+          "license": "CC-BY-SA",
+          "isPrimary": true
+        }
+      ]
+    },
+    {
+      "slug": "rana-de-darwin",
+      "commonName": "Rana de Darwin",
+      "scientificName": "Rhinoderma darwinii",
+      "type": "anfibio",
+      "alternativeNames": ["Ranita de Darwin", "Ranita nariguda"],
+      "taxonomy": {
+        "kingdom": "Animalia",
+        "phylum":  "Chordata",
+        "class":   "Amphibia",
+        "order":   "Anura",
+        "family":  "Rhinodermatidae",
+        "genus":   "Rhinoderma",
+        "species": "darwinii"
+      },
+      "uicnStatus": "EN",
+      "uicnYear": 2020,
+      "chileStatus": "en_peligro",
+      "chileDecree": "DS-41-2023",
+      "populationTrend": "disminuyendo",
+      "isEndemic": true,
+      "altitudeMin": 0,
+      "altitudeMax": 1600,
+      "countries": ["Chile", "Argentina"],
+      "regionCodes": ["BI", "AR", "LR", "LL", "AI"],
+      "ecosystemSlugs": ["bosque_valdiviano"],
+      "typeDiet": "carnivoro",
+      "dietDescription": "Pequeños insectos del suelo (colémbolos, hormigas, moscas), larvas y otros invertebrados.",
+      "sizeData": { "lengthCm": 3, "weightKg": 0.002 },
+      "sizeCategory": "micro",
+      "lifespanYears": 12,
+      "activePeriod": "diurno",
+      "colors": ["cafe", "verde", "negro", "blanco"],
+      "description": "Pequeña rana del bosque valdiviano con un hocico prolongado en punta triangular que la camufla perfectamente como una hoja caída. Mide solo 3 cm. Su sistema reproductivo es uno de los más extraordinarios del reino animal: el macho incuba los huevos en su saco vocal hasta que las crías nacen completamente formadas.",
+      "funFacts": [
+        { "text": "El macho traga los huevos y los incuba durante 50–70 días en su saco vocal. Las crías salen como ranitas completamente formadas." },
+        { "text": "Cuando se siente amenazada, se voltea, muestra su vientre blanco y negro y se queda inmóvil simulando una hoja podrida." },
+        { "text": "Charles Darwin la describió en Chiloé en 1835 como 'pequeña, rara y muy curiosa'." },
+        { "text": "Su especie hermana (Rhinoderma rufum) ya está probablemente extinta por el avance del hongo Bd." }
+      ],
+      "ecosystemRole": "Controladora de invertebrados del suelo del bosque. Bioindicadora crítica: si ella desaparece, el bosque está en colapso.",
+      "humanImpactDaily": "Si has caminado por el bosque valdiviano y sentiste el suelo esponjar bajo tus pies, estabas sobre el hábitat de la rana de Darwin. Ese suelo es lo que mantiene los ríos limpios que abastecen a Valdivia, Osorno y Puerto Montt.",
+      "threatsLocal": [
+        { "name": "Reemplazo por plantaciones", "magnitude": "muy_alta", "description": "Las plantaciones de eucalipto y pino son ecosistemas secos que la rana no puede habitar." },
+        { "name": "Contaminación de esteros", "magnitude": "alta", "description": "Pesticidas y sedimentos destruyen su fuente de agua y alimento." }
+      ],
+      "threatsGlobal": [
+        { "name": "Hongo Batrachochytrium dendrobatidis", "magnitude": "muy_alta", "description": "Pandemia fúngica global que causó la extinción de más de 90 especies de anfibios. Avanza en Chile." }
+      ],
+      "visitorTips": "Desinfecta tus botas antes de entrar al bosque — el hongo Bd se transporta en el barro. No la toques: los aceites de tu piel afectan su piel permeable. Reporta avistamientos en iNaturalist.",
+      "media": [
+        {
+          "type": "foto",
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Rhinoderma_darwinii.jpg/800px-Rhinoderma_darwinii.jpg",
+          "credit": "Mono Andes / Wikimedia",
+          "license": "CC-BY-SA",
+          "isPrimary": true
+        }
+      ]
+    },
+    {
+      "slug": "copihue",
+      "commonName": "Copihue",
+      "scientificName": "Lapageria rosea",
+      "type": "planta",
+      "alternativeNames": ["Campana de los bosques"],
+      "taxonomy": {
+        "kingdom": "Plantae",
+        "phylum":  "Magnoliophyta",
+        "class":   "Liliopsida",
+        "order":   "Liliales",
+        "family":  "Philesiaceae",
+        "genus":   "Lapageria",
+        "species": "rosea"
+      },
+      "uicnStatus": "NE",
+      "chileStatus": "rara",
+      "populationTrend": "disminuyendo",
+      "isEndemic": true,
+      "isNationalSymbol": true,
+      "altitudeMin": 0,
+      "altitudeMax": 1200,
+      "countries": ["Chile"],
+      "regionCodes": ["BI", "AR", "LR", "LL"],
+      "ecosystemSlugs": ["bosque_valdiviano"],
+      "typeDiet": "autotrofo",
+      "sizeData": { "lengthCm": 500, "note": "Enredadera de hasta 10 metros." },
+      "sizeCategory": "mediano",
+      "colors": ["rojo", "rosado", "blanco", "verde"],
+      "description": "Flor nacional de Chile desde 1977. Enredadera perenne con campanillas colgantes de hasta 8 cm, en color rojo intenso (la variedad más común), rosado o blanco. Es la única especie de su género en el mundo: si se extingue, desaparece un género completo.",
+      "funFacts": [
+        { "text": "Es la única especie de su género en el mundo. Su extinción sería la de un género completo." },
+        { "text": "Florece en otoño e invierno, cuando casi ninguna otra planta del bosque ofrece néctar." },
+        { "text": "Es polinizada por el picaflor austral, con quien co-evolucionó durante millones de años." },
+        { "text": "Su fruto es comestible y dulce — se usa en mermeladas tradicionales del sur." }
+      ],
+      "ecosystemRole": "Fuente crítica de néctar para el picaflor austral en invierno. Sus frutos alimentan a aves y mamíferos del sotobosque.",
+      "humanImpactDaily": "Es la flor de Chile, presente en escudos regionales, libros escolares y artesanía mapuche. Si has comido miel del sur de Chile, parte viene de su néctar.",
+      "threatsLocal": [
+        { "name": "Destrucción del bosque nativo", "magnitude": "muy_alta", "description": "Plantaciones forestales y urbanización destruyen su hábitat." },
+        { "name": "Extracción ilegal", "magnitude": "alta", "description": "Aún se recolectan flores y plantas silvestres para venta." }
+      ],
+      "visitorTips": "No cortes flores silvestres — es ilegal. Si compras copihues, exige que sean de vivero certificado.",
+      "media": [
+        {
+          "type": "foto",
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/Copihue.jpg/800px-Copihue.jpg",
+          "credit": "Wikimedia Commons",
+          "license": "CC-BY-SA",
+          "isPrimary": true
+        }
+      ]
+    },
+    {
+      "slug": "chungungo",
+      "commonName": "Chungungo",
+      "scientificName": "Lontra felina",
+      "type": "mamifero",
+      "alternativeNames": ["Nutria de mar", "Gato de mar"],
+      "taxonomy": {
+        "kingdom": "Animalia",
+        "phylum":  "Chordata",
+        "class":   "Mammalia",
+        "order":   "Carnivora",
+        "family":  "Mustelidae",
+        "genus":   "Lontra",
+        "species": "felina"
+      },
+      "uicnStatus": "EN",
+      "uicnYear": 2014,
+      "chileStatus": "en_peligro",
+      "chileDecree": "DS-41-2023",
+      "populationTrend": "disminuyendo",
+      "estimatedPopulation": "Menos de 1.000 individuos maduros",
+      "isEndemic": false,
+      "citesAppendix": "I",
+      "altitudeMin": 0,
+      "altitudeMax": 0,
+      "countries": ["Chile", "Perú"],
+      "regionCodes": ["AP", "TA", "AN", "AT", "CO", "VA", "LI", "ML", "NB", "BI", "AR", "LR", "LL", "AI", "MA"],
+      "ecosystemSlugs": ["litoral_rocoso", "marino", "canales_patagonicos"],
+      "typeDiet": "carnivoro",
+      "dietDescription": "Crustáceos (jaibas, cangrejos, picorocos), moluscos (lapas, locos, erizos), peces de roca y ocasionalmente aves marinas pequeñas.",
+      "sizeData": { "lengthCm": 100, "weightKg": 4 },
+      "sizeCategory": "pequeno",
+      "weightKgAvg": 4,
+      "lifespanYears": 12,
+      "activePeriod": "diurno",
+      "colors": ["cafe_oscuro", "beige", "marron"],
+      "description": "Es la nutria más pequeña del mundo y la única que vive exclusivamente en costas rocosas marinas. Cuerpo alargado y flexible, pelaje denso e impermeable, patas con membranas natatorias. Bucea entre las rocas y bosques de kelp para capturar presas.",
+      "funFacts": [
+        { "text": "Es la nutria más pequeña del mundo y vive en uno de los ambientes más inhóspitos: el litoral del Pacífico Sur." },
+        { "text": "Puede bucear hasta 30 metros y permanecer bajo el agua hasta 4 minutos." },
+        { "text": "Quedan menos de 1.000 individuos maduros en toda Chile y Perú juntos." },
+        { "text": "Sin chungungo, los erizos arrasan el kelp y colapsa la pesca artesanal de toda la costa chilena." }
+      ],
+      "ecosystemRole": "Depredador clave del litoral rocoso. Controla las poblaciones de erizos, manteniendo sanos los bosques de kelp donde se reproduce la mayoría de los peces y mariscos costeros.",
+      "humanImpactDaily": "Si has comido congrio, róbalo, loco, erizo o cualquier marisco extraído del litoral chileno, debes parte de esa abundancia al chungungo. Mantiene el equilibrio del bosque de kelp que sostiene la pesca artesanal de cientos de caletas.",
+      "threatsLocal": [
+        { "name": "Captura incidental en redes", "magnitude": "alta", "description": "Queda atrapado en redes de enmalle de la pesca artesanal y muere ahogado." },
+        { "name": "Perturbación humana", "magnitude": "alta", "description": "La presencia de personas, perros y embarcaciones en sus zonas de descanso lo ahuyenta." },
+        { "name": "Contaminación costera", "magnitude": "alta", "description": "Derrames de petróleo, pesticidas y plásticos afectan su pelaje y sus presas." }
+      ],
+      "threatsGlobal": [
+        { "name": "Calentamiento oceánico", "magnitude": "alta", "description": "Afecta la distribución de sus presas y la salud de los bosques de kelp." }
+      ],
+      "visitorTips": "Mantén distancia de al menos 50 metros. No lleves perros a roqueríos. Reporta avistamientos en iNaturalist. Si lo encuentras enredado o herido, llama a SERNAPESCA.",
+      "media": [
+        {
+          "type": "foto",
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Chungungo.jpg/800px-Chungungo.jpg",
+          "credit": "Wikimedia Commons",
+          "license": "CC-BY-SA",
+          "isPrimary": true
+        }
+      ]
+    }
+  ]
+}
