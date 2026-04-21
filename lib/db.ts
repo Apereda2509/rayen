@@ -43,7 +43,7 @@ export async function getSpeciesSummaries(
 
   // Construir condiciones dinámicamente
   const conditions: string[] = ['s.published = TRUE']
-  const params: unknown[] = []
+  const params: any[] = []
   let p = 1
 
   if (type?.length) {
@@ -258,7 +258,7 @@ export async function createSighting(
 // ── Estadísticas ─────────────────────────────────────────────
 
 export async function getPlatformStats() {
-  const [stats] = await sql`
+  const [stats] = await sql<{ total_species: number; endangered: number; endemic: number; verified_sightings: number; total_users: number }[]>`
     SELECT
       (SELECT COUNT(*) FROM species WHERE published = TRUE)::int AS total_species,
       (SELECT COUNT(*) FROM species WHERE published = TRUE AND uicn_status IN ('CR','EN'))::int AS endangered,
