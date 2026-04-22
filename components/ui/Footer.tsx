@@ -25,6 +25,7 @@ export function Footer() {
               <li><Link href="/especies" className="hover:text-white transition-colors">Especies</Link></li>
               <li><Link href="/comunidad" className="hover:text-white transition-colors">Comunidad</Link></li>
               <li><Link href="/educacion" className="hover:text-white transition-colors">Educación</Link></li>
+              <li><Link href="/sobre" className="hover:text-white transition-colors">Sobre Rayen</Link></li>
             </ul>
           </div>
 
@@ -45,7 +46,7 @@ export function Footer() {
 
         <div className="border-t border-teal-700 pt-6 flex flex-col md:flex-row items-center justify-between gap-3 text-xs">
           <p>
-            © {new Date().getFullYear()} Rayen — Hecho en Chile bajo licencia abierta.
+            © 2026 Rayen — Creado por Ángel Pereda Jiménez. Proyecto sin fines de lucro, hecho en Chile con amor por la naturaleza.
           </p>
           <p className="italic">
             <span className="font-medium">rayen</span> (mapudungun) — flor
