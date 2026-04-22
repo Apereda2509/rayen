@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
-import Image from 'next/image'
 import { Search, X, Loader2 } from 'lucide-react'
 
 interface SearchResult {
@@ -11,6 +10,12 @@ interface SearchResult {
   scientificName: string
   type: string
   primaryPhoto: string | null
+}
+
+function proxied(url: string | null | undefined): string | null | undefined {
+  if (!url) return url
+  if (url.includes('wikimedia.org')) return `/api/img?url=${encodeURIComponent(url)}`
+  return url
 }
 
 export function NavSearch() {
@@ -157,11 +162,10 @@ export function NavSearch() {
               {/* Miniatura */}
               <div className="h-10 w-10 shrink-0 rounded-lg overflow-hidden bg-stone-100 flex items-center justify-center">
                 {r.primaryPhoto ? (
-                  <Image
-                    src={r.primaryPhoto}
+                  <img
+                    src={proxied(r.primaryPhoto) ?? ''}
                     alt={r.commonName}
-                    width={40}
-                    height={40}
+                    referrerPolicy="no-referrer"
                     className="h-full w-full object-cover"
                   />
                 ) : (
