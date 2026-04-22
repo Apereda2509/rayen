@@ -58,11 +58,13 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       }
       return true
     },
-    async jwt({ token, user }) {
-      if (user?.email) {
+    async jwt({ token, user, trigger }) {
+      // Lee la BD en el sign-in inicial O cuando el cliente llama update()
+      const shouldRefresh = !!user?.email || trigger === 'update'
+      if (shouldRefresh && token.email) {
         try {
           const [dbUser] = await sql<{ id: string; username: string | null; onboarding_completed: boolean; avatar_url: string | null }[]>`
-            SELECT id, username, onboarding_completed, avatar_url FROM users WHERE email = ${user.email}
+            SELECT id, username, onboarding_completed, avatar_url FROM users WHERE email = ${token.email as string}
           `
           if (dbUser) {
             token.dbId = dbUser.id

@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { useSession } from 'next-auth/react'
 import { Loader2 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
@@ -52,6 +53,7 @@ const SPECIES_GROUPS = [
 
 export default function OnboardingPage() {
   const router = useRouter()
+  const { update } = useSession()
   const [step, setStep] = useState(1)
   const [role, setRole] = useState('')
   const [experienceLevel, setExperienceLevel] = useState('')
@@ -74,6 +76,8 @@ export default function OnboardingPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ skip, role, experienceLevel, regions, speciesGroups }),
       })
+      // Forzar refresh del JWT para que onboardingCompleted = true llegue al middleware
+      await update()
     } catch { /* ignore */ }
     router.push('/')
   }
