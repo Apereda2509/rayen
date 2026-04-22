@@ -75,10 +75,11 @@ interface AreaPopupInfo {
 interface Props {
   sightings: SightingFeature[]
   showProtectedAreas?: boolean
+  selectedAreaSlugs?: string[]
   onMarkerClick?: (speciesId: string) => void
 }
 
-export function RayenMap({ sightings, showProtectedAreas = false, onMarkerClick }: Props) {
+export function RayenMap({ sightings, showProtectedAreas = false, selectedAreaSlugs = [], onMarkerClick }: Props) {
   const mapRef = useRef<MapRef>(null)
   const [popupInfo, setPopupInfo] = useState<{
     longitude: number
@@ -96,6 +97,36 @@ export function RayenMap({ sightings, showProtectedAreas = false, onMarkerClick 
       .then(setAreasGeojson)
       .catch(() => setAreasGeojson(null))
   }, [showProtectedAreas])
+
+  // Filtrar áreas según selección y hacer fly-to
+  const filteredAreasGeojson = useMemo(() => {
+    if (!areasGeojson) return null
+    if (!selectedAreaSlugs.length) return areasGeojson
+    return {
+      ...areasGeojson,
+      features: areasGeojson.features.filter((f: any) =>
+        selectedAreaSlugs.includes(f.properties.slug)
+      ),
+    }
+  }, [areasGeojson, selectedAreaSlugs])
+
+  useEffect(() => {
+    if (!selectedAreaSlugs.length || !areasGeojson || !mapRef.current) return
+    const selected = areasGeojson.features.filter((f: any) =>
+      selectedAreaSlugs.includes(f.properties.slug)
+    )
+    if (!selected.length) return
+    const lngs: number[] = selected.map((f: any) => f.geometry.coordinates[0])
+    const lats: number[] = selected.map((f: any) => f.geometry.coordinates[1])
+    const centerLng = lngs.reduce((a, b) => a + b, 0) / lngs.length
+    const centerLat = lats.reduce((a, b) => a + b, 0) / lats.length
+    mapRef.current.flyTo({
+      center: [centerLng, centerLat],
+      zoom: selected.length === 1 ? 9 : 6,
+      duration: 1200,
+    })
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedAreaSlugs.join(','), areasGeojson])
 
   const geojson = useMemo(() => ({
     type: 'FeatureCollection' as const,
@@ -308,8 +339,8 @@ export function RayenMap({ sightings, showProtectedAreas = false, onMarkerClick 
         <GeolocateControl position="top-right" />
 
         {/* Capa de áreas protegidas — debajo de sightings */}
-        {showProtectedAreas && areasGeojson && (
-          <Source id="protected-areas" type="geojson" data={areasGeojson}>
+        {showProtectedAreas && filteredAreasGeojson && (
+          <Source id="protected-areas" type="geojson" data={filteredAreasGeojson}>
             <Layer {...areaCircleLayer} />
             <Layer {...areaLabelLayer} />
           </Source>
