@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
+import nextDynamic from 'next/dynamic'
 import { getSpeciesBySlug } from '@/lib/db'
 import { ConservationBadge } from '@/components/species/ConservationBadge'
 import { SpeciesSightingsSection } from '@/components/species/SpeciesSightingsSection'
@@ -8,6 +9,11 @@ import {
   type Species,
 } from '@/lib/types'
 import { Eye } from 'lucide-react'
+
+const SpeciesMap = nextDynamic(
+  () => import('@/components/species/SpeciesMap').then(m => m.SpeciesMap),
+  { ssr: false }
+)
 
 export const revalidate = 600
 
@@ -205,8 +211,9 @@ export default async function EspeciePage({ params }: Props) {
         </Section>
       )}
 
-      {/* Avistamientos con filtros interactivos */}
-      <Section title="Avistamientos verificados">
+      {/* Mapa + avistamientos */}
+      <Section title="Distribución y avistamientos verificados">
+        <SpeciesMap slug={species.slug} uicnStatus={species.uicnStatus ?? null} />
         <SpeciesSightingsSection
           slug={species.slug}
           regionCodes={species.regionCodes ?? []}
