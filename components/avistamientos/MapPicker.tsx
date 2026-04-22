@@ -1,16 +1,34 @@
 'use client'
 
-import { useCallback } from 'react'
-import Map, { Marker, NavigationControl } from 'react-map-gl'
+import { useCallback, useEffect, useRef } from 'react'
+import Map, { Marker, NavigationControl, type MapRef } from 'react-map-gl'
 import { MapPin } from 'lucide-react'
 import 'mapbox-gl/dist/mapbox-gl.css'
+
+export interface FlyToTarget {
+  lat: number
+  lng: number
+  zoom?: number
+}
 
 interface Props {
   value: { lat: number; lng: number } | null
   onChange: (point: { lat: number; lng: number }) => void
+  flyTo?: FlyToTarget | null
 }
 
-export function MapPicker({ value, onChange }: Props) {
+export function MapPicker({ value, onChange, flyTo }: Props) {
+  const mapRef = useRef<MapRef>(null)
+
+  useEffect(() => {
+    if (!flyTo) return
+    mapRef.current?.flyTo({
+      center: [flyTo.lng, flyTo.lat],
+      zoom: flyTo.zoom ?? 11,
+      duration: 1200,
+    })
+  }, [flyTo])
+
   const handleClick = useCallback(
     (e: { lngLat: { lat: number; lng: number } }) => {
       onChange({ lat: e.lngLat.lat, lng: e.lngLat.lng })
@@ -19,8 +37,9 @@ export function MapPicker({ value, onChange }: Props) {
   )
 
   return (
-    <div className="rounded-xl overflow-hidden border border-stone-200 h-64 cursor-crosshair">
+    <div className="rounded-xl overflow-hidden border border-stone-200 h-64">
       <Map
+        ref={mapRef}
         mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_TOKEN}
         initialViewState={{ longitude: -71, latitude: -35.5, zoom: 3.4 }}
         style={{ width: '100%', height: '100%' }}

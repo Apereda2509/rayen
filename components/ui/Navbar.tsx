@@ -62,10 +62,10 @@ export function Navbar() {
             <span className="hidden sm:inline">Buscar especie</span>
           </Link>
 
-          {/* Reportar avistamiento — solo con sesión */}
-          {session && (
+          {/* Reportar avistamiento — siempre visible */}
+          {status !== 'loading' && (
             <Link
-              href="/avistamientos/nuevo"
+              href={session ? '/avistamientos/nuevo' : '/login?callbackUrl=/avistamientos/nuevo&razon=reporte'}
               className="hidden sm:flex items-center gap-1.5 rounded-full bg-emerald-500 hover:bg-emerald-400 px-3 py-1.5 text-sm font-medium text-white transition-colors"
               title="Reportar avistamiento"
             >
@@ -140,10 +140,10 @@ export function Navbar() {
             </Link>
           ))}
 
-          {/* Reportar en móvil */}
-          {session && (
+          {/* Reportar en móvil — siempre visible */}
+          {status !== 'loading' && (
             <Link
-              href="/avistamientos/nuevo"
+              href={session ? '/avistamientos/nuevo' : '/login?callbackUrl=/avistamientos/nuevo&razon=reporte'}
               onClick={() => setMobileOpen(false)}
               className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-emerald-300 hover:text-white hover:bg-teal-800"
             >
