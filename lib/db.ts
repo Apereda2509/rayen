@@ -254,9 +254,9 @@ export async function getSightingsForMap(filters?: {
 
 export async function getSightingsBySpecies(
   slug: string,
-  filters?: { dateFrom?: string; dateTo?: string; regionCode?: string }
+  filters?: { dateFrom?: string; dateTo?: string; regionCodes?: string[]; areaSlug?: string }
 ) {
-  const { dateFrom, dateTo, regionCode } = filters ?? {}
+  const { dateFrom, dateTo, regionCodes, areaSlug } = filters ?? {}
   return sql<{
     id: string; lat: number; lng: number
     observedAt: string; regionCode: string | null; notes: string | null
@@ -270,10 +270,12 @@ export async function getSightingsBySpecies(
       sg.notes
     FROM sightings sg
     JOIN species s ON s.id = sg.species_id
+    ${areaSlug ? sql`JOIN protected_areas pa ON pa.slug = ${areaSlug}` : sql``}
     WHERE s.slug = ${slug} AND sg.verified = TRUE
       ${dateFrom ? sql`AND sg.observed_at >= ${dateFrom}::timestamptz` : sql``}
       ${dateTo ? sql`AND sg.observed_at <= ${dateTo}::timestamptz + INTERVAL '1 day'` : sql``}
-      ${regionCode ? sql`AND sg.region_code = ${regionCode}` : sql``}
+      ${regionCodes?.length ? sql`AND sg.region_code = ANY(${regionCodes})` : sql``}
+      ${areaSlug ? sql`AND ST_DWithin(sg.location::geography, pa.centroid::geography, 100000)` : sql``}
     ORDER BY sg.observed_at DESC
     LIMIT 200
   `

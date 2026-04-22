@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { MapPin, Calendar, X } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { AreaMultiSelect } from '@/components/ui/AreaMultiSelect'
 
 const REGION_NAMES: Record<string, string> = {
   AP: 'Arica y Parinacota', TA: 'Tarapacá', AN: 'Antofagasta',
@@ -31,15 +32,23 @@ export function SpeciesSightingsSection({ slug, regionCodes }: Props) {
   const [loading, setLoading] = useState(true)
   const [dateFrom, setDateFrom] = useState('')
   const [dateTo, setDateTo] = useState('')
-  const [region, setRegion] = useState('')
+  const [selectedRegions, setSelectedRegions] = useState<Set<string>>(new Set())
+  const [selectedAreas, setSelectedAreas] = useState<Set<string>>(new Set())
+  const [showAreaFilter, setShowAreaFilter] = useState(false)
 
-  const fetchSightings = useCallback(async (from: string, to: string, reg: string) => {
+  const fetchSightings = useCallback(async (
+    from: string,
+    to: string,
+    regions: Set<string>,
+    areaSlug: string,
+  ) => {
     setLoading(true)
     try {
       const params = new URLSearchParams()
       if (from) params.set('dateFrom', from)
       if (to) params.set('dateTo', to)
-      if (reg) params.set('region', reg)
+      regions.forEach(r => params.append('region', r))
+      if (areaSlug) params.set('area', areaSlug)
       const res = await fetch(`/api/species/${slug}/sightings?${params}`)
       const json = await res.json()
       setSightings(json.data ?? [])
@@ -50,27 +59,56 @@ export function SpeciesSightingsSection({ slug, regionCodes }: Props) {
     }
   }, [slug])
 
-  useEffect(() => { fetchSightings('', '', '') }, [fetchSightings])
+  // Área seleccionada es solo una (la primera del set) — se envía como filtro único
+  const currentArea = selectedAreas.size > 0 ? [...selectedAreas][0] : ''
 
-  const handleDateFrom = (v: string) => { setDateFrom(v); fetchSightings(v, dateTo, region) }
-  const handleDateTo = (v: string) => { setDateTo(v); fetchSightings(dateFrom, v, region) }
-  const handleRegion = (code: string) => {
-    const next = region === code ? '' : code
-    setRegion(next)
-    fetchSightings(dateFrom, dateTo, next)
+  useEffect(() => { fetchSightings('', '', new Set(), '') }, [fetchSightings])
+
+  const handleDateFrom = (v: string) => {
+    setDateFrom(v)
+    fetchSightings(v, dateTo, selectedRegions, currentArea)
   }
+  const handleDateTo = (v: string) => {
+    setDateTo(v)
+    fetchSightings(dateFrom, v, selectedRegions, currentArea)
+  }
+
+  const toggleRegion = (code: string) => {
+    const next = new Set(selectedRegions)
+    next.has(code) ? next.delete(code) : next.add(code)
+    setSelectedRegions(next)
+    fetchSightings(dateFrom, dateTo, next, currentArea)
+  }
+
+  const toggleArea = (slug: string) => {
+    // Solo una área a la vez para la consulta (puede extenderse a varias)
+    const next = new Set(selectedAreas)
+    if (next.has(slug)) {
+      next.delete(slug)
+    } else {
+      next.clear()
+      next.add(slug)
+    }
+    setSelectedAreas(next)
+    const area = next.size > 0 ? [...next][0] : ''
+    fetchSightings(dateFrom, dateTo, selectedRegions, area)
+  }
+
   const clearFilters = () => {
-    setDateFrom(''); setDateTo(''); setRegion('')
-    fetchSightings('', '', '')
+    setDateFrom(''); setDateTo('')
+    setSelectedRegions(new Set())
+    setSelectedAreas(new Set())
+    fetchSightings('', '', new Set(), '')
   }
 
-  const hasFilters = dateFrom || dateTo || region
+  const hasFilters = dateFrom || dateTo || selectedRegions.size > 0 || selectedAreas.size > 0
 
   return (
     <div>
       {/* Filtros */}
       <div className="mb-4 space-y-3">
-        {/* Regiones clicables */}
+
+        {/* Regiones — multiselección */}
         {regionCodes.length > 0 && (
           <div>
             <p className="text-xs text-stone-400 uppercase tracking-wide mb-2">Filtrar por región</p>
@@ -78,10 +116,10 @@ export function SpeciesSightingsSection({ slug, regionCodes }: Props) {
               {regionCodes.map((code) => (
                 <button
                   key={code}
-                  onClick={() => handleRegion(code)}
+                  onClick={() => toggleRegion(code)}
                   className={cn(
                     'text-xs px-2.5 py-1 rounded-full border transition-colors',
-                    region === code
+                    selectedRegions.has(code)
                       ? 'bg-teal-600 text-white border-teal-600'
                       : 'bg-white text-teal-700 border-teal-200 hover:border-teal-400'
                   )}
@@ -90,8 +128,43 @@ export function SpeciesSightingsSection({ slug, regionCodes }: Props) {
                 </button>
               ))}
             </div>
+            {selectedRegions.size > 1 && (
+              <p className="text-[10px] text-teal-600 mt-1">
+                {selectedRegions.size} regiones seleccionadas
+              </p>
+            )}
           </div>
         )}
+
+        {/* Área protegida */}
+        <div>
+          <button
+            onClick={() => setShowAreaFilter(v => !v)}
+            className={cn(
+              'text-xs px-3 py-1.5 rounded-lg border transition-colors flex items-center gap-1.5',
+              showAreaFilter || selectedAreas.size > 0
+                ? 'border-emerald-400 bg-emerald-50 text-emerald-700'
+                : 'border-stone-200 text-stone-500 hover:border-stone-300'
+            )}
+          >
+            <span className="h-2 w-2 rounded-full bg-emerald-500 opacity-70 flex-shrink-0" />
+            Área protegida
+            {selectedAreas.size > 0 && (
+              <span className="ml-1 bg-emerald-600 text-white rounded-full text-[9px] px-1.5 py-0.5">
+                {selectedAreas.size}
+              </span>
+            )}
+          </button>
+          {showAreaFilter && (
+            <div className="mt-2 rounded-lg border border-stone-200 bg-stone-50 p-3">
+              <AreaMultiSelect
+                selected={selectedAreas}
+                onChange={toggleArea}
+                maxHeight="9rem"
+              />
+            </div>
+          )}
+        </div>
 
         {/* Rango de fechas */}
         <div className="flex flex-wrap gap-3 items-end">
