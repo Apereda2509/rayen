@@ -4,9 +4,10 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { useState } from 'react'
-import { Menu, X, Search, LogIn, LogOut, User, Plus } from 'lucide-react'
+import { Menu, X, LogIn, LogOut, User, Plus } from 'lucide-react'
 import { useSession, signOut } from 'next-auth/react'
 import { cn } from '@/lib/utils'
+import { NavSearch } from './NavSearch'
 
 const NAV_LINKS = [
   { href: '/mapa',      label: 'Mapa' },
@@ -54,13 +55,7 @@ export function Navbar() {
 
         {/* Buscar + sesión + mobile toggle */}
         <div className="flex items-center gap-2">
-          <Link
-            href="/especies?buscar=1"
-            className="flex items-center gap-1.5 rounded-full bg-teal-700 hover:bg-teal-600 px-3 py-1.5 text-sm text-emerald-100 transition-colors"
-          >
-            <Search className="h-3.5 w-3.5" />
-            <span className="hidden sm:inline">Buscar especie</span>
-          </Link>
+          <NavSearch />
 
           {/* Reportar avistamiento — siempre visible */}
           {status !== 'loading' && (

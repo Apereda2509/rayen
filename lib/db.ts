@@ -183,18 +183,19 @@ export async function getSpeciesBySlug(slug: string): Promise<Species | null> {
 }
 
 export async function searchSpecies(query: string, limit = 10) {
-  return sql<{ slug: string; commonName: string; scientificName: string; type: string }[]>`
-    SELECT slug,
-           common_name AS "commonName",
-           scientific_name AS "scientificName",
-           type::text
-    FROM species
-    WHERE published = TRUE AND (
-      common_name ILIKE ${'%' + query + '%'} OR
-      scientific_name ILIKE ${'%' + query + '%'} OR
-      similarity(common_name, ${query}) > 0.2
+  return sql<{ slug: string; commonName: string; scientificName: string; type: string; primaryPhoto: string | null }[]>`
+    SELECT s.slug,
+           s.common_name AS "commonName",
+           s.scientific_name AS "scientificName",
+           s.type::text,
+           (SELECT url FROM media WHERE species_id = s.id AND is_primary = TRUE AND type = 'foto' LIMIT 1) AS "primaryPhoto"
+    FROM species s
+    WHERE s.published = TRUE AND (
+      s.common_name ILIKE ${'%' + query + '%'} OR
+      s.scientific_name ILIKE ${'%' + query + '%'} OR
+      similarity(s.common_name, ${query}) > 0.2
     )
-    ORDER BY similarity(common_name, ${query}) DESC
+    ORDER BY similarity(s.common_name, ${query}) DESC
     LIMIT ${limit}
   `
 }
