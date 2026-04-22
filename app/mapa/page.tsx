@@ -37,6 +37,7 @@ export default async function MapaPage({ searchParams }: Props) {
 
   const dateFrom = typeof searchParams['dateFrom'] === 'string' ? searchParams['dateFrom'] : undefined
   const dateTo = typeof searchParams['dateTo'] === 'string' ? searchParams['dateTo'] : undefined
+  const showProtectedAreas = searchParams['areas'] === '1'
 
   const rawSightings = await getSightingsForMap({
     verified: true,
@@ -76,7 +77,7 @@ export default async function MapaPage({ searchParams }: Props) {
 
       <div className="flex-1 relative">
         <Suspense fallback={<MapSkeleton />}>
-          <RayenMap sightings={features} />
+          <RayenMap sightings={features} showProtectedAreas={showProtectedAreas} />
         </Suspense>
 
         <div className="absolute bottom-4 left-4 z-10">

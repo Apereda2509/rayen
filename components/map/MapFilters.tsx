@@ -45,6 +45,7 @@ export function MapFilters() {
     new Set(searchParams.getAll('ecosystem'))
   )
   const [endemic, setEndemic] = useState(searchParams.get('endemic') === 'true')
+  const [showAreas, setShowAreas] = useState(searchParams.get('areas') === '1')
   const [dateFrom, setDateFrom] = useState(searchParams.get('dateFrom') ?? '')
   const [dateTo, setDateTo] = useState(searchParams.get('dateTo') ?? '')
 
@@ -54,6 +55,7 @@ export function MapFilters() {
     status: Set<UICNStatus>,
     ecos: Set<string>,
     isEndemic: boolean,
+    areas: boolean,
     from = dateFrom,
     to = dateTo,
   ) => {
@@ -62,6 +64,7 @@ export function MapFilters() {
     status.forEach((s) => params.append('uicn', s))
     ecos.forEach((e) => params.append('ecosystem', e))
     if (isEndemic) params.set('endemic', 'true')
+    if (areas) params.set('areas', '1')
     if (from) params.set('dateFrom', from)
     if (to) params.set('dateTo', to)
     router.push(`/mapa?${params.toString()}`)
@@ -71,31 +74,37 @@ export function MapFilters() {
     const next = new Set(selectedTypes)
     next.has(t) ? next.delete(t) : next.add(t)
     setSelectedTypes(next)
-    pushFilters(next, selectedStatus, selectedEcos, endemic)
+    pushFilters(next, selectedStatus, selectedEcos, endemic, showAreas)
   }
 
   const toggleStatus = (s: UICNStatus) => {
     const next = new Set(selectedStatus)
     next.has(s) ? next.delete(s) : next.add(s)
     setSelectedStatus(next)
-    pushFilters(selectedTypes, next, selectedEcos, endemic)
+    pushFilters(selectedTypes, next, selectedEcos, endemic, showAreas)
   }
 
   const toggleEco = (e: string) => {
     const next = new Set(selectedEcos)
     next.has(e) ? next.delete(e) : next.add(e)
     setSelectedEcos(next)
-    pushFilters(selectedTypes, selectedStatus, next, endemic)
+    pushFilters(selectedTypes, selectedStatus, next, endemic, showAreas)
   }
 
   const toggleEndemic = () => {
     const next = !endemic
     setEndemic(next)
-    pushFilters(selectedTypes, selectedStatus, selectedEcos, next)
+    pushFilters(selectedTypes, selectedStatus, selectedEcos, next, showAreas)
+  }
+
+  const toggleAreas = () => {
+    const next = !showAreas
+    setShowAreas(next)
+    pushFilters(selectedTypes, selectedStatus, selectedEcos, endemic, next)
   }
 
   const applyDate = (from: string, to: string) => {
-    pushFilters(selectedTypes, selectedStatus, selectedEcos, endemic, from, to)
+    pushFilters(selectedTypes, selectedStatus, selectedEcos, endemic, showAreas, from, to)
   }
 
   const clearAll = () => {
@@ -103,12 +112,13 @@ export function MapFilters() {
     setSelectedStatus(new Set())
     setSelectedEcos(new Set())
     setEndemic(false)
+    setShowAreas(false)
     setDateFrom('')
     setDateTo('')
     router.push('/mapa')
   }
 
-  const hasFilters = selectedTypes.size > 0 || selectedStatus.size > 0 || selectedEcos.size > 0 || endemic || dateFrom || dateTo
+  const hasFilters = selectedTypes.size > 0 || selectedStatus.size > 0 || selectedEcos.size > 0 || endemic || showAreas || dateFrom || dateTo
 
   return (
     <div className="p-4 space-y-6">
@@ -142,11 +152,23 @@ export function MapFilters() {
       </Section>
 
       <Section title="Atributos">
-        <Checkbox
-          checked={endemic}
-          onChange={toggleEndemic}
-          label="Endémica de Chile"
-        />
+        <div className="space-y-1.5">
+          <Checkbox
+            checked={endemic}
+            onChange={toggleEndemic}
+            label="Endémica de Chile"
+          />
+          <Checkbox
+            checked={showAreas}
+            onChange={toggleAreas}
+            label={
+              <div className="flex items-center gap-2">
+                <span className="h-2.5 w-2.5 rounded-full flex-shrink-0 bg-emerald-500 opacity-70" />
+                <span>Áreas protegidas</span>
+              </div>
+            }
+          />
+        </div>
       </Section>
 
       <Section title="Ecosistema">

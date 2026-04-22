@@ -11,6 +11,8 @@
     "db:push": "psql $DATABASE_URL -f db/schema.sql",
     "db:seed": "psql $DATABASE_URL -f db/seed.sql",
     "db:reset": "npm run db:push && npm run db:seed",
+    "db:migrate:areas": "psql $DATABASE_URL -f db/migrations/001_protected_areas_enhancements.sql",
+    "db:seed:areas": "psql $DATABASE_URL -f db/seed_protected_areas.sql",
     "type-check": "tsc --noEmit"
   },
   "dependencies": {

@@ -317,3 +317,85 @@ export async function getPlatformStats() {
   `
   return stats
 }
+
+// ── Áreas protegidas ─────────────────────────────────────────
+
+export interface ProtectedAreaBasic {
+  id: string
+  name: string
+  slug: string
+  type: string
+  regionName: string | null
+  areaHa: number | null
+  centroidLng: number | null
+  centroidLat: number | null
+  conafUrl: string | null
+  description: string | null
+}
+
+export async function getProtectedAreas(): Promise<ProtectedAreaBasic[]> {
+  return sql<ProtectedAreaBasic[]>`
+    SELECT
+      id,
+      name,
+      slug,
+      type::text,
+      region_name AS "regionName",
+      area_ha AS "areaHa",
+      ST_X(centroid) AS "centroidLng",
+      ST_Y(centroid) AS "centroidLat",
+      conaf_url AS "conafUrl",
+      description
+    FROM protected_areas
+    WHERE centroid IS NOT NULL
+    ORDER BY name
+  `
+}
+
+export async function getProtectedAreaBySlug(slug: string) {
+  const [area] = await sql<(ProtectedAreaBasic & { sightingsCount: number })[  ]>`
+    SELECT
+      pa.id,
+      pa.name,
+      pa.slug,
+      pa.type::text,
+      pa.region_name AS "regionName",
+      pa.area_ha AS "areaHa",
+      ST_X(pa.centroid) AS "centroidLng",
+      ST_Y(pa.centroid) AS "centroidLat",
+      pa.conaf_url AS "conafUrl",
+      pa.description,
+      COUNT(DISTINCT s.id)::int AS "sightingsCount"
+    FROM protected_areas pa
+    LEFT JOIN sightings s ON ST_DWithin(
+      s.location::geography,
+      pa.centroid::geography,
+      50000
+    )
+    WHERE pa.slug = ${slug}
+    GROUP BY pa.id
+  `
+  return area ?? null
+}
+
+export async function getSightingsNearArea(slug: string, limit = 20) {
+  return sql<{
+    id: string; slug: string; commonName: string; scientificName: string;
+    uicnStatus: string | null; photoUrl: string | null; observedAt: string
+  }[]>`
+    SELECT DISTINCT ON (sp.id)
+      sp.id, sp.slug,
+      sp.common_name AS "commonName",
+      sp.scientific_name AS "scientificName",
+      sp.uicn_status::text AS "uicnStatus",
+      (SELECT url FROM media WHERE species_id = sp.id AND is_primary = TRUE AND type = 'foto' LIMIT 1) AS "photoUrl",
+      si.observed_at AS "observedAt"
+    FROM sightings si
+    JOIN species sp ON si.species_id = sp.id
+    JOIN protected_areas pa ON pa.slug = ${slug}
+    WHERE ST_DWithin(si.location::geography, pa.centroid::geography, 50000)
+      AND si.verified = TRUE
+    ORDER BY sp.id, si.observed_at DESC
+    LIMIT ${limit}
+  `
+}

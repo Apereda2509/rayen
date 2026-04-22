@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef, useState, useCallback, useMemo } from 'react'
+import { useRef, useState, useCallback, useMemo, useEffect } from 'react'
 import Map, {
   Source, Layer, NavigationControl, GeolocateControl,
   Popup, MapRef,
@@ -62,19 +62,40 @@ interface TooltipInfo {
   uicnStatus: UICNStatus | null
 }
 
+interface AreaPopupInfo {
+  longitude: number
+  latitude: number
+  name: string
+  type: string
+  regionName: string | null
+  areaHa: number | null
+  slug: string
+}
+
 interface Props {
   sightings: SightingFeature[]
+  showProtectedAreas?: boolean
   onMarkerClick?: (speciesId: string) => void
 }
 
-export function RayenMap({ sightings, onMarkerClick }: Props) {
+export function RayenMap({ sightings, showProtectedAreas = false, onMarkerClick }: Props) {
   const mapRef = useRef<MapRef>(null)
   const [popupInfo, setPopupInfo] = useState<{
     longitude: number
     latitude: number
     species: PopupSpecies
   } | null>(null)
+  const [areaPopup, setAreaPopup] = useState<AreaPopupInfo | null>(null)
   const [tooltip, setTooltip] = useState<TooltipInfo | null>(null)
+  const [areasGeojson, setAreasGeojson] = useState<any>(null)
+
+  useEffect(() => {
+    if (!showProtectedAreas) { setAreasGeojson(null); return }
+    fetch('/api/protected-areas')
+      .then(r => r.json())
+      .then(setAreasGeojson)
+      .catch(() => setAreasGeojson(null))
+  }, [showProtectedAreas])
 
   const geojson = useMemo(() => ({
     type: 'FeatureCollection' as const,
@@ -122,10 +143,62 @@ export function RayenMap({ sightings, onMarkerClick }: Props) {
     },
   }
 
+  // Layers de áreas protegidas
+  const areaCircleLayer: LayerProps = {
+    id: 'areas-circle',
+    type: 'circle',
+    source: 'protected-areas',
+    paint: {
+      'circle-color': '#22c55e',
+      'circle-opacity': 0.25,
+      'circle-stroke-color': '#16a34a',
+      'circle-stroke-width': 2,
+      'circle-stroke-opacity': 0.7,
+      'circle-radius': ['interpolate', ['linear'], ['zoom'], 4, 12, 8, 30, 12, 60],
+    },
+  }
+
+  const areaLabelLayer: LayerProps = {
+    id: 'areas-label',
+    type: 'symbol',
+    source: 'protected-areas',
+    minzoom: 6,
+    layout: {
+      'text-field': ['get', 'name'],
+      'text-font': ['DIN Pro Medium', 'Arial Unicode MS Regular'],
+      'text-size': 11,
+      'text-anchor': 'top',
+      'text-offset': [0, 1.2],
+      'text-max-width': 10,
+    },
+    paint: {
+      'text-color': '#166534',
+      'text-halo-color': '#ffffff',
+      'text-halo-width': 1.5,
+    },
+  }
+
   // ── Click: zoom en cluster o abrir panel de especie ───────
   const onClick = useCallback(async (e: MapLayerMouseEvent) => {
     const map = mapRef.current?.getMap()
     if (!map) return
+
+    // Click en área protegida
+    const areaHits = map.queryRenderedFeatures(e.point, { layers: ['areas-circle'] })
+    if (areaHits.length > 0) {
+      const props = areaHits[0].properties
+      setPopupInfo(null)
+      setAreaPopup({
+        longitude: e.lngLat.lng,
+        latitude: e.lngLat.lat,
+        name: props?.name ?? '',
+        type: props?.type ?? '',
+        regionName: props?.regionName ?? null,
+        areaHa: props?.areaHa ?? null,
+        slug: props?.slug ?? '',
+      })
+      return
+    }
 
     const clusterHits = map.queryRenderedFeatures(e.point, { layers: ['clusters'] })
     if (clusterHits.length > 0) {
@@ -134,7 +207,7 @@ export function RayenMap({ sightings, onMarkerClick }: Props) {
     }
 
     const features = e.features
-    if (!features?.length) { setPopupInfo(null); return }
+    if (!features?.length) { setPopupInfo(null); setAreaPopup(null); return }
 
     const feature = features[0]
     const props = feature.properties
@@ -188,11 +261,26 @@ export function RayenMap({ sightings, onMarkerClick }: Props) {
         photoUrl: props?.photoUrl ?? null,
         uicnStatus: props?.uicnStatus ?? null,
       })
-    } else {
-      const clusterHits = map.queryRenderedFeatures(e.point, { layers: ['clusters'] })
-      map.getCanvas().style.cursor = clusterHits.length > 0 ? 'pointer' : ''
-      setTooltip(null)
+      return
     }
+
+    const areaHits = map.queryRenderedFeatures(e.point, { layers: ['areas-circle'] })
+    if (areaHits.length > 0) {
+      const props = areaHits[0].properties
+      map.getCanvas().style.cursor = 'pointer'
+      setTooltip({
+        x: e.point.x,
+        y: e.point.y,
+        commonName: props?.name ?? '',
+        photoUrl: null,
+        uicnStatus: null,
+      })
+      return
+    }
+
+    const clusterHits = map.queryRenderedFeatures(e.point, { layers: ['clusters'] })
+    map.getCanvas().style.cursor = clusterHits.length > 0 ? 'pointer' : ''
+    setTooltip(null)
   }, [])
 
   const onMouseLeave = useCallback(() => {
@@ -208,7 +296,7 @@ export function RayenMap({ sightings, onMarkerClick }: Props) {
         mapStyle="mapbox://styles/mapbox/outdoors-v12"
         mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_TOKEN}
         style={{ width: '100%', height: '100%' }}
-        interactiveLayerIds={['clusters', 'unclustered-point']}
+        interactiveLayerIds={['clusters', 'unclustered-point', 'areas-circle']}
         onClick={onClick}
         onMouseMove={onMouseMove}
         onMouseLeave={onMouseLeave}
@@ -218,6 +306,14 @@ export function RayenMap({ sightings, onMarkerClick }: Props) {
       >
         <NavigationControl position="top-right" showCompass={false} />
         <GeolocateControl position="top-right" />
+
+        {/* Capa de áreas protegidas — debajo de sightings */}
+        {showProtectedAreas && areasGeojson && (
+          <Source id="protected-areas" type="geojson" data={areasGeojson}>
+            <Layer {...areaCircleLayer} />
+            <Layer {...areaLabelLayer} />
+          </Source>
+        )}
 
         <Source
           id="sightings"
@@ -231,6 +327,21 @@ export function RayenMap({ sightings, onMarkerClick }: Props) {
           <Layer {...clusterCountLayer} />
           <Layer {...pointLayer} />
         </Source>
+
+        {/* Popup de área protegida */}
+        {areaPopup && (
+          <Popup
+            longitude={areaPopup.longitude}
+            latitude={areaPopup.latitude}
+            anchor="bottom"
+            offset={12}
+            closeOnClick={false}
+            onClose={() => setAreaPopup(null)}
+            maxWidth="280px"
+          >
+            <AreaPopupCard area={areaPopup} />
+          </Popup>
+        )}
 
         {popupInfo && (
           <Popup
@@ -342,6 +453,47 @@ function SpeciesPopup({ species }: { species: PopupSpecies }) {
           Ver ficha completa →
         </Link>
       </div>
+    </div>
+  )
+}
+
+// ── Popup de área protegida ────────────────────────────────────
+
+const AREA_TYPE_LABELS: Record<string, string> = {
+  parque_nacional: 'Parque Nacional',
+  reserva_nacional: 'Reserva Nacional',
+  monumento_natural: 'Monumento Natural',
+  santuario_naturaleza: 'Santuario de la Naturaleza',
+  area_marina: 'Área Marina Protegida',
+  sitio_ramsar: 'Sitio Ramsar',
+}
+
+function AreaPopupCard({ area }: { area: AreaPopupInfo }) {
+  return (
+    <div className="w-[260px] p-3 bg-white rounded-xl">
+      <div className="flex items-start gap-2 mb-2">
+        <span className="text-xl">🌿</span>
+        <div>
+          <h3 className="font-semibold text-stone-900 text-sm leading-tight">{area.name}</h3>
+          <p className="text-[11px] text-emerald-700 font-medium mt-0.5">
+            {AREA_TYPE_LABELS[area.type] ?? area.type}
+          </p>
+        </div>
+      </div>
+      {area.regionName && (
+        <p className="text-xs text-stone-500 mb-1">📍 {area.regionName}</p>
+      )}
+      {area.areaHa && (
+        <p className="text-xs text-stone-500 mb-2">
+          📐 {Number(area.areaHa).toLocaleString('es-CL')} ha
+        </p>
+      )}
+      <Link
+        href={`/areas-protegidas/${area.slug}`}
+        className="flex items-center justify-center gap-1 w-full rounded-lg bg-emerald-600 hover:bg-emerald-500 px-3 py-2 text-xs font-medium text-white transition-colors"
+      >
+        Ver área completa →
+      </Link>
     </div>
   )
 }

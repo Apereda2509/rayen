@@ -13,6 +13,15 @@ const MapPicker = dynamic(
   { ssr: false, loading: () => <div className="h-64 rounded-xl bg-stone-100 animate-pulse" /> }
 )
 
+const AREA_TYPE_LABELS: Record<string, string> = {
+  parque_nacional: 'Parque Nacional',
+  reserva_nacional: 'Reserva Nacional',
+  monumento_natural: 'Monumento Natural',
+  santuario_naturaleza: 'Santuario de la Naturaleza',
+  area_marina: 'Área Marina Protegida',
+  sitio_ramsar: 'Sitio Ramsar',
+}
+
 interface SpeciesOption {
   slug: string
   commonName: string
@@ -24,6 +33,16 @@ interface GeoSuggestion {
   placeName: string
   lat: number
   lng: number
+}
+
+interface AreaOption {
+  id: string
+  name: string
+  slug: string
+  type: string
+  regionName: string | null
+  centroidLat: number | null
+  centroidLng: number | null
 }
 
 interface Props {
@@ -54,6 +73,15 @@ export function NuevoAvistamientoForm({ defaultSpeciesSlug }: Props) {
   const [geoDropdownOpen, setGeoDropdownOpen] = useState(false)
   const [loadingGeo, setLoadingGeo] = useState(false)
   const geoDropdownRef = useRef<HTMLDivElement>(null)
+
+  // ── Área protegida ─────────────────────────────────────────
+  const [inProtectedArea, setInProtectedArea] = useState(false)
+  const [areaQuery, setAreaQuery] = useState('')
+  const [areaList, setAreaList] = useState<AreaOption[]>([])
+  const [selectedArea, setSelectedArea] = useState<AreaOption | null>(null)
+  const [areaDropdownOpen, setAreaDropdownOpen] = useState(false)
+  const [loadingAreas, setLoadingAreas] = useState(false)
+  const areaDropdownRef = useRef<HTMLDivElement>(null)
 
   // ── Foto ───────────────────────────────────────────────────
   const [photo, setPhoto] = useState<File | null>(null)
@@ -142,12 +170,63 @@ export function NuevoAvistamientoForm({ defaultSpeciesSlug }: Props) {
     return () => clearTimeout(delay)
   }, [geoQuery])
 
+  // ── Cargar áreas protegidas (debounced) ───────────────────
+  useEffect(() => {
+    if (!inProtectedArea) return
+    const delay = setTimeout(async () => {
+      setLoadingAreas(true)
+      try {
+        const res = await fetch('/api/protected-areas')
+        const json = await res.json()
+        const features = json.features ?? []
+        const items: AreaOption[] = features.map((f: any) => ({
+          id: f.properties.id,
+          name: f.properties.name,
+          slug: f.properties.slug,
+          type: f.properties.type,
+          regionName: f.properties.regionName,
+          centroidLat: f.geometry.coordinates[1],
+          centroidLng: f.geometry.coordinates[0],
+        }))
+        setAreaList(
+          areaQuery.trim()
+            ? items.filter(a => a.name.toLowerCase().includes(areaQuery.toLowerCase()))
+            : items
+        )
+        setAreaDropdownOpen(true)
+      } catch { /* ignore */ }
+      finally { setLoadingAreas(false) }
+    }, 200)
+    return () => clearTimeout(delay)
+  }, [areaQuery, inProtectedArea])
+
+  // Cerrar dropdown de área al click fuera
+  useEffect(() => {
+    function handleOutside(e: MouseEvent) {
+      if (areaDropdownRef.current && !areaDropdownRef.current.contains(e.target as Node))
+        setAreaDropdownOpen(false)
+    }
+    document.addEventListener('mousedown', handleOutside)
+    return () => document.removeEventListener('mousedown', handleOutside)
+  }, [])
+
   // ── Handlers ───────────────────────────────────────────────
   function selectSpecies(s: SpeciesOption) {
     setSelectedSpecies(s); setSpeciesQuery(s.commonName); setDropdownOpen(false)
   }
   function clearSpecies() {
     setSelectedSpecies(null); setSpeciesQuery(''); setDropdownOpen(true)
+  }
+
+  function selectArea(a: AreaOption) {
+    setSelectedArea(a)
+    setAreaQuery(a.name)
+    setAreaDropdownOpen(false)
+    if (a.centroidLat !== null && a.centroidLng !== null) {
+      const point = { lat: a.centroidLat, lng: a.centroidLng }
+      setLocation(point)
+      setFlyTo({ ...point, zoom: 10 })
+    }
   }
 
   function handleGPS() {
@@ -378,6 +457,71 @@ export function NuevoAvistamientoForm({ defaultSpeciesSlug }: Props) {
                   <span className="text-sm text-stone-700">{s.placeName}</span>
                 </button>
               ))}
+            </div>
+          )}
+        </div>
+
+        {/* Opción C — Área protegida */}
+        <div className="mb-3">
+          <label className="flex items-center gap-2.5 cursor-pointer select-none">
+            <input
+              type="checkbox"
+              checked={inProtectedArea}
+              onChange={(e) => {
+                setInProtectedArea(e.target.checked)
+                if (!e.target.checked) {
+                  setSelectedArea(null)
+                  setAreaQuery('')
+                  setAreaDropdownOpen(false)
+                }
+              }}
+              className="h-4 w-4 rounded border-stone-300 text-emerald-600 focus:ring-emerald-600"
+            />
+            <span className="text-sm text-stone-700 font-medium">
+              🌿 Estaba en un área protegida (Parque Nacional, Reserva, etc.)
+            </span>
+          </label>
+
+          {inProtectedArea && (
+            <div className="mt-2 relative" ref={areaDropdownRef}>
+              <div className="flex items-center rounded-xl border border-emerald-300 bg-emerald-50 focus-within:ring-2 focus-within:ring-emerald-500 focus-within:border-emerald-500 overflow-hidden">
+                <Search className="ml-3 h-4 w-4 text-emerald-500 flex-shrink-0" />
+                <input
+                  type="text"
+                  value={areaQuery}
+                  onChange={(e) => { setAreaQuery(e.target.value); setSelectedArea(null); setAreaDropdownOpen(true) }}
+                  onFocus={() => setAreaDropdownOpen(true)}
+                  placeholder="Busca el área protegida…"
+                  className="flex-1 px-3 py-2.5 text-sm text-stone-800 placeholder-stone-400 outline-none bg-transparent"
+                  autoComplete="off"
+                />
+                {loadingAreas && <Loader2 className="mr-3 h-4 w-4 text-emerald-500 animate-spin flex-shrink-0" />}
+                {selectedArea && (
+                  <button type="button" onClick={() => { setSelectedArea(null); setAreaQuery('') }}
+                    className="mr-2 rounded p-0.5 text-stone-400 hover:text-stone-700">
+                    <X className="h-4 w-4" />
+                  </button>
+                )}
+              </div>
+              {areaDropdownOpen && areaList.length > 0 && (
+                <div className="absolute z-20 mt-1 w-full rounded-lg border border-stone-200 bg-white shadow-lg max-h-56 overflow-y-auto">
+                  {areaList.map((a) => (
+                    <button key={a.slug} type="button" onMouseDown={() => selectArea(a)}
+                      className="w-full text-left px-4 py-2.5 hover:bg-emerald-50 transition-colors">
+                      <span className="block text-sm font-medium text-stone-800">{a.name}</span>
+                      <span className="block text-xs text-stone-400">
+                        {AREA_TYPE_LABELS[a.type] ?? a.type}
+                        {a.regionName ? ` · ${a.regionName}` : ''}
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              )}
+              {selectedArea && (
+                <p className="mt-1.5 text-xs text-emerald-700 font-medium">
+                  ✓ {selectedArea.name}
+                </p>
+              )}
             </div>
           )}
         </div>

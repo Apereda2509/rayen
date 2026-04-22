@@ -10,12 +10,13 @@ import { cn } from '@/lib/utils'
 import { NavSearch } from './NavSearch'
 
 const NAV_LINKS = [
-  { href: '/mapa',      label: 'Mapa' },
-  { href: '/especies',  label: 'Especies' },
-  { href: '/comunidad', label: 'Comunidad' },
-  { href: '/accion',    label: 'Acción' },
-  { href: '/educacion', label: 'Educación' },
-  { href: '/sobre',     label: 'Sobre' },
+  { href: '/mapa',              label: 'Mapa' },
+  { href: '/especies',          label: 'Especies' },
+  { href: '/areas-protegidas',  label: 'Áreas' },
+  { href: '/comunidad',         label: 'Comunidad' },
+  { href: '/accion',            label: 'Acción' },
+  { href: '/educacion',         label: 'Educación' },
+  { href: '/sobre',             label: 'Sobre' },
 ]
 
 export function Navbar() {
