@@ -138,7 +138,7 @@ export function SpeciesMap({ slug, uicnStatus }: Props) {
             onClose={() => setPopup(null)}
             maxWidth="220px"
           >
-            <div className="p-2 text-sm space-y-0.5">
+            <div className="pt-1 pb-2 pl-2 pr-6 text-sm space-y-0.5">
               <p className="font-medium text-stone-800">
                 {new Date(popup.observedAt).toLocaleDateString('es-CL', {
                   year: 'numeric', month: 'long', day: 'numeric',
