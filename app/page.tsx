@@ -18,7 +18,7 @@ export default async function HomePage() {
     <div className="min-h-[calc(100vh-3.5rem)]">
 
       {/* Hero */}
-      <section className="relative overflow-hidden bg-teal-900 text-white">
+      <section className="relative overflow-hidden bg-teal-900 text-white h-screen">
         {/* Video de fondo — URL configurada en NEXT_PUBLIC_HERO_VIDEO_URL */}
         {process.env.NEXT_PUBLIC_HERO_VIDEO_URL && (
           <video
@@ -35,8 +35,9 @@ export default async function HomePage() {
         {/* Overlay oscuro para legibilidad */}
         <div className="absolute inset-0 bg-teal-950/65" aria-hidden="true" />
 
-        {/* Contenido sobre el video */}
-        <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 py-20 lg:py-28">
+        {/* Contenido sobre el video — centrado verticalmente */}
+        <div className="relative z-10 h-full flex items-center">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 w-full">
           <div className="max-w-3xl">
             <p className="text-emerald-300 text-sm font-medium uppercase tracking-wider mb-4">
               Plataforma de biodiversidad chilena
@@ -65,6 +66,7 @@ export default async function HomePage() {
                 Ver especies
               </Link>
             </div>
+          </div>
           </div>
         </div>
       </section>
