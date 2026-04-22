@@ -1,0 +1,1101 @@
+{
+  "species": [
+    {
+      "slug": "picaflor-de-arica",
+      "commonName": "Picaflor de Arica",
+      "scientificName": "Eulidia yarrelli",
+      "type": "ave",
+      "alternativeNames": ["Estrellita chilena", "Colibrí de Arica"],
+      "indigenousNames": [],
+      "taxonomy": {
+        "kingdom": "Animalia",
+        "phylum":  "Chordata",
+        "class":   "Aves",
+        "order":   "Apodiformes",
+        "family":  "Trochilidae",
+        "genus":   "Eulidia",
+        "species": "yarrelli"
+      },
+      "uicnStatus": "CR",
+      "uicnYear": 2020,
+      "uicnUrl": "https://www.iucnredlist.org/species/22687514/94498225",
+      "chileStatus": "en_peligro_critico",
+      "chileDecree": "DS-41-2023",
+      "populationTrend": "disminuyendo",
+      "estimatedPopulation": "Alrededor de 210 individuos maduros",
+      "isEndemic": true,
+      "isNationalSymbol": false,
+      "citesAppendix": "II",
+      "altitudeMin": 0,
+      "altitudeMax": 2500,
+      "countries": ["Chile", "Perú"],
+      "regionCodes": ["AP", "TA"],
+      "ecosystemSlugs": ["desierto_atacama", "valles_costeros"],
+      "typeDiet": "nectarivoro",
+      "dietDescription": "Néctar de flores nativas del desierto costero, principalmente de plantas del género Tillandsia y árboles frutales de cultivos cercanos. Complementa con pequeños insectos para proteínas.",
+      "sizeData": {
+        "lengthCm": 8,
+        "weightKg": 0.003
+      },
+      "sizeCategory": "micro",
+      "weightKgAvg": 0.003,
+      "lifespanYears": 5,
+      "activePeriod": "diurno",
+      "dangerLevel": "ninguno",
+      "colors": ["verde", "morado", "blanco", "gris"],
+      "description": "El picaflor de Arica es el ave más pequeña de Chile y una de las más pequeñas del mundo, pesando apenas 3 gramos — menos que una moneda de 10 pesos. Su plumaje es verde iridiscente en el dorso, con una garganta de color morado metálico en los machos. Habita exclusivamente en los valles costeros del extremo norte de Chile, entre Arica y Tarapacá, donde los ríos cortan el desierto de Atacama antes de llegar al mar. Es endémica de un territorio tan pequeño que cualquier perturbación amenaza a toda la especie simultáneamente.",
+      "funFacts": [
+        { "text": "Con solo 3 gramos de peso, es una de las aves más pequeñas del planeta. Cabe completamente en la palma de una mano." },
+        { "text": "Su corazón late hasta 1.200 veces por minuto durante el vuelo — el más rápido de cualquier vertebrado conocido." },
+        { "text": "Su población total de ~210 individuos maduros cabe en dos buses escolares." },
+        { "text": "Ha sobrevivido en el desierto más árido del mundo durante miles de años, pero podría extinguirse en años si se destruyen los últimos valles con vegetación de Arica." }
+      ],
+      "ecosystemRole": "Polinizador único de varias plantas nativas del desierto costero de Atacama que dependen exclusivamente de él para reproducirse. Su desaparición provocaría la extinción en cadena de esas plantas.",
+      "humanImpactDaily": "Si vives en Arica o Iquique, el picaflor de Arica es parte del patrimonio natural más exclusivo del planeta. Está en tu ciudad y en ningún otro lugar del mundo. Los valles de Azapa y Lluta — donde se produce parte de los olivos, tomates y flores que consumes — son también su último refugio.",
+      "threatsLocal": [
+        { "name": "Destrucción de vegetación ribereña", "magnitude": "muy_alta", "description": "La quema y limpieza de vegetación en bordes de ríos y quebradas para agricultura y urbanización elimina su hábitat directamente." },
+        { "name": "Pesticidas agrícolas", "magnitude": "alta", "description": "Los insecticidas matan los insectos que complementan su dieta y pueden afectarlo directamente al alimentarse de flores en cultivos fumigados." },
+        { "name": "Sequía y reducción del caudal de ríos", "magnitude": "alta", "description": "La extracción de agua para agricultura reduce el caudal de los ríos Lluta y Azapa, secando la vegetación que necesita para sobrevivir." }
+      ],
+      "threatsGlobal": [
+        { "name": "Cambio climático en el desierto", "magnitude": "alta", "description": "El aumento de temperatura y reducción de precipitaciones en el norte de Chile reduce aún más la disponibilidad de agua y vegetación." }
+      ],
+      "visitorTips": "Si visitas los valles de Azapa o Lluta en Arica, busca vegetación en flor cerca de los bordes de los ríos. Mantén silencio y distancia. Reporta avistamientos en iNaturalist — cada registro ayuda a mapear su distribución real.",
+      "residentTips": "Si tienes jardín en Arica, planta especies nativas con flores tubulares. Evita pesticidas. No quemes ni cortes vegetación en bordes de acequias o ríos.",
+      "media": [
+        {
+          "type": "foto",
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Eulidia_yarrellii_-_Least_Hummingbird.jpg/800px-Eulidia_yarrellii_-_Least_Hummingbird.jpg",
+          "credit": "Wikimedia Commons",
+          "license": "CC-BY-SA",
+          "isPrimary": true
+        }
+      ]
+    },
+    {
+      "slug": "picaflor-de-juan-fernandez",
+      "commonName": "Picaflor de Juan Fernández",
+      "scientificName": "Sephanoides fernandensis",
+      "type": "ave",
+      "alternativeNames": ["Picaflor rojo", "Colibrí de Juan Fernández"],
+      "indigenousNames": [],
+      "taxonomy": {
+        "kingdom": "Animalia",
+        "phylum":  "Chordata",
+        "class":   "Aves",
+        "order":   "Apodiformes",
+        "family":  "Trochilidae",
+        "genus":   "Sephanoides",
+        "species": "fernandensis"
+      },
+      "uicnStatus": "CR",
+      "uicnYear": 2020,
+      "uicnUrl": "https://www.iucnredlist.org/species/22687518/94499539",
+      "chileStatus": "en_peligro_critico",
+      "chileDecree": "DS-41-2023",
+      "populationTrend": "disminuyendo",
+      "estimatedPopulation": "Entre 1.500 y 3.500 individuos",
+      "isEndemic": true,
+      "isNationalSymbol": false,
+      "citesAppendix": "I",
+      "altitudeMin": 0,
+      "altitudeMax": 900,
+      "countries": ["Chile"],
+      "regionCodes": ["VA"],
+      "ecosystemSlugs": ["bosque_juan_fernandez"],
+      "typeDiet": "nectarivoro",
+      "dietDescription": "Néctar de plantas endémicas del archipiélago, especialmente de Dendroseris y otras flores tubulares nativas. También captura insectos pequeños.",
+      "sizeData": {
+        "lengthCm": 12,
+        "weightKg": 0.009
+      },
+      "sizeCategory": "micro",
+      "weightKgAvg": 0.009,
+      "lifespanYears": 6,
+      "activePeriod": "diurno",
+      "dangerLevel": "ninguno",
+      "colors": ["rojo", "naranja", "verde", "blanco"],
+      "description": "El picaflor de Juan Fernández es la única especie de colibrí del archipiélago Juan Fernández, a 670 km de la costa chilena. Los machos son de un rojo anaranjado brillante — únicos en el mundo entre los picaflores — mientras las hembras son verdes y blancas. Ha evolucionado aislado durante millones de años en estas islas volcánicas y no existe en ningún otro lugar del planeta. Es el polinizador clave de docenas de plantas endémicas que solo crecen en Juan Fernández.",
+      "funFacts": [
+        { "text": "Los machos son de color rojo anaranjado brillante — una coloración única en el mundo entre todos los colibríes conocidos." },
+        { "text": "Vive solo en la isla Robinson Crusoe del archipiélago Juan Fernández, a 670 km de la costa continental." },
+        { "text": "Ha evolucionado aislado durante millones de años. Cada gen que pierde es irreemplazable — no hay una población de respaldo en otro país." },
+        { "text": "Cuando se introdujeron los gatos y las ratas en la isla, su población colapsó. Programas de erradicación de predadores han ayudado a estabilizarla." }
+      ],
+      "ecosystemRole": "Polinizador exclusivo de al menos 15 especies de plantas endémicas de Juan Fernández. Si desaparece, esas plantas no se pueden reproducir y el ecosistema de la isla colapsa en cascada.",
+      "humanImpactDaily": "El archipiélago Juan Fernández es Reserva de la Biosfera UNESCO y patrimonio natural de Chile. El turismo científico y de naturaleza que sustenta la economía de los 1.000 habitantes de la isla depende directamente de la integridad del bosque que este picaflor mantiene.",
+      "threatsLocal": [
+        { "name": "Predadores introducidos", "magnitude": "muy_alta", "description": "Gatos asilvestrados, ratas y coatíes depredan nidos y pichones directamente." },
+        { "name": "Plantas invasoras", "magnitude": "alta", "description": "Las plantas exóticas desplazan a las nativas de las que se alimenta, reduciendo su fuente de néctar." },
+        { "name": "Desastres naturales", "magnitude": "media", "description": "Al vivir en una sola isla, un tsunami, incendio o erupción podría eliminar toda la especie de golpe." }
+      ],
+      "threatsGlobal": [
+        { "name": "Aislamiento genético", "magnitude": "alta", "description": "Una población tan pequeña en un área tan restringida es estructuralmente frágil ante cualquier perturbación." }
+      ],
+      "visitorTips": "Si visitas Juan Fernández, participa en jornadas de erradicación de plantas invasoras organizadas por CONAF. No introduzcas alimentos ni mascotas a la isla. Reporta avistamientos de predadores.",
+      "residentTips": "La comunidad de Juan Fernández es la primera línea de protección de esta especie. Los programas de control de gatos y ratas son la acción más directa. CONAF tiene programas de capacitación.",
+      "media": [
+        {
+          "type": "foto",
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Juan_fernandez_firecrown.jpg/800px-Juan_fernandez_firecrown.jpg",
+          "credit": "Wikimedia Commons",
+          "license": "CC-BY-SA",
+          "isPrimary": true
+        }
+      ]
+    },
+    {
+      "slug": "chinchilla",
+      "commonName": "Chinchilla de cola larga",
+      "scientificName": "Chinchilla lanigera",
+      "type": "mamifero",
+      "alternativeNames": ["Chinchilla chilena", "Chinchilla costina"],
+      "indigenousNames": [
+        { "language": "quechua", "name": "chinchilla", "meaning": "relacionado al pueblo chincha" }
+      ],
+      "taxonomy": {
+        "kingdom": "Animalia",
+        "phylum":  "Chordata",
+        "class":   "Mammalia",
+        "order":   "Rodentia",
+        "family":  "Chinchillidae",
+        "genus":   "Chinchilla",
+        "species": "lanigera"
+      },
+      "uicnStatus": "CR",
+      "uicnYear": 2016,
+      "uicnUrl": "https://www.iucnredlist.org/species/4651/22190831",
+      "chileStatus": "en_peligro_critico",
+      "chileDecree": "DS-41-2023",
+      "populationTrend": "disminuyendo",
+      "estimatedPopulation": "Menos de 10.000 individuos silvestres, posiblemente menos de 2.000",
+      "isEndemic": true,
+      "isNationalSymbol": false,
+      "citesAppendix": "I",
+      "altitudeMin": 400,
+      "altitudeMax": 1650,
+      "countries": ["Chile"],
+      "regionCodes": ["AT", "CO"],
+      "ecosystemSlugs": ["matorral_andino", "desierto_semiarido"],
+      "typeDiet": "herbivoro",
+      "dietDescription": "Hierbas, semillas, cactus y arbustos del matorral árido andino. Pueden pasar largas temporadas sin agua libre, obteniendo humedad de las plantas que consumen.",
+      "sizeData": {
+        "lengthCm": 26,
+        "weightKg": 0.5
+      },
+      "sizeCategory": "micro",
+      "weightKgAvg": 0.45,
+      "lifespanYears": 15,
+      "activePeriod": "nocturno",
+      "dangerLevel": "ninguno",
+      "colors": ["gris", "blanco", "negro"],
+      "description": "La chinchilla de cola larga es un pequeño roedor endémico de los cerros áridos del norte chico de Chile, entre Atacama y Coquimbo. Su pelaje es el más suave y denso de todos los mamíferos — cada folículo produce hasta 60 pelos, comparado con 1–4 en los humanos. Esta cualidad la llevó casi a la extinción: durante el siglo XIX y principios del XX, millones fueron cazadas para abastecer la industria peletera europea. Hoy quedan poblaciones silvestres solo en pequeños sectores del Parque Nacional Las Chinchillas y áreas aledañas.",
+      "funFacts": [
+        { "text": "Su pelaje es el más denso de todos los mamíferos terrestres: hasta 60 pelos por folículo, lo que lo hace suave como la seda y completamente impermeable." },
+        { "text": "Por eso mismo casi se extinguen: entre 1800 y 1900, se exportaron millones de pieles a Europa. Un abrigo de chinchilla requería hasta 150 animales." },
+        { "text": "Viven en colonias de hasta 100 individuos en cuevas y grietas de roca, con vigías que alertan al grupo con llamados agudos." },
+        { "text": "Todas las chinchillas domésticas del mundo descienden de solo 11 individuos capturados en Chile en 1923 por Mathias Chapman." }
+      ],
+      "ecosystemRole": "Herbívora que controla la vegetación del matorral árido. Sus madrigueras crean microhábitats para insectos y reptiles. Es presa de zorros, pumas y aves rapaces en el ecosistema andino del norte chico.",
+      "humanImpactDaily": "Si vives en la Región de Atacama o Coquimbo, los cerros donde sobreviven las últimas chinchillas silvestres regulan directamente las cuencas que alimentan los ríos Copiapó, Huasco y Elqui — los mismos que abastecen de agua a La Serena, Copiapó y los valles agrícolas.",
+      "threatsLocal": [
+        { "name": "Caza furtiva histórica y actual", "magnitude": "alta", "description": "A pesar de ser ilegal, la caza por pieles continúa de forma clandestina en zonas remotas." },
+        { "name": "Pérdida de hábitat por minería y agricultura", "magnitude": "alta", "description": "La expansión minera y los caminos destruyen el matorral andino donde vive." },
+        { "name": "Depredadores introducidos", "magnitude": "alta", "description": "Zorros y gatos asilvestrados son depredadores directos que las poblaciones pequeñas no pueden absorber." }
+      ],
+      "threatsGlobal": [
+        { "name": "Sequía prolongada", "magnitude": "alta", "description": "El norte chico de Chile lleva más de una década en megasequía, reduciendo la cobertura vegetal que necesita para alimentarse y ocultarse." }
+      ],
+      "visitorTips": "El Parque Nacional Las Chinchillas en Coquimbo ofrece avistamientos nocturnos guiados. Úsalos — así también apoyas económicamente al personal de CONAF que las protege. No lleves perros.",
+      "residentTips": "Si vives en zonas rurales de Atacama o Coquimbo, denuncia la caza furtiva al SAG (800 600 000). Mantén tus perros y gatos controlados en sectores de quebradas.",
+      "media": [
+        {
+          "type": "foto",
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/Chinchilla_lanigera_-_Chinchilla.jpg/800px-Chinchilla_lanigera_-_Chinchilla.jpg",
+          "credit": "Wikimedia Commons",
+          "license": "CC-BY-SA",
+          "isPrimary": true
+        }
+      ]
+    },
+    {
+      "slug": "abejorro-chileno",
+      "commonName": "Abejorro chileno",
+      "scientificName": "Bombus dahlbomii",
+      "type": "insecto",
+      "alternativeNames": ["Moscardón", "Abejorro patagónico", "Flying mouse"],
+      "indigenousNames": [
+        { "language": "mapudungun", "name": "huitranalhue", "meaning": "espíritu del bosque zumbador" }
+      ],
+      "taxonomy": {
+        "kingdom": "Animalia",
+        "phylum":  "Arthropoda",
+        "class":   "Insecta",
+        "order":   "Hymenoptera",
+        "family":  "Apidae",
+        "genus":   "Bombus",
+        "species": "dahlbomii"
+      },
+      "uicnStatus": "CR",
+      "uicnYear": 2021,
+      "uicnUrl": "https://www.iucnredlist.org/species/21215142/100053431",
+      "chileStatus": "en_peligro_critico",
+      "chileDecree": "DS-41-2023",
+      "populationTrend": "disminuyendo",
+      "estimatedPopulation": "Desconocida, en colapso severo",
+      "isEndemic": true,
+      "isNationalSymbol": false,
+      "citesAppendix": null,
+      "altitudeMin": 0,
+      "altitudeMax": 2000,
+      "countries": ["Chile", "Argentina"],
+      "regionCodes": ["AR", "LR", "LL", "AI", "MA"],
+      "ecosystemSlugs": ["bosque_valdiviano", "bosque_andino_patagonico", "matorral_andino"],
+      "typeDiet": "nectarivoro",
+      "dietDescription": "Néctar y polen de plantas nativas del bosque templado y la estepa patagónica. Visita cientos de especies de flores, siendo el polinizador más efectivo del sur de Chile.",
+      "sizeData": {
+        "lengthCm": 4,
+        "weightKg": 0.0008
+      },
+      "sizeCategory": "micro",
+      "weightKgAvg": 0.0008,
+      "lifespanYears": 1,
+      "activePeriod": "diurno",
+      "dangerLevel": "bajo",
+      "colors": ["naranja", "negro", "amarillo"],
+      "description": "El abejorro chileno es el más grande del mundo en su género — las reinas pueden alcanzar 4 centímetros de largo, con un zumbido tan potente que lo hace inconfundible en el bosque. Es de color naranja rojizo con negro, peludo y robusto. Su tamaño y fuerza le permiten polinizar flores que otras abejas no pueden abrir — una técnica llamada 'polinización por vibración' o 'buzz pollination'. En las últimas dos décadas, sus poblaciones han colapsado catastrófica y silenciosamente.",
+      "funFacts": [
+        { "text": "Es el abejorro más grande del mundo. Las reinas pueden medir 4 cm — los investigadores los apodan 'flying mouse' (ratón volador)." },
+        { "text": "Usa una técnica de polinización única: agarra la flor y vibra su músculo torácico a una frecuencia específica para liberar el polen. Ninguna abeja pequeña puede hacer esto." },
+        { "text": "En menos de 10 años, colapsó en zonas donde antes era abundante. Localmente se lo llama 'el que ya no se ve'." },
+        { "text": "La causa principal de su colapso fue la introducción de abejorros europeos para polinizar cultivos de tomate — que trajeron un hongo devastador al que el abejorro chileno no tiene resistencia." }
+      ],
+      "ecosystemRole": "Polinizador primario de decenas de plantas nativas del bosque templado patagónico, incluyendo el maqui, el notro y el avellano chileno. Sin él, la reproducción de esas plantas colapsa, afectando toda la cadena de herbívoros y frugívoros del bosque.",
+      "humanImpactDaily": "Si has comido maqui, frambuesas o tomates cultivados en el sur de Chile, el abejorro chileno fue parte de esa cadena. Los agricultores del sur que dependen de polinización natural están perdiendo uno de sus aliados más importantes sin saberlo.",
+      "threatsLocal": [
+        { "name": "Nosema bombi — hongo introducido", "magnitude": "muy_alta", "description": "Los abejorros europeos importados para cultivos de tomate trajeron este hongo. El abejorro chileno no tiene defensas inmunológicas contra él." },
+        { "name": "Competencia con abejorros introducidos", "magnitude": "alta", "description": "Bombus terrestris, introducido en los 1990s, ocupa el mismo nicho ecológico y lo desplaza de sus fuentes de alimento." },
+        { "name": "Destrucción del bosque nativo", "magnitude": "alta", "description": "La pérdida de plantas nativas reduce su fuente de néctar y sitios de nidificación." }
+      ],
+      "threatsGlobal": [
+        { "name": "Pesticidas sistémicos (neonicotinoides)", "magnitude": "alta", "description": "Los mismos pesticidas que amenazan a las abejas en todo el mundo afectan también a este abejorro, alterando su navegación y comportamiento." }
+      ],
+      "visitorTips": "Si caminas por el bosque nativo del sur y ves uno, reporta en iNaturalist con foto. Cada registro es información científica valiosa sobre su distribución actual.",
+      "residentTips": "Si tienes jardín en el sur de Chile, planta flores nativas (maqui, notro, quillay, copihue). Evita pesticidas. No introduzcas colmenas de abejorros europeos cerca de bosque nativo.",
+      "media": [
+        {
+          "type": "foto",
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Bombus_dahlbomii.jpg/800px-Bombus_dahlbomii.jpg",
+          "credit": "Wikimedia Commons",
+          "license": "CC-BY-SA",
+          "isPrimary": true
+        }
+      ]
+    },
+    {
+      "slug": "zorro-de-darwin",
+      "commonName": "Zorro de Darwin",
+      "scientificName": "Lycalopex fulvipes",
+      "type": "mamifero",
+      "alternativeNames": ["Zorro chilote", "Zorro de Chiloé"],
+      "indigenousNames": [
+        { "language": "mapudungun", "name": "ngürü", "meaning": "zorro" }
+      ],
+      "taxonomy": {
+        "kingdom": "Animalia",
+        "phylum":  "Chordata",
+        "class":   "Mammalia",
+        "order":   "Carnivora",
+        "family":  "Canidae",
+        "genus":   "Lycalopex",
+        "species": "fulvipes"
+      },
+      "uicnStatus": "EN",
+      "uicnYear": 2016,
+      "uicnUrl": "https://www.iucnredlist.org/species/6927/85371194",
+      "chileStatus": "en_peligro",
+      "chileDecree": "DS-41-2023",
+      "populationTrend": "disminuyendo",
+      "estimatedPopulation": "Menos de 500 individuos maduros",
+      "isEndemic": true,
+      "isNationalSymbol": false,
+      "citesAppendix": "II",
+      "altitudeMin": 0,
+      "altitudeMax": 800,
+      "countries": ["Chile"],
+      "regionCodes": ["AR", "LR", "LL"],
+      "ecosystemSlugs": ["bosque_valdiviano", "bosque_templado_lluvioso"],
+      "typeDiet": "omnivoro",
+      "dietDescription": "Pequeños mamíferos (ratones, tuco-tucos), invertebrados, huevos de aves, frutos silvestres, carroña. Es oportunista y adapta su dieta según disponibilidad estacional.",
+      "sizeData": {
+        "lengthCm": 60,
+        "heightCm": 28,
+        "weightKg": { "min": 2.5, "max": 4 }
+      },
+      "sizeCategory": "pequeno",
+      "weightKgAvg": 3.2,
+      "lifespanYears": 7,
+      "activePeriod": "crepuscular",
+      "dangerLevel": "ninguno",
+      "colors": ["gris", "cafe", "negro", "rojizo"],
+      "description": "El zorro de Darwin es el más pequeño y raro de los tres zorros nativos de Chile — y el único verdaderamente endémico. Charles Darwin lo describió en 1834 en la isla de Chiloé, donde lo encontró tan confiado que pudo levantarlo del suelo con la mano. Hoy sobrevive principalmente en la isla Grande de Chiloé y en una pequeña población aislada en el Parque Nacional Nahuelbuta en la cordillera de la costa. Estas dos poblaciones están genéticamente aisladas entre sí, lo que las hace doblemente vulnerables.",
+      "funFacts": [
+        { "text": "Darwin lo describió tan manso que pudo golpearlo con su geología hammer para estudiarlo. Hoy esa misma mansedumbre lo hace vulnerable a los perros domésticos." },
+        { "text": "Las poblaciones de Chiloé y Nahuelbuta llevan tanto tiempo aisladas que son genéticamente distintas — hay dos subespecies únicas conviviendo en Chile." },
+        { "text": "Es tan raro que muchos biólogos que trabajan en Chiloé llevan años sin ver uno. Su densidad es de menos de 1 individuo por km²." },
+        { "text": "Una enfermedad canina (moquillo) podría extinguirlo en meses si alcanza las poblaciones actuales, como ya ocurrió con el lobo de las Islas Galápagos." }
+      ],
+      "ecosystemRole": "Controlador de roedores y regulador de la cadena trófica del bosque templado lluvioso. Dispersor de semillas de frutas del sotobosque. Su posición como depredador mesocarnívoro equilibra las poblaciones de herbívoros del bosque.",
+      "humanImpactDaily": "Si visitas Chiloé o el Parque Nahuelbuta, el bosque que caminas fue parcialmente modelado por este zorro durante miles de años. Las semillas que dispersó, los roedores que controló, los claros que ayudó a mantener — todo eso es parte del ecosistema que hoy puedes experimentar.",
+      "threatsLocal": [
+        { "name": "Perros domésticos y asilvestrados", "magnitude": "muy_alta", "description": "Los perros atacan y matan zorros de Darwin directamente. También les transmiten enfermedades mortales como el moquillo y la rabia." },
+        { "name": "Atropellos en rutas", "magnitude": "alta", "description": "La Ruta 5 Sur que atraviesa Chiloé y los caminos de Nahuelbuta causan muertes frecuentes por atropello." },
+        { "name": "Caza ilegal", "magnitude": "media", "description": "Algunos ganaderos los matan creyendo que atacan gallinas, aunque esto es raro dado su pequeño tamaño." }
+      ],
+      "threatsGlobal": [
+        { "name": "Aislamiento genético", "magnitude": "alta", "description": "Con dos poblaciones aisladas de menos de 500 individuos, cualquier evento catastrófico (enfermedad, incendio) puede eliminar una población completa." }
+      ],
+      "visitorTips": "Si vas a Chiloé o Nahuelbuta, mantén perros con correa. Maneja con atención de noche. Si lo ves, disfruta desde la distancia y reporta en iNaturalist.",
+      "residentTips": "Si vives en Chiloé, vacuna a tus perros contra el moquillo y no los dejes sueltos de noche en zonas de bosque. Si encuentras uno herido, llama a CONAF o al SAG.",
+      "media": [
+        {
+          "type": "foto",
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Lycalopex_fulvipes.jpg/800px-Lycalopex_fulvipes.jpg",
+          "credit": "Wikimedia Commons",
+          "license": "CC-BY-SA",
+          "isPrimary": true
+        }
+      ]
+    },
+    {
+      "slug": "huillin",
+      "commonName": "Huillín",
+      "scientificName": "Lontra provocax",
+      "type": "mamifero",
+      "alternativeNames": ["Nutria de río", "Gato de agua", "Nutria del sur"],
+      "indigenousNames": [
+        { "language": "mapudungun", "name": "huillin", "meaning": "el que juega en el agua" }
+      ],
+      "taxonomy": {
+        "kingdom": "Animalia",
+        "phylum":  "Chordata",
+        "class":   "Mammalia",
+        "order":   "Carnivora",
+        "family":  "Mustelidae",
+        "genus":   "Lontra",
+        "species": "provocax"
+      },
+      "uicnStatus": "EN",
+      "uicnYear": 2015,
+      "uicnUrl": "https://www.iucnredlist.org/species/12304/21938042",
+      "chileStatus": "en_peligro",
+      "chileDecree": "DS-41-2023",
+      "populationTrend": "disminuyendo",
+      "estimatedPopulation": "Desconocida, en severo declive",
+      "isEndemic": false,
+      "isNationalSymbol": false,
+      "citesAppendix": "I",
+      "altitudeMin": 0,
+      "altitudeMax": 1000,
+      "countries": ["Chile", "Argentina"],
+      "regionCodes": ["AR", "LR", "LL", "AI", "MA"],
+      "ecosystemSlugs": ["rios_lagos_patagonicos", "bosque_andino_patagonico", "canales_patagonicos"],
+      "typeDiet": "carnivoro",
+      "dietDescription": "Peces nativos (peladillas, puyes, truchas), crustáceos de agua dulce, aves acuáticas, anfibios y ocasionalmente moluscos en ambientes costeros de agua dulce.",
+      "sizeData": {
+        "lengthCm": 70,
+        "weightKg": { "min": 5, "max": 10 }
+      },
+      "sizeCategory": "pequeno",
+      "weightKgAvg": 7,
+      "lifespanYears": 15,
+      "activePeriod": "crepuscular",
+      "dangerLevel": "ninguno",
+      "colors": ["cafe_oscuro", "beige", "marron"],
+      "description": "El huillín es la nutria de río del sur de Chile y Argentina — pariente cercano del chungungo, pero adaptada a ríos y lagos de agua dulce en vez del mar. Es más grande que el chungungo y de comportamiento más elusivo. Habita ríos de aguas cristalinas rodeados de bosque nativo, desde la Araucanía hasta la Patagonia. Su presencia es indicador de agua limpia y ecosistema fluvial saludable. Ha sido señalado por investigadores de la IUCN como la nutria en peor situación genética poblacional a nivel mundial.",
+      "funFacts": [
+        { "text": "Investigadores de la IUCN lo han catalogado como la nutria en peor estado de conservación genética del planeta — sus poblaciones son tan pequeñas que han perdido diversidad inmunológica." },
+        { "text": "Necesita ríos de agua cristalina rodeados de bosque nativo sin perturbación. Es tan sensible a la calidad del agua que donde el huillín desaparece, el río ya está dañado." },
+        { "text": "Su nombre en mapudungun significa 'el que juega en el agua' — por su comportamiento lúdico y los saltos que da en los ríos." },
+        { "text": "A pesar de ser un depredador visible, es tan esquivo que puede vivir en un río durante años sin que los ribereños lo sepan." }
+      ],
+      "ecosystemRole": "Depredador clave de los ecosistemas fluviales del sur de Chile. Controla las poblaciones de peces y crustáceos, manteniendo el equilibrio de los ríos patagónicos. Su presencia es indicador directo de salud ecosistémica.",
+      "humanImpactDaily": "Si bebes agua del río Toltén, Rahue, Bueno, Puelo o cualquier río del sur de Chile, ese río fue moldeado por siglos de actividad del huillín. Los ríos donde él vive son los de mejor calidad de agua — un servicio ambiental que toda la población costera recibe gratuitamente.",
+      "threatsLocal": [
+        { "name": "Visón americano invasor", "magnitude": "muy_alta", "description": "El visón, introducido para criaderos peleteros y escapado, compite directamente con el huillín y es una amenaza devastadora para toda la fauna nativa de ribera." },
+        { "name": "Contaminación de ríos", "magnitude": "alta", "description": "Salmonicultura, agricultura y residuos domiciliarios contaminan los ríos que necesita para cazar y reproducirse." },
+        { "name": "Destrucción de riberas", "magnitude": "alta", "description": "La tala de bosque nativo en riberas elimina los sitios de descanso, refugio y crianza que requiere." }
+      ],
+      "threatsGlobal": [
+        { "name": "Cambio climático en glaciares", "magnitude": "alta", "description": "El retroceso glaciar altera el caudal y temperatura de los ríos patagónicos, afectando la disponibilidad de peces y crustáceos." }
+      ],
+      "visitorTips": "Si haces kayak o pesca con mosca en ríos del sur, mantén el cauce limpio. No introduzcas materiales entre ríos sin limpiarlos (pueden transportar enfermedades). Reporta avistamientos.",
+      "residentTips": "Si tienes terreno ribereño, mantén una franja de bosque nativo en la orilla. Si encuentras visones, repórtalos al SAG — son especie invasora y hay programas de control activos.",
+      "media": [
+        {
+          "type": "foto",
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/Lontra_provocax.jpg/800px-Lontra_provocax.jpg",
+          "credit": "Wikimedia Commons",
+          "license": "CC-BY-SA",
+          "isPrimary": true
+        }
+      ]
+    },
+    {
+      "slug": "alerce",
+      "commonName": "Alerce",
+      "scientificName": "Fitzroya cupressoides",
+      "type": "planta",
+      "alternativeNames": ["Lahuén", "Ciprés de las Guaytecas", "Patagonian cypress"],
+      "indigenousNames": [
+        { "language": "mapudungun", "name": "lahuén", "meaning": "árbol medicinal sagrado" }
+      ],
+      "taxonomy": {
+        "kingdom": "Plantae",
+        "phylum":  "Pinophyta",
+        "class":   "Pinopsida",
+        "order":   "Cupressales",
+        "family":  "Cupressaceae",
+        "genus":   "Fitzroya",
+        "species": "cupressoides"
+      },
+      "uicnStatus": "EN",
+      "uicnYear": 1998,
+      "uicnUrl": "https://www.iucnredlist.org/species/32065/9677708",
+      "chileStatus": "en_peligro",
+      "chileDecree": "DS-43-1990",
+      "populationTrend": "disminuyendo",
+      "estimatedPopulation": "Bosques fragmentados, individuos vivos milenarios en número desconocido",
+      "isEndemic": true,
+      "isNationalSymbol": false,
+      "citesAppendix": "I",
+      "altitudeMin": 0,
+      "altitudeMax": 1100,
+      "countries": ["Chile", "Argentina"],
+      "regionCodes": ["LR", "LL", "AI"],
+      "ecosystemSlugs": ["bosque_valdiviano", "bosque_templado_lluvioso"],
+      "typeDiet": "autotrofo",
+      "sizeData": {
+        "heightCm": 5000,
+        "note": "Hasta 60 metros de altura, diámetro de hasta 5 metros. El segundo árbol más longevo del mundo."
+      },
+      "sizeCategory": "muy_grande",
+      "lifespanYears": 4000,
+      "colors": ["verde_oscuro", "rojo", "marron", "gris"],
+      "description": "El alerce es el segundo árbol más longevo del mundo después del pino bristlecone de California. Los ejemplares más viejos registrados en Chile superan los 3.600 años — nacieron antes de que existiera el Imperio Romano. Es endémico de los bosques lluviosos del sur de Chile y Argentina. Su madera rojiza, aromática e impermeable fue tan codiciada que entre el siglo XIX y mediados del XX se talaron la mayoría de los bosques vírgenes. Hoy es Monumento Natural y su tala está prohibida incluso en terrenos privados.",
+      "funFacts": [
+        { "text": "El alerce más viejo conocido en Chile tiene más de 3.600 años. Cuando ese árbol era una semilla, los egipcios construían las pirámides." },
+        { "text": "Su madera es tan resistente a la humedad que postes y tejuelas de alerce de 200 años aún se encuentran en perfecto estado en las casas palafito de Chiloé." },
+        { "text": "Es el único árbol vivo del género Fitzroya en el mundo — nombrado así en honor al capitán Robert FitzRoy, quien comandó el barco donde viajó Darwin." },
+        { "text": "Los alerzales son tan húmedos y densos que crean su propio microclima. La temperatura dentro de un alerzal puede ser 5°C más baja que en los alrededores." }
+      ],
+      "ecosystemRole": "Especie arquitecta de los bosques lluviosos del sur. Sus troncos caídos y huecos son hábitat crítico para decenas de especies de aves, anfibios y mamíferos. Sus raíces retienen el agua de lluvia y regulan los ríos durante el verano.",
+      "humanImpactDaily": "Si has visitado Chiloé, Los Lagos o los canales patagónicos, probablemente has visto una casa con tejuela de alerce — el sistema de techado más duradero del mundo, capaz de durar más de un siglo. Los ríos que abastecen de agua a Valdivia, Osorno y Puerto Montt pasan por cuencas donde el alerce fue guardián durante milenios.",
+      "threatsLocal": [
+        { "name": "Incendios forestales", "magnitude": "muy_alta", "description": "El alerce no tolera el fuego. Un incendio puede destruir en horas árboles que tardaron 2.000 años en crecer." },
+        { "name": "Tala ilegal de árboles muertos", "magnitude": "alta", "description": "La ley permite recolectar madera de alerces muertos naturalmente — pero esto a veces encubre la tala ilegal de vivos." },
+        { "name": "Cambio en régimen de lluvias", "magnitude": "alta", "description": "El sur de Chile se está secando. Los alerzales requieren alta humedad permanente para regenerarse." }
+      ],
+      "threatsGlobal": [
+        { "name": "Calentamiento global", "magnitude": "alta", "description": "Los modelos climáticos proyectan que las condiciones del bosque lluvioso valdiviano se van a desplazar hacia el sur y en altitud, comprimiendo el hábitat disponible." }
+      ],
+      "visitorTips": "Existe el Parque Nacional Alerce Costero, el Parque Alerce Andino y el Parque Pumalín. Todos tienen senderos para ver alerces milenarios. Mantente en los senderos — el suelo de los alerzales es frágil y fácil de dañar con el pisoteo.",
+      "residentTips": "Si tienes terreno con alerces, aunque sean muertos, no los tales ni los vendas — es ilegal. Contacta a CONAF si no estás seguro de tu situación legal.",
+      "media": [
+        {
+          "type": "foto",
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Fitzroya_cupressoides_Alerce.jpg/800px-Fitzroya_cupressoides_Alerce.jpg",
+          "credit": "Wikimedia Commons",
+          "license": "CC-BY-SA",
+          "isPrimary": true
+        }
+      ]
+    },
+    {
+      "slug": "gato-andino",
+      "commonName": "Gato andino",
+      "scientificName": "Leopardus jacobita",
+      "type": "mamifero",
+      "alternativeNames": ["Gato montés andino", "Titi andino", "Fantasma de los Andes"],
+      "indigenousNames": [
+        { "language": "quechua", "name": "osjo", "meaning": "gato de los cerros" },
+        { "language": "aimara", "name": "titi", "meaning": "gato gris" }
+      ],
+      "taxonomy": {
+        "kingdom": "Animalia",
+        "phylum":  "Chordata",
+        "class":   "Mammalia",
+        "order":   "Carnivora",
+        "family":  "Felidae",
+        "genus":   "Leopardus",
+        "species": "jacobita"
+      },
+      "uicnStatus": "EN",
+      "uicnYear": 2015,
+      "uicnUrl": "https://www.iucnredlist.org/species/15452/50657407",
+      "chileStatus": "en_peligro",
+      "chileDecree": "DS-41-2023",
+      "populationTrend": "disminuyendo",
+      "estimatedPopulation": "Menos de 2.500 individuos maduros",
+      "isEndemic": false,
+      "isNationalSymbol": false,
+      "citesAppendix": "I",
+      "altitudeMin": 3000,
+      "altitudeMax": 5500,
+      "countries": ["Chile", "Argentina", "Bolivia", "Perú"],
+      "regionCodes": ["AP", "TA", "AN", "AT", "CO"],
+      "ecosystemSlugs": ["altiplano", "puna_andina", "andes"],
+      "typeDiet": "carnivoro",
+      "dietDescription": "Principalmente vizcachas (Lagidium sp.), su presa especializada. También caza ratones de campo, aves de altura y ocasionalmente reptiles. Su distribución geográfica sigue de cerca a la de la vizcacha.",
+      "sizeData": {
+        "lengthCm": 60,
+        "heightCm": 36,
+        "weightKg": { "min": 4, "max": 7 }
+      },
+      "sizeCategory": "pequeno",
+      "weightKgAvg": 5.5,
+      "lifespanYears": 12,
+      "activePeriod": "crepuscular",
+      "dangerLevel": "ninguno",
+      "colors": ["gris", "plateado", "negro", "blanco"],
+      "description": "El gato andino es uno de los felinos más raros y menos conocidos del mundo. Vive exclusivamente en las zonas rocosas y áridas del altiplano andino, entre los 3.000 y 5.500 metros de altura — un ambiente extremo donde las temperaturas caen a -20°C en invierno y la vegetación es escasa. Su pelaje grisáceo plateado con manchas oscuras lo hace casi invisible en las rocas. Es tan elusivo que durante décadas los científicos solo podían estudiarlo a través de trampas cámara. Un investigador puede pasar años trabajando en su hábitat sin ver uno solo.",
+      "funFacts": [
+        { "text": "Es tan raro que muchos científicos que dedican su carrera a estudiarlo nunca lo han visto en persona — solo en fotos de trampas cámara." },
+        { "text": "Vive en uno de los ambientes más extremos del planeta: altiplano a 5.000 metros, con temperaturas de -20°C y vientos de 100 km/h." },
+        { "text": "Su distribución sigue exactamente a la de las vizcachas. Donde no hay vizcachas, no hay gato andino." },
+        { "text": "Las comunidades andinas lo consideran sagrado — aparece en textiles prehispánicos y en rituales de algunas comunidades atacameñas." }
+      ],
+      "ecosystemRole": "Depredador especializado de la vizcacha, su presa casi exclusiva. Regula las poblaciones de este roedor, manteniendo el equilibrio de la vegetación de altura. En ausencia del gato andino, las vizcachas sobrepastan la poca vegetación del altiplano.",
+      "humanImpactDaily": "El altiplano de Chile, donde vive, es la fuente de las cuencas hidrográficas que alimentan la Región de Arica y Parinacota. Los ecosistemas de puna que el gato andino ayuda a regular retienen el agua de lluvia y nieve que luego abastece los valles costeros del norte.",
+      "threatsLocal": [
+        { "name": "Persecución directa por pastores", "magnitude": "alta", "description": "Es erróneamente culpado de atacar ovejas y llamas, aunque sus presas son pequeños roedores. Los pastores lo matan preventivamente." },
+        { "name": "Pérdida de la vizcacha", "magnitude": "alta", "description": "La caza de vizcachas para consumo y su pérdida de hábitat reduce directamente la disponibilidad de su presa principal." },
+        { "name": "Minería en el altiplano", "magnitude": "media", "description": "La expansión de la minería de litio y cobre en el altiplano destruye y fragmenta su hábitat." }
+      ],
+      "threatsGlobal": [
+        { "name": "Retroceso glaciar y reducción de nevadas", "magnitude": "alta", "description": "El altiplano está perdiendo agua. Menos nieve y glaciares significan menos vegetación, menos vizcachas, menos gatos andinos." }
+      ],
+      "visitorTips": "Si haces trekking en el altiplano de Arica, Tarapacá o el norte, lleva cámara de alta velocidad y paciencia. Las probabilidades de verlo son bajas, pero cada avistamiento documentado es información científica valiosa.",
+      "residentTips": "Si eres pastor en el altiplano y pierdes animales, reporta al SAG antes de atribuirlo al gato andino. Los ataques reales son casi inexistentes dado su tamaño. Hay programas de compensación por depredación.",
+      "media": [
+        {
+          "type": "foto",
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Gato_andino.jpg/800px-Gato_andino.jpg",
+          "credit": "Wikimedia Commons",
+          "license": "CC-BY-SA",
+          "isPrimary": true
+        }
+      ]
+    },
+    {
+      "slug": "pudu",
+      "commonName": "Pudú",
+      "scientificName": "Pudu puda",
+      "type": "mamifero",
+      "alternativeNames": ["Pudú del sur", "Venado enano"],
+      "indigenousNames": [
+        { "language": "mapudungun", "name": "püdü", "meaning": "ciervo pequeño" }
+      ],
+      "taxonomy": {
+        "kingdom": "Animalia",
+        "phylum":  "Chordata",
+        "class":   "Mammalia",
+        "order":   "Artiodactyla",
+        "family":  "Cervidae",
+        "genus":   "Pudu",
+        "species": "puda"
+      },
+      "uicnStatus": "VU",
+      "uicnYear": 2015,
+      "uicnUrl": "https://www.iucnredlist.org/species/18848/22163895",
+      "chileStatus": "vulnerable",
+      "chileDecree": "DS-41-2023",
+      "populationTrend": "disminuyendo",
+      "estimatedPopulation": "Desconocida, en declive",
+      "isEndemic": false,
+      "isNationalSymbol": false,
+      "citesAppendix": "I",
+      "altitudeMin": 0,
+      "altitudeMax": 1700,
+      "countries": ["Chile", "Argentina"],
+      "regionCodes": ["BI", "AR", "LR", "LL", "AI"],
+      "ecosystemSlugs": ["bosque_valdiviano", "bosque_andino_patagonico", "bosque_templado_lluvioso"],
+      "typeDiet": "herbivoro",
+      "dietDescription": "Hojas, brotes tiernos, frutos caídos, hongos, helechos y corteza tierna de plantas del sotobosque. Se alimenta cerca del suelo entre la vegetación densa.",
+      "sizeData": {
+        "lengthCm": 85,
+        "heightCm": 38,
+        "weightKg": { "min": 7, "max": 12 }
+      },
+      "sizeCategory": "pequeno",
+      "weightKgAvg": 9,
+      "lifespanYears": 10,
+      "activePeriod": "crepuscular",
+      "dangerLevel": "ninguno",
+      "colors": ["cafe", "rojizo", "marron", "negro"],
+      "description": "El pudú del sur es el ciervo más pequeño del mundo. A pesar de ser ciervo, un adulto no supera los 38 cm de altura al hombro y pesa entre 7 y 12 kilos — más o menos como un perro mediano. Los machos tienen astas pequeñas y simples que mudan cada año. Habita el denso sotobosque del bosque templado lluvioso del sur de Chile y Argentina, donde su tamaño diminuto le permite moverse con agilidad entre la vegetación. Es extremadamente tímido y elusivo, y la mayoría de las personas que viven en su territorio nunca han visto uno silvestre.",
+      "funFacts": [
+        { "text": "Es el ciervo más pequeño del mundo. Un adulto tiene el tamaño de un perro labrador pequeño." },
+        { "text": "Cuando se siente amenazado, corre en zigzag a gran velocidad entre la vegetación densa — una estrategia que confunde a los predadores." },
+        { "text": "Las crías nacen con manchas blancas que desaparecen a los 3 meses. En sus primeras semanas de vida se quedan completamente quietas mientras la madre se aleja a alimentarse." },
+        { "text": "A pesar de ser ciervo, raramente bebe agua libre — obtiene toda la humedad que necesita de las plantas que consume." }
+      ],
+      "ecosystemRole": "Herbívoro del sotobosque que controla el crecimiento de vegetación densa en los pisos inferiores del bosque. Dispersor de semillas de frutos del sotobosque. Presa del puma, el zorro y el águila en el bosque patagónico.",
+      "humanImpactDaily": "Si visitas algún parque o reserva del sur de Chile — Conguillío, Puyehue, Vicente Pérez Rosales, Torres del Paine — el bosque que recorres fue moldeado en parte por generaciones de pudúes que pastorearon su sotobosque durante siglos. Su presencia es garantía de que el bosque está relativamente intacto.",
+      "threatsLocal": [
+        { "name": "Perros domésticos y asilvestrados", "magnitude": "muy_alta", "description": "Los perros sueltos persiguen y matan pudúes con facilidad. Es la principal causa de muerte en zonas cercanas a poblaciones humanas." },
+        { "name": "Atropellos en carreteras", "magnitude": "alta", "description": "La Ruta 5 Sur y carreteras secundarias del sur causan muertes frecuentes, especialmente de noche." },
+        { "name": "Fragmentación de hábitat", "magnitude": "alta", "description": "La división del bosque en parches aislados por plantaciones y agricultura limita su movilidad y diversidad genética." }
+      ],
+      "threatsGlobal": [
+        { "name": "Cambio climático en bosque templado", "magnitude": "media", "description": "El aumento de temperatura y la mayor frecuencia de incendios en el sur de Chile afectan la disponibilidad y calidad del bosque que necesita." }
+      ],
+      "visitorTips": "En los parques del sur, mantén perros con correa o déjalos en casa. Maneja con atención en caminos forestales de noche. Si encuentras uno herido o a una cría sola, no la toques — llama a CONAF.",
+      "residentTips": "Si vives en zonas rurales del sur con bosque nativo, encierra tus perros de noche. Participa en iniciativas de corredores biológicos que conectan parches de bosque.",
+      "media": [
+        {
+          "type": "foto",
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/Puduchilensis.jpg/800px-Puduchilensis.jpg",
+          "credit": "Wikimedia Commons",
+          "license": "CC-BY-SA",
+          "isPrimary": true
+        }
+      ]
+    },
+    {
+      "slug": "condor-andino",
+      "commonName": "Cóndor andino",
+      "scientificName": "Vultur gryphus",
+      "type": "ave",
+      "alternativeNames": ["Cóndor", "Buitre de los Andes"],
+      "indigenousNames": [
+        { "language": "quechua", "name": "kuntur", "meaning": "el que vuela entre la tierra y el sol" }
+      ],
+      "taxonomy": {
+        "kingdom": "Animalia",
+        "phylum":  "Chordata",
+        "class":   "Aves",
+        "order":   "Cathartiformes",
+        "family":  "Cathartidae",
+        "genus":   "Vultur",
+        "species": "gryphus"
+      },
+      "uicnStatus": "VU",
+      "uicnYear": 2021,
+      "uicnUrl": "https://www.iucnredlist.org/species/22697641/205374164",
+      "chileStatus": "vulnerable",
+      "chileDecree": "DS-41-2023",
+      "populationTrend": "disminuyendo",
+      "estimatedPopulation": "Alrededor de 6.700 individuos en toda su distribución",
+      "isEndemic": false,
+      "isNationalSymbol": false,
+      "citesAppendix": "I",
+      "altitudeMin": 0,
+      "altitudeMax": 5500,
+      "countries": ["Chile", "Argentina", "Bolivia", "Perú", "Ecuador", "Colombia", "Venezuela"],
+      "regionCodes": ["AP", "TA", "AN", "AT", "CO", "VA", "LI", "ML", "NB", "BI", "AR", "LR", "LL", "AI", "MA"],
+      "ecosystemSlugs": ["andes", "altiplano", "desierto_atacama", "estepa_patagonica"],
+      "typeDiet": "carronero",
+      "dietDescription": "Carroña exclusivamente — cadáveres de mamíferos grandes como guanacos, vacas, caballos, lobos marinos y ballenas varadas. Nunca caza animales vivos.",
+      "sizeData": {
+        "lengthCm": 130,
+        "weightKg": { "min": 9, "max": 15 }
+      },
+      "sizeCategory": "muy_grande",
+      "weightKgAvg": 11,
+      "lifespanYears": 75,
+      "activePeriod": "diurno",
+      "dangerLevel": "ninguno",
+      "colors": ["negro", "blanco", "rojo", "gris"],
+      "description": "El cóndor andino es el ave de mayor envergadura del mundo capaz de volar activamente — sus alas pueden superar los 3,2 metros de punta a punta. Es también una de las aves más longevas del planeta, viviendo más de 70 años en libertad. A pesar de su aspecto imponente, es completamente inofensivo con animales vivos — se alimenta exclusivamente de carroña. Habita toda la extensión de los Andes, desde Venezuela hasta el extremo austral de Chile. En Chile puede verse desde el altiplano hasta la Patagonia y las costas.",
+      "funFacts": [
+        { "text": "Con 3,2 metros de envergadura, es el ave de mayor wingpan del mundo capaz de vuelo activo. Puede planear sin batir las alas durante más de una hora usando corrientes térmicas." },
+        { "text": "Vive más de 70 años en libertad — uno de los vertebrados más longevos del planeta. Una pareja se mantiene unida de por vida y cría un solo polluelo cada dos años." },
+        { "text": "Su cabeza calva no es por estética — es una adaptación: al introducir la cabeza en cadáveres, el plumaje acumularía bacterias. La piel desnuda es más fácil de limpiar." },
+        { "text": "Puede detectar carroña desde 5 km de altura usando su vista extraordinaria. Un cóndor en el aire es una señal de que hay un cadáver grande en un radio de varios kilómetros." }
+      ],
+      "ecosystemRole": "Reciclador del ecosistema andino y patagónico. Elimina cadáveres grandes que de otro modo serían focos de enfermedad. Su servicio de limpieza del ecosistema es invaluable y no lo hace ningún otro animal en la misma escala.",
+      "humanImpactDaily": "Si eres ganadero en cualquier parte de Chile, el cóndor trabaja gratis en tu campo — elimina cuerpos de animales muertos que de otro modo atraerían plagas y transmitirían enfermedades a tu ganado. Es el veterinario más grande del ecosistema.",
+      "threatsLocal": [
+        { "name": "Envenenamiento con carcasas envenenadas", "magnitude": "muy_alta", "description": "Algunos ganaderos ponen veneno en cadáveres para matar pumas y zorros. El cóndor muere al alimentarse de esas carcasas." },
+        { "name": "Impacto con tendidos eléctricos", "magnitude": "alta", "description": "Su gran envergadura lo hace vulnerable a chocar con cables de alta tensión, especialmente los jóvenes que aún no manejan bien las corrientes." },
+        { "name": "Plomo en cadáveres", "magnitude": "alta", "description": "Cuando se alimenta de animales cazados con balas de plomo, ingiere fragmentos del metal que causan envenenamiento acumulativo." }
+      ],
+      "threatsGlobal": [
+        { "name": "Reducción de presas grandes", "magnitude": "media", "description": "La disminución de guanacos, huemules y otras especies grandes reduce la disponibilidad de carroña de calidad." }
+      ],
+      "visitorTips": "Si lo ves en el campo, nunca te acerques a un cadáver donde esté comiendo — lo ahuyentas y puede pasar días sin comer. Observa desde lejos con binoculares.",
+      "residentTips": "Si eres ganadero, usa balas sin plomo para cazar pumas u otras especies (donde sea legal). Nunca pongas veneno en cadáveres — es ilegal y mata cóndores.",
+      "media": [
+        {
+          "type": "foto",
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Condor_closeup.jpg/800px-Condor_closeup.jpg",
+          "credit": "Wikimedia Commons",
+          "license": "CC-BY-SA",
+          "isPrimary": true
+        }
+      ]
+    },
+    {
+      "slug": "palma-chilena",
+      "commonName": "Palma chilena",
+      "scientificName": "Jubaea chilensis",
+      "type": "planta",
+      "alternativeNames": ["Coquito", "Palma de coquitos", "Chilean wine palm"],
+      "indigenousNames": [
+        { "language": "mapudungun", "name": "yohuel", "meaning": "árbol de miel" }
+      ],
+      "taxonomy": {
+        "kingdom": "Plantae",
+        "phylum":  "Magnoliophyta",
+        "class":   "Liliopsida",
+        "order":   "Arecales",
+        "family":  "Arecaceae",
+        "genus":   "Jubaea",
+        "species": "chilensis"
+      },
+      "uicnStatus": "VU",
+      "uicnYear": 1998,
+      "uicnUrl": "https://www.iucnredlist.org/species/38571/10127100",
+      "chileStatus": "vulnerable",
+      "chileDecree": "DS-13-1995",
+      "populationTrend": "disminuyendo",
+      "estimatedPopulation": "Menos de 120.000 individuos silvestres en fragmentos dispersos",
+      "isEndemic": true,
+      "isNationalSymbol": false,
+      "citesAppendix": null,
+      "altitudeMin": 0,
+      "altitudeMax": 1400,
+      "countries": ["Chile"],
+      "regionCodes": ["CO", "VA", "LI"],
+      "ecosystemSlugs": ["matorral_esclerofilo", "bosque_esclerofilo"],
+      "typeDiet": "autotrofo",
+      "sizeData": {
+        "heightCm": 3000,
+        "note": "Hasta 30 metros de altura, tronco de hasta 1,3 metros de diámetro. El tronco más grueso de cualquier palmera en el mundo."
+      },
+      "sizeCategory": "muy_grande",
+      "lifespanYears": 500,
+      "colors": ["verde", "gris", "cafe", "amarillo"],
+      "description": "La palma chilena es la única palmera endémica de Chile y una de las más australes del mundo — ninguna otra palmera crece tan cerca de los polos. Tiene el tronco más grueso de todas las palmeras del planeta: hasta 1,3 metros de diámetro. Puede vivir 500 años y producir coquitos comestibles toda su vida. Era tan abundante en los valles de la zona central que los viajeros del siglo XVI describían palmares tan densos que se extendían de horizonte a horizonte. Hoy esos palmares casi no existen — fueron talados para extraer su savia y hacer miel de palma.",
+      "funFacts": [
+        { "text": "Es la palmera con el tronco más grueso del mundo — hasta 1,3 metros de diámetro, más que muchos árboles adultos de cualquier especie." },
+        { "text": "Para obtener su savia y hacer miel de palma, se tala el árbol completo. Hasta hace 50 años, miles de palmas de 200 años eran derribadas cada temporada solo para este producto." },
+        { "text": "Un adulto puede producir hasta 300 kilos de coquitos al año durante siglos." },
+        { "text": "Está protegida, pero lentamente. Las palmas que ves hoy en el Parque Nacional La Campana tienen entre 100 y 400 años — y por eso mismo su reemplazo natural es muy lento." }
+      ],
+      "ecosystemRole": "Especie arquitecta del matorral esclerófilo de la zona central. Sus frutos alimentan a loros tricahues, zorros culpeos, degús y otros mamíferos que dispersan sus semillas. Sus hojas caídas crean refugio para reptiles e invertebrados.",
+      "humanImpactDaily": "Si vives en la Región de Valparaíso, O'Higgins o la zona central, la palma chilena es parte del patrimonio paisajístico que define los cerros que te rodean. La miel de palma, el vino de palma y los coquitos son productos gastronómicos históricos de Chile central que dependen de su sobrevivencia.",
+      "threatsLocal": [
+        { "name": "Extracción de miel de palma", "magnitude": "alta", "description": "La obtención de miel de palma requiere talar el árbol. Aunque hay regulación, la extracción ilegal continúa." },
+        { "name": "Incendios forestales", "magnitude": "muy_alta", "description": "Los incendios del verano en la zona central afectan directamente los últimos palmares naturales. El incendio de 2024 afectó sectores del Parque Nacional La Campana." },
+        { "name": "Lenta regeneración", "magnitude": "alta", "description": "Una palma chilena tarda 40–60 años en madurar. Cada árbol perdido tarda medio siglo en ser reemplazado." }
+      ],
+      "threatsGlobal": [
+        { "name": "Megasequía en zona central", "magnitude": "alta", "description": "La zona central de Chile lleva más de 15 años en megasequía. La reducción de precipitaciones dificulta la germinación y establecimiento de plántulas." }
+      ],
+      "visitorTips": "El Parque Nacional La Campana (acceso por Olmué o Granizo) tiene el palmar más grande y accesible. Hay senderos guiados. Si compras miel de palma, exige que sea de cultivo certificado, no de árbol silvestre talado.",
+      "residentTips": "Si tienes terreno en la zona central con palmas, protégelas — están amparadas por la ley. Puedes plantar plántulas de palma chilena de vivero para reforestar. CONAF tiene programas de apoyo.",
+      "media": [
+        {
+          "type": "foto",
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Jubaea_chilensis_Palma_Chilena.jpg/800px-Jubaea_chilensis_Palma_Chilena.jpg",
+          "credit": "Wikimedia Commons",
+          "license": "CC-BY-SA",
+          "isPrimary": true
+        }
+      ]
+    },
+    {
+      "slug": "delfin-chileno",
+      "commonName": "Delfín chileno",
+      "scientificName": "Cephalorhynchus eutropia",
+      "type": "mamifero",
+      "alternativeNames": ["Delfín negro", "Tunina", "Black dolphin"],
+      "indigenousNames": [],
+      "taxonomy": {
+        "kingdom": "Animalia",
+        "phylum":  "Chordata",
+        "class":   "Mammalia",
+        "order":   "Cetacea",
+        "family":  "Delphinidae",
+        "genus":   "Cephalorhynchus",
+        "species": "eutropia"
+      },
+      "uicnStatus": "VU",
+      "uicnYear": 2017,
+      "uicnUrl": "https://www.iucnredlist.org/species/4160/50351955",
+      "chileStatus": "vulnerable",
+      "chileDecree": "DS-41-2023",
+      "populationTrend": "desconocida",
+      "estimatedPopulation": "Menos de 5.000 individuos, posiblemente menos de 2.000",
+      "isEndemic": true,
+      "isNationalSymbol": false,
+      "citesAppendix": "II",
+      "altitudeMin": 0,
+      "altitudeMax": 0,
+      "countries": ["Chile"],
+      "regionCodes": ["LL", "AI", "MA"],
+      "ecosystemSlugs": ["canales_patagonicos", "marino"],
+      "typeDiet": "carnivoro",
+      "dietDescription": "Peces pequeños (anchovetas, sardinas, puyes), calamares y crustáceos. Caza en grupos coordinados en los canales y fiordos patagónicos.",
+      "sizeData": {
+        "lengthCm": 170,
+        "weightKg": { "min": 60, "max": 65 }
+      },
+      "sizeCategory": "mediano",
+      "weightKgAvg": 62,
+      "lifespanYears": 20,
+      "activePeriod": "diurno",
+      "dangerLevel": "ninguno",
+      "colors": ["negro", "blanco", "gris"],
+      "description": "El delfín chileno es el único cetáceo completamente endémico de Chile — existe solo en los canales y fiordos de la Patagonia chilena, uno de los ecosistemas marinos más remoto e intacto del mundo. Es uno de los delfines más pequeños del mundo, con un cuerpo rechoncho, negro por encima y blanco por debajo, sin joroba dorsal pronunciada. Vive en grupos de 2 a 10 individuos. A diferencia de otros delfines, es tímido con las embarcaciones y difícil de observar. Prácticamente todo lo que sabemos de él es de las últimas décadas — es uno de los mamíferos marinos menos estudiados del planeta.",
+      "funFacts": [
+        { "text": "Es el único cetáceo exclusivamente endémico de Chile — no existe en ningún otro país del mundo." },
+        { "text": "Es uno de los delfines más pequeños del planeta y uno de los menos conocidos. Los científicos recién están entendiendo su comportamiento social." },
+        { "text": "A diferencia del delfín nariz de botella, se aleja de las embarcaciones en vez de seguirlas — lo que dificulta su estudio." },
+        { "text": "Vive en algunos de los fiordos más remotos de la Patagonia, a los que casi ningún humano llega. Eso lo protege parcialmente — pero no de las amenazas que sí llegan." }
+      ],
+      "ecosystemRole": "Depredador de peces pequeños en los ecosistemas de canales y fiordos patagónicos. Regula las poblaciones de peces en estas aguas y es indicador de la salud del ecosistema marino patagónico.",
+      "humanImpactDaily": "Los canales patagónicos donde vive son la fuente del salmón, mitilido y otros productos que Chile exporta al mundo. La salmonicultura que sostiene parte de la economía del sur convive en el mismo espacio que este delfín — con consecuencias no totalmente comprendidas todavía.",
+      "threatsLocal": [
+        { "name": "Captura incidental en redes", "magnitude": "alta", "description": "Queda atrapado en redes de pesca artesanal y jaulas de salmonicultura, muriendo ahogado." },
+        { "name": "Contaminación por salmonicultura", "magnitude": "alta", "description": "Los antibióticos, antifúngicos y desechos de las pisciculturas contaminan los canales donde caza y cría." },
+        { "name": "Colisión con embarcaciones", "magnitude": "media", "description": "El aumento del tráfico marítimo turístico y de abastecimiento en Patagonia eleva el riesgo de colisiones." }
+      ],
+      "threatsGlobal": [
+        { "name": "Calentamiento del océano austral", "magnitude": "media", "description": "El cambio en temperatura del agua altera la distribución de los peces de que se alimenta." }
+      ],
+      "visitorTips": "Si haces navegación en la Patagonia, mantén distancia de al menos 300 metros de los grupos de delfines. No te acerques acelerando a ver si siguen la barca — no lo harán y los ahuyentarás.",
+      "residentTips": "Si pescas en canales patagónicos y capturas incidentalmente un delfín en la red, repórtalo a SERNAPESCA. Esos datos son importantes para entender las tasas de captura.",
+      "media": [
+        {
+          "type": "foto",
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Cephalorhynchus_eutropia_01.jpg/800px-Cephalorhynchus_eutropia_01.jpg",
+          "credit": "Wikimedia Commons",
+          "license": "CC-BY-SA",
+          "isPrimary": true
+        }
+      ]
+    },
+    {
+      "slug": "loro-tricahue",
+      "commonName": "Loro tricahue",
+      "scientificName": "Cyanoliseus patagonus",
+      "type": "ave",
+      "alternativeNames": ["Tricahue", "Loro barranquero", "Loro de Patagonia"],
+      "indigenousNames": [
+        { "language": "mapudungun", "name": "trikahue", "meaning": "el del grito agudo" }
+      ],
+      "taxonomy": {
+        "kingdom": "Animalia",
+        "phylum":  "Chordata",
+        "class":   "Aves",
+        "order":   "Psittaciformes",
+        "family":  "Psittacidae",
+        "genus":   "Cyanoliseus",
+        "species": "patagonus"
+      },
+      "uicnStatus": "VU",
+      "uicnYear": 2021,
+      "uicnUrl": "https://www.iucnredlist.org/species/22685768/211558148",
+      "chileStatus": "vulnerable",
+      "chileDecree": "DS-41-2023",
+      "populationTrend": "disminuyendo",
+      "estimatedPopulation": "Desconocida, en declive",
+      "isEndemic": false,
+      "isNationalSymbol": false,
+      "citesAppendix": "II",
+      "altitudeMin": 0,
+      "altitudeMax": 2000,
+      "countries": ["Chile", "Argentina"],
+      "regionCodes": ["CO", "VA", "LI", "ML", "NB", "BI"],
+      "ecosystemSlugs": ["matorral_esclerofilo", "bosque_esclerofilo", "secano_interior"],
+      "typeDiet": "herbivoro",
+      "dietDescription": "Semillas, frutos, bayas silvestres, flores y brotes. Es particularmente aficionado a los frutos de la palma chilena y a los granos de cultivos agrícolas — lo que genera conflictos con agricultores.",
+      "sizeData": {
+        "lengthCm": 45,
+        "weightKg": 0.27
+      },
+      "sizeCategory": "pequeno",
+      "weightKgAvg": 0.27,
+      "lifespanYears": 30,
+      "activePeriod": "diurno",
+      "dangerLevel": "ninguno",
+      "colors": ["verde", "amarillo", "naranja", "gris"],
+      "description": "El loro tricahue es el loro más austral del mundo y el único loro nativo de Chile que no vive en zona tropical. Es de color verde oliva, con el pecho manchado de amarillo y naranja, y la cabeza gris oscura. Anida en colonias en acantilados de tierra y barrancas en los valles del centro y norte chico de Chile. Forma grupos ruidosos y nidifica en colonias de hasta cientos de parejas. Su grito agudo y melodioso le da el nombre mapuche. Ha sido históricamente perseguido por agricultores y capturado para tráfico de mascotas, diezmando sus poblaciones.",
+      "funFacts": [
+        { "text": "Es el loro más austral del mundo — ningún otro loro vive tan cerca de los polos en el hemisferio sur." },
+        { "text": "Excava sus nidos en barrancas de tierra o acantilados. Una colonia puede tener cientos de nidos en la misma pared de tierra, con un ruido ensordecedor." },
+        { "text": "En cautiverio puede vivir más de 30 años y desarrolla vínculos profundos con las personas — lo que lo hace objetivo del tráfico ilegal de mascotas." },
+        { "text": "Su nombre mapudungun imita su grito: 'tri-ca-hue, tri-ca-hue'. Es un sonido que los habitantes de los valles del secano interior reconocen inmediatamente." }
+      ],
+      "ecosystemRole": "Dispersor de semillas de palma chilena, quillay, litre y otras plantas nativas del matorral esclerófilo. Polinizador secundario de flores de árboles nativos. Sus nidos en barrancas crean huecos que luego usan otras especies como lechuzas y pequeños mamíferos.",
+      "humanImpactDaily": "Si vives en la zona central o norte chico de Chile, el loro tricahue es probablemente el animal silvestre más llamativo que puedes ver en tu región. Forma parte del paisaje sonoro y visual de los valles del Maule, O'Higgins y Coquimbo. Si comes paltas, nueces o cerezas del secano chileno, el tricahue fue parte del ecosistema que hace posible esa agricultura.",
+      "threatsLocal": [
+        { "name": "Tráfico ilegal de mascotas", "magnitude": "muy_alta", "description": "Es capturado para venderse como mascota. Cada loro en cautiverio ilegal representa un individuo extraído de la naturaleza." },
+        { "name": "Persecución por agricultores", "magnitude": "alta", "description": "Al comer granos y frutos de cultivos, es visto como plaga y se le dispara o envenena, a pesar de ser especie protegida." },
+        { "name": "Destrucción de barrancas de nidificación", "magnitude": "alta", "description": "La construcción de caminos, canales de riego y urbanización destruye las paredes de tierra donde forma sus colonias de nido." }
+      ],
+      "threatsGlobal": [
+        { "name": "Sequía en zona central", "magnitude": "alta", "description": "La megasequía reduce la disponibilidad de frutos y semillas silvestres, forzándolo a depender más de cultivos y aumentando el conflicto con agricultores." }
+      ],
+      "visitorTips": "Si ves un loro tricahue en cautiverio siendo vendido, denuncia en el SAG (800 600 000) o en CONAF. No compres loros capturados de la naturaleza.",
+      "residentTips": "Si eres agricultor y tienes problemas con tricahues en tus cultivos, contacta al SAG para alternativas de espantapájaros y mallas que no dañen a los loros. Hay subsidios para estas medidas.",
+      "media": [
+        {
+          "type": "foto",
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Burrowing_Parrot_Cyanoliseus_patagonus.jpg/800px-Burrowing_Parrot_Cyanoliseus_patagonus.jpg",
+          "credit": "Wikimedia Commons",
+          "license": "CC-BY-SA",
+          "isPrimary": true
+        }
+      ]
+    },
+    {
+      "slug": "flamenco-andino",
+      "commonName": "Flamenco andino",
+      "scientificName": "Phoenicoparrus andinus",
+      "type": "ave",
+      "alternativeNames": ["Parina grande", "Flamenco de los Andes"],
+      "indigenousNames": [
+        { "language": "aimara", "name": "parina", "meaning": "ave de sangre" }
+      ],
+      "taxonomy": {
+        "kingdom": "Animalia",
+        "phylum":  "Chordata",
+        "class":   "Aves",
+        "order":   "Phoenicopteriformes",
+        "family":  "Phoenicopteridae",
+        "genus":   "Phoenicoparrus",
+        "species": "andinus"
+      },
+      "uicnStatus": "VU",
+      "uicnYear": 2020,
+      "uicnUrl": "https://www.iucnredlist.org/species/22697388/182421993",
+      "chileStatus": "vulnerable",
+      "chileDecree": "DS-41-2023",
+      "populationTrend": "estable",
+      "estimatedPopulation": "Alrededor de 34.000 individuos",
+      "isEndemic": false,
+      "isNationalSymbol": false,
+      "citesAppendix": "II",
+      "altitudeMin": 2300,
+      "altitudeMax": 4500,
+      "countries": ["Chile", "Argentina", "Bolivia", "Perú"],
+      "regionCodes": ["AP", "TA", "AN"],
+      "ecosystemSlugs": ["altiplano", "salares"],
+      "typeDiet": "filtrador",
+      "dietDescription": "Algas microscópicas (diatomeas), pequeños crustáceos (Artemia) y otros microorganismos que filtra del agua salada de los salares altiplánicos con su pico especializado.",
+      "sizeData": {
+        "lengthCm": 110,
+        "heightCm": 100,
+        "weightKg": { "min": 2, "max": 3 }
+      },
+      "sizeCategory": "grande",
+      "weightKgAvg": 2.5,
+      "lifespanYears": 40,
+      "activePeriod": "diurno",
+      "dangerLevel": "ninguno",
+      "colors": ["rosado", "rojo", "blanco", "negro", "amarillo"],
+      "description": "El flamenco andino es el más raro de los tres flamencos que habitan Chile y uno de los más amenazados del mundo. Se distingue del flamenco chileno (más común) por su mayor tamaño, pico completamente amarillo y plumaje más intensamente rosado. Vive exclusivamente en los salares del altiplano andino entre 2.300 y 4.500 metros de altura — ambientes extremos de sal y viento donde pocas otras aves pueden sobrevivir. Forma colonias de nidificación en islas de los salares, donde construye nidos de barro en forma de volcán.",
+      "funFacts": [
+        { "text": "Construye nidos en forma de volcán con barro y sal del salar. Los nidos pueden tener hasta 30 cm de alto para proteger el huevo del frío extremo del suelo." },
+        { "text": "Su color rosado intenso viene de los pigmentos carotenoides de las algas que consume. Un flamenco mal alimentado se vuelve blanco." },
+        { "text": "Vive en salares donde el agua tiene 10 veces más sal que el mar — condiciones que matan a casi cualquier otro animal." },
+        { "text": "Toda la población de flamencos andinos nidifica en solo unos pocos salares en toda su distribución. Un año de mal clima en esos salares puede destruir la reproducción de toda la especie." }
+      ],
+      "ecosystemRole": "Controlador de algas y microcrustáceos en los salares altiplánicos. Su actividad de filtración mantiene la calidad del agua en estos ecosistemas. Es también indicador de la salud del salar — su presencia o ausencia refleja las condiciones del ecosistema.",
+      "humanImpactDaily": "Los salares del altiplano donde vive el flamenco andino son los mismos que contienen el litio que mueve la industria de baterías eléctricas mundial. La extracción de litio en el Salar de Atacama y Maricunga comparte espacio con sus colonias de nidificación. Si tienes un teléfono celular o auto eléctrico, parte del litio de su batería posiblemente provino del mismo ecosistema donde este flamenco cría.",
+      "threatsLocal": [
+        { "name": "Extracción de litio y agua del salar", "magnitude": "muy_alta", "description": "La minería del litio extrae agua salobre del salar, alterando los niveles hídricos que controlan los sitios de nidificación y la disponibilidad de alimento." },
+        { "name": "Turismo no regulado en salares", "magnitude": "alta", "description": "La perturbación de colonias durante la nidificación hace que los adultos abandonen los nidos, exponiendo los huevos al frío extremo." },
+        { "name": "Contaminación del salar", "magnitude": "media", "description": "Los residuos de operaciones mineras e industriales contaminan el agua donde filtra su alimento." }
+      ],
+      "threatsGlobal": [
+        { "name": "Cambio en el régimen de lluvias del altiplano", "magnitude": "alta", "description": "El altiplano está perdiendo precipitaciones. Menos lluvia significa menos agua en los salares, concentrando la sal y matando las algas que consume." }
+      ],
+      "visitorTips": "Si visitas el Salar de Atacama o el Altiplano de Arica, mantente en los senderos autorizados. Nunca te acerques a las colonias de nidificación. Usa guías autorizados por CONAF.",
+      "residentTips": "Si trabajas en la industria minera del altiplano, exige a tu empresa estudios de impacto rigurosos sobre las colonias de flamencos antes de cualquier nueva concesión.",
+      "media": [
+        {
+          "type": "foto",
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Phoenicoparrus_andinus_-_Laguna_Colorada_-_Bolivia.jpg/800px-Phoenicoparrus_andinus_-_Laguna_Colorada_-_Bolivia.jpg",
+          "credit": "Wikimedia Commons",
+          "license": "CC-BY-SA",
+          "isPrimary": true
+        }
+      ]
+    },
+    {
+      "slug": "tamarugo",
+      "commonName": "Tamarugo",
+      "scientificName": "Prosopis tamarugo",
+      "type": "planta",
+      "alternativeNames": ["Tamarugal"],
+      "indigenousNames": [
+        { "language": "aimara", "name": "tamarugo", "meaning": "árbol del desierto sagrado" }
+      ],
+      "taxonomy": {
+        "kingdom": "Plantae",
+        "phylum":  "Magnoliophyta",
+        "class":   "Magnoliopsida",
+        "order":   "Fabales",
+        "family":  "Fabaceae",
+        "genus":   "Prosopis",
+        "species": "tamarugo"
+      },
+      "uicnStatus": "VU",
+      "uicnYear": 1998,
+      "uicnUrl": "https://www.iucnredlist.org/species/30465/9551302",
+      "chileStatus": "vulnerable",
+      "chileDecree": "DS-13-1995",
+      "populationTrend": "disminuyendo",
+      "estimatedPopulation": "Bosques de Pampa del Tamarugal en estado fragmentado",
+      "isEndemic": true,
+      "isNationalSymbol": false,
+      "citesAppendix": null,
+      "altitudeMin": 900,
+      "altitudeMax": 1100,
+      "countries": ["Chile"],
+      "regionCodes": ["TA"],
+      "ecosystemSlugs": ["desierto_atacama", "pampa_interior"],
+      "typeDiet": "autotrofo",
+      "sizeData": {
+        "heightCm": 1800,
+        "note": "Hasta 18 metros de altura. Árbol que vive completamente sin lluvia."
+      },
+      "sizeCategory": "grande",
+      "lifespanYears": 200,
+      "colors": ["verde", "amarillo", "cafe", "gris"],
+      "description": "El tamarugo es uno de los árboles más extraordinarios del planeta: es el único árbol del mundo que vive en un desierto sin lluvia. Crece en la Pampa del Tamarugal, en la Región de Tarapacá, donde no llueve durante décadas. Sobrevive porque sus raíces, que pueden llegar a 15 metros de profundidad, alcanzan el agua subterránea fósil que quedó atrapada bajo el salar después de la era glaciar. Su copa también absorbe la humedad del aire nocturno del desierto. Es completamente endémico de este pequeño territorio en Chile — no existe en ningún otro lugar del mundo.",
+      "funFacts": [
+        { "text": "Es el único árbol del mundo que crece en un desierto sin lluvia. Sobrevive gracias al agua subterránea fósil de la era glaciar, a 15 metros de profundidad." },
+        { "text": "Sus hojas están orientadas para capturar el rocío nocturno del desierto, que gotea al suelo y humedece la base del tronco." },
+        { "text": "Cuando los tamarugos fueron talados masivamente en el siglo XX para carbón y soporte de minería, el salar comenzó a subir porque nada extraía el agua subterránea. Las raíces de los tamarugos eran lo que mantenía el nivel freático estable." },
+        { "text": "CONAF replantó más de 20.000 hectáreas de tamarugo desde los 1970s en la Pampa del Tamarugal — uno de los proyectos de reforestación más grandes de Sudamérica." }
+      ],
+      "ecosystemRole": "Especie arquitecta del único ecosistema boscoso del desierto de Atacama. Sus frutos y semillas alimentan al cernícalo, al ostrero, a roedores y a la taruca. Sus raíces regulan el nivel freático del salar. Su sombra es el único refugio de temperatura para fauna e invertebrados en kilómetros a la redonda.",
+      "humanImpactDaily": "Si vives en la Región de Tarapacá o transitas por la Ruta 5 en el norte, los bosques de tamarugo que bordean la autopista son ese ecosistema único. La demanda de agua subterránea para minería en el norte de Chile amenaza el mismo acuífero del que dependen estos árboles — el mismo que, en parte, abastece de agua a comunidades indígenas del altiplano.",
+      "threatsLocal": [
+        { "name": "Extracción de agua subterránea", "magnitude": "muy_alta", "description": "La minería y agricultura extraen agua del acuífero del que el tamarugo depende para sobrevivir. Cuando baja el nivel freático, los árboles mueren." },
+        { "name": "Tala histórica no recuperada", "magnitude": "alta", "description": "Pese a los planes de reforestación, las áreas taladas en el siglo XX tardan décadas en recuperar la estructura original del bosque." },
+        { "name": "Plagas y enfermedades", "magnitude": "media", "description": "El pulgón del tamarugo (Hyalopterus pruni) puede dañar masivamente las hojas, especialmente en árboles ya debilitados por la falta de agua subterránea." }
+      ],
+      "threatsGlobal": [
+        { "name": "Cambio climático en Atacama", "magnitude": "alta", "description": "El aumento de temperatura eleva la evaporación y aumenta la demanda de agua del acuífero, poniendo en tensión la disponibilidad para los árboles." }
+      ],
+      "visitorTips": "La Reserva Nacional Pampa del Tamarugal, a pocos kilómetros de Pozo Almonte, ofrece senderos entre los bosques de tamarugo. Es un lugar único en el mundo — un bosque en el desierto. Si no lo conoces, vale el desvío desde la Ruta 5.",
+      "residentTips": "Si vives en Tarapacá y trabajas en minería o agricultura, exige a tu empresa auditorías de uso del agua subterránea. El acuífero del tamarugal no es infinito.",
+      "media": [
+        {
+          "type": "foto",
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/Prosopis_tamarugo_pampa.jpg/800px-Prosopis_tamarugo_pampa.jpg",
+          "credit": "Wikimedia Commons",
+          "license": "CC-BY-SA",
+          "isPrimary": true
+        }
+      ]
+    }
+  ]
+}

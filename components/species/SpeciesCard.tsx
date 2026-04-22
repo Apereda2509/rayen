@@ -11,20 +11,27 @@ interface Props {
   className?: string
 }
 
+function proxied(url: string | null | undefined): string | null | undefined {
+  if (!url) return url
+  if (url.includes('wikimedia.org')) return `/api/img?url=${encodeURIComponent(url)}`
+  return url
+}
+
 export function SpeciesCard({ species, variant = 'card', className }: Props) {
   const {
     slug, commonName, scientificName, type,
     uicnStatus, isEndemic, primaryPhoto, photoCredit,
     regionCodes, verifiedSightings,
   } = species
+  const photo = proxied(primaryPhoto)
 
   if (variant === 'map-popup') {
     return (
       <div className={cn('w-64 rounded-xl overflow-hidden bg-white shadow-lg', className)}>
-        {primaryPhoto && (
+        {photo && (
           <div className="relative h-32 w-full bg-emerald-50">
             <img
-              src={primaryPhoto}
+              src={photo}
               alt={commonName}
               referrerPolicy="no-referrer"
               className="absolute inset-0 w-full h-full object-cover"
@@ -74,8 +81,8 @@ export function SpeciesCard({ species, variant = 'card', className }: Props) {
       >
         {/* Foto */}
         <div className="relative h-16 w-16 flex-shrink-0 rounded-lg overflow-hidden bg-emerald-50">
-          {primaryPhoto ? (
-            <img src={primaryPhoto} alt={commonName} referrerPolicy="no-referrer" className="absolute inset-0 w-full h-full object-cover" />
+          {photo ? (
+            <img src={photo} alt={commonName} referrerPolicy="no-referrer" className="absolute inset-0 w-full h-full object-cover" />
           ) : (
             <div className="flex h-full items-center justify-center text-2xl text-stone-300">
               {typeEmoji(type)}
@@ -112,10 +119,10 @@ export function SpeciesCard({ species, variant = 'card', className }: Props) {
     >
       {/* Imagen */}
       <div className="relative h-48 w-full bg-emerald-50">
-        {primaryPhoto ? (
+        {photo ? (
           <>
             <img
-              src={primaryPhoto}
+              src={photo}
               alt={commonName}
               referrerPolicy="no-referrer"
               className="absolute inset-0 w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-300"

@@ -27,6 +27,9 @@ export default async function EspeciePage({ params }: Props) {
   if (!species) notFound()
 
   const primaryPhoto = species.media?.find((m) => m.isPrimary) ?? species.media?.[0]
+  const photoUrl = primaryPhoto?.url?.includes('wikimedia.org')
+    ? `/api/img?url=${encodeURIComponent(primaryPhoto.url)}`
+    : primaryPhoto?.url
 
   return (
     <main className="max-w-4xl mx-auto px-4 py-10">
@@ -42,10 +45,10 @@ export default async function EspeciePage({ params }: Props) {
       <div className="flex flex-col md:flex-row gap-6 mb-10">
         {/* Foto principal */}
         <div className="relative w-full md:w-72 h-60 flex-shrink-0 rounded-2xl overflow-hidden bg-emerald-50">
-          {primaryPhoto ? (
+          {photoUrl ? (
             <>
               <img
-                src={primaryPhoto.url}
+                src={photoUrl}
                 alt={species.commonName}
                 referrerPolicy="no-referrer"
                 className="absolute inset-0 w-full h-full object-cover"
