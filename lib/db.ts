@@ -380,6 +380,25 @@ export async function getProtectedAreaBySlug(slug: string) {
   return area ?? null
 }
 
+// ── Foto principal de especie por popularidad ────────────────
+
+export async function getPrimaryPhotoForSpecies(speciesId: string): Promise<string | null> {
+  // 1. Foto aprobada con más favoritos
+  const [approved] = await sql<{ url: string }[]>`
+    SELECT url FROM photos
+    WHERE species_id = ${speciesId} AND candidate_approved = TRUE
+    ORDER BY favorites_count DESC, created_at ASC
+    LIMIT 1
+  `
+  if (approved) return approved.url
+
+  // 2. Fallback: foto primaria de media (Wikimedia)
+  const [media] = await sql<{ url: string }[]>`
+    SELECT url FROM media WHERE species_id = ${speciesId} AND is_primary = TRUE LIMIT 1
+  `
+  return media?.url ?? null
+}
+
 export async function getSightingsNearArea(slug: string, limit = 20) {
   return sql<{
     id: string; slug: string; commonName: string; scientificName: string;

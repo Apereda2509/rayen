@@ -2,6 +2,7 @@ import { redirect } from 'next/navigation'
 import { auth } from '@/auth'
 import sql from '@/lib/db'
 import { SightingModerationList, type PendingSighting } from '@/components/admin/SightingModerationList'
+import { PhotoCandidatesList, type PhotoCandidate } from '@/components/admin/PhotoCandidatesList'
 import { ShieldCheck } from 'lucide-react'
 
 export const dynamic = 'force-dynamic'
@@ -26,6 +27,20 @@ export default async function AdminAvistamientosPage() {
       </main>
     )
   }
+
+  // Fotos candidatas a especie
+  const photoCandidates = await sql<PhotoCandidate[]>`
+    SELECT
+      p.id, p.url, p.favorites_count AS "favoritesCount", p.created_at AS "createdAt",
+      s.common_name AS "speciesCommonName", s.scientific_name AS "speciesScientificName", s.slug AS "speciesSlug",
+      u.name AS "userName"
+    FROM photos p
+    JOIN species s ON s.id = p.species_id
+    JOIN users u ON u.id = p.user_id
+    WHERE p.is_species_candidate = TRUE AND p.candidate_approved = FALSE
+    ORDER BY p.created_at DESC
+    LIMIT 50
+  `
 
   // Fetch pending sightings
   const rows = await sql<(PendingSighting & { observedAt: string })[]>`
@@ -65,6 +80,18 @@ export default async function AdminAvistamientosPage() {
         </div>
       </div>
 
+      {photoCandidates.length > 0 && (
+        <div className="mb-10">
+          <h2 className="text-lg font-semibold text-stone-800 mb-4">
+            📷 Fotos candidatas a foto principal de especie ({photoCandidates.length})
+          </h2>
+          <PhotoCandidatesList initialCandidates={photoCandidates} />
+        </div>
+      )}
+
+      <h2 className="text-lg font-semibold text-stone-800 mb-4">
+        Avistamientos pendientes ({rows.length})
+      </h2>
       <SightingModerationList initialSightings={rows} />
     </main>
   )

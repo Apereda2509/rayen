@@ -11,12 +11,13 @@ export async function POST(req: Request) {
   }
 
   const formData = await req.formData()
-  const speciesSlug = formData.get('speciesSlug') as string | null
-  const observedAt  = formData.get('observedAt')  as string | null
-  const latRaw      = formData.get('lat')          as string | null
-  const lngRaw      = formData.get('lng')          as string | null
-  const notes       = formData.get('notes')        as string | null
-  const photo       = formData.get('photo')        as File | null
+  const speciesSlug        = formData.get('speciesSlug')        as string | null
+  const observedAt         = formData.get('observedAt')         as string | null
+  const latRaw             = formData.get('lat')                as string | null
+  const lngRaw             = formData.get('lng')                as string | null
+  const notes              = formData.get('notes')              as string | null
+  const photo              = formData.get('photo')              as File | null
+  const isSpeciesCandidate = formData.get('isSpeciesCandidate') === 'true'
 
   // Validation
   if (!speciesSlug || !observedAt || !latRaw || !lngRaw) {
@@ -110,6 +111,14 @@ export async function POST(req: Request) {
     )
     RETURNING id, observed_at AS "observedAt", verified
   `
+
+  // Registrar foto en tabla photos si se subió
+  if (photoUrl) {
+    await sql`
+      INSERT INTO photos (user_id, species_id, sighting_id, url, is_species_candidate)
+      VALUES (${dbUser.id}, ${species.id}, ${sighting.id}, ${photoUrl}, ${isSpeciesCandidate})
+    `
+  }
 
   return NextResponse.json({ sighting }, { status: 201 })
 }

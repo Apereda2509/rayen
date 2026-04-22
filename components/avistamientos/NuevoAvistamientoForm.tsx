@@ -87,6 +87,9 @@ export function NuevoAvistamientoForm({ defaultSpeciesSlug }: Props) {
   const [photo, setPhoto] = useState<File | null>(null)
   const [photoPreview, setPhotoPreview] = useState<string | null>(null)
 
+  // ── Proponer foto candidata ────────────────────────────────
+  const [isSpeciesCandidate, setIsSpeciesCandidate] = useState(false)
+
   // ── Notas ──────────────────────────────────────────────────
   const [notes, setNotes] = useState('')
 
@@ -298,6 +301,7 @@ export function NuevoAvistamientoForm({ defaultSpeciesSlug }: Props) {
       fd.append('lng', String(location.lng))
       if (notes) fd.append('notes', notes)
       if (photo) fd.append('photo', photo)
+      if (photo && isSpeciesCandidate) fd.append('isSpeciesCandidate', 'true')
 
       const res = await fetch('/api/sightings', { method: 'POST', body: fd })
       const json = await res.json()
@@ -325,6 +329,7 @@ export function NuevoAvistamientoForm({ defaultSpeciesSlug }: Props) {
             setDate(''); setLocation(null); setFlyTo(null)
             setPhoto(null); setPhotoPreview(null); setNotes('')
             setGeoQuery(''); setGeoSuggestions([])
+            setIsSpeciesCandidate(false)
           }}
           className="mt-2 rounded-lg bg-teal-600 px-5 py-2 text-sm font-medium text-white hover:bg-teal-700 transition-colors"
         >
@@ -566,6 +571,28 @@ export function NuevoAvistamientoForm({ defaultSpeciesSlug }: Props) {
           </label>
         )}
       </div>
+
+      {/* Proponer foto candidata — visible solo si hay foto */}
+      {photo && (
+        <div className="rounded-xl border border-teal-200 bg-teal-50 px-4 py-3">
+          <label className="flex items-start gap-3 cursor-pointer">
+            <input
+              type="checkbox"
+              checked={isSpeciesCandidate}
+              onChange={(e) => setIsSpeciesCandidate(e.target.checked)}
+              className="mt-0.5 h-4 w-4 rounded border-stone-300 text-teal-600 focus:ring-teal-600"
+            />
+            <div>
+              <p className="text-sm font-medium text-teal-800">
+                Proponer esta foto como foto principal de la especie
+              </p>
+              <p className="text-xs text-teal-600 mt-0.5">
+                Un moderador revisará si es adecuada. La foto con más favoritos entre las aprobadas será la principal.
+              </p>
+            </div>
+          </label>
+        </div>
+      )}
 
       {/* Notas */}
       <div>
