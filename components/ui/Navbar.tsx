@@ -6,11 +6,13 @@ import { usePathname } from 'next/navigation'
 import { useState, useRef, useEffect } from 'react'
 import {
   Menu, X, LogIn, LogOut, User, Plus,
-  HelpCircle, AlertCircle, Shield, FileText, Loader2,
+  HelpCircle, AlertCircle, Shield, FileText, Loader2, ShieldCheck,
 } from 'lucide-react'
 import { useSession, signOut } from 'next-auth/react'
 import { cn } from '@/lib/utils'
 import { NavSearch } from './NavSearch'
+
+const ADMIN_EMAIL = 'angelperedajimenez@gmail.com'
 
 const NAV_LINKS = [
   { href: '/mapa',             label: 'Mapa' },
@@ -147,6 +149,15 @@ export function Navbar() {
                       Informar un error
                     </DropdownButton>
 
+                    {session.user?.email === ADMIN_EMAIL && (
+                      <>
+                        <DropdownSep />
+                        <DropdownLink href="/admin" icon={<ShieldCheck className="h-4 w-4" />} onClick={closeAll}>
+                          Panel de administrador
+                        </DropdownLink>
+                      </>
+                    )}
+
                     <DropdownSep />
 
                     <DropdownLink href="/legal/privacidad" icon={<Shield className="h-4 w-4" />} onClick={closeAll}>
@@ -236,6 +247,13 @@ export function Navbar() {
                     <AlertCircle className="h-4 w-4" />
                     Informar un error
                   </button>
+                  {session.user?.email === ADMIN_EMAIL && (
+                    <Link href="/admin" onClick={closeAll}
+                      className="flex items-center gap-2 rounded-md px-3 py-2 text-sm text-emerald-200 hover:text-white hover:bg-teal-800">
+                      <ShieldCheck className="h-4 w-4" />
+                      Panel de administrador
+                    </Link>
+                  )}
                   <Link href="/legal/privacidad" onClick={closeAll}
                     className="flex items-center gap-2 rounded-md px-3 py-2 text-sm text-emerald-200 hover:text-white hover:bg-teal-800">
                     <Shield className="h-4 w-4" />

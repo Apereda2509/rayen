@@ -1,48 +1,9 @@
-import { redirect } from 'next/navigation'
-import { auth } from '@/auth'
 import sql from '@/lib/db'
 import { SightingModerationList, type PendingSighting } from '@/components/admin/SightingModerationList'
-import { PhotoCandidatesList, type PhotoCandidate } from '@/components/admin/PhotoCandidatesList'
-import { ShieldCheck } from 'lucide-react'
 
-export const dynamic = 'force-dynamic'
-
-const ADMIN_EMAIL = 'angelperedajimenez@gmail.com'
-
-export async function generateMetadata() {
-  return { title: 'Moderación de avistamientos — Rayen' }
-}
+export const metadata = { title: 'Avistamientos — Admin Rayen' }
 
 export default async function AdminAvistamientosPage() {
-  const session = await auth()
-
-  if (!session?.user?.email) redirect('/login?callbackUrl=/admin/avistamientos')
-
-  if (session.user.email !== ADMIN_EMAIL) {
-    return (
-      <main className="max-w-lg mx-auto px-4 py-20 text-center">
-        <p className="text-4xl mb-4">🚫</p>
-        <h1 className="text-xl font-bold text-stone-800 mb-2">Acceso restringido</h1>
-        <p className="text-stone-500 text-sm">No tienes permiso para acceder a esta sección.</p>
-      </main>
-    )
-  }
-
-  // Fotos candidatas a especie
-  const photoCandidates = await sql<PhotoCandidate[]>`
-    SELECT
-      p.id, p.url, p.favorites_count AS "favoritesCount", p.created_at AS "createdAt",
-      s.common_name AS "speciesCommonName", s.scientific_name AS "speciesScientificName", s.slug AS "speciesSlug",
-      u.name AS "userName"
-    FROM photos p
-    JOIN species s ON s.id = p.species_id
-    JOIN users u ON u.id = p.user_id
-    WHERE p.is_species_candidate = TRUE AND p.candidate_approved = FALSE
-    ORDER BY p.created_at DESC
-    LIMIT 50
-  `
-
-  // Fetch pending sightings
   const rows = await sql<(PendingSighting & { observedAt: string })[]>`
     SELECT
       sg.id,
@@ -67,32 +28,14 @@ export default async function AdminAvistamientosPage() {
   `
 
   return (
-    <main className="max-w-3xl mx-auto px-4 py-10">
-      <div className="flex items-center gap-3 mb-8">
-        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-teal-50 text-teal-600">
-          <ShieldCheck className="h-5 w-5" />
-        </div>
-        <div>
-          <h1 className="text-2xl font-bold text-stone-900">Moderación de avistamientos</h1>
-          <p className="text-sm text-stone-500">
-            {rows.length} pendiente{rows.length !== 1 ? 's' : ''} de verificación
-          </p>
-        </div>
+    <div>
+      <div className="mb-6">
+        <h1 className="text-xl font-bold text-stone-900">Avistamientos pendientes</h1>
+        <p className="text-sm text-stone-500 mt-0.5">
+          {rows.length} pendiente{rows.length !== 1 ? 's' : ''} de verificación
+        </p>
       </div>
-
-      {photoCandidates.length > 0 && (
-        <div className="mb-10">
-          <h2 className="text-lg font-semibold text-stone-800 mb-4">
-            📷 Fotos candidatas a foto principal de especie ({photoCandidates.length})
-          </h2>
-          <PhotoCandidatesList initialCandidates={photoCandidates} />
-        </div>
-      )}
-
-      <h2 className="text-lg font-semibold text-stone-800 mb-4">
-        Avistamientos pendientes ({rows.length})
-      </h2>
       <SightingModerationList initialSightings={rows} />
-    </main>
+    </div>
   )
 }
