@@ -24,6 +24,9 @@ export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false)
   const { data: session, status } = useSession()
 
+  // Preferir avatar_url guardado en BD (Cloudinary), luego el de Google
+  const avatarUrl = (session?.user as any)?.avatarUrl ?? session?.user?.image
+
   return (
     <header className="sticky top-0 z-50 w-full border-b border-stone-200 bg-teal-900">
       <div className="mx-auto flex h-14 max-w-7xl items-center justify-between px-4 sm:px-6">
@@ -58,7 +61,7 @@ export function Navbar() {
         <div className="flex items-center gap-2">
           <NavSearch />
 
-          {/* Reportar avistamiento — siempre visible */}
+          {/* Reportar avistamiento */}
           {status !== 'loading' && (
             <Link
               href={session ? '/avistamientos/nuevo' : '/login?callbackUrl=/avistamientos/nuevo&razon=reporte'}
@@ -70,22 +73,24 @@ export function Navbar() {
             </Link>
           )}
 
-          {/* Auth — siempre visible; se actualiza cuando resuelve la sesión */}
+          {/* Auth */}
           {session ? (
             <div className="hidden md:flex items-center gap-2">
-              {session.user?.image ? (
-                <Image
-                  src={session.user.image}
-                  alt={session.user.name ?? 'Usuario'}
-                  width={28}
-                  height={28}
-                  className="rounded-full ring-2 ring-emerald-400"
-                />
-              ) : (
-                <span className="flex h-7 w-7 items-center justify-center rounded-full bg-teal-700">
-                  <User className="h-4 w-4 text-emerald-200" />
-                </span>
-              )}
+              <Link href="/perfil" title="Mi perfil" className="rounded-full ring-2 ring-emerald-400 hover:ring-emerald-300 transition-all">
+                {avatarUrl ? (
+                  <Image
+                    src={avatarUrl}
+                    alt={session.user?.name ?? 'Usuario'}
+                    width={28}
+                    height={28}
+                    className="rounded-full"
+                  />
+                ) : (
+                  <span className="flex h-7 w-7 items-center justify-center rounded-full bg-teal-700">
+                    <User className="h-4 w-4 text-emerald-200" />
+                  </span>
+                )}
+              </Link>
               <span className="hidden lg:block text-sm text-emerald-100 max-w-[120px] truncate">
                 {session.user?.name}
               </span>
@@ -136,7 +141,6 @@ export function Navbar() {
             </Link>
           ))}
 
-          {/* Reportar en móvil — siempre visible */}
           {status !== 'loading' && (
             <Link
               href={session ? '/avistamientos/nuevo' : '/login?callbackUrl=/avistamientos/nuevo&razon=reporte'}
@@ -148,24 +152,27 @@ export function Navbar() {
             </Link>
           )}
 
-          {/* Auth en móvil */}
           <div className="mt-2 border-t border-teal-800 pt-2">
             {session ? (
               <div className="flex items-center justify-between px-3 py-2">
-                <div className="flex items-center gap-2">
-                  {session.user?.image ? (
+                <Link
+                  href="/perfil"
+                  onClick={() => setMobileOpen(false)}
+                  className="flex items-center gap-2"
+                >
+                  {avatarUrl ? (
                     <Image
-                      src={session.user.image}
-                      alt={session.user.name ?? 'Usuario'}
+                      src={avatarUrl}
+                      alt={session.user?.name ?? 'Usuario'}
                       width={24}
                       height={24}
-                      className="rounded-full"
+                      className="rounded-full ring-1 ring-emerald-400"
                     />
                   ) : (
                     <User className="h-5 w-5 text-emerald-200" />
                   )}
                   <span className="text-sm text-emerald-100">{session.user?.name}</span>
-                </div>
+                </Link>
                 <button
                   onClick={() => { setMobileOpen(false); signOut({ callbackUrl: '/' }) }}
                   className="text-sm text-emerald-300 hover:text-white"
@@ -190,7 +197,6 @@ export function Navbar() {
   )
 }
 
-// Ícono floral SVG de Rayen
 function RayenFlower({ className }: { className?: string }) {
   return (
     <svg viewBox="0 0 24 24" fill="none" className={className}>
