@@ -206,8 +206,13 @@ export async function getSightingsForMap(filters?: {
   regionCode?: string
   verified?: boolean
   limit?: number
+  type?: string[]
+  uicnStatus?: string[]
+  isEndemic?: boolean
+  ecosystemSlugs?: string[]
 }) {
-  const { speciesId, regionCode, verified = true, limit = 500 } = filters ?? {}
+  const { speciesId, regionCode, verified = true, limit = 500,
+    type, uicnStatus, isEndemic, ecosystemSlugs } = filters ?? {}
 
   return sql`
     SELECT
@@ -218,13 +223,25 @@ export async function getSightingsForMap(filters?: {
       sg.photo_url AS "photoUrl",
       sg.verified,
       s.common_name AS "commonName",
+      s.scientific_name AS "scientificName",
       s.slug,
-      s.uicn_status AS "uicnStatus"
+      s.type,
+      s.uicn_status AS "uicnStatus",
+      s.is_endemic AS "isEndemic",
+      (SELECT url FROM media WHERE species_id = s.id AND is_primary = TRUE LIMIT 1) AS "primaryPhoto"
     FROM sightings sg
     JOIN species s ON s.id = sg.species_id
     WHERE sg.verified = ${verified}
       ${speciesId ? sql`AND sg.species_id = ${speciesId}` : sql``}
       ${regionCode ? sql`AND sg.region_code = ${regionCode}` : sql``}
+      ${type?.length ? sql`AND s.type = ANY(${type}::species_type[])` : sql``}
+      ${uicnStatus?.length ? sql`AND s.uicn_status = ANY(${uicnStatus}::uicn_status[])` : sql``}
+      ${isEndemic !== undefined ? sql`AND s.is_endemic = ${isEndemic}` : sql``}
+      ${ecosystemSlugs?.length ? sql`AND EXISTS (
+        SELECT 1 FROM species_ecosystems se
+        JOIN ecosystems e ON e.id = se.ecosystem_id
+        WHERE se.species_id = s.id AND e.slug = ANY(${ecosystemSlugs})
+      )` : sql``}
     ORDER BY sg.observed_at DESC
     LIMIT ${limit}
   `

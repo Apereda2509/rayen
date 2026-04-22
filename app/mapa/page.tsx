@@ -18,8 +18,31 @@ export const metadata = {
   description: 'Explora la biodiversidad chilena en el mapa. Encuentra especies por región, ecosistema y estado de conservación.',
 }
 
-export default async function MapaPage() {
-  const rawSightings = await getSightingsForMap({ verified: true, limit: 1000 })
+interface Props {
+  searchParams: { [key: string]: string | string[] | undefined }
+}
+
+function asArray(val: string | string[] | undefined): string[] {
+  if (!val) return []
+  return Array.isArray(val) ? val : [val]
+}
+
+export default async function MapaPage({ searchParams }: Props) {
+  const types = asArray(searchParams['type'])
+  const uicn = asArray(searchParams['uicn'])
+  const ecosystems = asArray(searchParams['ecosystem'])
+  const endemic = searchParams['endemic'] === 'true' ? true
+    : searchParams['endemic'] === 'false' ? false
+    : undefined
+
+  const rawSightings = await getSightingsForMap({
+    verified: true,
+    limit: 1000,
+    type: types.length ? types : undefined,
+    uicnStatus: uicn.length ? uicn : undefined,
+    isEndemic: endemic,
+    ecosystemSlugs: ecosystems.length ? ecosystems : undefined,
+  })
 
   const features = rawSightings.map((s: any) => ({
     type: 'Feature' as const,
@@ -32,9 +55,9 @@ export default async function MapaPage() {
       speciesId: s.speciesId,
       slug: s.slug,
       commonName: s.commonName,
-      scientificName: '',
+      scientificName: s.scientificName ?? '',
       uicnStatus: s.uicnStatus,
-      photoUrl: s.photoUrl,
+      photoUrl: s.primaryPhoto ?? s.photoUrl,
     },
   }))
 
