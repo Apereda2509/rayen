@@ -1,8 +1,9 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useCallback } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { cn } from '@/lib/utils'
+import { AreaMultiSelect } from '@/components/ui/AreaMultiSelect'
 import {
   SPECIES_TYPE_LABELS,
   type SpeciesType, type UICNStatus,
@@ -46,16 +47,19 @@ export function MapFilters() {
   )
   const [endemic, setEndemic] = useState(searchParams.get('endemic') === 'true')
   const [showAreas, setShowAreas] = useState(searchParams.get('areas') === '1')
+  const [selectedAreas, setSelectedAreas] = useState<Set<string>>(
+    new Set(searchParams.getAll('area'))
+  )
   const [dateFrom, setDateFrom] = useState(searchParams.get('dateFrom') ?? '')
   const [dateTo, setDateTo] = useState(searchParams.get('dateTo') ?? '')
 
-  // Navegar cuando cambia cualquier filtro — sin closure stale
   const pushFilters = useCallback((
     types: Set<SpeciesType>,
     status: Set<UICNStatus>,
     ecos: Set<string>,
     isEndemic: boolean,
     areas: boolean,
+    areaSlugs: Set<string>,
     from = dateFrom,
     to = dateTo,
   ) => {
@@ -64,7 +68,8 @@ export function MapFilters() {
     status.forEach((s) => params.append('uicn', s))
     ecos.forEach((e) => params.append('ecosystem', e))
     if (isEndemic) params.set('endemic', 'true')
-    if (areas) params.set('areas', '1')
+    if (areas || areaSlugs.size > 0) params.set('areas', '1')
+    areaSlugs.forEach((s) => params.append('area', s))
     if (from) params.set('dateFrom', from)
     if (to) params.set('dateTo', to)
     router.push(`/mapa?${params.toString()}`)
@@ -74,37 +79,47 @@ export function MapFilters() {
     const next = new Set(selectedTypes)
     next.has(t) ? next.delete(t) : next.add(t)
     setSelectedTypes(next)
-    pushFilters(next, selectedStatus, selectedEcos, endemic, showAreas)
+    pushFilters(next, selectedStatus, selectedEcos, endemic, showAreas, selectedAreas)
   }
 
   const toggleStatus = (s: UICNStatus) => {
     const next = new Set(selectedStatus)
     next.has(s) ? next.delete(s) : next.add(s)
     setSelectedStatus(next)
-    pushFilters(selectedTypes, next, selectedEcos, endemic, showAreas)
+    pushFilters(selectedTypes, next, selectedEcos, endemic, showAreas, selectedAreas)
   }
 
   const toggleEco = (e: string) => {
     const next = new Set(selectedEcos)
     next.has(e) ? next.delete(e) : next.add(e)
     setSelectedEcos(next)
-    pushFilters(selectedTypes, selectedStatus, next, endemic, showAreas)
+    pushFilters(selectedTypes, selectedStatus, next, endemic, showAreas, selectedAreas)
   }
 
   const toggleEndemic = () => {
     const next = !endemic
     setEndemic(next)
-    pushFilters(selectedTypes, selectedStatus, selectedEcos, next, showAreas)
+    pushFilters(selectedTypes, selectedStatus, selectedEcos, next, showAreas, selectedAreas)
   }
 
   const toggleAreas = () => {
     const next = !showAreas
     setShowAreas(next)
-    pushFilters(selectedTypes, selectedStatus, selectedEcos, endemic, next)
+    // Al desactivar, limpiar también las áreas seleccionadas
+    const nextAreas = next ? selectedAreas : new Set<string>()
+    if (!next) setSelectedAreas(new Set())
+    pushFilters(selectedTypes, selectedStatus, selectedEcos, endemic, next, nextAreas)
+  }
+
+  const toggleArea = (slug: string) => {
+    const next = new Set(selectedAreas)
+    next.has(slug) ? next.delete(slug) : next.add(slug)
+    setSelectedAreas(next)
+    pushFilters(selectedTypes, selectedStatus, selectedEcos, endemic, true, next)
   }
 
   const applyDate = (from: string, to: string) => {
-    pushFilters(selectedTypes, selectedStatus, selectedEcos, endemic, showAreas, from, to)
+    pushFilters(selectedTypes, selectedStatus, selectedEcos, endemic, showAreas, selectedAreas, from, to)
   }
 
   const clearAll = () => {
@@ -113,12 +128,14 @@ export function MapFilters() {
     setSelectedEcos(new Set())
     setEndemic(false)
     setShowAreas(false)
+    setSelectedAreas(new Set())
     setDateFrom('')
     setDateTo('')
     router.push('/mapa')
   }
 
-  const hasFilters = selectedTypes.size > 0 || selectedStatus.size > 0 || selectedEcos.size > 0 || endemic || showAreas || dateFrom || dateTo
+  const hasFilters = selectedTypes.size > 0 || selectedStatus.size > 0 || selectedEcos.size > 0
+    || endemic || showAreas || selectedAreas.size > 0 || dateFrom || dateTo
 
   return (
     <div className="p-4 space-y-6">
@@ -168,6 +185,18 @@ export function MapFilters() {
               </div>
             }
           />
+          {showAreas && (
+            <div className="ml-5 mt-1">
+              <p className="text-[10px] text-stone-400 mb-0.5">
+                {selectedAreas.size === 0 ? 'Mostrando todas — filtra por área:' : 'Áreas seleccionadas:'}
+              </p>
+              <AreaMultiSelect
+                selected={selectedAreas}
+                onChange={toggleArea}
+                maxHeight="10rem"
+              />
+            </div>
+          )}
         </div>
       </Section>
 
