@@ -1,9 +1,11 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { useState } from 'react'
-import { Menu, X, Search } from 'lucide-react'
+import { Menu, X, Search, LogIn, LogOut, User } from 'lucide-react'
+import { useSession, signOut } from 'next-auth/react'
 import { cn } from '@/lib/utils'
 
 const NAV_LINKS = [
@@ -18,6 +20,7 @@ const NAV_LINKS = [
 export function Navbar() {
   const pathname = usePathname()
   const [mobileOpen, setMobileOpen] = useState(false)
+  const { data: session, status } = useSession()
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-stone-200 bg-teal-900">
@@ -49,7 +52,7 @@ export function Navbar() {
           ))}
         </nav>
 
-        {/* Buscar + mobile toggle */}
+        {/* Buscar + sesión + mobile toggle */}
         <div className="flex items-center gap-2">
           <Link
             href="/especies?buscar=1"
@@ -58,6 +61,45 @@ export function Navbar() {
             <Search className="h-3.5 w-3.5" />
             <span className="hidden sm:inline">Buscar especie</span>
           </Link>
+
+          {/* Auth — oculto mientras carga para evitar flicker */}
+          {status !== 'loading' && (
+            session ? (
+              <div className="hidden md:flex items-center gap-2">
+                {session.user?.image ? (
+                  <Image
+                    src={session.user.image}
+                    alt={session.user.name ?? 'Usuario'}
+                    width={28}
+                    height={28}
+                    className="rounded-full ring-2 ring-emerald-400"
+                  />
+                ) : (
+                  <span className="flex h-7 w-7 items-center justify-center rounded-full bg-teal-700">
+                    <User className="h-4 w-4 text-emerald-200" />
+                  </span>
+                )}
+                <span className="hidden lg:block text-sm text-emerald-100 max-w-[120px] truncate">
+                  {session.user?.name}
+                </span>
+                <button
+                  onClick={() => signOut({ callbackUrl: '/' })}
+                  className="flex items-center gap-1 rounded-md px-2 py-1.5 text-sm text-emerald-200 hover:text-white hover:bg-teal-800 transition-colors"
+                  title="Cerrar sesión"
+                >
+                  <LogOut className="h-4 w-4" />
+                </button>
+              </div>
+            ) : (
+              <Link
+                href="/login"
+                className="hidden md:flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm text-emerald-200 hover:text-white hover:bg-teal-800 transition-colors"
+              >
+                <LogIn className="h-4 w-4" />
+                Iniciar sesión
+              </Link>
+            )
+          )}
 
           <button
             className="md:hidden rounded-md p-1.5 text-emerald-200 hover:text-white hover:bg-teal-800"
@@ -87,6 +129,45 @@ export function Navbar() {
               {label}
             </Link>
           ))}
+
+          {/* Auth en móvil */}
+          {status !== 'loading' && (
+            <div className="mt-2 border-t border-teal-800 pt-2">
+              {session ? (
+                <div className="flex items-center justify-between px-3 py-2">
+                  <div className="flex items-center gap-2">
+                    {session.user?.image ? (
+                      <Image
+                        src={session.user.image}
+                        alt={session.user.name ?? 'Usuario'}
+                        width={24}
+                        height={24}
+                        className="rounded-full"
+                      />
+                    ) : (
+                      <User className="h-5 w-5 text-emerald-200" />
+                    )}
+                    <span className="text-sm text-emerald-100">{session.user?.name}</span>
+                  </div>
+                  <button
+                    onClick={() => { setMobileOpen(false); signOut({ callbackUrl: '/' }) }}
+                    className="text-sm text-emerald-300 hover:text-white"
+                  >
+                    Salir
+                  </button>
+                </div>
+              ) : (
+                <Link
+                  href="/login"
+                  onClick={() => setMobileOpen(false)}
+                  className="flex items-center gap-2 rounded-md px-3 py-2 text-sm text-emerald-200 hover:text-white hover:bg-teal-800"
+                >
+                  <LogIn className="h-4 w-4" />
+                  Iniciar sesión
+                </Link>
+              )}
+            </div>
+          )}
         </div>
       )}
     </header>
