@@ -210,9 +210,11 @@ export async function getSightingsForMap(filters?: {
   uicnStatus?: string[]
   isEndemic?: boolean
   ecosystemSlugs?: string[]
+  dateFrom?: string
+  dateTo?: string
 }) {
   const { speciesId, regionCode, verified = true, limit = 500,
-    type, uicnStatus, isEndemic, ecosystemSlugs } = filters ?? {}
+    type, uicnStatus, isEndemic, ecosystemSlugs, dateFrom, dateTo } = filters ?? {}
 
   return sql`
     SELECT
@@ -242,8 +244,37 @@ export async function getSightingsForMap(filters?: {
         JOIN ecosystems e ON e.id = se.ecosystem_id
         WHERE se.species_id = s.id AND e.slug = ANY(${ecosystemSlugs})
       )` : sql``}
+      ${dateFrom ? sql`AND sg.observed_at >= ${dateFrom}::timestamptz` : sql``}
+      ${dateTo ? sql`AND sg.observed_at <= ${dateTo}::timestamptz + INTERVAL '1 day'` : sql``}
     ORDER BY sg.observed_at DESC
     LIMIT ${limit}
+  `
+}
+
+export async function getSightingsBySpecies(
+  slug: string,
+  filters?: { dateFrom?: string; dateTo?: string; regionCode?: string }
+) {
+  const { dateFrom, dateTo, regionCode } = filters ?? {}
+  return sql<{
+    id: string; lat: number; lng: number
+    observedAt: string; regionCode: string | null; notes: string | null
+  }[]>`
+    SELECT
+      sg.id,
+      ST_Y(sg.location::geometry) AS lat,
+      ST_X(sg.location::geometry) AS lng,
+      sg.observed_at AS "observedAt",
+      sg.region_code AS "regionCode",
+      sg.notes
+    FROM sightings sg
+    JOIN species s ON s.id = sg.species_id
+    WHERE s.slug = ${slug} AND sg.verified = TRUE
+      ${dateFrom ? sql`AND sg.observed_at >= ${dateFrom}::timestamptz` : sql``}
+      ${dateTo ? sql`AND sg.observed_at <= ${dateTo}::timestamptz + INTERVAL '1 day'` : sql``}
+      ${regionCode ? sql`AND sg.region_code = ${regionCode}` : sql``}
+    ORDER BY sg.observed_at DESC
+    LIMIT 200
   `
 }
 

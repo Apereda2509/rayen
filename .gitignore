@@ -43,3 +43,9 @@ coverage/
 
 # Misc
 *.pem
+
+# Videos grandes (>100 MB — exceden límite de GitHub)
+# Alojar en Cloudinary u otro CDN y actualizar NEXT_PUBLIC_HERO_VIDEO_URL
+public/hero-video.mp4
+public/*.mp4
+public/*.mov

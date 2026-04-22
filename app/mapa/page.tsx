@@ -35,6 +35,9 @@ export default async function MapaPage({ searchParams }: Props) {
     : searchParams['endemic'] === 'false' ? false
     : undefined
 
+  const dateFrom = typeof searchParams['dateFrom'] === 'string' ? searchParams['dateFrom'] : undefined
+  const dateTo = typeof searchParams['dateTo'] === 'string' ? searchParams['dateTo'] : undefined
+
   const rawSightings = await getSightingsForMap({
     verified: true,
     limit: 1000,
@@ -42,6 +45,8 @@ export default async function MapaPage({ searchParams }: Props) {
     uicnStatus: uicn.length ? uicn : undefined,
     isEndemic: endemic,
     ecosystemSlugs: ecosystems.length ? ecosystems : undefined,
+    dateFrom,
+    dateTo,
   })
 
   const features = rawSightings.map((s: any) => ({

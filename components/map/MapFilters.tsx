@@ -45,6 +45,8 @@ export function MapFilters() {
     new Set(searchParams.getAll('ecosystem'))
   )
   const [endemic, setEndemic] = useState(searchParams.get('endemic') === 'true')
+  const [dateFrom, setDateFrom] = useState(searchParams.get('dateFrom') ?? '')
+  const [dateTo, setDateTo] = useState(searchParams.get('dateTo') ?? '')
 
   // Navegar cuando cambia cualquier filtro — sin closure stale
   const pushFilters = useCallback((
@@ -52,14 +54,18 @@ export function MapFilters() {
     status: Set<UICNStatus>,
     ecos: Set<string>,
     isEndemic: boolean,
+    from = dateFrom,
+    to = dateTo,
   ) => {
     const params = new URLSearchParams()
     types.forEach((t) => params.append('type', t))
     status.forEach((s) => params.append('uicn', s))
     ecos.forEach((e) => params.append('ecosystem', e))
     if (isEndemic) params.set('endemic', 'true')
+    if (from) params.set('dateFrom', from)
+    if (to) params.set('dateTo', to)
     router.push(`/mapa?${params.toString()}`)
-  }, [router])
+  }, [router, dateFrom, dateTo])
 
   const toggleType = (t: SpeciesType) => {
     const next = new Set(selectedTypes)
@@ -88,15 +94,21 @@ export function MapFilters() {
     pushFilters(selectedTypes, selectedStatus, selectedEcos, next)
   }
 
+  const applyDate = (from: string, to: string) => {
+    pushFilters(selectedTypes, selectedStatus, selectedEcos, endemic, from, to)
+  }
+
   const clearAll = () => {
     setSelectedTypes(new Set())
     setSelectedStatus(new Set())
     setSelectedEcos(new Set())
     setEndemic(false)
+    setDateFrom('')
+    setDateTo('')
     router.push('/mapa')
   }
 
-  const hasFilters = selectedTypes.size > 0 || selectedStatus.size > 0 || selectedEcos.size > 0 || endemic
+  const hasFilters = selectedTypes.size > 0 || selectedStatus.size > 0 || selectedEcos.size > 0 || endemic || dateFrom || dateTo
 
   return (
     <div className="p-4 space-y-6">
@@ -144,6 +156,37 @@ export function MapFilters() {
               {label}
             </Pill>
           ))}
+        </div>
+      </Section>
+
+      <Section title="Período de avistamiento">
+        <div className="space-y-2">
+          <div>
+            <label className="text-[11px] text-stone-400 block mb-0.5">Desde</label>
+            <input
+              type="date"
+              value={dateFrom}
+              max={dateTo || undefined}
+              onChange={(e) => {
+                setDateFrom(e.target.value)
+                applyDate(e.target.value, dateTo)
+              }}
+              className="w-full text-xs rounded-md border border-stone-200 px-2 py-1.5 text-stone-700 focus:border-teal-400 focus:outline-none focus:ring-1 focus:ring-teal-400"
+            />
+          </div>
+          <div>
+            <label className="text-[11px] text-stone-400 block mb-0.5">Hasta</label>
+            <input
+              type="date"
+              value={dateTo}
+              min={dateFrom || undefined}
+              onChange={(e) => {
+                setDateTo(e.target.value)
+                applyDate(dateFrom, e.target.value)
+              }}
+              className="w-full text-xs rounded-md border border-stone-200 px-2 py-1.5 text-stone-700 focus:border-teal-400 focus:outline-none focus:ring-1 focus:ring-teal-400"
+            />
+          </div>
         </div>
       </Section>
 

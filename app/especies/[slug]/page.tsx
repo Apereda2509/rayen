@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { getSpeciesBySlug } from '@/lib/db'
 import { ConservationBadge } from '@/components/species/ConservationBadge'
+import { SpeciesSightingsSection } from '@/components/species/SpeciesSightingsSection'
 import {
   UICN_LABELS, SPECIES_TYPE_LABELS,
   type Species,
@@ -183,20 +184,8 @@ export default async function EspeciePage({ params }: Props) {
               <span className="font-medium">Países:</span> {species.countries.join(', ')}
             </p>
           ) : null}
-          {species.regionCodes?.length > 0 && (
-            <div className="mb-3">
-              <p className="text-xs text-stone-400 uppercase tracking-wide mb-2">Regiones de Chile</p>
-              <div className="flex flex-wrap gap-2">
-                {species.regionCodes.map((code) => (
-                  <span key={code} className="text-xs bg-teal-50 text-teal-700 border border-teal-100 px-2 py-1 rounded-lg">
-                    {REGION_NAMES[code] ?? code}
-                  </span>
-                ))}
-              </div>
-            </div>
-          )}
           {species.ecosystemSlugs?.length > 0 && (
-            <div>
+            <div className="mb-4">
               <p className="text-xs text-stone-400 uppercase tracking-wide mb-2">Ecosistemas</p>
               <div className="flex flex-wrap gap-2">
                 {species.ecosystemSlugs.map((slug) => (
@@ -208,12 +197,20 @@ export default async function EspeciePage({ params }: Props) {
             </div>
           )}
           {species.altitudeMin != null && species.altitudeMax != null && (
-            <p className="text-sm text-stone-600 mt-3">
+            <p className="text-sm text-stone-600 mb-4">
               <span className="font-medium">Altitud:</span> {species.altitudeMin}–{species.altitudeMax} m s.n.m.
             </p>
           )}
         </Section>
       )}
+
+      {/* Avistamientos con filtros interactivos */}
+      <Section title="Avistamientos verificados">
+        <SpeciesSightingsSection
+          slug={species.slug}
+          regionCodes={species.regionCodes ?? []}
+        />
+      </Section>
 
       {/* Amenazas */}
       {(species.threatsLocal?.length || species.threatsGlobal?.length) && (
