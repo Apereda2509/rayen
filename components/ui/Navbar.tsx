@@ -4,7 +4,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { useState } from 'react'
-import { Menu, X, Search, LogIn, LogOut, User } from 'lucide-react'
+import { Menu, X, Search, LogIn, LogOut, User, Plus } from 'lucide-react'
 import { useSession, signOut } from 'next-auth/react'
 import { cn } from '@/lib/utils'
 
@@ -61,6 +61,18 @@ export function Navbar() {
             <Search className="h-3.5 w-3.5" />
             <span className="hidden sm:inline">Buscar especie</span>
           </Link>
+
+          {/* Reportar avistamiento — solo con sesión */}
+          {session && (
+            <Link
+              href="/avistamientos/nuevo"
+              className="hidden sm:flex items-center gap-1.5 rounded-full bg-emerald-500 hover:bg-emerald-400 px-3 py-1.5 text-sm font-medium text-white transition-colors"
+              title="Reportar avistamiento"
+            >
+              <Plus className="h-3.5 w-3.5" />
+              <span className="hidden lg:inline">Reportar</span>
+            </Link>
+          )}
 
           {/* Auth — siempre visible; se actualiza cuando resuelve la sesión */}
           {session ? (
@@ -127,6 +139,18 @@ export function Navbar() {
               {label}
             </Link>
           ))}
+
+          {/* Reportar en móvil */}
+          {session && (
+            <Link
+              href="/avistamientos/nuevo"
+              onClick={() => setMobileOpen(false)}
+              className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-emerald-300 hover:text-white hover:bg-teal-800"
+            >
+              <Plus className="h-4 w-4" />
+              Reportar avistamiento
+            </Link>
+          )}
 
           {/* Auth en móvil */}
           <div className="mt-2 border-t border-teal-800 pt-2">

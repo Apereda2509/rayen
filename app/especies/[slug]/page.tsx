@@ -7,6 +7,7 @@ import {
   UICN_LABELS, SPECIES_TYPE_LABELS,
   type Species,
 } from '@/lib/types'
+import { Eye } from 'lucide-react'
 
 export const revalidate = 600
 
@@ -210,6 +211,15 @@ export default async function EspeciePage({ params }: Props) {
           slug={species.slug}
           regionCodes={species.regionCodes ?? []}
         />
+        <div className="mt-5 flex justify-center">
+          <Link
+            href={`/avistamientos/nuevo?especie=${species.slug}`}
+            className="inline-flex items-center gap-2 rounded-xl border border-teal-200 bg-teal-50 hover:bg-teal-100 px-5 py-2.5 text-sm font-medium text-teal-700 transition-colors"
+          >
+            <Eye className="h-4 w-4" />
+            ¿Viste esta especie? Repórtalo
+          </Link>
+        </div>
       </Section>
 
       {/* Amenazas */}
