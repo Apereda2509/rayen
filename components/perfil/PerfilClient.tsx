@@ -310,7 +310,6 @@ export function PerfilClient({ user, stats, photos, speciesFavorites, sightings,
                     regionCodes: [],
                     ecosystemSlugs: [],
                     verifiedSightings: 0,
-                    populationTrend: 'desconocida' as any,
                   }}
                 />
               ))}
