@@ -42,7 +42,12 @@ interface Props {
 }
 
 export default async function AreasProtegidasPage({ searchParams }: Props) {
-  const all = await getProtectedAreas()
+  let all: Awaited<ReturnType<typeof getProtectedAreas>> = []
+  try {
+    all = await getProtectedAreas()
+  } catch (e) {
+    console.error('[areas-protegidas]', e)
+  }
 
   const tipoFilter = searchParams.tipo ?? ''
   const regionFilter = searchParams.region ?? ''
