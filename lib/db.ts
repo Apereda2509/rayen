@@ -145,6 +145,40 @@ export async function getSpeciesBySlug(slug: string): Promise<Species | null> {
   const [species] = await sql<Species[]>`
     SELECT
       s.*,
+      s.common_name          AS "commonName",
+      s.scientific_name      AS "scientificName",
+      s.alternative_names    AS "alternativeNames",
+      s.indigenous_names     AS "indigenousNames",
+      s.uicn_status          AS "uicnStatus",
+      s.uicn_year            AS "uicnYear",
+      s.uicn_url             AS "uicnUrl",
+      s.chile_status         AS "chileStatus",
+      s.chile_decree         AS "chileDecree",
+      s.population_trend     AS "populationTrend",
+      s.estimated_population AS "estimatedPopulation",
+      s.is_endemic           AS "isEndemic",
+      s.is_national_symbol   AS "isNationalSymbol",
+      s.cites_appendix       AS "citesAppendix",
+      s.altitude_min         AS "altitudeMin",
+      s.altitude_max         AS "altitudeMax",
+      s.type_diet            AS "typeDiet",
+      s.diet_description     AS "dietDescription",
+      s.size_data            AS "sizeData",
+      s.size_category        AS "sizeCategory",
+      s.weight_kg_avg        AS "weightKgAvg",
+      s.lifespan_years       AS "lifespanYears",
+      s.active_period        AS "activePeriod",
+      s.danger_level         AS "dangerLevel",
+      s.fun_facts            AS "funFacts",
+      s.ecosystem_role       AS "ecosystemRole",
+      s.human_impact_daily   AS "humanImpactDaily",
+      s.threats_local        AS "threatsLocal",
+      s.threats_global       AS "threatsGlobal",
+      s.visitor_tips         AS "visitorTips",
+      s.resident_tips        AS "residentTips",
+      s.emergency_contacts   AS "emergencyContacts",
+      s.created_at           AS "createdAt",
+      s.updated_at           AS "updatedAt",
       -- Regiones
       COALESCE(
         (SELECT json_agg(r.code) FROM species_regions sr JOIN regions r ON r.id = sr.region_id WHERE sr.species_id = s.id),
@@ -155,9 +189,21 @@ export async function getSpeciesBySlug(slug: string): Promise<Species | null> {
         (SELECT json_agg(e.slug) FROM species_ecosystems se JOIN ecosystems e ON e.id = se.ecosystem_id WHERE se.species_id = s.id),
         '[]'
       ) AS "ecosystemSlugs",
-      -- Media
+      -- Media con claves camelCase
       COALESCE(
-        (SELECT json_agg(m.* ORDER BY m.is_primary DESC, m.created_at ASC) FROM media m WHERE m.species_id = s.id),
+        (SELECT json_agg(
+          json_build_object(
+            'id', m.id,
+            'speciesId', m.species_id,
+            'type', m.type,
+            'url', m.url,
+            'credit', m.credit,
+            'license', m.license,
+            'isPrimary', m.is_primary,
+            'createdAt', m.created_at
+          )
+          ORDER BY m.is_primary DESC, m.created_at ASC
+        ) FROM media m WHERE m.species_id = s.id),
         '[]'
       ) AS media,
       -- Organizaciones

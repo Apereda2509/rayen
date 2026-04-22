@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect, useCallback, useMemo } from 'react'
+import Link from 'next/link'
 import Map, {
   Source, Layer, Popup, NavigationControl,
 } from 'react-map-gl'
@@ -40,19 +41,19 @@ interface Props {
 }
 
 export function SpeciesMap({ slug, uicnStatus }: Props) {
-  const [sightings, setSightings] = useState<SightingPoint[]>([])
+  const [sightings, setSightings] = useState<SightingPoint[] | null>(null)
   const [popup, setPopup] = useState<PopupInfo | null>(null)
 
   useEffect(() => {
     fetch(`/api/species/${slug}/sightings`)
       .then(r => r.json())
       .then(j => setSightings(j.data ?? []))
-      .catch(() => {})
+      .catch(() => setSightings([]))
   }, [slug])
 
   const geojson = useMemo(() => ({
     type: 'FeatureCollection' as const,
-    features: sightings.map(s => ({
+    features: (sightings ?? []).map(s => ({
       type: 'Feature' as const,
       geometry: { type: 'Point' as const, coordinates: [s.lng, s.lat] as [number, number] },
       properties: { id: s.id, observedAt: s.observedAt, regionCode: s.regionCode },
@@ -86,7 +87,23 @@ export function SpeciesMap({ slug, uicnStatus }: Props) {
     })
   }, [])
 
-  if (sightings.length === 0) return null
+  if (sightings === null) return null
+
+  if (sightings.length === 0) {
+    return (
+      <div className="rounded-xl border border-stone-200 bg-stone-50 px-6 py-8 mb-6 text-center">
+        <p className="text-stone-500 text-sm mb-3">
+          Aún no hay avistamientos verificados de esta especie. ¿La viste? Repórtalo.
+        </p>
+        <Link
+          href={`/avistamientos/nuevo?especie=${slug}`}
+          className="inline-flex items-center gap-1.5 rounded-lg bg-teal-600 hover:bg-teal-700 px-4 py-2 text-sm font-medium text-white transition-colors"
+        >
+          Reportar avistamiento
+        </Link>
+      </div>
+    )
+  }
 
   return (
     <div
