@@ -20,7 +20,8 @@
       "Bash(npx tsc *)",
       "Bash(node scripts/db-accion-migration.mjs)",
       "Bash(brew list *)",
-      "Bash(DATABASE_URL=\"postgresql://postgres:%23AngePered250900@db.oxjqmzhitjvicvlqbupr.supabase.co:5432/postgres\" node --experimental-vm-modules .claude/worktrees/practical-cori-05b8dc/scripts/db-accion-migration.mjs)"
+      "Bash(DATABASE_URL=\"postgresql://postgres:%23AngePered250900@db.oxjqmzhitjvicvlqbupr.supabase.co:5432/postgres\" node --experimental-vm-modules .claude/worktrees/practical-cori-05b8dc/scripts/db-accion-migration.mjs)",
+      "Bash(DATABASE_URL=\"postgresql://postgres:%23AngePered250900@db.oxjqmzhitjvicvlqbupr.supabase.co:5432/postgres\" node .claude/worktrees/practical-cori-05b8dc/scripts/db-accion-seed.mjs)"
     ]
   }
 }
