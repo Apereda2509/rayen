@@ -15,7 +15,9 @@ export function AreaMap({ lat, lng, name }: Props) {
       mapStyle="mapbox://styles/mapbox/outdoors-v12"
       mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_TOKEN}
       style={{ width: '100%', height: '100%' }}
-      interactive={false}
+      dragPan={true}
+      scrollZoom={true}
+      dragRotate={false}
     >
       <NavigationControl position="top-right" showCompass={false} />
       <Marker latitude={lat} longitude={lng} anchor="bottom">
