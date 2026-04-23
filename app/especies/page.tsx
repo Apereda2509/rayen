@@ -8,10 +8,19 @@ export const metadata = {
   description: 'Catálogo de biodiversidad chilena. Explora mamíferos, aves, plantas y más.',
 }
 
-export const revalidate = 300
-
 export default async function EspeciesPage() {
-  const { data: species, total } = await getSpeciesSummaries({ limit: 100 })
+  let species: Awaited<ReturnType<typeof getSpeciesSummaries>>['data'] = []
+  let total = 0
+  let dbError = false
+
+  try {
+    const result = await getSpeciesSummaries({ limit: 100 })
+    species = result.data
+    total = result.total
+  } catch (err) {
+    console.error('[especies]', err instanceof Error ? err.message : err)
+    dbError = true
+  }
 
   return (
     <main className="max-w-7xl mx-auto px-4 py-10">
@@ -24,7 +33,13 @@ export default async function EspeciesPage() {
       </div>
 
       {/* Grilla de tarjetas */}
-      {species.length === 0 ? (
+      {dbError ? (
+        <div className="text-center py-20 text-stone-400">
+          <p className="text-4xl mb-3">🌿</p>
+          <p className="text-lg font-medium text-stone-600">Error temporal al cargar las especies</p>
+          <p className="text-sm mt-1">Hubo un problema con la base de datos. Inténtalo de nuevo en unos segundos.</p>
+        </div>
+      ) : species.length === 0 ? (
         <div className="text-center py-20 text-stone-400">
           <p className="text-lg">No hay especies publicadas aún.</p>
         </div>

@@ -40,16 +40,21 @@ export default async function MapaPage({ searchParams }: Props) {
   const showProtectedAreas = searchParams['areas'] === '1'
   const selectedAreaSlugs = asArray(searchParams['area'])
 
-  const rawSightings = await getSightingsForMap({
-    verified: true,
-    limit: 1000,
-    type: types.length ? types : undefined,
-    uicnStatus: uicn.length ? uicn : undefined,
-    isEndemic: endemic,
-    ecosystemSlugs: ecosystems.length ? ecosystems : undefined,
-    dateFrom,
-    dateTo,
-  })
+  let rawSightings: any[] = []
+  try {
+    rawSightings = await getSightingsForMap({
+      verified: true,
+      limit: 1000,
+      type: types.length ? types : undefined,
+      uicnStatus: uicn.length ? uicn : undefined,
+      isEndemic: endemic,
+      ecosystemSlugs: ecosystems.length ? ecosystems : undefined,
+      dateFrom,
+      dateTo,
+    })
+  } catch (err) {
+    console.error('[mapa]', err instanceof Error ? err.message : err)
+  }
 
   const features = rawSightings.map((s: any) => ({
     type: 'Feature' as const,
