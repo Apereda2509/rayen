@@ -24,7 +24,7 @@ export async function GET(req: NextRequest) {
         p.ends_at         AS "endsAt",
         p.created_at      AS "createdAt",
         -- Especie relacionada
-        json_build_object(
+        CASE WHEN s.id IS NOT NULL THEN json_build_object(
           'slug',       s.slug,
           'commonName', s.common_name,
           'uicnStatus', s.uicn_status::text,
@@ -33,13 +33,13 @@ export async function GET(req: NextRequest) {
             WHERE species_id = s.id AND is_primary = TRUE
             LIMIT 1
           )
-        ) FILTER (WHERE s.id IS NOT NULL) AS species,
+        ) END AS species,
         -- Organización relacionada
-        json_build_object(
+        CASE WHEN o.id IS NOT NULL THEN json_build_object(
           'name', o.name,
           'slug', o.slug,
           'logoUrl', o.logo_url
-        ) FILTER (WHERE o.id IS NOT NULL) AS organization,
+        ) END AS organization,
         -- ¿El usuario actual ya firmó?
         ${userId
           ? sql`EXISTS (

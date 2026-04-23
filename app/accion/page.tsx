@@ -22,19 +22,19 @@ async function getPetitions(userId: string | null) {
       p.active,
       p.ends_at               AS "endsAt",
       p.created_at            AS "createdAt",
-      json_build_object(
+      CASE WHEN s.id IS NOT NULL THEN json_build_object(
         'slug',       s.slug,
         'commonName', s.common_name,
         'uicnStatus', s.uicn_status::text,
         'primaryPhoto', (
           SELECT url FROM media WHERE species_id = s.id AND is_primary = TRUE LIMIT 1
         )
-      ) FILTER (WHERE s.id IS NOT NULL)  AS species,
-      json_build_object(
+      ) END AS species,
+      CASE WHEN o.id IS NOT NULL THEN json_build_object(
         'name',    o.name,
         'slug',    o.slug,
         'logoUrl', o.logo_url
-      ) FILTER (WHERE o.id IS NOT NULL) AS organization,
+      ) END AS organization,
       ${userId
         ? sql`EXISTS (SELECT 1 FROM petition_signatures ps WHERE ps.petition_id = p.id AND ps.user_id = ${userId}::uuid)`
         : sql`FALSE`
@@ -80,11 +80,33 @@ export default async function AccionPage() {
   const userId = session?.user?.dbId ?? null
   const isLoggedIn = !!session?.user?.email
 
-  const [petitions, organizations, laws] = await Promise.all([
-    getPetitions(userId),
-    getOrganizations(),
-    getLaws(),
-  ])
+  let petitions: any[] = []
+  let organizations: any[] = []
+  let laws: any[] = []
+  let fetchError = false
+
+  try {
+    ;[petitions, organizations, laws] = await Promise.all([
+      getPetitions(userId),
+      getOrganizations(),
+      getLaws(),
+    ])
+  } catch (err) {
+    console.error('[AccionPage] Error al cargar datos:', err)
+    fetchError = true
+  }
+
+  if (fetchError) {
+    return (
+      <main className="max-w-7xl mx-auto px-4 py-16 text-center">
+        <p className="text-4xl mb-4">🌿</p>
+        <h1 className="text-2xl font-bold text-stone-800 mb-2">Acción temporalmente no disponible</h1>
+        <p className="text-stone-500 max-w-md mx-auto text-sm">
+          Estamos teniendo problemas para cargar el contenido. Por favor intenta de nuevo en unos minutos.
+        </p>
+      </main>
+    )
+  }
 
   return (
     <main className="max-w-7xl mx-auto px-4 py-10">
