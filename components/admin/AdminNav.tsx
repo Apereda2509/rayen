@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import {
-  LayoutDashboard, Eye, Camera, Users, AlertCircle, ShieldCheck,
+  LayoutDashboard, Eye, Camera, Users, AlertCircle, ShieldCheck, FileSignature,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
@@ -13,6 +13,7 @@ const LINKS = [
   { href: '/admin/fotos',        label: 'Fotos',          icon: Camera },
   { href: '/admin/errores',      label: 'Errores',        icon: AlertCircle },
   { href: '/admin/usuarios',     label: 'Usuarios',       icon: Users },
+  { href: '/admin/petitions',    label: 'Peticiones',     icon: FileSignature },
 ]
 
 export function AdminNav() {
