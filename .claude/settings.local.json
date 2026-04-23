@@ -17,7 +17,10 @@
       "Bash(curl -s -o /dev/null -w \"%{http_code}\" -H \"Referer: \" \"https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Huemul_in_Chile.jpg/800px-Huemul_in_Chile.jpg\")",
       "Bash(curl -s \"http://localhost:3000/api/species/huemul\")",
       "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\)['data']; print\\(list\\(d.keys\\(\\)\\)[:10]\\)\")",
-      "Bash(npx tsc *)"
+      "Bash(npx tsc *)",
+      "Bash(node scripts/db-accion-migration.mjs)",
+      "Bash(brew list *)",
+      "Bash(DATABASE_URL=\"postgresql://postgres:%23AngePered250900@db.oxjqmzhitjvicvlqbupr.supabase.co:5432/postgres\" node --experimental-vm-modules .claude/worktrees/practical-cori-05b8dc/scripts/db-accion-migration.mjs)"
     ]
   }
 }

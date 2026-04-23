@@ -13,6 +13,8 @@
     "db:reset": "npm run db:push && npm run db:seed",
     "db:migrate:areas": "psql $DATABASE_URL -f db/migrations/001_protected_areas_enhancements.sql",
     "db:seed:areas": "psql $DATABASE_URL -f db/seed_protected_areas.sql",
+    "db:migrate:accion": "node --env-file=.env.local scripts/db-accion-migration.mjs",
+    "db:seed:accion": "node --env-file=.env.local scripts/db-accion-seed.mjs",
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
