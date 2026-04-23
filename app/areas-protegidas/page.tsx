@@ -2,6 +2,7 @@ export const dynamic = 'force-dynamic'
 export const revalidate = 3600
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { getProtectedAreas } from '@/lib/db'
 import type { Metadata } from 'next'
 
@@ -145,10 +146,21 @@ export default async function AreasProtegidasPage({ searchParams }: Props) {
               href={`/areas-protegidas/${area.slug}`}
               className="group rounded-2xl border border-stone-200 bg-white overflow-hidden hover:shadow-md hover:border-emerald-300 transition-all"
             >
-              {/* Cabecera con color según tipo */}
-              <div className="h-28 bg-gradient-to-br from-emerald-700 to-teal-600 relative flex items-end p-4">
-                <span className="text-4xl absolute top-4 right-4 opacity-30">🌿</span>
-                <span className={`text-[10px] font-semibold uppercase tracking-wide px-2 py-1 rounded-full ${TIPO_COLORS[area.type] ?? 'bg-stone-100 text-stone-600'}`}>
+              {/* Cabecera con foto o gradiente fallback */}
+              <div className="h-40 relative overflow-hidden flex items-end p-3">
+                {area.photoUrl ? (
+                  <Image
+                    src={area.photoUrl}
+                    alt={area.name}
+                    fill
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                ) : (
+                  <div className="absolute inset-0 bg-gradient-to-br from-emerald-700 to-teal-600" />
+                )}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                <span className={`relative z-10 text-[10px] font-semibold uppercase tracking-wide px-2 py-1 rounded-full ${TIPO_COLORS[area.type] ?? 'bg-stone-100 text-stone-600'}`}>
                   {TIPO_LABELS[area.type] ?? area.type}
                 </span>
               </div>

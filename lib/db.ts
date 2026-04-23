@@ -379,6 +379,7 @@ export interface ProtectedAreaBasic {
   centroidLat: number | null
   conafUrl: string | null
   description: string | null
+  photoUrl: string | null
 }
 
 export async function getProtectedAreas(): Promise<ProtectedAreaBasic[]> {
@@ -393,7 +394,8 @@ export async function getProtectedAreas(): Promise<ProtectedAreaBasic[]> {
       ST_X(centroid) AS "centroidLng",
       ST_Y(centroid) AS "centroidLat",
       conaf_url AS "conafUrl",
-      description
+      description,
+      photo_url AS "photoUrl"
     FROM protected_areas
     WHERE centroid IS NOT NULL
     ORDER BY name
@@ -413,6 +415,7 @@ export async function getProtectedAreaBySlug(slug: string) {
       ST_Y(pa.centroid) AS "centroidLat",
       pa.conaf_url AS "conafUrl",
       pa.description,
+      pa.photo_url AS "photoUrl",
       COUNT(DISTINCT s.id)::int AS "sightingsCount"
     FROM protected_areas pa
     LEFT JOIN sightings s ON ST_DWithin(
