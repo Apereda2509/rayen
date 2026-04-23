@@ -1,11 +1,15 @@
-export const dynamic = 'force-dynamic'
-
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
 import nextDynamic from 'next/dynamic'
+import sql from '@/lib/db'
 import { getProtectedAreaBySlug, getSightingsNearArea } from '@/lib/db'
 import type { Metadata } from 'next'
+
+export async function generateStaticParams() {
+  const areas = await sql<{ slug: string }[]>`SELECT slug FROM protected_areas`
+  return areas.map((a) => ({ slug: a.slug }))
+}
 
 // Shown when DB/network errors occur so the app doesn't crash completely
 function AreaErrorFallback({ slug, message }: { slug: string; message: string }) {
