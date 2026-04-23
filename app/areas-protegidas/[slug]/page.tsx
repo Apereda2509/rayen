@@ -7,6 +7,47 @@ import nextDynamic from 'next/dynamic'
 import { getProtectedAreaBySlug, getSightingsNearArea } from '@/lib/db'
 import type { Metadata } from 'next'
 
+// Shown when DB/network errors occur so the app doesn't crash completely
+function AreaErrorFallback({ slug, message }: { slug: string; message: string }) {
+  return (
+    <main className="max-w-5xl mx-auto px-4 sm:px-6 py-10">
+      <nav className="text-xs text-stone-400 mb-6 flex items-center gap-1.5">
+        <Link href="/areas-protegidas" className="hover:text-teal-600 transition-colors">
+          Áreas Protegidas
+        </Link>
+        <span>/</span>
+        <span className="text-stone-600">{slug}</span>
+      </nav>
+      <div className="rounded-2xl border border-amber-200 bg-amber-50 p-8 text-center">
+        <p className="text-4xl mb-4">🌿</p>
+        <h1 className="text-xl font-semibold text-stone-800 mb-2">
+          No pudimos cargar esta área protegida
+        </h1>
+        <p className="text-stone-500 text-sm mb-6">
+          Hubo un problema temporal al conectar con la base de datos. Inténtalo de nuevo en unos segundos.
+        </p>
+        <div className="flex justify-center gap-3">
+          <Link
+            href="/areas-protegidas"
+            className="rounded-lg border border-stone-300 px-4 py-2 text-sm text-stone-600 hover:bg-stone-100 transition-colors"
+          >
+            ← Ver todas las áreas
+          </Link>
+          <Link
+            href={`/areas-protegidas/${slug}`}
+            className="rounded-lg bg-teal-600 hover:bg-teal-700 px-4 py-2 text-sm font-medium text-white transition-colors"
+          >
+            Reintentar
+          </Link>
+        </div>
+        {process.env.NODE_ENV === 'development' && (
+          <p className="mt-4 text-xs text-red-500 font-mono">{message}</p>
+        )}
+      </div>
+    </main>
+  )
+}
+
 const AreaMap = nextDynamic(
   () => import('@/components/areas/AreaMap').then(m => m.AreaMap),
   { ssr: false, loading: () => <div className="h-72 rounded-xl bg-stone-100 animate-pulse" /> }
@@ -27,19 +68,32 @@ interface Props {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const area = await getProtectedAreaBySlug(params.slug)
-  if (!area) return { title: 'Área no encontrada' }
-  return {
-    title: `${area.name} — Área Protegida`,
-    description: area.description ?? `${TIPO_LABELS[area.type] ?? area.type} en ${area.regionName ?? 'Chile'}`,
+  try {
+    const area = await getProtectedAreaBySlug(params.slug)
+    if (!area) return { title: 'Área no encontrada' }
+    return {
+      title: `${area.name} — Área Protegida`,
+      description: area.description ?? `${TIPO_LABELS[area.type] ?? area.type} en ${area.regionName ?? 'Chile'}`,
+    }
+  } catch {
+    return { title: 'Área Protegida' }
   }
 }
 
 export default async function AreaPage({ params }: Props) {
-  const [area, sightings] = await Promise.all([
-    getProtectedAreaBySlug(params.slug),
-    getSightingsNearArea(params.slug, 12),
-  ])
+  let area: Awaited<ReturnType<typeof getProtectedAreaBySlug>>
+  let sightings: Awaited<ReturnType<typeof getSightingsNearArea>>
+
+  try {
+    ;[area, sightings] = await Promise.all([
+      getProtectedAreaBySlug(params.slug),
+      getSightingsNearArea(params.slug, 12),
+    ])
+  } catch (err) {
+    const message = err instanceof Error ? err.message : String(err)
+    console.error(`[area-page] ${params.slug}:`, message)
+    return <AreaErrorFallback slug={params.slug} message={message} />
+  }
 
   if (!area) notFound()
 
