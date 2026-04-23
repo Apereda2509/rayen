@@ -90,6 +90,20 @@ export default async function AreaPage({ params }: Props) {
         </div>
       </div>
 
+      {/* Foto del área */}
+      {area.photoUrl && (
+        <div className="mb-8 rounded-2xl overflow-hidden border border-stone-200 relative h-72 sm:h-96">
+          <Image
+            src={area.photoUrl}
+            alt={area.name}
+            fill
+            priority
+            sizes="(max-width: 1024px) 100vw, 960px"
+            className="object-cover"
+          />
+        </div>
+      )}
+
       {/* Mapa centrado en el área */}
       {area.centroidLat !== null && area.centroidLng !== null && (
         <div className="mb-8 rounded-2xl overflow-hidden border border-stone-200 h-72">
