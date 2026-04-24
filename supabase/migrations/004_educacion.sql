@@ -39,16 +39,22 @@ CREATE INDEX IF NOT EXISTS idx_presentaciones_species ON presentaciones(species_
 CREATE INDEX IF NOT EXISTS idx_articulos_published    ON articulos(published);
 
 -- ── Seed: Presentaciones del Huemul ─────────────────────────
+-- species_id se resuelve por slug para mantener el seed portable entre entornos.
+-- ON CONFLICT DO UPDATE garantiza que un re-run actualiza species_id si antes era NULL.
 
-INSERT INTO presentaciones (slug, titulo, nivel, slides) VALUES
-('huemul-kinder', 'El Huemul', 'kinder', '[
+INSERT INTO presentaciones (slug, titulo, nivel, species_id, slides) VALUES
+('huemul-kinder', 'El Huemul', 'kinder',
+ (SELECT id FROM species WHERE slug = 'huemul'),
+ '[
   {"titulo": "El huemul", "texto": "El huemul es un ciervo que vive en las montañas de Chile. Es grande, café y tiene cuernos.", "imagen": "huemul"},
   {"titulo": "En el escudo de Chile", "texto": "El huemul está en el escudo de Chile. ¡Es uno de los animales más importantes del país!", "imagen": "huemul"},
   {"titulo": "Necesita ayuda", "texto": "Hoy quedan muy pocos huemules. Necesitan nuestra ayuda para sobrevivir.", "imagen": "huemul"},
   {"titulo": "¡Dibuja un huemul!", "texto": "¿Puedes dibujar un huemul? Coloréalo de café con el paisaje de montaña.", "tipo": "actividad"}
 ]'::jsonb),
 
-('huemul-basica', 'El Huemul', 'basica', '[
+('huemul-basica', 'El Huemul', 'basica',
+ (SELECT id FROM species WHERE slug = 'huemul'),
+ '[
   {"titulo": "¿Dónde vive?", "texto": "El huemul vive en la Patagonia chilena y argentina. Le gustan los bosques fríos y las montañas nevadas.", "imagen": "huemul"},
   {"titulo": "En el escudo de Chile", "texto": "Está en el escudo de Chile junto al cóndor. Pero hoy está en peligro de desaparecer.", "imagen": "huemul"},
   {"titulo": "¿Por qué está en peligro?", "texto": "Perdió su hogar cuando los bosques fueron talados. Los perros domésticos también los atacan.", "imagen": "huemul"},
@@ -56,7 +62,9 @@ INSERT INTO presentaciones (slug, titulo, nivel, slides) VALUES
   {"titulo": "¿Qué puedes hacer tú?", "texto": "¿Qué podrías hacer para ayudar a proteger al huemul?", "tipo": "pregunta"}
 ]'::jsonb),
 
-('huemul-media-baja', 'El Huemul', 'media_baja', '[
+('huemul-media-baja', 'El Huemul', 'media_baja',
+ (SELECT id FROM species WHERE slug = 'huemul'),
+ '[
   {"titulo": "Hippocamelus bisulcus", "texto": "Estado UICN: En Peligro (EN). Población estimada: menos de 2.000 individuos.", "imagen": "huemul"},
   {"titulo": "Distribución", "texto": "Andes patagónicos entre el Biobío y Magallanes. Hábitat: bosque templado, matorrales de alta montaña, zonas de nieve.", "imagen": "mapa"},
   {"titulo": "Amenazas", "lista": ["Pérdida y fragmentación del hábitat", "Depredación por perros domésticos", "Enfermedades transmitidas por ganado", "Caza histórica (hoy prohibida)"]},
@@ -64,7 +72,9 @@ INSERT INTO presentaciones (slug, titulo, nivel, slides) VALUES
   {"titulo": "Para analizar", "texto": "¿Por qué la fragmentación del hábitat es tan dañina para una especie como el huemul?", "tipo": "pregunta"}
 ]'::jsonb),
 
-('huemul-media-alta', 'El Huemul', 'media_alta', '[
+('huemul-media-alta', 'El Huemul', 'media_alta',
+ (SELECT id FROM species WHERE slug = 'huemul'),
+ '[
   {"titulo": "Taxonomía y estado", "texto": "Hippocamelus bisulcus (Molina, 1782). Orden: Artiodactyla — Familia: Cervidae. Estado IUCN: EN — Tendencia: decreciente.", "imagen": "huemul"},
   {"titulo": "Colapso poblacional", "texto": "La población se redujo más del 90% en el siglo XX. El ganado transmite Neospora caninum y otras enfermedades al huemul sin inmunidad adaptada.", "imagen": "huemul"},
   {"titulo": "Marco legal", "lista": ["Ley 19.473: especie prohibida de cazar", "DS 151/2007: clasificado En Peligro por el MMA", "Apéndice I del CITES: comercio internacional prohibido"]},
@@ -72,7 +82,7 @@ INSERT INTO presentaciones (slug, titulo, nivel, slides) VALUES
   {"titulo": "Debate", "texto": "¿Es suficiente la protección legal sin recuperación del hábitat? ¿Qué rol juega la comunidad local en la conservación efectiva?", "tipo": "debate"}
 ]'::jsonb)
 
-ON CONFLICT (slug) DO NOTHING;
+ON CONFLICT (slug) DO UPDATE SET species_id = EXCLUDED.species_id;
 
 -- ── Seed: Glosario ───────────────────────────────────────────
 

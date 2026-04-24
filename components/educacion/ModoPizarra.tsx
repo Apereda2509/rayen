@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
+import Image from 'next/image'
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
 import { X, ChevronLeft, ChevronRight, Maximize2 } from 'lucide-react'
 import { cn } from '@/lib/utils'
@@ -68,10 +69,12 @@ function ZonaImagen({
   if (speciesImageUrl) {
     return (
       <div className="relative h-full w-full overflow-hidden">
-        <img
+        <Image
           src={speciesImageUrl}
           alt={speciesScientificName ?? ''}
-          className="absolute inset-0 h-full w-full object-cover object-center"
+          fill
+          sizes="(max-width: 768px) 100vw, 40vw"
+          className="object-cover object-center"
           draggable={false}
         />
         {/* Overlay gradiente inferior */}
