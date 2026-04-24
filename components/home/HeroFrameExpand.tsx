@@ -2,6 +2,7 @@
 
 import { useRef, useEffect } from 'react'
 import Link from 'next/link'
+import { useSession } from 'next-auth/react'
 import {
   motion,
   useMotionValue,
@@ -19,6 +20,10 @@ export function HeroFrameExpand() {
 
   const containerRef = useRef<HTMLDivElement>(null)
   const reduced = !!useReducedMotion()
+  const { data: session } = useSession()
+  const reportHref = session
+    ? '/avistamientos/nuevo'
+    : '/login?callbackUrl=/avistamientos/nuevo&razon=reporte'
 
   // window.scroll directo — evita problemas con useScroll/target en Next.js App Router
   const scrollProgress = useMotionValue(0)
@@ -99,7 +104,10 @@ export function HeroFrameExpand() {
                   Explora la fauna y flora nativa de Chile, conoce su estado de conservación
                   y descubre cómo cada especie sostiene los ecosistemas que también te sostienen a ti.
                 </p>
-                <div className="mt-10 flex flex-wrap gap-3">
+                <p className="mt-4 text-lg text-zinc-300 leading-relaxed max-w-2xl">
+                  Cada avistamiento cuenta. Si ves una especie en la naturaleza, repórtala — tu observación ayuda a documentar la biodiversidad de Chile.
+                </p>
+                <div className="mt-10 flex flex-col sm:flex-row flex-wrap gap-4">
                   <Link
                     href="/mapa"
                     className="inline-flex items-center gap-2 bg-neon-400 hover:bg-neon-300 text-black font-medium px-6 py-3 rounded-lg transition-colors"
@@ -111,6 +119,13 @@ export function HeroFrameExpand() {
                     className="inline-flex items-center gap-2 border border-neon-400/40 hover:border-neon-400 text-white/90 px-6 py-3 rounded-lg transition-colors"
                   >
                     Ver especies
+                  </Link>
+                  <Link
+                    href={reportHref}
+                    className="inline-flex items-center gap-2 border border-[#00E676] text-[#00E676] hover:bg-[#00E676] hover:text-black px-6 py-3 rounded-lg transition-colors"
+                    style={{ borderWidth: '1.5px' }}
+                  >
+                    Reportar avistamiento
                   </Link>
                 </div>
               </div>
