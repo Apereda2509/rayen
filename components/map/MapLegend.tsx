@@ -12,7 +12,7 @@ const ITEMS: { status: UICNStatus; color: string }[] = [
 export function MapLegend() {
   return (
     <div className="bg-zinc-900/95 backdrop-blur-sm rounded-xl shadow-xl border border-zinc-800 p-3 text-xs">
-      <h4 className="font-grotesk font-semibold text-zinc-300 mb-2">Estado UICN</h4>
+      <h4 className="text-zinc-400 text-xs uppercase tracking-widest mb-2">Estado UICN</h4>
       <div className="space-y-1.5">
         {ITEMS.map(({ status, color }) => (
           <div key={status} className="flex items-center gap-2 text-zinc-400">

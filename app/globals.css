@@ -22,19 +22,25 @@
 .mapboxgl-popup-content {
   padding: 0 !important;
   border-radius: 12px !important;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12) !important;
-  background: white !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6) !important;
+  background: #18181b !important;
+  border: 1px solid #27272a !important;
 }
 
 .mapboxgl-popup-tip {
-  border-top-color: white !important;
+  display: none !important;
 }
 
 .mapboxgl-popup-close-button {
-  font-size: 20px !important;
-  color: #2C2C2A !important;
+  font-size: 18px !important;
+  color: #71717a !important;
   padding: 4px 8px !important;
   z-index: 10;
+}
+
+.mapboxgl-popup-close-button:hover {
+  color: #ffffff !important;
+  background: transparent !important;
 }
 
 .mapboxgl-ctrl-bottom-right .mapboxgl-ctrl {
@@ -115,4 +121,28 @@
 
 .scroll-thin::-webkit-scrollbar-thumb:hover {
   background: rgba(0, 0, 0, 0.25);
+}
+
+/* ── Scrollbar oscuro (sidebar del mapa) ──────────────────── */
+.scroll-dark {
+  scrollbar-width: thin;
+  scrollbar-color: #3f3f46 transparent;
+}
+
+.scroll-dark::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.scroll-dark::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scroll-dark::-webkit-scrollbar-thumb {
+  background: #3f3f46;
+  border-radius: 3px;
+}
+
+.scroll-dark::-webkit-scrollbar-thumb:hover {
+  background: #52525b;
 }

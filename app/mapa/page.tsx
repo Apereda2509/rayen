@@ -2,17 +2,8 @@
 export const dynamic = 'force-dynamic'
 
 import { Suspense } from 'react'
-import nextDynamic from 'next/dynamic'
-import { MapFilters } from '@/components/map/MapFilters'
-import { MapLegend } from '@/components/map/MapLegend'
-import { MapSpeciesList } from '@/components/map/MapSpeciesList'
-import { MobileFiltersButton } from '@/components/map/MobileFiltersButton'
+import { MapLayout } from '@/components/map/MapLayout'
 import { getSightingsForMap } from '@/lib/db'
-
-const RayenMap = nextDynamic(
-  () => import('@/components/map/RayenMap').then((m) => m.RayenMap),
-  { ssr: false, loading: () => <MapSkeleton /> }
-)
 
 export const metadata = {
   title: 'Mapa interactivo',
@@ -76,59 +67,39 @@ export default async function MapaPage({ searchParams }: Props) {
     },
   }))
 
-  // Computa lista de especies únicas con conteo para el panel lateral
   const speciesMap = new Map<string, {
-    slug: string; commonName: string; uicnStatus: string | null; count: number
+    slug: string
+    commonName: string
+    scientificName: string
+    uicnStatus: string | null
+    count: number
   }>()
   for (const f of features) {
-    const { slug, commonName, uicnStatus } = f.properties
+    const { slug, commonName, scientificName, uicnStatus } = f.properties
     const existing = speciesMap.get(slug)
     if (existing) {
       existing.count++
     } else {
-      speciesMap.set(slug, { slug, commonName, uicnStatus, count: 1 })
+      speciesMap.set(slug, { slug, commonName, scientificName, uicnStatus, count: 1 })
     }
   }
   const speciesList = Array.from(speciesMap.values()).sort((a, b) => b.count - a.count)
 
   return (
-    <div className="relative h-[calc(100vh-3.5rem)] flex">
-      <aside className="hidden lg:flex lg:flex-col w-64 border-r border-zinc-800 bg-[#0A0A0A] overflow-hidden">
-        <div className="overflow-y-auto flex-1 scroll-thin">
-          <Suspense fallback={<div className="p-4 text-sm text-zinc-500">Cargando filtros…</div>}>
-            <MapFilters />
-          </Suspense>
-        </div>
-        {speciesList.length > 0 && (
-          <div className="border-t border-zinc-800 flex-shrink-0 max-h-64 overflow-y-auto scroll-thin">
-            <MapSpeciesList species={speciesList} />
-          </div>
-        )}
-      </aside>
-
-      <div className="flex-1 relative" data-cursor="dark">
-        <Suspense fallback={<MapSkeleton />}>
-          <RayenMap
-            sightings={features}
-            showProtectedAreas={showProtectedAreas || selectedAreaSlugs.length > 0}
-            selectedAreaSlugs={selectedAreaSlugs}
-          />
-        </Suspense>
-
-        {/* Leyenda — esquina inferior derecha */}
-        <div className="absolute bottom-4 right-4 z-10">
-          <MapLegend />
-        </div>
-
-        <MobileFiltersButton />
-      </div>
-    </div>
+    <Suspense fallback={<PageSkeleton />}>
+      <MapLayout
+        sightings={features}
+        speciesList={speciesList}
+        showProtectedAreas={showProtectedAreas || selectedAreaSlugs.length > 0}
+        selectedAreaSlugs={selectedAreaSlugs}
+      />
+    </Suspense>
   )
 }
 
-function MapSkeleton() {
+function PageSkeleton() {
   return (
-    <div className="h-full w-full flex items-center justify-center bg-zinc-950">
+    <div className="h-[calc(100vh-3.5rem)] flex items-center justify-center bg-zinc-950">
       <div className="text-center">
         <div className="h-12 w-12 mx-auto rounded-full border-2 border-[#00E676] border-t-transparent animate-spin" />
         <p className="mt-4 text-sm text-zinc-400">Cargando mapa...</p>

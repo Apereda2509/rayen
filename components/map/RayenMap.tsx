@@ -83,9 +83,10 @@ interface Props {
   showProtectedAreas?: boolean
   selectedAreaSlugs?: string[]
   onMarkerClick?: (speciesId: string) => void
+  selectedSlug?: string | null
 }
 
-export function RayenMap({ sightings, showProtectedAreas = false, selectedAreaSlugs = [], onMarkerClick }: Props) {
+export function RayenMap({ sightings, showProtectedAreas = false, selectedAreaSlugs = [], onMarkerClick, selectedSlug }: Props) {
   const mapRef = useRef<MapRef>(null)
   const [popupInfo, setPopupInfo] = useState<{
     longitude: number
@@ -104,6 +105,24 @@ export function RayenMap({ sightings, showProtectedAreas = false, selectedAreaSl
       .then(setAreasGeojson)
       .catch(() => setAreasGeojson(null))
   }, [showProtectedAreas])
+
+  // Fly to species sightings when selectedSlug changes
+  useEffect(() => {
+    if (!selectedSlug) return
+    const map = mapRef.current
+    if (!map) return
+    const slugSightings = sightings.filter((s) => s.properties.slug === selectedSlug)
+    if (!slugSightings.length) return
+    const lngs = slugSightings.map((s) => s.geometry.coordinates[0])
+    const lats = slugSightings.map((s) => s.geometry.coordinates[1])
+    const centerLng = lngs.reduce((a, b) => a + b, 0) / lngs.length
+    const centerLat = lats.reduce((a, b) => a + b, 0) / lats.length
+    map.flyTo({
+      center: [centerLng, centerLat],
+      zoom: slugSightings.length === 1 ? 11 : 8,
+      duration: 1200,
+    })
+  }, [selectedSlug, sightings])
 
   const filteredAreasGeojson = useMemo(() => {
     if (!areasGeojson) return null
@@ -414,7 +433,7 @@ export function RayenMap({ sightings, showProtectedAreas = false, selectedAreaSl
       <button
         onClick={handleLocate}
         disabled={locating}
-        className="absolute top-16 right-2.5 z-10 flex items-center gap-1.5 bg-white rounded-lg shadow-md border border-stone-200 px-3 py-2 text-xs font-medium text-stone-700 hover:bg-stone-50 disabled:opacity-60 transition-colors"
+        className="absolute top-16 right-2.5 z-10 flex items-center gap-1.5 bg-zinc-900 rounded-lg shadow-md border border-zinc-700 px-3 py-2 text-xs font-medium text-zinc-300 hover:bg-zinc-800 disabled:opacity-60 transition-colors"
         title="Centrar en mi ubicación"
       >
         <MapPin className={`h-3.5 w-3.5 ${locating ? 'animate-pulse text-[#00E676]' : ''}`} />
@@ -472,65 +491,59 @@ const REGION_NAMES: Record<string, string> = {
 }
 
 function SpeciesPopup({ species }: { species: PopupSpecies }) {
-  const { slug, commonName, scientificName, uicnStatus, photoUrl, regionCodes, observedAt, observerName } = species
+  const { slug, commonName, scientificName, uicnStatus, photoUrl, observedAt, observerName } = species
+  const statusHex = uicnStatus ? (UICN_COLORS[uicnStatus] ?? '#666') : null
+
   return (
-    <div className="w-[280px] rounded-xl overflow-hidden bg-white">
-      {/* Foto */}
-      <div className="relative h-36 w-full bg-stone-100">
-        {photoUrl ? (
+    <div className="w-[280px] p-3">
+      <div className="flex gap-3">
+        {photoUrl && (
           <img
             src={photoUrl}
             alt={commonName}
             referrerPolicy="no-referrer"
-            className="absolute inset-0 w-full h-full object-cover"
+            className="h-[60px] w-[60px] rounded-lg object-cover flex-shrink-0"
           />
-        ) : (
-          <div className="flex h-full items-center justify-center text-stone-200 text-xs">Sin foto</div>
         )}
-        {uicnStatus && (
-          <div className="absolute top-2 left-2">
-            <ConservationBadge status={uicnStatus} size="sm" />
-          </div>
-        )}
-      </div>
-
-      {/* Info */}
-      <div className="p-3">
-        <h3 className="font-semibold text-stone-900 leading-tight">{commonName}</h3>
-        <p className="font-serif italic text-xs text-stone-400 mt-0.5">{scientificName}</p>
-
-        {regionCodes?.length > 0 && (
-          <p className="text-xs text-stone-500 mt-2">
-            {regionCodes.slice(0, 3).map(c => REGION_NAMES[c] ?? c).join(' · ')}
-            {regionCodes.length > 3 && ` +${regionCodes.length - 3} más`}
+        <div className="flex-1 min-w-0">
+          <h3 className="font-grotesk font-semibold text-white text-sm leading-tight truncate">
+            {commonName}
+          </h3>
+          <p className="font-serif italic text-zinc-400 text-xs mt-0.5 truncate">
+            {scientificName}
           </p>
-        )}
-
-        {/* Datos del avistamiento */}
-        {(observedAt || observerName) && (
-          <div className="mt-2 pt-2 border-t border-stone-100 space-y-0.5">
-            {observedAt && (
-              <p className="text-[11px] text-stone-400">
-                {new Date(observedAt).toLocaleDateString('es-CL', {
-                  day: 'numeric', month: 'long', year: 'numeric',
-                })}
-              </p>
-            )}
-            {observerName && (
-              <p className="text-[11px] text-stone-400">
-                Por {observerName}
-              </p>
-            )}
-          </div>
-        )}
-
-        <Link
-          href={`/especies/${slug}`}
-          className="mt-3 flex items-center justify-center gap-1 w-full rounded-lg bg-[#00E676] hover:bg-[#52F599] px-3 py-2 text-xs font-medium text-black transition-colors"
-        >
-          Ver ficha completa →
-        </Link>
+          {statusHex && uicnStatus && (
+            <span
+              className="inline-block mt-1.5 text-xs font-semibold px-1.5 py-0.5 rounded"
+              style={{ backgroundColor: `${statusHex}22`, color: statusHex }}
+            >
+              {uicnStatus}
+            </span>
+          )}
+        </div>
       </div>
+
+      {(observedAt || observerName) && (
+        <div className="mt-2.5 pt-2.5 border-t border-zinc-800 space-y-0.5">
+          {observedAt && (
+            <p className="text-zinc-500 text-xs">
+              {new Date(observedAt).toLocaleDateString('es-CL', {
+                day: 'numeric', month: 'long', year: 'numeric',
+              })}
+            </p>
+          )}
+          {observerName && (
+            <p className="text-zinc-500 text-xs">por {observerName}</p>
+          )}
+        </div>
+      )}
+
+      <Link
+        href={`/especies/${slug}`}
+        className="mt-3 inline-flex items-center gap-1 text-[#00E676] text-xs hover:underline"
+      >
+        Ver ficha →
+      </Link>
     </div>
   )
 }
