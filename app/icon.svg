@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" fill="none">
+  <!-- Grid Bloom — Rayen v2.0 -->
+  <!-- Background -->
+  <rect width="40" height="40" rx="8" fill="#0A0A0A"/>
+  <!-- Centro -->
+  <circle cx="20" cy="20" r="3.5" fill="#00E676"/>
+  <!-- Anillo hexagonal: 6 círculos r=5, órbita=14 -->
+  <circle cx="34"   cy="20"    r="5" fill="#00E676" opacity="0.85"/>
+  <circle cx="27"   cy="32.12" r="5" fill="#00E676" opacity="0.85"/>
+  <circle cx="13"   cy="32.12" r="5" fill="#00E676" opacity="0.85"/>
+  <circle cx="6"    cy="20"    r="5" fill="#00E676" opacity="0.85"/>
+  <circle cx="13"   cy="7.88"  r="5" fill="#00E676" opacity="0.85"/>
+  <circle cx="27"   cy="7.88"  r="5" fill="#00E676" opacity="0.85"/>
+</svg>

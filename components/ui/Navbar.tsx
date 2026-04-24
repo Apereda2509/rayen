@@ -64,7 +64,7 @@ export function Navbar() {
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2.5 group">
             <GridBloom className="h-7 w-7 text-neon-400 group-hover:text-neon-300 transition-colors" />
-            <span className="font-grotesk text-lg font-semibold tracking-[0.08em] uppercase text-white">
+            <span className="font-grotesk text-lg font-semibold tracking-widest uppercase text-white">
               RAYEN
             </span>
           </Link>
@@ -419,14 +419,16 @@ function ErrorReportModal({ userEmail, onClose }: { userEmail: string | null; on
 // ── Grid Bloom — imagotipo RAYEN v2.0 ─────────────────────────
 function GridBloom({ className }: { className?: string }) {
   return (
-    <svg viewBox="0 0 24 24" fill="none" className={className}>
-      <circle cx="12" cy="12" r="2" fill="currentColor" opacity="0.95" />
-      {[0, 60, 120, 180, 240, 300].map((angle) => {
-        const rad = (angle * Math.PI) / 180
-        const cx = 12 + Math.cos(rad) * 5.5
-        const cy = 12 + Math.sin(rad) * 5.5
-        return <circle key={angle} cx={cx} cy={cy} r="3" fill="currentColor" opacity="0.80" />
-      })}
+    <svg viewBox="0 0 40 40" fill="none" className={className} aria-hidden="true">
+      {/* Centro */}
+      <circle cx="20" cy="20" r="3.5" fill="#00E676" />
+      {/* Anillo hexagonal: 6 círculos r=5, órbita=14 */}
+      <circle cx="34"    cy="20"     r="5" fill="#00E676" opacity="0.85" />
+      <circle cx="27"    cy="32.12"  r="5" fill="#00E676" opacity="0.85" />
+      <circle cx="13"    cy="32.12"  r="5" fill="#00E676" opacity="0.85" />
+      <circle cx="6"     cy="20"     r="5" fill="#00E676" opacity="0.85" />
+      <circle cx="13"    cy="7.88"   r="5" fill="#00E676" opacity="0.85" />
+      <circle cx="27"    cy="7.88"   r="5" fill="#00E676" opacity="0.85" />
     </svg>
   )
 }
