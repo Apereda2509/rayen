@@ -16,6 +16,7 @@ export interface Slide {
   texto?: string
   lista?: string[]
   imagen?: string
+  imagen_url?: string
   tipo?: 'actividad' | 'pregunta' | 'debate'
 }
 
@@ -65,13 +66,15 @@ function ZonaImagen({
     )
   }
 
-  // Slide normal: foto de la especie
-  if (speciesImageUrl) {
+  // Prioridad: imagen_url del slide > imagen de la especie > fallback neutro
+  const imageUrl = slide.imagen_url ?? speciesImageUrl ?? null
+
+  if (imageUrl) {
     return (
       <div className="relative h-full w-full overflow-hidden">
         <Image
-          src={speciesImageUrl}
-          alt={speciesScientificName ?? ''}
+          src={imageUrl}
+          alt={speciesScientificName ?? slide.titulo}
           fill
           sizes="(max-width: 768px) 100vw, 40vw"
           className="object-cover object-center"
@@ -89,7 +92,7 @@ function ZonaImagen({
     )
   }
 
-  // Sin imagen: fondo neutro
+  // Sin imagen disponible: fondo neutro
   return (
     <div className="flex h-full w-full items-center justify-center bg-zinc-900">
       <div className="h-16 w-16 rounded-full border border-zinc-700" />

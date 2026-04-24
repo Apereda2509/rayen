@@ -21,5 +21,11 @@ export async function GET(_req: Request, { params }: Props) {
     WHERE p.slug = ${params.slug} AND p.published = TRUE
   `
   if (!row) return NextResponse.json({ error: 'No encontrada' }, { status: 404 })
-  return NextResponse.json(row)
+
+  let imageUrl = row.species_image_url ?? null
+  if (imageUrl) {
+    imageUrl = imageUrl.replace('/medium.jpeg', '/large.jpeg').replace('/medium.jpg', '/large.jpg')
+  }
+
+  return NextResponse.json({ ...row, species_image_url: imageUrl })
 }
