@@ -12,7 +12,7 @@ import {
 
 console.log('[HeroFrameExpand] módulo cargado')
 
-const EASE = cubicBezier(0.25, 0.1, 0.25, 1)
+const EASE = cubicBezier(0.16, 1, 0.3, 1)
 
 export function HeroFrameExpand() {
   console.log('[HeroFrameExpand] componente montado')
@@ -37,12 +37,12 @@ export function HeroFrameExpand() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [scrollProgress])
 
-  // Animación en el primer 40% del recorrido (~100vh de scroll)
-  const borderRadius = useTransform(scrollProgress, [0, 0.4], ['16px', '0px'], { ease: EASE })
-  const scale = useTransform(scrollProgress, [0, 0.4], [0.88, 1], { ease: EASE })
+  // Animación en el primer 70% del recorrido (~91vh de scroll en container 130vh)
+  const borderRadius = useTransform(scrollProgress, [0, 0.7], ['16px', '0px'], { ease: EASE })
+  const scale = useTransform(scrollProgress, [0, 0.7], [0.88, 1], { ease: EASE })
   const boxShadow = useTransform(
     scrollProgress,
-    [0, 0.4],
+    [0, 0.7],
     ['0px 25px 60px rgba(0,0,0,0.55)', '0px 0px 0px rgba(0,0,0,0.00)'],
     { ease: EASE }
   )
@@ -50,8 +50,8 @@ export function HeroFrameExpand() {
   const videoUrl = process.env.NEXT_PUBLIC_HERO_VIDEO_URL
 
   return (
-    // 250vh outer container — scroll travel space para la animación
-    <div ref={containerRef} style={{ height: '250vh' }}>
+    // 130vh outer container — scroll travel space para la animación
+    <div ref={containerRef} style={{ height: '130vh' }}>
 
       {/* Sticky: se queda fijo mientras el usuario scrollea a través de los 250vh */}
       <div className="sticky top-0 h-screen overflow-hidden bg-[#0A0A0A]">
