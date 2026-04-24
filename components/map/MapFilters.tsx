@@ -16,10 +16,10 @@ const TYPES: SpeciesType[] = [
 
 const STATUS: { value: UICNStatus; label: string; hex: string }[] = [
   { value: 'CR', label: 'Peligro crítico',    hex: '#D85A30' },
-  { value: 'EN', label: 'En peligro',         hex: '#BA7517' },
-  { value: 'VU', label: 'Vulnerable',         hex: '#EF9F27' },
-  { value: 'NT', label: 'Casi amenazada',     hex: '#639922' },
-  { value: 'LC', label: 'Preocupación menor', hex: '#1D9E75' },
+  { value: 'EN', label: 'En peligro',         hex: '#D85A30' },
+  { value: 'VU', label: 'Vulnerable',         hex: '#F59E0B' },
+  { value: 'NT', label: 'Casi amenazada',     hex: '#78716C' },
+  { value: 'LC', label: 'Preocupación menor', hex: '#00E676' },
 ]
 
 const ECOSYSTEMS = [
@@ -180,7 +180,7 @@ export function MapFilters() {
             onChange={toggleAreas}
             label={
               <div className="flex items-center gap-2">
-                <span className="h-2.5 w-2.5 rounded-full flex-shrink-0 bg-emerald-500 opacity-70" />
+                <span className="h-2.5 w-2.5 rounded-full flex-shrink-0 bg-neon-400 opacity-70" />
                 <span>Áreas protegidas</span>
               </div>
             }
@@ -222,7 +222,7 @@ export function MapFilters() {
                 setDateFrom(e.target.value)
                 applyDate(e.target.value, dateTo)
               }}
-              className="w-full text-xs rounded-md border border-stone-200 px-2 py-1.5 text-stone-700 focus:border-teal-400 focus:outline-none focus:ring-1 focus:ring-teal-400"
+              className="w-full text-xs rounded-md border border-stone-200 px-2 py-1.5 text-stone-700 focus:border-neon-400 focus:outline-none focus:ring-1 focus:ring-neon-400"
             />
           </div>
           <div>
@@ -235,7 +235,7 @@ export function MapFilters() {
                 setDateTo(e.target.value)
                 applyDate(dateFrom, e.target.value)
               }}
-              className="w-full text-xs rounded-md border border-stone-200 px-2 py-1.5 text-stone-700 focus:border-teal-400 focus:outline-none focus:ring-1 focus:ring-teal-400"
+              className="w-full text-xs rounded-md border border-stone-200 px-2 py-1.5 text-stone-700 focus:border-neon-400 focus:outline-none focus:ring-1 focus:ring-neon-400"
             />
           </div>
         </div>
@@ -274,7 +274,7 @@ function Pill({ active, onClick, children }: {
       onClick={onClick}
       className={cn(
         'text-xs px-3 py-1 rounded-full transition-colors',
-        active ? 'bg-teal-600 text-white font-medium' : 'bg-stone-100 text-stone-600 hover:bg-stone-200'
+        active ? 'bg-neon-400 text-black font-medium' : 'bg-stone-100 text-stone-600 hover:bg-stone-200'
       )}
     >
       {children}
@@ -291,7 +291,7 @@ function Checkbox({ checked, onChange, label }: {
         type="checkbox"
         checked={checked}
         onChange={onChange}
-        className="h-3.5 w-3.5 rounded border-stone-300 text-teal-600 focus:ring-teal-600"
+        className="h-3.5 w-3.5 rounded border-stone-300 accent-neon-400 focus:ring-neon-400"
       />
       {label}
     </label>

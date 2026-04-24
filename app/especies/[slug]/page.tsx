@@ -44,7 +44,7 @@ export default async function EspeciePage({ params }: Props) {
 
       {/* Breadcrumb */}
       <nav className="mb-6 text-sm text-stone-400">
-        <Link href="/especies" className="hover:text-teal-600 transition-colors">Especies</Link>
+        <Link href="/especies" className="hover:text-neon-600 transition-colors">Especies</Link>
         <span className="mx-2">/</span>
         <span className="text-stone-600">{species.commonName}</span>
       </nav>
@@ -52,7 +52,7 @@ export default async function EspeciePage({ params }: Props) {
       {/* Cabecera */}
       <div className="flex flex-col md:flex-row gap-6 mb-10">
         {/* Foto principal */}
-        <div className="relative w-full md:w-72 h-60 flex-shrink-0 rounded-2xl overflow-hidden bg-emerald-50">
+        <div className="relative w-full md:w-72 h-60 flex-shrink-0 rounded-2xl overflow-hidden bg-stone-100">
           {photoUrl ? (
             <>
               <img
@@ -66,8 +66,8 @@ export default async function EspeciePage({ params }: Props) {
               </span>
             </>
           ) : (
-            <div className="flex h-full items-center justify-center text-7xl text-stone-200">
-              {typeEmoji(species.type)}
+            <div className="flex h-full items-center justify-center text-sm text-stone-300">
+              {SPECIES_TYPE_LABELS[species.type]}
             </div>
           )}
         </div>
@@ -79,7 +79,7 @@ export default async function EspeciePage({ params }: Props) {
               {SPECIES_TYPE_LABELS[species.type]}
             </span>
             {species.isEndemic && (
-              <span className="text-xs bg-teal-50 text-teal-700 px-2 py-0.5 rounded font-medium">
+              <span className="text-xs bg-stone-100 text-stone-700 px-2 py-0.5 rounded font-medium">
                 Endémica de Chile
               </span>
             )}
@@ -221,7 +221,7 @@ export default async function EspeciePage({ params }: Props) {
         <div className="mt-5 flex justify-center">
           <Link
             href={`/avistamientos/nuevo?especie=${species.slug}`}
-            className="inline-flex items-center gap-2 rounded-xl border border-teal-200 bg-teal-50 hover:bg-teal-100 px-5 py-2.5 text-sm font-medium text-teal-700 transition-colors"
+            className="inline-flex items-center gap-2 rounded-xl border border-stone-200 bg-stone-50 hover:bg-stone-100 px-5 py-2.5 text-sm font-medium text-stone-700 transition-colors"
           >
             <Eye className="h-4 w-4" />
             ¿Viste esta especie? Repórtalo
@@ -252,7 +252,7 @@ export default async function EspeciePage({ params }: Props) {
           <ul className="space-y-3">
             {species.funFacts.map((f, i) => (
               <li key={i} className="flex gap-3">
-                <span className="text-teal-500 flex-shrink-0 mt-0.5">✦</span>
+                <span className="text-neon-400 flex-shrink-0 mt-0.5">✦</span>
                 <p className="text-stone-600 text-sm leading-relaxed">{f.text}</p>
               </li>
             ))}
@@ -265,13 +265,13 @@ export default async function EspeciePage({ params }: Props) {
         <Section title="¿Qué puedes hacer?">
           {species.visitorTips && (
             <div className="mb-3">
-              <p className="text-xs font-semibold uppercase tracking-wide text-teal-600 mb-1">Si la visitas</p>
+              <p className="text-xs font-semibold uppercase tracking-wide text-neon-600 mb-1">Si la visitas</p>
               <p className="text-stone-600 text-sm leading-relaxed">{species.visitorTips}</p>
             </div>
           )}
           {species.residentTips && (
             <div>
-              <p className="text-xs font-semibold uppercase tracking-wide text-teal-600 mb-1">Desde tu ciudad</p>
+              <p className="text-xs font-semibold uppercase tracking-wide text-neon-600 mb-1">Desde tu ciudad</p>
               <p className="text-stone-600 text-sm leading-relaxed">{species.residentTips}</p>
             </div>
           )}
@@ -286,7 +286,7 @@ export default async function EspeciePage({ params }: Props) {
               <li key={law.id} className="text-sm">
                 {law.url ? (
                   <a href={law.url} target="_blank" rel="noopener noreferrer"
-                    className="text-teal-600 hover:underline font-medium">
+                    className="text-neon-600 hover:underline font-medium">
                     {law.name} ({law.year})
                   </a>
                 ) : (
@@ -304,7 +304,7 @@ export default async function EspeciePage({ params }: Props) {
       {/* Volver */}
       <div className="mt-12 pt-6 border-t border-stone-200">
         <Link href="/especies"
-          className="text-sm text-teal-600 hover:text-teal-500 transition-colors">
+          className="text-sm text-neon-600 hover:text-neon-500 transition-colors">
           ← Volver al catálogo
         </Link>
       </div>
@@ -336,14 +336,6 @@ function Stat({ label, value }: { label: string; value: string }) {
 
 // ── Helpers de etiquetas ──────────────────────────────────────
 
-function typeEmoji(type: string) {
-  const map: Record<string, string> = {
-    mamifero: '🦙', ave: '🦅', reptil: '🦎',
-    anfibio: '🐸', pez: '🐟', insecto: '🪲',
-    planta: '🌿', hongo: '🍄', alga: '🌊', otro: '🌱',
-  }
-  return map[type] ?? '🌿'
-}
 
 function trendLabel(t: string) {
   return { aumentando: 'Aumentando', estable: 'Estable', disminuyendo: 'Disminuyendo', desconocida: 'Desconocida' }[t] ?? t

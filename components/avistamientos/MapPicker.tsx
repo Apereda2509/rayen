@@ -51,10 +51,10 @@ export function MapPicker({ value, onChange, flyTo }: Props) {
         {value && (
           <Marker longitude={value.lng} latitude={value.lat}>
             <div className="flex flex-col items-center -translate-y-full">
-              <div className="bg-teal-600 text-white rounded-full p-1.5 shadow-lg ring-2 ring-white">
+              <div className="bg-neon-400 text-black rounded-full p-1.5 shadow-lg ring-2 ring-white">
                 <MapPin className="h-4 w-4" />
               </div>
-              <div className="w-0.5 h-2 bg-teal-600" />
+              <div className="w-0.5 h-2 bg-neon-400" />
             </div>
           </Marker>
         )}

@@ -6,7 +6,7 @@ export default function PrivacidadPage() {
   return (
     <main className="max-w-2xl mx-auto px-4 py-12">
       <div className="flex items-center gap-3 mb-8">
-        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-teal-50 text-teal-600">
+        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-stone-50 text-stone-600">
           <Shield className="h-5 w-5" />
         </div>
         <div>
@@ -67,7 +67,7 @@ export default function PrivacidadPage() {
           <h2 className="text-lg font-semibold text-stone-800 mb-2">Tus derechos</h2>
           <p className="text-sm leading-relaxed">
             Puedes solicitar la eliminación de tu cuenta y todos los datos asociados escribiéndonos a{' '}
-            <a href="mailto:angelperedajimenez@gmail.com" className="text-teal-600 hover:underline">
+            <a href="mailto:angelperedajimenez@gmail.com" className="text-neon-600 hover:underline">
               angelperedajimenez@gmail.com
             </a>.
             Respondemos en un plazo máximo de 7 días hábiles.
@@ -85,7 +85,7 @@ export default function PrivacidadPage() {
           <h2 className="text-lg font-semibold text-stone-800 mb-2">Contacto</h2>
           <p className="text-sm leading-relaxed">
             Para cualquier consulta sobre privacidad: {' '}
-            <a href="mailto:angelperedajimenez@gmail.com" className="text-teal-600 hover:underline">
+            <a href="mailto:angelperedajimenez@gmail.com" className="text-neon-600 hover:underline">
               angelperedajimenez@gmail.com
             </a>
           </p>

@@ -68,16 +68,13 @@ export function truncate(text: string, maxLength: number): string {
 
 // ── Colores de la paleta RAYEN ────────────────────────────────
 export const RAYEN_COLORS = {
-  teal:      '#1D9E75',
-  tealDark:  '#085041',
-  tealLight: '#E1F5EE',
-  green:     '#3B6D11',
-  greenLight:'#EAF3DE',
+  neon:      '#00E676',
+  neonDark:  '#00A84F',
+  neonLight: '#E5FFF2',
   coral:     '#D85A30',
   coralLight:'#FAECE7',
-  amber:     '#BA7517',
-  amberLight:'#FAEEDA',
-  carbon:    '#2C2C2A',
+  carbon:    '#0A0A0A',
+  carbonMid: '#222222',
   grayMid:   '#888780',
   grayLight: '#F1EFE8',
 } as const

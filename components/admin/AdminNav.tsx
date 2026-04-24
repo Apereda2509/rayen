@@ -23,7 +23,7 @@ export function AdminNav() {
     <aside className="w-48 flex-shrink-0">
       <div className="sticky top-20">
         <div className="flex items-center gap-2 mb-5 px-3">
-          <ShieldCheck className="h-4 w-4 text-teal-600" />
+          <ShieldCheck className="h-4 w-4 text-neon-600" />
           <span className="text-xs font-bold uppercase tracking-widest text-stone-400">Admin</span>
         </div>
         <nav className="space-y-0.5">
@@ -36,11 +36,11 @@ export function AdminNav() {
                 className={cn(
                   'flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm font-medium transition-colors',
                   active
-                    ? 'bg-teal-50 text-teal-700'
+                    ? 'bg-stone-50 text-stone-700'
                     : 'text-stone-600 hover:bg-stone-100 hover:text-stone-900'
                 )}
               >
-                <Icon className={cn('h-4 w-4', active ? 'text-teal-600' : 'text-stone-400')} />
+                <Icon className={cn('h-4 w-4', active ? 'text-neon-600' : 'text-stone-400')} />
                 {label}
               </Link>
             )

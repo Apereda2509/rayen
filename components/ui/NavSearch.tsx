@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState, useCallback } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Search, X, Loader2 } from 'lucide-react'
 
@@ -29,7 +29,6 @@ export function NavSearch() {
   const inputRef = useRef<HTMLInputElement>(null)
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
-  // Cierra al hacer click fuera
   useEffect(() => {
     function handleOutside(e: MouseEvent) {
       if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
@@ -40,7 +39,6 @@ export function NavSearch() {
     return () => document.removeEventListener('mousedown', handleOutside)
   }, [open])
 
-  // Escape cierra
   useEffect(() => {
     function handleKey(e: KeyboardEvent) {
       if (e.key === 'Escape') closeSearch()
@@ -49,7 +47,6 @@ export function NavSearch() {
     return () => document.removeEventListener('keydown', handleKey)
   }, [])
 
-  // Debounce de búsqueda
   useEffect(() => {
     if (debounceRef.current) clearTimeout(debounceRef.current)
     if (query.length < 2) {
@@ -111,29 +108,29 @@ export function NavSearch() {
         <button
           onClick={openSearch}
           aria-label="Buscar especie"
-          className="flex items-center gap-1.5 rounded-full bg-teal-700 hover:bg-teal-600 px-3 py-1.5 text-sm text-emerald-100 transition-colors"
+          className="flex items-center gap-1.5 rounded-md bg-carbon-800 hover:bg-carbon-700 px-3 py-1.5 text-sm text-white/70 hover:text-white transition-colors"
         >
           <Search className="h-3.5 w-3.5" />
           <span className="hidden sm:inline">Buscar especie</span>
         </button>
       ) : (
-        <div className="flex items-center gap-1 rounded-full bg-white/10 border border-white/20 px-3 py-1 w-56 sm:w-72">
-          <Search className="h-3.5 w-3.5 shrink-0 text-emerald-300" />
+        <div className="flex items-center gap-1 rounded-md bg-white/10 border border-white/20 px-3 py-1 w-56 sm:w-72">
+          <Search className="h-3.5 w-3.5 shrink-0 text-white/60" />
           <input
             ref={inputRef}
             value={query}
             onChange={e => { setQuery(e.target.value); setSelected(-1) }}
             onKeyDown={handleKeyDown}
             placeholder="Buscar especie…"
-            className="flex-1 bg-transparent text-sm text-white placeholder:text-emerald-300/60 outline-none min-w-0"
+            className="flex-1 bg-transparent text-sm text-white placeholder:text-white/40 outline-none min-w-0"
             aria-label="Buscar especie"
             aria-autocomplete="list"
             aria-expanded={showDropdown}
           />
           {loading
-            ? <Loader2 className="h-3.5 w-3.5 shrink-0 text-emerald-300 animate-spin" />
+            ? <Loader2 className="h-3.5 w-3.5 shrink-0 text-white/60 animate-spin" />
             : <button onClick={closeSearch} aria-label="Cerrar búsqueda">
-                <X className="h-3.5 w-3.5 shrink-0 text-emerald-300 hover:text-white transition-colors" />
+                <X className="h-3.5 w-3.5 shrink-0 text-white/60 hover:text-white transition-colors" />
               </button>
           }
         </div>
@@ -156,10 +153,9 @@ export function NavSearch() {
               onClick={() => navigateTo(r.slug)}
               onMouseEnter={() => setSelected(i)}
               className={`flex items-center gap-3 w-full px-3 py-2.5 text-left transition-colors ${
-                i === selected ? 'bg-teal-50' : 'hover:bg-stone-50'
+                i === selected ? 'bg-stone-50' : 'hover:bg-stone-50'
               }`}
             >
-              {/* Miniatura */}
               <div className="h-10 w-10 shrink-0 rounded-lg overflow-hidden bg-stone-100 flex items-center justify-center">
                 {r.primaryPhoto ? (
                   <img
@@ -169,10 +165,9 @@ export function NavSearch() {
                     className="h-full w-full object-cover"
                   />
                 ) : (
-                  <span className="text-lg select-none">{typeEmoji(r.type)}</span>
+                  <Search className="h-4 w-4 text-stone-300" />
                 )}
               </div>
-              {/* Nombres */}
               <div className="min-w-0">
                 <p className="text-sm font-medium text-stone-800 truncate">{r.commonName}</p>
                 <p className="text-xs text-stone-500 italic truncate">{r.scientificName}</p>
@@ -183,7 +178,7 @@ export function NavSearch() {
             <div className="border-t border-stone-100 px-3 py-2">
               <button
                 onClick={() => { router.push(`/especies?query=${encodeURIComponent(query)}`); closeSearch() }}
-                className="text-xs text-teal-700 hover:text-teal-900 font-medium"
+                className="text-xs text-neon-600 hover:text-neon-500 font-medium"
               >
                 Ver todos los resultados →
               </button>
@@ -193,12 +188,4 @@ export function NavSearch() {
       )}
     </div>
   )
-}
-
-function typeEmoji(type: string) {
-  const map: Record<string, string> = {
-    ave: '🐦', mamifero: '🦊', planta: '🌿', anfibio: '🐸',
-    reptil: '🦎', pez: '🐟', insecto: '🦋', hongo: '🍄',
-  }
-  return map[type] ?? '🌱'
 }

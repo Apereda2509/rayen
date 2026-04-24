@@ -5,14 +5,12 @@
 /* ── Mapbox GL — estilos base obligatorios ─────────────────── */
 @import 'mapbox-gl/dist/mapbox-gl.css';
 
-/* ── Variables CSS RAYEN ───────────────────────────────────── */
+/* ── Variables CSS RAYEN v2.0 ──────────────────────────────── */
 :root {
-  --rayen-teal:        #1D9E75;
-  --rayen-teal-dark:   #085041;
-  --rayen-teal-light:  #E1F5EE;
-  --rayen-coral:       #D85A30;
-  --rayen-amber:       #BA7517;
-  --rayen-carbon:      #2C2C2A;
+  --rayen-neon:    #00E676;
+  --rayen-carbon:  #0A0A0A;
+  --rayen-coral:   #D85A30;
+  --rayen-white:   #FFFFFF;
 }
 
 /* ── Estilos personalizados de Mapbox ──────────────────────── */
@@ -29,7 +27,7 @@
 
 .mapboxgl-popup-close-button {
   font-size: 20px !important;
-  color: var(--rayen-carbon) !important;
+  color: #2C2C2A !important;
   padding: 4px 8px !important;
   z-index: 10;
 }
@@ -62,16 +60,16 @@
 
 /* ── Cluster styling ──────────────────────────────────────── */
 .rayen-cluster {
-  background: rgba(8, 80, 65, 0.92);
-  color: white;
+  background: rgba(10, 10, 10, 0.92);
+  color: #00E676;
   border-radius: 999px;
   padding: 6px 12px;
   font-size: 13px;
   font-weight: 500;
   cursor: pointer;
   transition: transform 0.15s;
-  border: 2px solid white;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  border: 2px solid #00E676;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
 }
 
 .rayen-cluster:hover {

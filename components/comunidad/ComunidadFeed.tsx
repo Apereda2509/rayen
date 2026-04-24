@@ -116,7 +116,7 @@ export function ComunidadFeed() {
       <div className="flex flex-wrap gap-3 mb-6">
         {/* Filtro especie */}
         <div className="relative">
-          <div className="flex items-center rounded-xl border border-stone-300 bg-white overflow-hidden focus-within:ring-2 focus-within:ring-teal-500 min-w-[200px]">
+          <div className="flex items-center rounded-xl border border-stone-300 bg-white overflow-hidden focus-within:ring-2 focus-within:ring-neon-400 min-w-[200px]">
             <Search className="ml-3 h-4 w-4 text-stone-400 flex-shrink-0" />
             <input
               type="text"
@@ -151,7 +151,7 @@ export function ComunidadFeed() {
                     setSpeciesSearch(s.commonName)
                     setSpeciesDropdownOpen(false)
                   }}
-                  className="w-full text-left px-4 py-2.5 hover:bg-teal-50 transition-colors"
+                  className="w-full text-left px-4 py-2.5 hover:bg-stone-50 transition-colors"
                 >
                   <span className="block text-sm font-medium text-stone-800">{s.commonName}</span>
                   <span className="text-xs italic text-stone-400">{s.scientificName}</span>
@@ -180,7 +180,7 @@ export function ComunidadFeed() {
       {/* Feed */}
       {loading ? (
         <div className="flex justify-center py-20">
-          <Loader2 className="h-8 w-8 animate-spin text-teal-500" />
+          <Loader2 className="h-8 w-8 animate-spin text-neon-400" />
         </div>
       ) : photos.length === 0 ? (
         <div className="text-center py-20 text-stone-400">
@@ -261,7 +261,7 @@ export function ComunidadFeed() {
                   <Link
                     href={`/especies/${selectedPhoto.species_slug}`}
                     onClick={() => setSelectedPhoto(null)}
-                    className="font-semibold text-stone-800 hover:text-teal-600 transition-colors"
+                    className="font-semibold text-stone-800 hover:text-neon-600 transition-colors"
                   >
                     {selectedPhoto.species_common_name}
                   </Link>
@@ -270,7 +270,7 @@ export function ComunidadFeed() {
                     <Link
                       href={selectedPhoto.user_username ? `/perfil/${selectedPhoto.user_username}` : '#'}
                       onClick={() => setSelectedPhoto(null)}
-                      className="hover:text-teal-600"
+                      className="hover:text-neon-600"
                     >
                       @{selectedPhoto.user_username ?? selectedPhoto.user_name}
                     </Link>
@@ -307,12 +307,11 @@ export function ComunidadFeed() {
       {loginPrompt && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-4" onClick={() => setLoginPrompt(false)}>
           <div className="bg-white rounded-2xl p-8 max-w-sm w-full text-center" onClick={(e) => e.stopPropagation()}>
-            <div className="text-4xl mb-3">🌿</div>
             <h2 className="text-lg font-bold text-stone-800 mb-2">Inicia sesión para guardar favoritos</h2>
             <p className="text-stone-500 text-sm mb-6">Crea una cuenta gratis con tu cuenta de Google</p>
             <Link
               href="/login?callbackUrl=/comunidad"
-              className="inline-flex items-center gap-2 rounded-xl bg-teal-600 hover:bg-teal-700 px-5 py-2.5 text-sm font-semibold text-white transition-colors"
+              className="inline-flex items-center gap-2 rounded-xl bg-neon-400 hover:bg-neon-300 px-5 py-2.5 text-sm font-semibold text-black transition-colors"
             >
               <LogIn className="h-4 w-4" />
               Iniciar sesión

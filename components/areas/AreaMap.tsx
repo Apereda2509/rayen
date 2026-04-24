@@ -22,10 +22,10 @@ export function AreaMap({ lat, lng, name }: Props) {
       <NavigationControl position="top-right" showCompass={false} />
       <Marker latitude={lat} longitude={lng} anchor="bottom">
         <div className="flex flex-col items-center">
-          <div className="bg-emerald-600 text-white text-xs font-medium px-2 py-1 rounded-lg shadow-md whitespace-nowrap max-w-[200px] truncate">
+          <div className="bg-neon-400 text-black text-xs font-medium px-2 py-1 rounded-lg shadow-md whitespace-nowrap max-w-[200px] truncate">
             {name}
           </div>
-          <div className="w-0 h-0 border-l-4 border-r-4 border-t-4 border-l-transparent border-r-transparent border-t-emerald-600" />
+          <div className="w-0 h-0 border-l-4 border-r-4 border-t-4 border-l-transparent border-r-transparent border-t-neon-400" />
         </div>
       </Marker>
     </Map>

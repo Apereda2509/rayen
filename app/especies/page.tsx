@@ -35,7 +35,6 @@ export default async function EspeciesPage() {
       {/* Grilla de tarjetas */}
       {dbError ? (
         <div className="text-center py-20 text-stone-400">
-          <p className="text-4xl mb-3">🌿</p>
           <p className="text-lg font-medium text-stone-600">Error temporal al cargar las especies</p>
           <p className="text-sm mt-1">Hubo un problema con la base de datos. Inténtalo de nuevo en unos segundos.</p>
         </div>

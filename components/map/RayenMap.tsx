@@ -23,10 +23,10 @@ const INITIAL_VIEW = {
 const UICN_COLOR_EXPRESSION: any = [
   'match', ['get', 'uicnStatus'],
   'CR', '#D85A30',
-  'EN', '#BA7517',
-  'VU', '#EF9F27',
-  'NT', '#639922',
-  'LC', '#1D9E75',
+  'EN', '#D85A30',
+  'VU', '#F59E0B',
+  'NT', '#78716C',
+  'LC', '#00E676',
   'DD', '#888780',
   '#5F5E5A',
 ]
@@ -140,7 +140,7 @@ export function RayenMap({ sightings, showProtectedAreas = false, selectedAreaSl
     source: 'sightings',
     filter: ['has', 'point_count'],
     paint: {
-      'circle-color': '#085041',
+      'circle-color': '#0A0A0A',
       'circle-radius': ['step', ['get', 'point_count'], 16, 10, 22, 50, 30],
       'circle-stroke-width': 2,
       'circle-stroke-color': '#ffffff',
@@ -399,8 +399,8 @@ export function RayenMap({ sightings, showProtectedAreas = false, selectedAreaSl
 
 // ── Tooltip hover ─────────────────────────────────────────────
 const UICN_COLORS: Record<string, string> = {
-  CR: '#D85A30', EN: '#BA7517', VU: '#EF9F27',
-  NT: '#639922', LC: '#1D9E75', DD: '#888780',
+  CR: '#D85A30', EN: '#D85A30', VU: '#F59E0B',
+  NT: '#78716C', LC: '#00E676', DD: '#888780',
 }
 
 function HoverTooltip({ tooltip }: { tooltip: TooltipInfo }) {
@@ -447,7 +447,7 @@ function SpeciesPopup({ species }: { species: PopupSpecies }) {
   return (
     <div className="w-[280px] rounded-xl overflow-hidden bg-white">
       {/* Foto */}
-      <div className="relative h-36 w-full bg-emerald-50">
+      <div className="relative h-36 w-full bg-stone-100">
         {photoUrl ? (
           <img
             src={photoUrl}
@@ -456,7 +456,7 @@ function SpeciesPopup({ species }: { species: PopupSpecies }) {
             className="absolute inset-0 w-full h-full object-cover"
           />
         ) : (
-          <div className="flex h-full items-center justify-center text-4xl text-stone-200">🌿</div>
+          <div className="flex h-full items-center justify-center text-stone-200 text-xs">Sin foto</div>
         )}
         {uicnStatus && (
           <div className="absolute top-2 left-2">
@@ -479,7 +479,7 @@ function SpeciesPopup({ species }: { species: PopupSpecies }) {
 
         <Link
           href={`/especies/${slug}`}
-          className="mt-3 flex items-center justify-center gap-1 w-full rounded-lg bg-teal-600 hover:bg-teal-500 px-3 py-2 text-xs font-medium text-white transition-colors"
+          className="mt-3 flex items-center justify-center gap-1 w-full rounded-lg bg-neon-400 hover:bg-neon-300 px-3 py-2 text-xs font-medium text-black transition-colors"
         >
           Ver ficha completa →
         </Link>
@@ -503,16 +503,16 @@ function AreaPopupCard({ area }: { area: AreaPopupInfo }) {
   return (
     <div className="w-[260px] p-3 bg-white rounded-xl">
       <div className="flex items-start gap-2 mb-2">
-        <span className="text-xl">🌿</span>
+        
         <div>
           <h3 className="font-semibold text-stone-900 text-sm leading-tight">{area.name}</h3>
-          <p className="text-[11px] text-emerald-700 font-medium mt-0.5">
+          <p className="text-[11px] text-neon-600 font-medium mt-0.5">
             {AREA_TYPE_LABELS[area.type] ?? area.type}
           </p>
         </div>
       </div>
       {area.regionName && (
-        <p className="text-xs text-stone-500 mb-1">📍 {area.regionName}</p>
+        <p className="text-xs text-stone-500 mb-1">{area.regionName}</p>
       )}
       {area.areaHa && (
         <p className="text-xs text-stone-500 mb-2">
@@ -521,7 +521,7 @@ function AreaPopupCard({ area }: { area: AreaPopupInfo }) {
       )}
       <Link
         href={`/areas-protegidas/${area.slug}`}
-        className="flex items-center justify-center gap-1 w-full rounded-lg bg-emerald-600 hover:bg-emerald-500 px-3 py-2 text-xs font-medium text-white transition-colors"
+        className="flex items-center justify-center gap-1 w-full rounded-lg bg-neon-400 hover:bg-neon-300 px-3 py-2 text-xs font-medium text-black transition-colors"
       >
         Ver área completa →
       </Link>

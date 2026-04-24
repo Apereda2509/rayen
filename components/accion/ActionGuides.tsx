@@ -22,7 +22,7 @@ interface Guide {
 const URGENCY_STYLES = {
   alta:  'bg-red-50 border-red-200',
   media: 'bg-amber-50 border-amber-200',
-  baja:  'bg-teal-50 border-teal-200',
+  baja:  'bg-stone-50 border-stone-200',
 }
 
 const URGENCY_LABELS = {
@@ -34,7 +34,7 @@ const URGENCY_LABELS = {
 const URGENCY_BADGE = {
   alta:  'bg-red-100 text-red-700',
   media: 'bg-amber-100 text-amber-700',
-  baja:  'bg-teal-100 text-teal-700',
+  baja:  'bg-stone-100 text-stone-600',
 }
 
 const guides: Guide[] = [
@@ -73,7 +73,7 @@ const guides: Guide[] = [
   },
   {
     icon: TreePine,
-    color: 'text-emerald-600',
+    color: 'text-neon-600',
     title: 'Encontré tala ilegal de bosque',
     urgency: 'media',
     steps: [
@@ -122,7 +122,7 @@ const guides: Guide[] = [
   },
   {
     icon: FlaskConical,
-    color: 'text-teal-600',
+    color: 'text-neon-600',
     title: 'Quiero hacer ciencia ciudadana',
     urgency: 'baja',
     steps: [
@@ -187,7 +187,7 @@ export function ActionGuides() {
                     href={contact.href ?? '#'}
                     target={contact.href?.startsWith('http') ? '_blank' : undefined}
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 text-xs font-medium bg-white border border-stone-200 text-stone-700 hover:border-teal-300 hover:text-teal-700 px-2.5 py-1 rounded-lg transition-colors"
+                    className="inline-flex items-center gap-1 text-xs font-medium bg-white border border-stone-200 text-stone-700 hover:border-neon-400/40 hover:text-neon-600 px-2.5 py-1 rounded-lg transition-colors"
                   >
                     <Phone className="h-3 w-3" />
                     {contact.label}: {contact.value}

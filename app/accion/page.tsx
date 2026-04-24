@@ -99,7 +99,6 @@ export default async function AccionPage() {
   if (fetchError) {
     return (
       <main className="max-w-7xl mx-auto px-4 py-16 text-center">
-        <p className="text-4xl mb-4">🌿</p>
         <h1 className="text-2xl font-bold text-stone-800 mb-2">Acción temporalmente no disponible</h1>
         <p className="text-stone-500 max-w-md mx-auto text-sm">
           Estamos teniendo problemas para cargar el contenido. Por favor intenta de nuevo en unos minutos.
@@ -122,9 +121,9 @@ export default async function AccionPage() {
 
       {/* Stats rápidas */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-10">
-        <div className="rounded-2xl bg-teal-50 border border-teal-100 p-4 text-center">
-          <p className="text-2xl font-bold text-teal-700">{petitions.length}</p>
-          <p className="text-xs text-teal-600 mt-0.5">Peticiones activas</p>
+        <div className="rounded-2xl bg-stone-100 border border-stone-200 p-4 text-center">
+          <p className="text-2xl font-bold text-stone-800">{petitions.length}</p>
+          <p className="text-xs text-stone-600 mt-0.5">Peticiones activas</p>
         </div>
         <div className="rounded-2xl bg-violet-50 border border-violet-100 p-4 text-center">
           <p className="text-2xl font-bold text-violet-700">{organizations.length}</p>

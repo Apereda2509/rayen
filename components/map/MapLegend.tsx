@@ -3,10 +3,10 @@ import type { UICNStatus } from '@/lib/types'
 
 const ITEMS: { status: UICNStatus; color: string }[] = [
   { status: 'CR', color: '#D85A30' },
-  { status: 'EN', color: '#BA7517' },
-  { status: 'VU', color: '#EF9F27' },
-  { status: 'NT', color: '#639922' },
-  { status: 'LC', color: '#1D9E75' },
+  { status: 'EN', color: '#D85A30' },
+  { status: 'VU', color: '#F59E0B' },
+  { status: 'NT', color: '#78716C' },
+  { status: 'LC', color: '#00E676' },
 ]
 
 export function MapLegend() {

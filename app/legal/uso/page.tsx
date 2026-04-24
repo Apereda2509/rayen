@@ -6,7 +6,7 @@ export default function UsoPage() {
   return (
     <main className="max-w-2xl mx-auto px-4 py-12">
       <div className="flex items-center gap-3 mb-8">
-        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-teal-50 text-teal-600">
+        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-stone-50 text-stone-600">
           <FileText className="h-5 w-5" />
         </div>
         <div>
@@ -69,7 +69,7 @@ export default function UsoPage() {
           <p className="text-sm leading-relaxed">
             El equipo de Rayen puede editar, ocultar o eliminar cualquier contenido que no cumpla estas políticas,
             así como suspender cuentas en casos graves o reincidentes. Ante dudas puedes escribirnos a{' '}
-            <a href="mailto:angelperedajimenez@gmail.com" className="text-teal-600 hover:underline">
+            <a href="mailto:angelperedajimenez@gmail.com" className="text-neon-600 hover:underline">
               angelperedajimenez@gmail.com
             </a>.
           </p>

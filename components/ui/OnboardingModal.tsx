@@ -40,20 +40,19 @@ const CHILE_REGIONS = [
 ]
 
 const SPECIES_GROUPS = [
-  { value: 'mamifero', label: 'Mamíferos', icon: '🦁' },
-  { value: 'ave', label: 'Aves', icon: '🦅' },
-  { value: 'planta', label: 'Plantas', icon: '🌿' },
-  { value: 'anfibio', label: 'Anfibios', icon: '🐸' },
-  { value: 'reptil', label: 'Reptiles', icon: '🦎' },
-  { value: 'pez', label: 'Peces', icon: '🐟' },
-  { value: 'insecto', label: 'Insectos', icon: '🦋' },
-  { value: 'hongo', label: 'Hongos', icon: '🍄' },
+  { value: 'mamifero', label: 'Mamíferos' },
+  { value: 'ave', label: 'Aves' },
+  { value: 'planta', label: 'Plantas' },
+  { value: 'anfibio', label: 'Anfibios' },
+  { value: 'reptil', label: 'Reptiles' },
+  { value: 'pez', label: 'Peces' },
+  { value: 'insecto', label: 'Insectos' },
+  { value: 'hongo', label: 'Hongos' },
 ]
 
 export function OnboardingModal() {
   const { data: session, status } = useSession()
 
-  // visible = null mientras carga, true/false según BD
   const [visible, setVisible] = useState<boolean | null>(null)
   const [step, setStep] = useState(1)
   const [role, setRole] = useState('')
@@ -62,13 +61,11 @@ export function OnboardingModal() {
   const [speciesGroups, setSpeciesGroups] = useState<string[]>([])
   const [saving, setSaving] = useState(false)
 
-  // Consultar la BD real cuando hay sesión activa
   useEffect(() => {
     if (status !== 'authenticated') return
     fetch('/api/user/profile')
       .then((r) => r.json())
       .then((data) => {
-        // Mostrar modal solo si onboarding_completed es false en la BD
         setVisible(data.onboarding_completed === false)
       })
       .catch(() => setVisible(false))
@@ -90,7 +87,6 @@ export function OnboardingModal() {
         body: JSON.stringify({ skip, role, experienceLevel, regions, speciesGroups }),
       })
     } catch { /* ignore */ }
-    // Cerrar el modal directamente — no depende de cookies ni de update()
     setVisible(false)
     setSaving(false)
   }
@@ -98,13 +94,12 @@ export function OnboardingModal() {
   if (!visible) return null
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-teal-900/90 backdrop-blur-sm px-4 py-8">
+    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-carbon-900/90 backdrop-blur-sm px-4 py-8">
       <div className="w-full max-w-lg">
         {/* Header */}
         <div className="text-center mb-6">
-          <div className="text-4xl mb-2">🌿</div>
           <h1 className="text-2xl font-bold text-white mb-1">Bienvenido/a a Rayen</h1>
-          <p className="text-teal-200 text-sm">Cuéntanos sobre ti para personalizar tu experiencia</p>
+          <p className="text-white/60 text-sm">Cuéntanos sobre ti para personalizar tu experiencia</p>
         </div>
 
         {/* Progreso */}
@@ -114,7 +109,7 @@ export function OnboardingModal() {
               key={s}
               className={cn(
                 'flex-1 h-1.5 rounded-full transition-all',
-                s <= step ? 'bg-emerald-400' : 'bg-teal-800'
+                s <= step ? 'bg-neon-400' : 'bg-white/20'
               )}
             />
           ))}
@@ -131,7 +126,9 @@ export function OnboardingModal() {
                   <button key={r.value} type="button" onClick={() => setRole(r.value)}
                     className={cn(
                       'rounded-xl border-2 px-4 py-3 text-sm font-medium text-left transition-all',
-                      role === r.value ? 'border-teal-500 bg-teal-50 text-teal-800' : 'border-stone-200 text-stone-600 hover:border-teal-300'
+                      role === r.value
+                        ? 'border-neon-400 bg-stone-50 text-stone-800'
+                        : 'border-stone-200 text-stone-600 hover:border-neon-400/40'
                     )}>
                     {r.label}
                   </button>
@@ -149,7 +146,9 @@ export function OnboardingModal() {
                   <button key={l.value} type="button" onClick={() => setExperienceLevel(l.value)}
                     className={cn(
                       'w-full rounded-xl border-2 px-4 py-3 text-left transition-all',
-                      experienceLevel === l.value ? 'border-teal-500 bg-teal-50' : 'border-stone-200 hover:border-teal-300'
+                      experienceLevel === l.value
+                        ? 'border-neon-400 bg-stone-50'
+                        : 'border-stone-200 hover:border-neon-400/40'
                     )}>
                     <p className="font-medium text-stone-800 text-sm">{l.label}</p>
                     <p className="text-xs text-stone-500 mt-0.5">{l.desc}</p>
@@ -169,7 +168,9 @@ export function OnboardingModal() {
                   <button key={r.code} type="button" onClick={() => toggleRegion(r.code)}
                     className={cn(
                       'rounded-lg border px-3 py-2 text-xs font-medium text-left transition-all',
-                      regions.includes(r.code) ? 'border-teal-500 bg-teal-50 text-teal-800' : 'border-stone-200 text-stone-600 hover:border-teal-300'
+                      regions.includes(r.code)
+                        ? 'border-neon-400 bg-stone-50 text-stone-800'
+                        : 'border-stone-200 text-stone-600 hover:border-neon-400/40'
                     )}>
                     {r.name}
                   </button>
@@ -187,10 +188,12 @@ export function OnboardingModal() {
                 {SPECIES_GROUPS.map((g) => (
                   <button key={g.value} type="button" onClick={() => toggleGroup(g.value)}
                     className={cn(
-                      'rounded-xl border-2 px-4 py-3 text-sm font-medium text-left flex items-center gap-2 transition-all',
-                      speciesGroups.includes(g.value) ? 'border-teal-500 bg-teal-50 text-teal-800' : 'border-stone-200 text-stone-600 hover:border-teal-300'
+                      'rounded-xl border-2 px-4 py-3 text-sm font-medium text-left transition-all',
+                      speciesGroups.includes(g.value)
+                        ? 'border-neon-400 bg-stone-50 text-stone-800'
+                        : 'border-stone-200 text-stone-600 hover:border-neon-400/40'
                     )}>
-                    <span className="text-lg">{g.icon}</span>{g.label}
+                    {g.label}
                   </button>
                 ))}
               </div>
@@ -212,12 +215,12 @@ export function OnboardingModal() {
               )}
               {step < 4 ? (
                 <button type="button" onClick={() => setStep((s) => s + 1)}
-                  className="rounded-lg bg-teal-600 hover:bg-teal-700 px-5 py-2 text-sm font-semibold text-white transition-colors">
+                  className="rounded-lg bg-neon-400 hover:bg-neon-300 px-5 py-2 text-sm font-semibold text-black transition-colors">
                   Siguiente
                 </button>
               ) : (
                 <button type="button" onClick={() => finish(false)} disabled={saving}
-                  className="flex items-center gap-2 rounded-lg bg-emerald-600 hover:bg-emerald-700 disabled:opacity-60 px-5 py-2 text-sm font-semibold text-white transition-colors">
+                  className="flex items-center gap-2 rounded-lg bg-neon-400 hover:bg-neon-300 disabled:opacity-60 px-5 py-2 text-sm font-semibold text-black transition-colors">
                   {saving && <Loader2 className="h-3.5 w-3.5 animate-spin" />}
                   Comenzar
                 </button>

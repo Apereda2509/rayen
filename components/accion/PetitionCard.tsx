@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import Image from 'next/image'
+import { FileText, CheckCircle } from 'lucide-react'
 import { ConservationBadge } from '@/components/species/ConservationBadge'
 import type { UICNStatus } from '@/lib/types'
 
@@ -59,7 +60,7 @@ export function PetitionCard({ petition, isLoggedIn }: Props) {
       if (res.ok) {
         setSignedCount(data.signedCount)
         setHasSigned(true)
-        setMessage('¡Gracias por tu firma!')
+        setMessage('Gracias por tu firma.')
       } else if (res.status === 409) {
         setHasSigned(true)
         setMessage('Ya habías firmado esta petición')
@@ -76,7 +77,7 @@ export function PetitionCard({ petition, isLoggedIn }: Props) {
   }
 
   return (
-    <div className="rounded-2xl border border-stone-200 bg-white overflow-hidden hover:border-teal-300 hover:shadow-md transition-all flex flex-col">
+    <div className="rounded-2xl border border-stone-200 bg-white overflow-hidden hover:border-neon-400/40 hover:shadow-md transition-all flex flex-col">
       {/* Imagen */}
       <div className="relative h-44 bg-stone-100 flex-shrink-0">
         {petition.imageUrl ? (
@@ -87,10 +88,7 @@ export function PetitionCard({ petition, isLoggedIn }: Props) {
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center text-stone-300">
-            <svg className="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
-                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-            </svg>
+            <FileText className="h-12 w-12" />
           </div>
         )}
         {petition.species?.uicnStatus && (
@@ -105,19 +103,16 @@ export function PetitionCard({ petition, isLoggedIn }: Props) {
       </div>
 
       <div className="p-5 flex flex-col flex-1">
-        {/* Especie relacionada */}
         {petition.species && (
-          <p className="text-xs text-teal-600 font-medium mb-1.5">
+          <p className="text-xs text-neon-600 font-medium mb-1.5">
             Especie: {petition.species.commonName}
           </p>
         )}
 
-        {/* Título */}
         <h3 className="font-semibold text-stone-900 leading-snug mb-2 text-base">
           {petition.title}
         </h3>
 
-        {/* Descripción truncada */}
         <p className="text-sm text-stone-500 line-clamp-3 mb-4 flex-1">
           {petition.description}
         </p>
@@ -134,7 +129,7 @@ export function PetitionCard({ petition, isLoggedIn }: Props) {
           </div>
           <div className="h-2 rounded-full bg-stone-100 overflow-hidden">
             <div
-              className="h-full bg-teal-500 rounded-full transition-all duration-500"
+              className="h-full bg-neon-400 rounded-full transition-all duration-500"
               style={{ width: `${progress}%` }}
             />
           </div>
@@ -150,29 +145,30 @@ export function PetitionCard({ petition, isLoggedIn }: Props) {
           className={`
             w-full py-2.5 px-4 rounded-xl font-medium text-sm transition-all
             ${hasSigned
-              ? 'bg-emerald-50 text-emerald-700 cursor-default border border-emerald-200'
+              ? 'bg-stone-100 text-stone-600 cursor-default border border-stone-200'
               : loading
-                ? 'bg-teal-100 text-teal-500 cursor-wait'
-                : 'bg-teal-600 hover:bg-teal-700 text-white cursor-pointer'
+                ? 'bg-stone-100 text-stone-400 cursor-wait'
+                : 'bg-neon-400 hover:bg-neon-300 text-black cursor-pointer'
             }
           `}
         >
-          {hasSigned ? '✓ Ya firmaste' : loading ? 'Firmando...' : 'Firmar petición'}
+          {hasSigned
+            ? <span className="flex items-center justify-center gap-1.5"><CheckCircle className="h-4 w-4" /> Ya firmaste</span>
+            : loading ? 'Firmando...' : 'Firmar petición'
+          }
         </button>
 
-        {/* Mensaje de feedback */}
         {message && (
           <p className={`text-xs mt-2 text-center ${
-            message.startsWith('¡') ? 'text-emerald-600' : 'text-stone-500'
+            message.startsWith('Gracias') ? 'text-neon-600' : 'text-stone-500'
           }`}>
             {message}
             {message.includes('sesión') && (
-              <a href="/login" className="ml-1 text-teal-600 underline">→ Ingresar</a>
+              <a href="/login" className="ml-1 text-neon-600 underline">Ingresar</a>
             )}
           </p>
         )}
 
-        {/* Fecha límite */}
         {petition.endsAt && (
           <p className="text-xs text-stone-400 text-center mt-2">
             Cierra: {new Date(petition.endsAt).toLocaleDateString('es-CL', {

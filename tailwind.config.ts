@@ -8,39 +8,32 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['var(--font-inter)', 'system-ui', 'sans-serif'],
-        serif: ['var(--font-lora)', 'Georgia', 'serif'],
+        sans:    ['var(--font-inter)', 'system-ui', 'sans-serif'],
+        grotesk: ['var(--font-space-grotesk)', 'system-ui', 'sans-serif'],
+        serif:   ['var(--font-lora)', 'Georgia', 'serif'],
       },
       colors: {
-        // Paleta RAYEN
-        teal: {
-          50:  '#E1F5EE',
-          100: '#9FE1CB',
-          200: '#5DCAA5',
-          400: '#1D9E75',  // Color primario
-          600: '#0F6E56',
-          800: '#085041',
-          900: '#04342C',
+        // Paleta RAYEN v2.0
+        neon: {
+          DEFAULT: '#00E676',
+          50:  '#E5FFF2',
+          100: '#C0FFE0',
+          300: '#52F599',
+          400: '#00E676',
+          500: '#00C760',
+          600: '#00A84F',
         },
-        forest: {
-          50:  '#EAF3DE',
-          100: '#C0DD97',
-          400: '#639922',
-          600: '#3B6D11',
-          800: '#27500A',
+        carbon: {
+          DEFAULT: '#0A0A0A',
+          700: '#222222',
+          800: '#141414',
+          900: '#0A0A0A',
         },
         coral: {
           50:  '#FAECE7',
           400: '#D85A30',
           600: '#993C1D',
           800: '#712B13',
-        },
-        amber: {
-          50:  '#FAEEDA',
-          100: '#FAC775',
-          400: '#EF9F27',
-          600: '#BA7517',
-          800: '#854F0B',
         },
       },
       animation: {
@@ -49,7 +42,7 @@ const config: Config = {
       },
       keyframes: {
         fadeIn: {
-          '0%': { opacity: '0' },
+          '0%':   { opacity: '0' },
           '100%': { opacity: '1' },
         },
         slideUp: {

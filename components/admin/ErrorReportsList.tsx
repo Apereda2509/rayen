@@ -68,7 +68,7 @@ export function ErrorReportsList({ initialReports }: Props) {
                   <span className="text-xs font-medium text-stone-600">{r.userEmail}</span>
                 )}
                 {r.resolved && (
-                  <span className="rounded-full bg-teal-50 px-2 py-0.5 text-xs font-medium text-teal-600">
+                  <span className="rounded-full bg-stone-50 px-2 py-0.5 text-xs font-medium text-neon-600">
                     Resuelto
                   </span>
                 )}
@@ -80,7 +80,7 @@ export function ErrorReportsList({ initialReports }: Props) {
               <button
                 onClick={() => resolve(r.id)}
                 disabled={loadingId === r.id}
-                className="flex-shrink-0 flex items-center gap-1.5 rounded-lg bg-teal-600 hover:bg-teal-700 disabled:opacity-60 px-3 py-1.5 text-xs font-semibold text-white transition-colors"
+                className="flex-shrink-0 flex items-center gap-1.5 rounded-lg bg-neon-400 hover:bg-neon-300 disabled:opacity-60 px-3 py-1.5 text-xs font-semibold text-white transition-colors"
               >
                 {loadingId === r.id
                   ? <Loader2 className="h-3.5 w-3.5 animate-spin" />

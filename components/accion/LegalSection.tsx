@@ -45,7 +45,7 @@ export function LegalSection({ laws }: Props) {
         return (
           <div
             key={law.id}
-            className="rounded-2xl border border-stone-200 bg-white p-5 hover:border-teal-300 hover:shadow-sm transition-all"
+            className="rounded-2xl border border-stone-200 bg-white p-5 hover:border-neon-400/40 hover:shadow-sm transition-all"
           >
             <div className="flex items-start gap-4">
               <div className="flex-shrink-0 mt-0.5">
@@ -73,7 +73,7 @@ export function LegalSection({ laws }: Props) {
                     href={law.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 text-xs text-teal-600 hover:text-teal-800 mt-2 font-medium"
+                    className="inline-flex items-center gap-1 text-xs text-neon-600 hover:text-neon-500 mt-2 font-medium"
                   >
                     <ExternalLink className="h-3.5 w-3.5" />
                     Ver texto oficial

@@ -50,7 +50,7 @@ export function AccionTabs({ petitions, organizations, laws, isLoggedIn }: Props
             className={`
               inline-flex items-center gap-2 px-4 py-2.5 text-sm font-medium rounded-t-xl border-b-2 transition-colors
               ${activeTab === id
-                ? 'text-teal-700 border-teal-600 bg-teal-50'
+                ? 'text-neon-600 border-neon-400 bg-stone-50'
                 : 'text-stone-500 border-transparent hover:text-stone-800 hover:bg-stone-50'
               }
             `}
@@ -88,7 +88,7 @@ export function AccionTabs({ petitions, organizations, laws, isLoggedIn }: Props
                 className={`
                   text-sm px-3 py-1.5 rounded-lg font-medium transition-colors
                   ${orgTypeFilter === opt.value
-                    ? 'bg-teal-600 text-white'
+                    ? 'bg-neon-400 text-black'
                     : 'bg-stone-100 text-stone-600 hover:bg-stone-200'
                   }
                 `}

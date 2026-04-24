@@ -56,11 +56,11 @@ export function AreaMultiSelect({ selected, onChange, maxHeight = '12rem' }: Pro
         placeholder="Buscar área…"
         value={search}
         onChange={e => setSearch(e.target.value)}
-        className="w-full text-xs rounded-md border border-stone-200 px-2 py-1.5 text-stone-700 placeholder:text-stone-400 focus:border-teal-400 focus:outline-none focus:ring-1 focus:ring-teal-400"
+        className="w-full text-xs rounded-md border border-stone-200 px-2 py-1.5 text-stone-700 placeholder:text-stone-400 focus:border-neon-400 focus:outline-none focus:ring-1 focus:ring-neon-400"
       />
 
       {selected.size > 0 && (
-        <p className="text-[10px] text-teal-600 font-medium">
+        <p className="text-[10px] text-neon-600 font-medium">
           {selected.size} seleccionada{selected.size !== 1 ? 's' : ''}
         </p>
       )}
@@ -78,7 +78,7 @@ export function AreaMultiSelect({ selected, onChange, maxHeight = '12rem' }: Pro
               className={cn(
                 'flex items-center gap-2 cursor-pointer rounded px-1 py-0.5 transition-colors text-xs',
                 selected.has(area.slug)
-                  ? 'bg-teal-50 text-teal-800'
+                  ? 'bg-stone-50 text-stone-800'
                   : 'text-stone-700 hover:bg-stone-50'
               )}
             >
@@ -86,7 +86,7 @@ export function AreaMultiSelect({ selected, onChange, maxHeight = '12rem' }: Pro
                 type="checkbox"
                 checked={selected.has(area.slug)}
                 onChange={() => onChange(area.slug)}
-                className="h-3 w-3 rounded border-stone-300 text-teal-600 focus:ring-teal-500 flex-shrink-0"
+                className="h-3 w-3 rounded border-stone-300 text-neon-600 focus:ring-neon-400 flex-shrink-0"
               />
               <span className="flex-1 truncate">{area.name}</span>
               <span className="text-[9px] text-stone-400 flex-shrink-0">{TYPE_LABELS[area.type] ?? ''}</span>

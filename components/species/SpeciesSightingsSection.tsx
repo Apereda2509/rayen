@@ -120,8 +120,8 @@ export function SpeciesSightingsSection({ slug, regionCodes }: Props) {
                   className={cn(
                     'text-xs px-2.5 py-1 rounded-full border transition-colors',
                     selectedRegions.has(code)
-                      ? 'bg-teal-600 text-white border-teal-600'
-                      : 'bg-white text-teal-700 border-teal-200 hover:border-teal-400'
+                      ? 'bg-neon-400 text-black border-neon-400'
+                      : 'bg-white text-stone-700 border-stone-200 hover:border-neon-400/40'
                   )}
                 >
                   {REGION_NAMES[code] ?? code}
@@ -129,7 +129,7 @@ export function SpeciesSightingsSection({ slug, regionCodes }: Props) {
               ))}
             </div>
             {selectedRegions.size > 1 && (
-              <p className="text-[10px] text-teal-600 mt-1">
+              <p className="text-[10px] text-neon-600 mt-1">
                 {selectedRegions.size} regiones seleccionadas
               </p>
             )}
@@ -143,14 +143,14 @@ export function SpeciesSightingsSection({ slug, regionCodes }: Props) {
             className={cn(
               'text-xs px-3 py-1.5 rounded-lg border transition-colors flex items-center gap-1.5',
               showAreaFilter || selectedAreas.size > 0
-                ? 'border-emerald-400 bg-emerald-50 text-emerald-700'
+                ? 'border-neon-400/40 bg-stone-50 text-stone-700'
                 : 'border-stone-200 text-stone-500 hover:border-stone-300'
             )}
           >
-            <span className="h-2 w-2 rounded-full bg-emerald-500 opacity-70 flex-shrink-0" />
+            <span className="h-2 w-2 rounded-full bg-neon-400 opacity-70 flex-shrink-0" />
             Área protegida
             {selectedAreas.size > 0 && (
-              <span className="ml-1 bg-emerald-600 text-white rounded-full text-[9px] px-1.5 py-0.5">
+              <span className="ml-1 bg-neon-400 text-black rounded-full text-[9px] px-1.5 py-0.5">
                 {selectedAreas.size}
               </span>
             )}
@@ -175,7 +175,7 @@ export function SpeciesSightingsSection({ slug, regionCodes }: Props) {
               value={dateFrom}
               max={dateTo || undefined}
               onChange={(e) => handleDateFrom(e.target.value)}
-              className="text-xs rounded-md border border-stone-200 px-2 py-1.5 text-stone-700 focus:border-teal-400 focus:outline-none focus:ring-1 focus:ring-teal-400"
+              className="text-xs rounded-md border border-stone-200 px-2 py-1.5 text-stone-700 focus:border-neon-400 focus:outline-none focus:ring-1 focus:ring-neon-400"
             />
           </div>
           <div>
@@ -185,7 +185,7 @@ export function SpeciesSightingsSection({ slug, regionCodes }: Props) {
               value={dateTo}
               min={dateFrom || undefined}
               onChange={(e) => handleDateTo(e.target.value)}
-              className="text-xs rounded-md border border-stone-200 px-2 py-1.5 text-stone-700 focus:border-teal-400 focus:outline-none focus:ring-1 focus:ring-teal-400"
+              className="text-xs rounded-md border border-stone-200 px-2 py-1.5 text-stone-700 focus:border-neon-400 focus:outline-none focus:ring-1 focus:ring-neon-400"
             />
           </div>
           {hasFilters && (
@@ -202,7 +202,7 @@ export function SpeciesSightingsSection({ slug, regionCodes }: Props) {
       {/* Lista de avistamientos */}
       {loading ? (
         <div className="flex items-center gap-2 py-6 text-sm text-stone-400">
-          <div className="h-4 w-4 rounded-full border-2 border-teal-400 border-t-transparent animate-spin" />
+          <div className="h-4 w-4 rounded-full border-2 border-neon-400 border-t-transparent animate-spin" />
           Cargando avistamientos…
         </div>
       ) : sightings.length === 0 ? (
@@ -216,7 +216,7 @@ export function SpeciesSightingsSection({ slug, regionCodes }: Props) {
           </p>
           {sightings.map((s) => (
             <div key={s.id} className="flex items-start gap-3 rounded-lg border border-stone-100 bg-stone-50 px-3 py-2.5">
-              <MapPin className="h-3.5 w-3.5 text-teal-500 mt-0.5 flex-shrink-0" />
+              <MapPin className="h-3.5 w-3.5 text-neon-400 mt-0.5 flex-shrink-0" />
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 flex-wrap">
                   {s.regionCode && (

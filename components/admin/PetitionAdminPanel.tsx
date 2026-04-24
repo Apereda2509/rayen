@@ -101,7 +101,7 @@ export function PetitionAdminPanel({ initialPetitions }: Props) {
         </div>
         <button
           onClick={() => setShowForm(f => !f)}
-          className="inline-flex items-center gap-2 bg-teal-600 hover:bg-teal-700 text-white text-sm font-medium px-4 py-2 rounded-xl transition-colors"
+          className="inline-flex items-center gap-2 bg-neon-400 hover:bg-neon-300 text-black text-sm font-medium px-4 py-2 rounded-xl transition-colors"
         >
           <Plus className="h-4 w-4" />
           Nueva petición
@@ -110,7 +110,7 @@ export function PetitionAdminPanel({ initialPetitions }: Props) {
 
       {/* Formulario de creación */}
       {showForm && (
-        <div className="rounded-2xl border border-teal-200 bg-teal-50 p-6 mb-6">
+        <div className="rounded-2xl border border-stone-200 bg-stone-50 p-6 mb-6">
           <h2 className="text-sm font-semibold text-stone-800 mb-4">Nueva petición</h2>
           <form onSubmit={handleCreate} className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="sm:col-span-2">
@@ -122,7 +122,7 @@ export function PetitionAdminPanel({ initialPetitions }: Props) {
                 required
                 value={form.title}
                 onChange={e => setForm(f => ({ ...f, title: e.target.value }))}
-                className="w-full rounded-xl border border-stone-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 bg-white"
+                className="w-full rounded-xl border border-stone-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-neon-400 bg-white"
                 placeholder="Título de la petición"
               />
             </div>
@@ -133,7 +133,7 @@ export function PetitionAdminPanel({ initialPetitions }: Props) {
                 rows={3}
                 value={form.description}
                 onChange={e => setForm(f => ({ ...f, description: e.target.value }))}
-                className="w-full rounded-xl border border-stone-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 bg-white resize-none"
+                className="w-full rounded-xl border border-stone-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-neon-400 bg-white resize-none"
                 placeholder="Descripción detallada de la petición..."
               />
             </div>
@@ -148,7 +148,7 @@ export function PetitionAdminPanel({ initialPetitions }: Props) {
                 min={1}
                 value={form.goal}
                 onChange={e => setForm(f => ({ ...f, goal: e.target.value }))}
-                className="w-full rounded-xl border border-stone-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 bg-white"
+                className="w-full rounded-xl border border-stone-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-neon-400 bg-white"
               />
             </div>
 
@@ -158,7 +158,7 @@ export function PetitionAdminPanel({ initialPetitions }: Props) {
                 type="text"
                 value={form.speciesSlug}
                 onChange={e => setForm(f => ({ ...f, speciesSlug: e.target.value }))}
-                className="w-full rounded-xl border border-stone-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 bg-white"
+                className="w-full rounded-xl border border-stone-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-neon-400 bg-white"
                 placeholder="ej: huemul"
               />
             </div>
@@ -169,7 +169,7 @@ export function PetitionAdminPanel({ initialPetitions }: Props) {
                 type="url"
                 value={form.imageUrl}
                 onChange={e => setForm(f => ({ ...f, imageUrl: e.target.value }))}
-                className="w-full rounded-xl border border-stone-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 bg-white"
+                className="w-full rounded-xl border border-stone-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-neon-400 bg-white"
                 placeholder="https://..."
               />
             </div>
@@ -180,7 +180,7 @@ export function PetitionAdminPanel({ initialPetitions }: Props) {
                 type="date"
                 value={form.endsAt}
                 onChange={e => setForm(f => ({ ...f, endsAt: e.target.value }))}
-                className="w-full rounded-xl border border-stone-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 bg-white"
+                className="w-full rounded-xl border border-stone-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-neon-400 bg-white"
               />
             </div>
 
@@ -201,7 +201,7 @@ export function PetitionAdminPanel({ initialPetitions }: Props) {
               <button
                 type="submit"
                 disabled={saving}
-                className="px-4 py-2 text-sm font-medium text-white bg-teal-600 hover:bg-teal-700 rounded-xl transition-colors disabled:opacity-50"
+                className="px-4 py-2 text-sm font-medium text-black bg-neon-400 hover:bg-neon-300 rounded-xl transition-colors disabled:opacity-50"
               >
                 {saving ? 'Guardando...' : 'Crear petición'}
               </button>
@@ -244,11 +244,11 @@ export function PetitionAdminPanel({ initialPetitions }: Props) {
                         {p.title}
                       </h3>
                       {p.speciesName && (
-                        <p className="text-xs text-teal-600 mt-0.5">{p.speciesName}</p>
+                        <p className="text-xs text-neon-600 mt-0.5">{p.speciesName}</p>
                       )}
                     </div>
                     <span className={`text-xs px-2 py-0.5 rounded-full font-medium flex-shrink-0 ${
-                      p.active ? 'bg-emerald-100 text-emerald-700' : 'bg-stone-200 text-stone-500'
+                      p.active ? 'bg-neon-400/20 text-neon-600' : 'bg-stone-200 text-stone-500'
                     }`}>
                       {p.active ? 'Activa' : 'Inactiva'}
                     </span>
@@ -259,7 +259,7 @@ export function PetitionAdminPanel({ initialPetitions }: Props) {
                     <div className="flex items-center gap-1.5">
                       <div className="h-1.5 w-24 bg-stone-200 rounded-full overflow-hidden">
                         <div
-                          className="h-full bg-teal-500 rounded-full"
+                          className="h-full bg-stone-500 rounded-full"
                           style={{ width: `${Math.min((p.signedCount / p.goal) * 100, 100)}%` }}
                         />
                       </div>
@@ -283,7 +283,7 @@ export function PetitionAdminPanel({ initialPetitions }: Props) {
                   className={`flex-shrink-0 p-2 rounded-lg transition-colors ${
                     p.active
                       ? 'text-stone-400 hover:text-red-500 hover:bg-red-50'
-                      : 'text-stone-400 hover:text-emerald-600 hover:bg-emerald-50'
+                      : 'text-stone-400 hover:text-neon-600 hover:bg-stone-50'
                   }`}
                 >
                   {p.active

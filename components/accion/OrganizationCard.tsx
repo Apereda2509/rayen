@@ -11,11 +11,11 @@ const ORG_TYPE_LABELS: Record<string, string> = {
 }
 
 const ORG_TYPE_COLORS: Record<string, string> = {
-  ong:           'bg-teal-50  text-teal-700',
+  ong:           'bg-stone-100 text-stone-700',
   fundacion:     'bg-violet-50 text-violet-700',
   universidad:   'bg-blue-50  text-blue-700',
   gobierno:      'bg-amber-50 text-amber-700',
-  empresa_b:     'bg-emerald-50 text-emerald-700',
+  empresa_b:     'bg-stone-100 text-stone-700',
   activismo:     'bg-red-50   text-red-700',
   investigacion: 'bg-indigo-50 text-indigo-700',
 }
@@ -40,7 +40,7 @@ interface Props {
 
 export function OrganizationCard({ org }: Props) {
   return (
-    <div className="rounded-2xl border border-stone-200 bg-white p-5 hover:border-teal-300 hover:shadow-sm transition-all flex flex-col gap-3">
+    <div className="rounded-2xl border border-stone-200 bg-white p-5 hover:border-neon-400/40 hover:shadow-sm transition-all flex flex-col gap-3">
       {/* Cabecera */}
       <div className="flex items-start gap-3">
         {org.logoUrl ? (
@@ -50,7 +50,7 @@ export function OrganizationCard({ org }: Props) {
             className="h-12 w-12 rounded-xl object-contain bg-stone-50 border border-stone-100 flex-shrink-0 p-1"
           />
         ) : (
-          <div className="h-12 w-12 rounded-xl bg-teal-50 border border-teal-100 flex-shrink-0 flex items-center justify-center text-teal-600 font-bold text-lg">
+          <div className="h-12 w-12 rounded-xl bg-stone-100 border border-stone-200 flex-shrink-0 flex items-center justify-center text-stone-600 font-bold text-lg">
             {org.name.charAt(0)}
           </div>
         )}
@@ -90,7 +90,7 @@ export function OrganizationCard({ org }: Props) {
             href={org.website}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 text-xs font-medium text-teal-700 bg-teal-50 hover:bg-teal-100 px-3 py-1.5 rounded-lg transition-colors"
+            className="inline-flex items-center gap-1.5 text-xs font-medium text-stone-700 bg-stone-50 hover:bg-stone-100 px-3 py-1.5 rounded-lg transition-colors"
           >
             <Globe className="h-3.5 w-3.5" />
             Sitio web

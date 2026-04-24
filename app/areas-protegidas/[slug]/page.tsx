@@ -16,14 +16,13 @@ function AreaErrorFallback({ slug, message }: { slug: string; message: string })
   return (
     <main className="max-w-5xl mx-auto px-4 sm:px-6 py-10">
       <nav className="text-xs text-stone-400 mb-6 flex items-center gap-1.5">
-        <Link href="/areas-protegidas" className="hover:text-teal-600 transition-colors">
+        <Link href="/areas-protegidas" className="hover:text-neon-600 transition-colors">
           Áreas Protegidas
         </Link>
         <span>/</span>
         <span className="text-stone-600">{slug}</span>
       </nav>
-      <div className="rounded-2xl border border-amber-200 bg-amber-50 p-8 text-center">
-        <p className="text-4xl mb-4">🌿</p>
+      <div className="rounded-2xl border border-stone-200 bg-stone-50 p-8 text-center">
         <h1 className="text-xl font-semibold text-stone-800 mb-2">
           No pudimos cargar esta área protegida
         </h1>
@@ -39,7 +38,7 @@ function AreaErrorFallback({ slug, message }: { slug: string; message: string })
           </Link>
           <Link
             href={`/areas-protegidas/${slug}`}
-            className="rounded-lg bg-teal-600 hover:bg-teal-700 px-4 py-2 text-sm font-medium text-white transition-colors"
+            className="rounded-lg bg-neon-400 hover:bg-neon-300 px-4 py-2 text-sm font-medium text-black transition-colors"
           >
             Reintentar
           </Link>
@@ -105,7 +104,7 @@ export default async function AreaPage({ params }: Props) {
     <main className="max-w-5xl mx-auto px-4 sm:px-6 py-10">
       {/* Breadcrumb */}
       <nav className="text-xs text-stone-400 mb-6 flex items-center gap-1.5">
-        <Link href="/areas-protegidas" className="hover:text-teal-600 transition-colors">
+        <Link href="/areas-protegidas" className="hover:text-neon-600 transition-colors">
           Áreas Protegidas
         </Link>
         <span>/</span>
@@ -116,14 +115,12 @@ export default async function AreaPage({ params }: Props) {
       <div className="mb-8">
         <div className="flex flex-wrap items-start gap-4 justify-between">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-wide text-emerald-600 mb-1">
+            <p className="text-xs font-semibold uppercase tracking-wide text-neon-600 mb-1">
               {TIPO_LABELS[area.type] ?? area.type}
             </p>
             <h1 className="text-3xl font-bold text-stone-900">{area.name}</h1>
             {area.regionName && (
-              <p className="text-stone-500 mt-1 flex items-center gap-1.5">
-                <span>📍</span>{area.regionName}
-              </p>
+              <p className="text-stone-500 mt-1">{area.regionName}</p>
             )}
           </div>
 
@@ -133,14 +130,14 @@ export default async function AreaPage({ params }: Props) {
                 href={area.conafUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="rounded-lg border border-emerald-300 px-4 py-2 text-sm font-medium text-emerald-700 hover:bg-emerald-50 transition-colors"
+                className="rounded-lg border border-stone-300 px-4 py-2 text-sm font-medium text-stone-700 hover:bg-stone-50 transition-colors"
               >
                 Ver en CONAF ↗
               </a>
             )}
             <Link
               href={`/avistamientos/nuevo?area=${area.slug}`}
-              className="rounded-lg bg-emerald-600 hover:bg-emerald-700 px-4 py-2 text-sm font-medium text-white transition-colors"
+              className="rounded-lg bg-neon-400 hover:bg-neon-300 px-4 py-2 text-sm font-medium text-black transition-colors"
             >
               + Reportar avistamiento aquí
             </Link>
@@ -210,7 +207,7 @@ export default async function AreaPage({ params }: Props) {
             <p className="text-stone-400 text-sm">Aún no hay avistamientos reportados en esta área.</p>
             <Link
               href={`/avistamientos/nuevo?area=${area.slug}`}
-              className="mt-3 inline-flex items-center gap-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 px-4 py-2 text-sm font-medium text-white transition-colors"
+              className="mt-3 inline-flex items-center gap-1.5 rounded-lg bg-neon-400 hover:bg-neon-300 px-4 py-2 text-sm font-medium text-black transition-colors"
             >
               ¡Sé el primero en reportar!
             </Link>
@@ -221,7 +218,7 @@ export default async function AreaPage({ params }: Props) {
               <Link
                 key={s.id}
                 href={`/especies/${s.slug}`}
-                className="group rounded-xl border border-stone-200 bg-white overflow-hidden hover:shadow-md hover:border-teal-300 transition-all"
+                className="group rounded-xl border border-stone-200 bg-white overflow-hidden hover:shadow-md hover:border-neon-400/40 transition-all"
               >
                 <div className="h-28 bg-stone-100 relative overflow-hidden">
                   {s.photoUrl ? (
@@ -232,7 +229,7 @@ export default async function AreaPage({ params }: Props) {
                       className="object-cover group-hover:scale-105 transition-transform duration-300"
                     />
                   ) : (
-                    <div className="flex h-full items-center justify-center text-3xl text-stone-200">🌿</div>
+                    <div className="flex h-full items-center justify-center text-stone-200 text-xs">Sin foto</div>
                   )}
                   {s.uicnStatus && (
                     <span className="absolute top-2 left-2 text-[10px] font-bold text-white px-1.5 py-0.5 rounded"
@@ -255,6 +252,6 @@ export default async function AreaPage({ params }: Props) {
 }
 
 const UICN_COLORS: Record<string, string> = {
-  CR: '#D85A30', EN: '#BA7517', VU: '#EF9F27',
-  NT: '#639922', LC: '#1D9E75', DD: '#888780',
+  CR: '#D85A30', EN: '#D85A30', VU: '#F59E0B',
+  NT: '#78716C', LC: '#00E676', DD: '#888780',
 }

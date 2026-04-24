@@ -10,7 +10,6 @@ export default async function HomePage() {
   try {
     stats = await getPlatformStats()
   } catch (e) {
-    // DB no disponible aún en desarrollo, usar valores demo
     stats = { total_species: 30, endangered: 12, endemic: 18, verified_sightings: 142, total_users: 56 }
   }
 
@@ -18,8 +17,7 @@ export default async function HomePage() {
     <div className="min-h-[calc(100vh-3.5rem)]">
 
       {/* Hero */}
-      <section className="relative overflow-hidden bg-teal-900 text-white h-screen">
-        {/* Video de fondo — URL configurada en NEXT_PUBLIC_HERO_VIDEO_URL */}
+      <section className="relative overflow-hidden bg-carbon-900 text-white h-screen">
         {process.env.NEXT_PUBLIC_HERO_VIDEO_URL && (
           <video
             autoPlay
@@ -32,41 +30,39 @@ export default async function HomePage() {
             <source src={process.env.NEXT_PUBLIC_HERO_VIDEO_URL} type="video/mp4" />
           </video>
         )}
-        {/* Overlay oscuro para legibilidad */}
-        <div className="absolute inset-0 bg-teal-950/65" aria-hidden="true" />
+        <div className="absolute inset-0 bg-carbon-900/70" aria-hidden="true" />
 
-        {/* Contenido sobre el video — centrado verticalmente */}
         <div className="relative z-10 h-full flex items-center">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 w-full">
-          <div className="max-w-3xl">
-            <p className="text-emerald-300 text-sm font-medium uppercase tracking-wider mb-4">
-              Plataforma de biodiversidad chilena
-            </p>
-            <h1 className="text-4xl lg:text-6xl font-bold leading-tight tracking-tight">
-              Chile florece <br />
-              <span className="text-emerald-300">cuando lo conocemos.</span>
-            </h1>
-            <p className="mt-6 text-lg text-emerald-100/90 leading-relaxed max-w-2xl">
-              Explora la fauna y flora nativa de Chile, conoce su estado de conservación
-              y descubre cómo cada especie sostiene los ecosistemas que también te sostienen a ti.
-            </p>
+            <div className="max-w-3xl">
+              <p className="font-grotesk text-neon-400 text-sm font-medium uppercase tracking-wider mb-4">
+                Plataforma de biodiversidad chilena
+              </p>
+              <h1 className="font-grotesk text-4xl lg:text-6xl font-bold leading-tight tracking-tight">
+                Chile florece <br />
+                <span className="text-neon-400">cuando lo conocemos.</span>
+              </h1>
+              <p className="mt-6 text-lg text-white/80 leading-relaxed max-w-2xl">
+                Explora la fauna y flora nativa de Chile, conoce su estado de conservación
+                y descubre cómo cada especie sostiene los ecosistemas que también te sostienen a ti.
+              </p>
 
-            <div className="mt-10 flex flex-wrap gap-3">
-              <Link
-                href="/mapa"
-                className="inline-flex items-center gap-2 bg-emerald-400 hover:bg-emerald-300 text-teal-900 font-medium px-6 py-3 rounded-lg transition-colors"
-              >
-                Explorar el mapa
-                <ArrowRight className="h-4 w-4" />
-              </Link>
-              <Link
-                href="/especies"
-                className="inline-flex items-center gap-2 border border-emerald-400/40 hover:border-emerald-400 text-emerald-100 px-6 py-3 rounded-lg transition-colors"
-              >
-                Ver especies
-              </Link>
+              <div className="mt-10 flex flex-wrap gap-3">
+                <Link
+                  href="/mapa"
+                  className="inline-flex items-center gap-2 bg-neon-400 hover:bg-neon-300 text-black font-medium px-6 py-3 rounded-lg transition-colors"
+                >
+                  Explorar el mapa
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
+                <Link
+                  href="/especies"
+                  className="inline-flex items-center gap-2 border border-neon-400/40 hover:border-neon-400 text-white/90 px-6 py-3 rounded-lg transition-colors"
+                >
+                  Ver especies
+                </Link>
+              </div>
             </div>
-          </div>
           </div>
         </div>
       </section>
@@ -102,13 +98,13 @@ export default async function HomePage() {
 }
 
 function Stat({
-  label, value, icon: Icon, accent = 'teal',
+  label, value, icon: Icon, accent = 'neon',
 }: {
-  label: string; value: number; icon: any; accent?: 'teal' | 'coral'
+  label: string; value: number; icon: any; accent?: 'neon' | 'coral'
 }) {
   const colors = accent === 'coral'
     ? 'text-coral-400'
-    : 'text-teal-400'
+    : 'text-neon-400'
 
   return (
     <div className="text-center">

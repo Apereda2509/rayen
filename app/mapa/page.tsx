@@ -104,7 +104,7 @@ function MapSkeleton() {
   return (
     <div className="h-full w-full flex items-center justify-center bg-stone-100">
       <div className="text-center">
-        <div className="h-12 w-12 mx-auto rounded-full border-2 border-teal-400 border-t-transparent animate-spin" />
+        <div className="h-12 w-12 mx-auto rounded-full border-2 border-neon-400 border-t-transparent animate-spin" />
         <p className="mt-4 text-sm text-stone-500">Cargando mapa...</p>
       </div>
     </div>

@@ -19,8 +19,8 @@ function LoginForm() {
   return (
     <div className="w-full max-w-sm rounded-2xl border border-stone-200 bg-white p-8 shadow-sm">
       <div className="mb-8 text-center">
-        <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-teal-900">
-          <RayenFlower className="h-8 w-8 text-emerald-400" />
+        <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-carbon-900">
+          <RayenFlower className="h-8 w-8 text-neon-400" />
         </div>
         <h1 className="text-2xl font-semibold text-stone-900">Bienvenido a Rayen</h1>
         <p className="mt-2 text-sm text-stone-500 leading-relaxed">
@@ -41,7 +41,7 @@ function LoginForm() {
 
       <p className="mt-6 text-center text-xs text-stone-400">
         Al iniciar sesión aceptas nuestros{' '}
-        <a href="/sobre" className="underline hover:text-teal-700">términos de uso</a>
+        <a href="/sobre" className="underline hover:text-neon-600">términos de uso</a>
       </p>
     </div>
   )

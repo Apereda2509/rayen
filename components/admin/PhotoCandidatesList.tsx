@@ -60,7 +60,7 @@ export function PhotoCandidatesList({ initialCandidates }: Props) {
 
         return (
           <div key={c.id} className={`rounded-2xl border bg-white overflow-hidden transition-all ${
-            fb === 'approved' ? 'border-teal-300 bg-teal-50'
+            fb === 'approved' ? 'border-neon-400/20 bg-stone-50'
             : fb === 'rejected' ? 'border-red-200 bg-red-50 opacity-60'
             : 'border-stone-200'
           }`}>
@@ -74,7 +74,7 @@ export function PhotoCandidatesList({ initialCandidates }: Props) {
               )}
             </div>
             <div className="p-3">
-              <Link href={`/especies/${c.speciesSlug}`} className="hover:text-teal-600 transition-colors">
+              <Link href={`/especies/${c.speciesSlug}`} className="hover:text-neon-600 transition-colors">
                 <p className="font-medium text-stone-800 text-sm truncate">{c.speciesCommonName}</p>
                 <p className="text-xs italic text-stone-400 truncate">{c.speciesScientificName}</p>
               </Link>
@@ -83,7 +83,7 @@ export function PhotoCandidatesList({ initialCandidates }: Props) {
                 <button
                   onClick={() => handleAction(c.id, 'approve')}
                   disabled={isBusy || !!fb}
-                  className="flex-1 flex items-center justify-center gap-1 rounded-lg bg-teal-600 hover:bg-teal-700 disabled:opacity-60 py-1.5 text-xs font-semibold text-white transition-colors"
+                  className="flex-1 flex items-center justify-center gap-1 rounded-lg bg-neon-400 hover:bg-neon-300 disabled:opacity-60 py-1.5 text-xs font-semibold text-black transition-colors"
                 >
                   {isBusy ? <Loader2 className="h-3.5 w-3.5 animate-spin" />
                     : fb === 'approved' ? <CheckCircle className="h-3.5 w-3.5" />

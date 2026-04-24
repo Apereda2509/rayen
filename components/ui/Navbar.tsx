@@ -34,7 +34,6 @@ export function Navbar() {
 
   const avatarUrl = (session?.user as any)?.avatarUrl ?? session?.user?.image
 
-  // Cerrar dropdown al click fuera o Escape
   useEffect(() => {
     function handleOutside(e: MouseEvent) {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
@@ -59,13 +58,15 @@ export function Navbar() {
 
   return (
     <>
-      <header className="sticky top-0 z-50 w-full border-b border-stone-200 bg-teal-900">
+      <header className="sticky top-0 z-50 w-full border-b border-white/10 bg-carbon-900">
         <div className="mx-auto flex h-14 max-w-7xl items-center justify-between px-4 sm:px-6">
 
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2.5 group">
-            <RayenFlower className="h-7 w-7 text-emerald-400 group-hover:text-emerald-300 transition-colors" />
-            <span className="text-lg font-semibold tracking-wide text-white">Rayen</span>
+            <GridBloom className="h-7 w-7 text-neon-400 group-hover:text-neon-300 transition-colors" />
+            <span className="font-grotesk text-lg font-semibold tracking-[0.08em] uppercase text-white">
+              RAYEN
+            </span>
           </Link>
 
           {/* Nav desktop */}
@@ -75,8 +76,8 @@ export function Navbar() {
                 className={cn(
                   'rounded-md px-3 py-1.5 text-sm transition-colors',
                   pathname === href || pathname.startsWith(href + '/')
-                    ? 'bg-teal-700 text-white font-medium'
-                    : 'text-emerald-200 hover:text-white hover:bg-teal-800'
+                    ? 'bg-carbon-700 text-neon-400 font-medium'
+                    : 'text-white/70 hover:text-white hover:bg-carbon-800'
                 )}>
                 {label}
               </Link>
@@ -91,7 +92,7 @@ export function Navbar() {
             {status !== 'loading' && (
               <Link
                 href={session ? '/avistamientos/nuevo' : '/login?callbackUrl=/avistamientos/nuevo&razon=reporte'}
-                className="hidden sm:flex items-center gap-1.5 rounded-full bg-emerald-500 hover:bg-emerald-400 px-3 py-1.5 text-sm font-medium text-white transition-colors"
+                className="hidden sm:flex items-center gap-1.5 rounded-md bg-neon-400 hover:bg-neon-300 px-3 py-1.5 text-sm font-medium text-black transition-colors"
                 title="Reportar avistamiento"
               >
                 <Plus className="h-3.5 w-3.5" />
@@ -102,10 +103,9 @@ export function Navbar() {
             {/* Auth desktop */}
             {session ? (
               <div className="hidden md:block relative" ref={dropdownRef}>
-                {/* Avatar — abre dropdown */}
                 <button
                   onClick={() => setDropdownOpen((o) => !o)}
-                  className="flex items-center gap-2 rounded-full ring-2 ring-emerald-400 hover:ring-emerald-300 transition-all focus:outline-none"
+                  className="flex items-center gap-2 rounded-full ring-2 ring-neon-400 hover:ring-neon-300 transition-all focus:outline-none"
                   aria-label="Menú de usuario"
                   aria-expanded={dropdownOpen}
                 >
@@ -118,8 +118,8 @@ export function Navbar() {
                       className="rounded-full"
                     />
                   ) : (
-                    <span className="flex h-7 w-7 items-center justify-center rounded-full bg-teal-700">
-                      <User className="h-4 w-4 text-emerald-200" />
+                    <span className="flex h-7 w-7 items-center justify-center rounded-full bg-carbon-800">
+                      <User className="h-4 w-4 text-white/70" />
                     </span>
                   )}
                 </button>
@@ -127,7 +127,6 @@ export function Navbar() {
                 {/* Dropdown */}
                 {dropdownOpen && (
                   <div className="absolute right-0 mt-2 w-52 rounded-xl border border-stone-200 bg-white shadow-lg py-1 z-50">
-                    {/* Encabezado usuario */}
                     <div className="px-4 py-2.5 border-b border-stone-100">
                       <p className="text-sm font-semibold text-stone-800 truncate">{session.user?.name}</p>
                       <p className="text-xs text-stone-400 truncate">{session.user?.email}</p>
@@ -182,7 +181,7 @@ export function Navbar() {
             ) : status !== 'loading' ? (
               <Link
                 href="/login"
-                className="hidden md:flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm text-emerald-200 hover:text-white hover:bg-teal-800 transition-colors"
+                className="hidden md:flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm text-white/70 hover:text-white hover:bg-carbon-800 transition-colors"
               >
                 <LogIn className="h-4 w-4" />
                 Iniciar sesión
@@ -190,7 +189,7 @@ export function Navbar() {
             ) : null}
 
             <button
-              className="md:hidden rounded-md p-1.5 text-emerald-200 hover:text-white hover:bg-teal-800"
+              className="md:hidden rounded-md p-1.5 text-white/70 hover:text-white hover:bg-carbon-800"
               onClick={() => setMobileOpen(!mobileOpen)}
               aria-label="Menú"
             >
@@ -201,12 +200,14 @@ export function Navbar() {
 
         {/* Nav móvil */}
         {mobileOpen && (
-          <div className="md:hidden border-t border-teal-800 bg-teal-900 px-4 py-3">
+          <div className="md:hidden border-t border-white/10 bg-carbon-900 px-4 py-3">
             {NAV_LINKS.map(({ href, label }) => (
               <Link key={href} href={href} onClick={closeAll}
                 className={cn(
                   'block rounded-md px-3 py-2 text-sm',
-                  pathname === href ? 'bg-teal-700 text-white font-medium' : 'text-emerald-200 hover:text-white hover:bg-teal-800'
+                  pathname === href
+                    ? 'bg-carbon-700 text-neon-400 font-medium'
+                    : 'text-white/70 hover:text-white hover:bg-carbon-800'
                 )}>
                 {label}
               </Link>
@@ -216,57 +217,57 @@ export function Navbar() {
               <Link
                 href={session ? '/avistamientos/nuevo' : '/login?callbackUrl=/avistamientos/nuevo&razon=reporte'}
                 onClick={closeAll}
-                className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-emerald-300 hover:text-white hover:bg-teal-800"
+                className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-neon-400 hover:text-white hover:bg-carbon-800"
               >
                 <Plus className="h-4 w-4" />
                 Reportar avistamiento
               </Link>
             )}
 
-            <div className="mt-2 border-t border-teal-800 pt-2">
+            <div className="mt-2 border-t border-white/10 pt-2">
               {session ? (
                 <>
                   <Link href="/perfil" onClick={closeAll}
-                    className="flex items-center gap-2 rounded-md px-3 py-2 text-sm text-emerald-100 hover:text-white hover:bg-teal-800">
+                    className="flex items-center gap-2 rounded-md px-3 py-2 text-sm text-white/80 hover:text-white hover:bg-carbon-800">
                     {avatarUrl ? (
-                      <Image src={avatarUrl} alt={session.user?.name ?? 'Usuario'} width={22} height={22} className="rounded-full ring-1 ring-emerald-400" />
+                      <Image src={avatarUrl} alt={session.user?.name ?? 'Usuario'} width={22} height={22} className="rounded-full ring-1 ring-neon-400" />
                     ) : (
-                      <User className="h-5 w-5 text-emerald-200" />
+                      <User className="h-5 w-5 text-white/70" />
                     )}
                     Ver perfil
                   </Link>
                   <Link href="/ayuda" onClick={closeAll}
-                    className="flex items-center gap-2 rounded-md px-3 py-2 text-sm text-emerald-200 hover:text-white hover:bg-teal-800">
+                    className="flex items-center gap-2 rounded-md px-3 py-2 text-sm text-white/70 hover:text-white hover:bg-carbon-800">
                     <HelpCircle className="h-4 w-4" />
                     Centro de ayuda
                   </Link>
                   <button
                     onClick={() => { setMobileOpen(false); setErrorModalOpen(true) }}
-                    className="flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm text-emerald-200 hover:text-white hover:bg-teal-800"
+                    className="flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm text-white/70 hover:text-white hover:bg-carbon-800"
                   >
                     <AlertCircle className="h-4 w-4" />
                     Informar un error
                   </button>
                   {session.user?.email === ADMIN_EMAIL && (
                     <Link href="/admin" onClick={closeAll}
-                      className="flex items-center gap-2 rounded-md px-3 py-2 text-sm text-emerald-200 hover:text-white hover:bg-teal-800">
+                      className="flex items-center gap-2 rounded-md px-3 py-2 text-sm text-white/70 hover:text-white hover:bg-carbon-800">
                       <ShieldCheck className="h-4 w-4" />
                       Panel de administrador
                     </Link>
                   )}
                   <Link href="/legal/privacidad" onClick={closeAll}
-                    className="flex items-center gap-2 rounded-md px-3 py-2 text-sm text-emerald-200 hover:text-white hover:bg-teal-800">
+                    className="flex items-center gap-2 rounded-md px-3 py-2 text-sm text-white/70 hover:text-white hover:bg-carbon-800">
                     <Shield className="h-4 w-4" />
                     Política de privacidad
                   </Link>
                   <Link href="/legal/uso" onClick={closeAll}
-                    className="flex items-center gap-2 rounded-md px-3 py-2 text-sm text-emerald-200 hover:text-white hover:bg-teal-800">
+                    className="flex items-center gap-2 rounded-md px-3 py-2 text-sm text-white/70 hover:text-white hover:bg-carbon-800">
                     <FileText className="h-4 w-4" />
                     Políticas de uso
                   </Link>
                   <button
                     onClick={() => { closeAll(); signOut({ callbackUrl: '/' }) }}
-                    className="flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm text-red-400 hover:text-red-300 hover:bg-teal-800"
+                    className="flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm text-red-400 hover:text-red-300 hover:bg-carbon-800"
                   >
                     <LogOut className="h-4 w-4" />
                     Cerrar sesión
@@ -274,7 +275,7 @@ export function Navbar() {
                 </>
               ) : status !== 'loading' ? (
                 <Link href="/login" onClick={closeAll}
-                  className="flex items-center gap-2 rounded-md px-3 py-2 text-sm text-emerald-200 hover:text-white hover:bg-teal-800">
+                  className="flex items-center gap-2 rounded-md px-3 py-2 text-sm text-white/70 hover:text-white hover:bg-carbon-800">
                   <LogIn className="h-4 w-4" />
                   Iniciar sesión
                 </Link>
@@ -360,7 +361,6 @@ function ErrorReportModal({ userEmail, onClose }: { userEmail: string | null; on
     }
   }
 
-  // Cerrar con Escape
   useEffect(() => {
     function handleEscape(e: KeyboardEvent) { if (e.key === 'Escape') onClose() }
     document.addEventListener('keydown', handleEscape)
@@ -383,8 +383,7 @@ function ErrorReportModal({ userEmail, onClose }: { userEmail: string | null; on
         <div className="p-5">
           {sent ? (
             <div className="text-center py-4">
-              <p className="text-2xl mb-2">✅</p>
-              <p className="text-sm font-medium text-stone-700">¡Reporte enviado! Gracias.</p>
+              <p className="text-sm font-medium text-stone-700">Reporte enviado. Gracias.</p>
             </div>
           ) : (
             <>
@@ -396,7 +395,7 @@ function ErrorReportModal({ userEmail, onClose }: { userEmail: string | null; on
                 onChange={(e) => setMessage(e.target.value.slice(0, 1000))}
                 rows={5}
                 placeholder="Ej: Al hacer click en 'Reportar avistamiento' aparece un error en blanco…"
-                className="w-full rounded-lg border border-stone-300 px-3 py-2 text-sm text-stone-800 placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-teal-500 resize-none"
+                className="w-full rounded-lg border border-stone-300 px-3 py-2 text-sm text-stone-800 placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-neon-400 resize-none"
                 autoFocus
               />
               <p className="text-right text-xs text-stone-400 mt-1">{message.length}/1000</p>
@@ -404,7 +403,7 @@ function ErrorReportModal({ userEmail, onClose }: { userEmail: string | null; on
               <button
                 onClick={handleSend}
                 disabled={sending || !message.trim()}
-                className="mt-3 w-full flex items-center justify-center gap-2 rounded-lg bg-teal-600 hover:bg-teal-700 disabled:opacity-50 py-2.5 text-sm font-semibold text-white transition-colors"
+                className="mt-3 w-full flex items-center justify-center gap-2 rounded-lg bg-neon-400 hover:bg-neon-300 disabled:opacity-50 py-2.5 text-sm font-semibold text-black transition-colors"
               >
                 {sending && <Loader2 className="h-4 w-4 animate-spin" />}
                 Enviar reporte
@@ -417,15 +416,16 @@ function ErrorReportModal({ userEmail, onClose }: { userEmail: string | null; on
   )
 }
 
-function RayenFlower({ className }: { className?: string }) {
+// ── Grid Bloom — imagotipo RAYEN v2.0 ─────────────────────────
+function GridBloom({ className }: { className?: string }) {
   return (
     <svg viewBox="0 0 24 24" fill="none" className={className}>
-      <circle cx="12" cy="12" r="2.5" fill="currentColor" opacity="0.9" />
+      <circle cx="12" cy="12" r="2" fill="currentColor" opacity="0.95" />
       {[0, 60, 120, 180, 240, 300].map((angle) => {
         const rad = (angle * Math.PI) / 180
         const cx = 12 + Math.cos(rad) * 5.5
         const cy = 12 + Math.sin(rad) * 5.5
-        return <circle key={angle} cx={cx} cy={cy} r="3" fill="currentColor" opacity="0.75" />
+        return <circle key={angle} cx={cx} cy={cy} r="3" fill="currentColor" opacity="0.80" />
       })}
     </svg>
   )

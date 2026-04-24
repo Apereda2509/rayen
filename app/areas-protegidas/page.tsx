@@ -21,8 +21,8 @@ const TIPO_LABELS: Record<string, string> = {
 }
 
 const TIPO_COLORS: Record<string, string> = {
-  parque_nacional: 'bg-emerald-100 text-emerald-800',
-  reserva_nacional: 'bg-teal-100 text-teal-800',
+  parque_nacional: 'bg-stone-100 text-stone-700',
+  reserva_nacional: 'bg-stone-100 text-stone-700',
   monumento_natural: 'bg-amber-100 text-amber-800',
   santuario_naturaleza: 'bg-sky-100 text-sky-800',
   area_marina: 'bg-blue-100 text-blue-800',
@@ -79,8 +79,8 @@ export default async function AreasProtegidasPage({ searchParams }: Props) {
           { label: 'Parques Nacionales', value: all.filter(a => a.type === 'parque_nacional').length },
           { label: 'Reservas Nacionales', value: all.filter(a => a.type === 'reserva_nacional').length },
         ].map(({ label, value }) => (
-          <div key={label} className="rounded-xl bg-emerald-50 border border-emerald-100 p-4 text-center">
-            <p className="text-2xl font-bold text-emerald-700">{value}</p>
+          <div key={label} className="rounded-xl bg-stone-50 border border-stone-200 p-4 text-center">
+            <p className="text-2xl font-bold text-stone-800">{value}</p>
             <p className="text-xs text-stone-500 mt-0.5">{label}</p>
           </div>
         ))}
@@ -91,7 +91,7 @@ export default async function AreasProtegidasPage({ searchParams }: Props) {
         <select
           name="tipo"
           defaultValue={tipoFilter}
-          className="rounded-lg border border-stone-300 px-3 py-2 text-sm text-stone-700 focus:outline-none focus:ring-2 focus:ring-teal-500"
+          className="rounded-lg border border-stone-300 px-3 py-2 text-sm text-stone-700 focus:outline-none focus:ring-2 focus:ring-neon-400"
         >
           {TIPOS_FILTER.map(({ value, label }) => (
             <option key={value} value={value}>{label}</option>
@@ -101,7 +101,7 @@ export default async function AreasProtegidasPage({ searchParams }: Props) {
         <select
           name="region"
           defaultValue={regionFilter}
-          className="rounded-lg border border-stone-300 px-3 py-2 text-sm text-stone-700 focus:outline-none focus:ring-2 focus:ring-teal-500 max-w-xs"
+          className="rounded-lg border border-stone-300 px-3 py-2 text-sm text-stone-700 focus:outline-none focus:ring-2 focus:ring-neon-400 max-w-xs"
         >
           <option value="">Todas las regiones</option>
           {regions.map(r => (
@@ -111,7 +111,7 @@ export default async function AreasProtegidasPage({ searchParams }: Props) {
 
         <button
           type="submit"
-          className="rounded-lg bg-teal-600 hover:bg-teal-700 px-4 py-2 text-sm font-medium text-white transition-colors"
+          className="rounded-lg bg-neon-400 hover:bg-neon-300 px-4 py-2 text-sm font-medium text-black transition-colors"
         >
           Filtrar
         </button>
@@ -134,7 +134,6 @@ export default async function AreasProtegidasPage({ searchParams }: Props) {
       {/* Grid de tarjetas */}
       {filtered.length === 0 ? (
         <div className="text-center py-20 text-stone-400">
-          <p className="text-4xl mb-3">🌿</p>
           <p>No se encontraron áreas con los filtros seleccionados</p>
         </div>
       ) : (
@@ -143,7 +142,7 @@ export default async function AreasProtegidasPage({ searchParams }: Props) {
             <Link
               key={area.slug}
               href={`/areas-protegidas/${area.slug}`}
-              className="group rounded-2xl border border-stone-200 bg-white overflow-hidden hover:shadow-md hover:border-emerald-300 transition-all"
+              className="group rounded-2xl border border-stone-200 bg-white overflow-hidden hover:shadow-md hover:border-neon-400/40 transition-all"
             >
               {/* Cabecera con foto o gradiente fallback */}
               <div className="h-40 relative overflow-hidden flex items-end p-3">
@@ -156,7 +155,7 @@ export default async function AreasProtegidasPage({ searchParams }: Props) {
                     className="object-cover group-hover:scale-105 transition-transform duration-500"
                   />
                 ) : (
-                  <div className="absolute inset-0 bg-gradient-to-br from-emerald-700 to-teal-600" />
+                  <div className="absolute inset-0 bg-carbon-900" />
                 )}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
                 <span className={`relative z-10 text-[10px] font-semibold uppercase tracking-wide px-2 py-1 rounded-full ${TIPO_COLORS[area.type] ?? 'bg-stone-100 text-stone-600'}`}>
@@ -165,11 +164,11 @@ export default async function AreasProtegidasPage({ searchParams }: Props) {
               </div>
 
               <div className="p-4">
-                <h2 className="font-semibold text-stone-900 group-hover:text-teal-700 transition-colors leading-tight">
+                <h2 className="font-semibold text-stone-900 group-hover:text-neon-600 transition-colors leading-tight">
                   {area.name}
                 </h2>
                 {area.regionName && (
-                  <p className="text-xs text-stone-500 mt-1">📍 {area.regionName}</p>
+                  <p className="text-xs text-stone-500 mt-1">{area.regionName}</p>
                 )}
                 {area.areaHa && (
                   <p className="text-xs text-stone-400 mt-0.5">

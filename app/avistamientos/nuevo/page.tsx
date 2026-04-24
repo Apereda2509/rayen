@@ -22,12 +22,12 @@ export default async function NuevoAvistamientoPage({ searchParams }: Props) {
       {/* Encabezado */}
       <div className="mb-8">
         <nav className="mb-4 text-sm text-stone-400">
-          <Link href="/" className="hover:text-teal-600 transition-colors">Inicio</Link>
+          <Link href="/" className="hover:text-neon-600 transition-colors">Inicio</Link>
           <span className="mx-2">/</span>
           <span className="text-stone-600">Reportar avistamiento</span>
         </nav>
         <div className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-teal-50 text-teal-600">
+          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-stone-50 text-stone-600">
             <Eye className="h-5 w-5" />
           </div>
           <div>
@@ -44,7 +44,7 @@ export default async function NuevoAvistamientoPage({ searchParams }: Props) {
         <NuevoAvistamientoForm defaultSpeciesSlug={searchParams.especie} />
       ) : (
         <div className="rounded-2xl border border-stone-200 bg-stone-50 px-8 py-12 text-center">
-          <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-teal-100 text-teal-600">
+          <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-stone-100 text-stone-600">
             <Eye className="h-7 w-7" />
           </div>
           <h2 className="text-lg font-semibold text-stone-800 mb-2">
@@ -55,14 +55,14 @@ export default async function NuevoAvistamientoPage({ searchParams }: Props) {
           </p>
           <Link
             href={`/login?callbackUrl=${encodeURIComponent('/avistamientos/nuevo' + (searchParams.especie ? `?especie=${searchParams.especie}` : ''))}`}
-            className="inline-flex items-center gap-2 rounded-xl bg-teal-600 hover:bg-teal-700 px-6 py-3 text-sm font-semibold text-white transition-colors"
+            className="inline-flex items-center gap-2 rounded-xl bg-neon-400 hover:bg-neon-300 px-6 py-3 text-sm font-semibold text-black transition-colors"
           >
             <LogIn className="h-4 w-4" />
             Iniciar sesión con Google
           </Link>
           <p className="mt-4 text-xs text-stone-400">
             O explora las{' '}
-            <Link href="/especies" className="underline hover:text-teal-600">
+            <Link href="/especies" className="underline hover:text-neon-600">
               especies
             </Link>{' '}
             sin necesidad de cuenta

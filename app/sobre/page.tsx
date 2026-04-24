@@ -32,7 +32,7 @@ export default function SobrePage() {
         </p>
         <a
           href="mailto:angelperedajimenez@gmail.com"
-          className="inline-flex items-center gap-2 text-teal-600 hover:text-teal-500 transition-colors text-sm font-medium"
+          className="inline-flex items-center gap-2 text-neon-600 hover:text-neon-500 transition-colors text-sm font-medium"
         >
           <Mail className="h-4 w-4" />
           angelperedajimenez@gmail.com
@@ -45,7 +45,7 @@ export default function SobrePage() {
           chilena, escríbeme a{' '}
           <a
             href="mailto:angelperedajimenez@gmail.com"
-            className="text-teal-600 hover:text-teal-500 transition-colors"
+            className="text-neon-600 hover:text-neon-500 transition-colors"
           >
             angelperedajimenez@gmail.com
           </a>
@@ -56,7 +56,7 @@ export default function SobrePage() {
       <div className="mt-12">
         <Link
           href="/especies"
-          className="inline-flex items-center gap-2 bg-teal-600 hover:bg-teal-500 text-white font-medium px-6 py-3 rounded-lg transition-colors"
+          className="inline-flex items-center gap-2 bg-neon-400 hover:bg-neon-300 text-black font-medium px-6 py-3 rounded-lg transition-colors"
         >
           Explorar especies
           <ArrowRight className="h-4 w-4" />

@@ -318,7 +318,7 @@ export function NuevoAvistamientoForm({ defaultSpeciesSlug }: Props) {
   if (success) {
     return (
       <div className="flex flex-col items-center gap-4 py-16 text-center">
-        <CheckCircle className="h-14 w-14 text-teal-500" />
+        <CheckCircle className="h-14 w-14 text-neon-600" />
         <h2 className="text-xl font-semibold text-stone-800">¡Avistamiento enviado!</h2>
         <p className="text-stone-500 max-w-xs">
           Gracias por contribuir a Rayen. Tu avistamiento será revisado por nuestro equipo antes de aparecer en el mapa.
@@ -331,7 +331,7 @@ export function NuevoAvistamientoForm({ defaultSpeciesSlug }: Props) {
             setGeoQuery(''); setGeoSuggestions([])
             setIsSpeciesCandidate(false)
           }}
-          className="mt-2 rounded-lg bg-teal-600 px-5 py-2 text-sm font-medium text-white hover:bg-teal-700 transition-colors"
+          className="mt-2 rounded-lg bg-neon-400 px-5 py-2 text-sm font-medium text-black hover:bg-neon-300 transition-colors"
         >
           Reportar otro avistamiento
         </button>
@@ -349,7 +349,7 @@ export function NuevoAvistamientoForm({ defaultSpeciesSlug }: Props) {
           Especie <span className="text-red-500">*</span>
         </label>
         <div className="relative" ref={speciesDropdownRef}>
-          <div className="flex items-center rounded-lg border border-stone-300 bg-white focus-within:ring-2 focus-within:ring-teal-500 focus-within:border-teal-500 overflow-hidden">
+          <div className="flex items-center rounded-lg border border-stone-300 bg-white focus-within:ring-2 focus-within:ring-neon-400 focus-within:border-neon-400 overflow-hidden">
             <Search className="ml-3 h-4 w-4 text-stone-400 flex-shrink-0" />
             <input
               type="text"
@@ -377,7 +377,7 @@ export function NuevoAvistamientoForm({ defaultSpeciesSlug }: Props) {
               ) : (
                 speciesList.map((s) => (
                   <button key={s.slug} type="button" onMouseDown={() => selectSpecies(s)}
-                    className="w-full text-left px-4 py-2.5 hover:bg-teal-50 transition-colors">
+                    className="w-full text-left px-4 py-2.5 hover:bg-stone-50 transition-colors">
                     <span className="block text-sm font-medium text-stone-800">{s.commonName}</span>
                     <span className="block text-xs italic text-stone-400">{s.scientificName}</span>
                   </button>
@@ -387,8 +387,8 @@ export function NuevoAvistamientoForm({ defaultSpeciesSlug }: Props) {
           )}
         </div>
         {selectedSpecies && (
-          <p className="mt-1.5 text-xs text-teal-600 font-medium">
-            ✓ {selectedSpecies.commonName} — <span className="italic">{selectedSpecies.scientificName}</span>
+          <p className="mt-1.5 text-xs text-neon-600 font-medium">
+            Seleccionada: {selectedSpecies.commonName} — <span className="italic">{selectedSpecies.scientificName}</span>
           </p>
         )}
       </div>
@@ -401,7 +401,7 @@ export function NuevoAvistamientoForm({ defaultSpeciesSlug }: Props) {
         <input
           id="date" type="date" value={date} max={today}
           onChange={(e) => setDate(e.target.value)} required
-          className="w-full rounded-lg border border-stone-300 px-3 py-2.5 text-sm text-stone-800 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+          className="w-full rounded-lg border border-stone-300 px-3 py-2.5 text-sm text-stone-800 focus:outline-none focus:ring-2 focus:ring-neon-400 focus:border-neon-400"
         />
       </div>
 
@@ -416,14 +416,14 @@ export function NuevoAvistamientoForm({ defaultSpeciesSlug }: Props) {
           type="button"
           onClick={handleGPS}
           disabled={gpsLoading}
-          className="w-full flex items-center gap-3 rounded-xl border-2 border-teal-200 bg-teal-50 hover:bg-teal-100 disabled:opacity-60 px-4 py-3 text-left transition-colors mb-3"
+          className="w-full flex items-center gap-3 rounded-xl border-2 border-neon-400/20 bg-stone-50 hover:bg-stone-100 disabled:opacity-60 px-4 py-3 text-left transition-colors mb-3"
         >
           {gpsLoading
-            ? <Loader2 className="h-5 w-5 text-teal-600 animate-spin flex-shrink-0" />
-            : <LocateFixed className="h-5 w-5 text-teal-600 flex-shrink-0" />}
+            ? <Loader2 className="h-5 w-5 text-neon-600 animate-spin flex-shrink-0" />
+            : <LocateFixed className="h-5 w-5 text-neon-600 flex-shrink-0" />}
           <div>
-            <p className="text-sm font-medium text-teal-800">Estoy en el lugar ahora</p>
-            <p className="text-xs text-teal-600">Usa tu ubicación actual (GPS)</p>
+            <p className="text-sm font-medium text-neon-600">Estoy en el lugar ahora</p>
+            <p className="text-xs text-neon-600">Usa tu ubicación actual (GPS)</p>
           </div>
         </button>
         {gpsError && (
@@ -434,7 +434,7 @@ export function NuevoAvistamientoForm({ defaultSpeciesSlug }: Props) {
 
         {/* Opción B — Buscador geocoding */}
         <div className="relative mb-3" ref={geoDropdownRef}>
-          <div className="flex items-center rounded-xl border border-stone-300 bg-white focus-within:ring-2 focus-within:ring-teal-500 focus-within:border-teal-500 overflow-hidden">
+          <div className="flex items-center rounded-xl border border-stone-300 bg-white focus-within:ring-2 focus-within:ring-neon-400 focus-within:border-neon-400 overflow-hidden">
             <Search className="ml-3 h-4 w-4 text-stone-400 flex-shrink-0" />
             <input
               type="text"
@@ -457,7 +457,7 @@ export function NuevoAvistamientoForm({ defaultSpeciesSlug }: Props) {
             <div className="absolute z-20 mt-1 w-full rounded-lg border border-stone-200 bg-white shadow-lg max-h-52 overflow-y-auto">
               {geoSuggestions.map((s, i) => (
                 <button key={i} type="button" onMouseDown={() => selectGeoSuggestion(s)}
-                  className="w-full text-left flex items-start gap-2 px-4 py-2.5 hover:bg-teal-50 transition-colors">
+                  className="w-full text-left flex items-start gap-2 px-4 py-2.5 hover:bg-stone-50 transition-colors">
                   <MapPin className="h-4 w-4 text-stone-400 flex-shrink-0 mt-0.5" />
                   <span className="text-sm text-stone-700">{s.placeName}</span>
                 </button>
@@ -480,17 +480,17 @@ export function NuevoAvistamientoForm({ defaultSpeciesSlug }: Props) {
                   setAreaDropdownOpen(false)
                 }
               }}
-              className="h-4 w-4 rounded border-stone-300 text-emerald-600 focus:ring-emerald-600"
+              className="h-4 w-4 rounded border-stone-300 text-neon-600 focus:ring-neon-400"
             />
             <span className="text-sm text-stone-700 font-medium">
-              🌿 Estaba en un área protegida (Parque Nacional, Reserva, etc.)
+              Estaba en un área protegida (Parque Nacional, Reserva, etc.)
             </span>
           </label>
 
           {inProtectedArea && (
             <div className="mt-2 relative" ref={areaDropdownRef}>
-              <div className="flex items-center rounded-xl border border-emerald-300 bg-emerald-50 focus-within:ring-2 focus-within:ring-emerald-500 focus-within:border-emerald-500 overflow-hidden">
-                <Search className="ml-3 h-4 w-4 text-emerald-500 flex-shrink-0" />
+              <div className="flex items-center rounded-xl border border-neon-400/40 bg-stone-100 focus-within:ring-2 focus-within:ring-neon-400 focus-within:border-neon-400 overflow-hidden">
+                <Search className="ml-3 h-4 w-4 text-neon-600 flex-shrink-0" />
                 <input
                   type="text"
                   value={areaQuery}
@@ -500,7 +500,7 @@ export function NuevoAvistamientoForm({ defaultSpeciesSlug }: Props) {
                   className="flex-1 px-3 py-2.5 text-sm text-stone-800 placeholder-stone-400 outline-none bg-transparent"
                   autoComplete="off"
                 />
-                {loadingAreas && <Loader2 className="mr-3 h-4 w-4 text-emerald-500 animate-spin flex-shrink-0" />}
+                {loadingAreas && <Loader2 className="mr-3 h-4 w-4 text-neon-600 animate-spin flex-shrink-0" />}
                 {selectedArea && (
                   <button type="button" onClick={() => { setSelectedArea(null); setAreaQuery('') }}
                     className="mr-2 rounded p-0.5 text-stone-400 hover:text-stone-700">
@@ -512,7 +512,7 @@ export function NuevoAvistamientoForm({ defaultSpeciesSlug }: Props) {
                 <div className="absolute z-20 mt-1 w-full rounded-lg border border-stone-200 bg-white shadow-lg max-h-56 overflow-y-auto">
                   {areaList.map((a) => (
                     <button key={a.slug} type="button" onMouseDown={() => selectArea(a)}
-                      className="w-full text-left px-4 py-2.5 hover:bg-emerald-50 transition-colors">
+                      className="w-full text-left px-4 py-2.5 hover:bg-stone-100 transition-colors">
                       <span className="block text-sm font-medium text-stone-800">{a.name}</span>
                       <span className="block text-xs text-stone-400">
                         {AREA_TYPE_LABELS[a.type] ?? a.type}
@@ -523,8 +523,8 @@ export function NuevoAvistamientoForm({ defaultSpeciesSlug }: Props) {
                 </div>
               )}
               {selectedArea && (
-                <p className="mt-1.5 text-xs text-emerald-700 font-medium">
-                  ✓ {selectedArea.name}
+                <p className="mt-1.5 text-xs text-neon-600 font-medium">
+                  Área: {selectedArea.name}
                 </p>
               )}
             </div>
@@ -542,8 +542,8 @@ export function NuevoAvistamientoForm({ defaultSpeciesSlug }: Props) {
         <MapPicker value={location} onChange={handleMapClick} flyTo={flyTo} />
 
         {location ? (
-          <p className="mt-2 text-xs text-teal-600 font-medium">
-            ✓ Lat: {location.lat.toFixed(5)}, Lng: {location.lng.toFixed(5)}
+          <p className="mt-2 text-xs text-neon-600 font-medium">
+            Lat: {location.lat.toFixed(5)}, Lng: {location.lng.toFixed(5)}
           </p>
         ) : (
           <p className="mt-2 text-xs text-stone-400">Sin ubicación seleccionada</p>
@@ -564,7 +564,7 @@ export function NuevoAvistamientoForm({ defaultSpeciesSlug }: Props) {
             </button>
           </div>
         ) : (
-          <label className="flex flex-col items-center justify-center gap-2 w-full h-32 border-2 border-dashed border-stone-300 rounded-xl cursor-pointer hover:border-teal-400 hover:bg-teal-50/50 transition-colors">
+          <label className="flex flex-col items-center justify-center gap-2 w-full h-32 border-2 border-dashed border-stone-300 rounded-xl cursor-pointer hover:border-neon-400/60 hover:bg-stone-50 transition-colors">
             <Camera className="h-7 w-7 text-stone-300" />
             <span className="text-sm text-stone-400">JPG, PNG o WebP · máx. 5 MB</span>
             <input type="file" accept="image/jpeg,image/png,image/webp" onChange={handlePhotoChange} className="hidden" />
@@ -574,19 +574,19 @@ export function NuevoAvistamientoForm({ defaultSpeciesSlug }: Props) {
 
       {/* Proponer foto candidata — visible solo si hay foto */}
       {photo && (
-        <div className="rounded-xl border border-teal-200 bg-teal-50 px-4 py-3">
+        <div className="rounded-xl border border-neon-400/20 bg-stone-50 px-4 py-3">
           <label className="flex items-start gap-3 cursor-pointer">
             <input
               type="checkbox"
               checked={isSpeciesCandidate}
               onChange={(e) => setIsSpeciesCandidate(e.target.checked)}
-              className="mt-0.5 h-4 w-4 rounded border-stone-300 text-teal-600 focus:ring-teal-600"
+              className="mt-0.5 h-4 w-4 rounded border-stone-300 text-neon-600 focus:ring-neon-400"
             />
             <div>
-              <p className="text-sm font-medium text-teal-800">
+              <p className="text-sm font-medium text-neon-600">
                 Proponer esta foto como foto principal de la especie
               </p>
-              <p className="text-xs text-teal-600 mt-0.5">
+              <p className="text-xs text-neon-600 mt-0.5">
                 Un moderador revisará si es adecuada. La foto con más favoritos entre las aprobadas será la principal.
               </p>
             </div>
@@ -602,7 +602,7 @@ export function NuevoAvistamientoForm({ defaultSpeciesSlug }: Props) {
         <textarea
           id="notes" value={notes} onChange={(e) => setNotes(e.target.value.slice(0, 500))}
           rows={3} placeholder="Comportamiento observado, condiciones climáticas, contexto…"
-          className="w-full rounded-lg border border-stone-300 px-3 py-2.5 text-sm text-stone-800 placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 resize-none"
+          className="w-full rounded-lg border border-stone-300 px-3 py-2.5 text-sm text-stone-800 placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-neon-400 focus:border-neon-400 resize-none"
         />
         <p className="text-right text-xs text-stone-400 mt-1">{notes.length}/500</p>
       </div>
@@ -617,7 +617,7 @@ export function NuevoAvistamientoForm({ defaultSpeciesSlug }: Props) {
       {/* Submit */}
       <button
         type="submit" disabled={submitting}
-        className="w-full flex items-center justify-center gap-2 rounded-xl bg-teal-600 hover:bg-teal-700 disabled:opacity-60 px-6 py-3 text-sm font-semibold text-white transition-colors"
+        className="w-full flex items-center justify-center gap-2 rounded-xl bg-neon-400 hover:bg-neon-300 disabled:opacity-60 px-6 py-3 text-sm font-semibold text-black transition-colors"
       >
         {submitting ? <><Loader2 className="h-4 w-4 animate-spin" />Enviando…</> : 'Enviar avistamiento'}
       </button>

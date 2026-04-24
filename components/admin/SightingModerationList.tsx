@@ -71,7 +71,7 @@ export function SightingModerationList({ initialSightings }: Props) {
             className={`rounded-2xl border bg-white overflow-hidden transition-all ${
               done
                 ? feedback?.type === 'approved'
-                  ? 'border-teal-300 bg-teal-50'
+                  ? 'border-neon-400/20 bg-stone-50'
                   : 'border-red-200 bg-red-50 opacity-60'
                 : 'border-stone-200'
             }`}
@@ -124,7 +124,7 @@ export function SightingModerationList({ initialSightings }: Props) {
                 <button
                   onClick={() => handleAction(s.id, 'approve')}
                   disabled={isBusy}
-                  className="flex items-center gap-1.5 rounded-lg bg-teal-600 hover:bg-teal-700 disabled:opacity-50 px-3 py-2 text-xs font-semibold text-white transition-colors"
+                  className="flex items-center gap-1.5 rounded-lg bg-neon-400 hover:bg-neon-300 disabled:opacity-50 px-3 py-2 text-xs font-semibold text-black transition-colors"
                 >
                   {isBusy ? (
                     <Loader2 className="h-3.5 w-3.5 animate-spin" />

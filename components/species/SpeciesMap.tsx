@@ -8,8 +8,8 @@ import Map, {
 import type { LayerProps, MapLayerMouseEvent } from 'react-map-gl'
 
 const UICN_COLORS: Record<string, string> = {
-  CR: '#D85A30', EN: '#BA7517', VU: '#EF9F27',
-  NT: '#639922', LC: '#1D9E75', DD: '#888780',
+  CR: '#D85A30', EN: '#D85A30', VU: '#F59E0B',
+  NT: '#78716C', LC: '#00E676', DD: '#888780',
 }
 
 const REGION_NAMES: Record<string, string> = {
@@ -60,7 +60,7 @@ export function SpeciesMap({ slug, uicnStatus }: Props) {
     })),
   }), [sightings])
 
-  const pointColor = UICN_COLORS[uicnStatus ?? ''] ?? '#085041'
+  const pointColor = UICN_COLORS[uicnStatus ?? ''] ?? '#0A0A0A'
 
   const pointLayer: LayerProps = {
     id: 'species-points',
@@ -97,7 +97,7 @@ export function SpeciesMap({ slug, uicnStatus }: Props) {
         </p>
         <Link
           href={`/avistamientos/nuevo?especie=${slug}`}
-          className="inline-flex items-center gap-1.5 rounded-lg bg-teal-600 hover:bg-teal-700 px-4 py-2 text-sm font-medium text-white transition-colors"
+          className="inline-flex items-center gap-1.5 rounded-lg bg-neon-400 hover:bg-neon-300 px-4 py-2 text-sm font-medium text-black transition-colors"
         >
           Reportar avistamiento
         </Link>
@@ -146,7 +146,7 @@ export function SpeciesMap({ slug, uicnStatus }: Props) {
               </p>
               {popup.regionCode && (
                 <p className="text-stone-500 text-xs">
-                  📍 {REGION_NAMES[popup.regionCode] ?? popup.regionCode}
+                  {REGION_NAMES[popup.regionCode] ?? popup.regionCode}
                 </p>
               )}
             </div>

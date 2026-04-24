@@ -44,7 +44,7 @@ export default async function AdminPage() {
           <Link
             key={href}
             href={href}
-            className="rounded-2xl border border-stone-200 bg-white p-5 hover:border-teal-300 hover:shadow-sm transition-all"
+            className="rounded-2xl border border-stone-200 bg-white p-5 hover:border-neon-400/40 hover:shadow-sm transition-all"
           >
             <div className={`inline-flex items-center justify-center rounded-xl p-2.5 mb-3 ${color}`}>
               <Icon className="h-5 w-5" />
@@ -65,7 +65,7 @@ export default async function AdminPage() {
             { href: '/admin/usuarios',      label: '→ Ver todos los usuarios' },
           ].map(({ href, label }) => (
             <Link key={href} href={href}
-              className="rounded-xl bg-stone-50 hover:bg-teal-50 px-4 py-3 text-sm font-medium text-stone-700 hover:text-teal-700 transition-colors">
+              className="rounded-xl bg-stone-50 hover:bg-stone-50 px-4 py-3 text-sm font-medium text-stone-700 hover:text-neon-600 transition-colors">
               {label}
             </Link>
           ))}

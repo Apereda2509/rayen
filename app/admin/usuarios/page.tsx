@@ -66,7 +66,7 @@ export default async function AdminUsuariosPage() {
                 </td>
                 <td className="px-4 py-3 text-center hidden md:table-cell">
                   {u.onboarding_completed ? (
-                    <CheckCircle className="h-4 w-4 text-teal-500 mx-auto" />
+                    <CheckCircle className="h-4 w-4 text-neon-400 mx-auto" />
                   ) : (
                     <Clock className="h-4 w-4 text-stone-300 mx-auto" />
                   )}
