@@ -1,5 +1,6 @@
 export const dynamic = 'force-dynamic'
 
+import { Suspense } from 'react'
 import { getProtectedAreas } from '@/lib/db'
 import { AreasFilterGrid } from '@/components/areas/AreasFilterGrid'
 import type { Metadata } from 'next'
@@ -43,7 +44,9 @@ export default async function AreasProtegidasPage() {
       </div>
 
       {/* Buscador + filtros + grid */}
-      <AreasFilterGrid areas={areas} />
+      <Suspense>
+        <AreasFilterGrid areas={areas} />
+      </Suspense>
     </main>
   )
 }

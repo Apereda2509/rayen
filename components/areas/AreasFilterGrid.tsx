@@ -1,6 +1,7 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
+import { useSearchParams } from 'next/navigation'
 import { Search, X } from 'lucide-react'
 import Link from 'next/link'
 import Image from 'next/image'
@@ -50,30 +51,33 @@ function getMacrozone(regionName: string | null): string | null {
 // ── Tipos ────────────────────────────────────────────────────
 
 const TIPO_OPTIONS = [
-  { value: 'parque_nacional',     label: 'Parque Nacional' },
-  { value: 'reserva_nacional',    label: 'Reserva Nacional' },
-  { value: 'monumento_natural',   label: 'Monumento Natural' },
+  { value: 'parque_nacional',      label: 'Parque Nacional' },
+  { value: 'reserva_nacional',     label: 'Reserva Nacional' },
+  { value: 'monumento_natural',    label: 'Monumento Natural' },
   { value: 'santuario_naturaleza', label: 'Santuario de la Naturaleza' },
 ]
 
+const VALID_TIPOS = new Set(TIPO_OPTIONS.map((o) => o.value))
+const VALID_ZONAS = new Set(MACROZONES.map((z) => z.value))
+
 const TIPO_LABELS: Record<string, string> = {
-  parque_nacional:     'Parque Nacional',
-  reserva_nacional:    'Reserva Nacional',
-  monumento_natural:   'Monumento Natural',
+  parque_nacional:      'Parque Nacional',
+  reserva_nacional:     'Reserva Nacional',
+  monumento_natural:    'Monumento Natural',
   santuario_naturaleza: 'Santuario de la Naturaleza',
-  area_marina:         'Área Marina Protegida',
-  sitio_ramsar:        'Sitio Ramsar',
-  otro:                'Otra',
+  area_marina:          'Área Marina Protegida',
+  sitio_ramsar:         'Sitio Ramsar',
+  otro:                 'Otra',
 }
 
 const TIPO_COLORS: Record<string, string> = {
-  parque_nacional:     'bg-stone-100 text-stone-700',
-  reserva_nacional:    'bg-stone-100 text-stone-700',
-  monumento_natural:   'bg-amber-100 text-amber-800',
+  parque_nacional:      'bg-stone-100 text-stone-700',
+  reserva_nacional:     'bg-stone-100 text-stone-700',
+  monumento_natural:    'bg-amber-100 text-amber-800',
   santuario_naturaleza: 'bg-sky-100 text-sky-800',
-  area_marina:         'bg-blue-100 text-blue-800',
-  sitio_ramsar:        'bg-cyan-100 text-cyan-800',
-  otro:                'bg-stone-100 text-stone-600',
+  area_marina:          'bg-blue-100 text-blue-800',
+  sitio_ramsar:         'bg-cyan-100 text-cyan-800',
+  otro:                 'bg-stone-100 text-stone-600',
 }
 
 // ── Helpers ──────────────────────────────────────────────────
@@ -125,9 +129,34 @@ interface Props {
 }
 
 export function AreasFilterGrid({ areas }: Props) {
-  const [tipos, setTipos] = useState<string[]>([])
-  const [zonas, setZonas] = useState<string[]>([])
-  const [query, setQuery]  = useState('')
+  const searchParams = useSearchParams()
+
+  const [tipos, setTipos] = useState<string[]>(() => {
+    const val = searchParams.get('tipo')
+    if (!val) return []
+    return val.split(',').filter((v) => VALID_TIPOS.has(v))
+  })
+
+  const [zonas, setZonas] = useState<string[]>(() => {
+    const val = searchParams.get('zona')
+    if (!val) return []
+    return val.split(',').filter((v) => VALID_ZONAS.has(v))
+  })
+
+  const [query, setQuery] = useState<string>(() => {
+    return searchParams.get('q') ?? ''
+  })
+
+  // Sync filter state → URL without triggering a server re-render
+  useEffect(() => {
+    const params = new URLSearchParams()
+    if (tipos.length > 0) params.set('tipo', tipos.join(','))
+    if (zonas.length > 0) params.set('zona', zonas.join(','))
+    if (query.trim()) params.set('q', query.trim())
+
+    const qs = params.toString()
+    window.history.replaceState(null, '', qs ? `/areas-protegidas?${qs}` : '/areas-protegidas')
+  }, [tipos, zonas, query])
 
   const hasFilters = tipos.length > 0 || zonas.length > 0 || query.trim() !== ''
 
@@ -175,7 +204,7 @@ export function AreasFilterGrid({ areas }: Props) {
           )}
         </div>
 
-        {/* Tipo */}
+        {/* Tipo — multi-select */}
         <FilterRow label="Tipo">
           <Chip active={tipos.length === 0} onClick={() => setTipos([])}>
             Todos
@@ -191,7 +220,7 @@ export function AreasFilterGrid({ areas }: Props) {
           ))}
         </FilterRow>
 
-        {/* Zona */}
+        {/* Zona — multi-select */}
         <FilterRow label="Zona">
           <Chip active={zonas.length === 0} onClick={() => setZonas([])}>
             Todos
