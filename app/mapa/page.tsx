@@ -81,7 +81,7 @@ export default async function MapaPage({ searchParams }: Props) {
         </Suspense>
       </aside>
 
-      <div className="flex-1 relative">
+      <div className="flex-1 relative" data-cursor="dark">
         <Suspense fallback={<MapSkeleton />}>
           <RayenMap
             sightings={features}

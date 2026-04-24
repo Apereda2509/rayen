@@ -1,11 +1,12 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { motion, useMotionValue, useSpring } from 'framer-motion'
 
 export function CustomCursor() {
   const [mounted, setMounted] = useState(false)
   const [hovering, setHovering] = useState(false)
+  const [isDark, setIsDark] = useState(false)
 
   const mouseX = useMotionValue(-100)
   const mouseY = useMotionValue(-100)
@@ -14,7 +15,6 @@ export function CustomCursor() {
   const springY = useSpring(mouseY, { stiffness: 80, damping: 20 })
 
   useEffect(() => {
-    // No montar en touch o prefers-reduced-motion
     const isTouch = window.matchMedia('(pointer: coarse)').matches
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     if (isTouch || prefersReduced) return
@@ -24,6 +24,9 @@ export function CustomCursor() {
     function onMove(e: MouseEvent) {
       mouseX.set(e.clientX)
       mouseY.set(e.clientY)
+
+      const target = e.target as Element
+      setIsDark(!!target.closest('[data-cursor="dark"]'))
     }
 
     function onEnter(e: MouseEvent) {
@@ -53,6 +56,10 @@ export function CustomCursor() {
 
   if (!mounted) return null
 
+  const dotColor = isDark ? '#0A0A0A' : '#00E676'
+  const ringColor = isDark ? '#0A0A0A' : '#00E676'
+  const ringHoverBg = isDark ? 'rgba(10,10,10,0.15)' : 'rgba(0,230,118,0.15)'
+
   return (
     <>
       {/* Punto interno — sigue exactamente, desaparece en hover */}
@@ -68,11 +75,13 @@ export function CustomCursor() {
           width: 8,
           height: 8,
           borderRadius: '50%',
-          backgroundColor: '#00E676',
           pointerEvents: 'none',
           zIndex: 9999,
         }}
-        animate={{ opacity: hovering ? 0 : 1 }}
+        animate={{
+          opacity: hovering ? 0 : 1,
+          backgroundColor: dotColor,
+        }}
         transition={{ duration: 0.2 }}
       />
 
@@ -89,13 +98,15 @@ export function CustomCursor() {
           width: 36,
           height: 36,
           borderRadius: '50%',
-          border: '1.5px solid #00E676',
           pointerEvents: 'none',
           zIndex: 9998,
         }}
         animate={{
           scale: hovering ? 2 : 1,
-          backgroundColor: hovering ? 'rgba(0,230,118,0.15)' : 'rgba(0,230,118,0)',
+          borderColor: ringColor,
+          backgroundColor: hovering ? ringHoverBg : 'rgba(0,0,0,0)',
+          borderWidth: '1.5px',
+          borderStyle: 'solid',
         }}
         transition={{ duration: 0.2 }}
       />
