@@ -1,5 +1,6 @@
 export const dynamic = 'force-dynamic'
 
+import { Suspense } from 'react'
 import { getSpeciesSummaries } from '@/lib/db'
 import { SpeciesFilterGrid } from '@/components/especies/SpeciesFilterGrid'
 
@@ -38,7 +39,9 @@ export default async function EspeciesPage() {
           <p className="text-lg">No hay especies publicadas aún.</p>
         </div>
       ) : (
-        <SpeciesFilterGrid species={species} total={total} />
+        <Suspense>
+          <SpeciesFilterGrid species={species} total={total} />
+        </Suspense>
       )}
     </main>
   )

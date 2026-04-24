@@ -1,6 +1,7 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
+import { useSearchParams } from 'next/navigation'
 import { Search, X } from 'lucide-react'
 import { SpeciesCard } from '@/components/species/SpeciesCard'
 import type { SpeciesSummary, UICNStatus, SpeciesType } from '@/lib/types'
@@ -25,6 +26,9 @@ const TYPE_OPTIONS: { value: SpeciesType; label: string }[] = [
   { value: 'planta',   label: 'Planta' },
   { value: 'hongo',    label: 'Hongo' },
 ]
+
+const VALID_UICN = new Set(['CR', 'EN', 'VU', 'NT', 'LC'])
+const VALID_TYPES = new Set(['mamifero', 'ave', 'reptil', 'anfibio', 'pez', 'insecto', 'planta', 'hongo'])
 
 function Chip({
   active,
@@ -74,10 +78,39 @@ interface Props {
 }
 
 export function SpeciesFilterGrid({ species, total }: Props) {
-  const [uicns, setUicns]   = useState<UICNStatus[]>([])
-  const [types, setTypes]   = useState<SpeciesType[]>([])
-  const [endemic, setEndemic] = useState(false)
-  const [query, setQuery]   = useState('')
+  const searchParams = useSearchParams()
+
+  const [uicns, setUicns] = useState<UICNStatus[]>(() => {
+    const val = searchParams.get('estado')
+    if (!val) return []
+    return val.split(',').filter((v) => VALID_UICN.has(v)) as UICNStatus[]
+  })
+
+  const [types, setTypes] = useState<SpeciesType[]>(() => {
+    const val = searchParams.get('tipo')
+    if (!val) return []
+    return val.split(',').filter((v) => VALID_TYPES.has(v)) as SpeciesType[]
+  })
+
+  const [endemic, setEndemic] = useState<boolean>(() => {
+    return searchParams.get('origen') === 'endemica'
+  })
+
+  const [query, setQuery] = useState<string>(() => {
+    return searchParams.get('q') ?? ''
+  })
+
+  // Sync filter state → URL without triggering a server re-render
+  useEffect(() => {
+    const params = new URLSearchParams()
+    if (uicns.length > 0) params.set('estado', uicns.join(','))
+    if (types.length > 0) params.set('tipo', types.join(','))
+    if (endemic) params.set('origen', 'endemica')
+    if (query.trim()) params.set('q', query.trim())
+
+    const qs = params.toString()
+    window.history.replaceState(null, '', qs ? `/especies?${qs}` : '/especies')
+  }, [uicns, types, endemic, query])
 
   const hasFilters = uicns.length > 0 || types.length > 0 || endemic || query.trim() !== ''
 
