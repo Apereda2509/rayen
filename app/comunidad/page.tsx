@@ -8,14 +8,16 @@ export const metadata: Metadata = {
 
 export default function ComunidadPage() {
   return (
-    <main className="max-w-5xl mx-auto px-4 sm:px-6 py-8 bg-zinc-950 min-h-screen">
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold text-white">Comunidad</h1>
-        <p className="text-zinc-500 text-sm mt-1">
-          Avistamientos, fotos y observadores de especies nativas de Chile
-        </p>
+    <div className="bg-zinc-950 min-h-screen">
+      <div className="max-w-7xl mx-auto px-6 md:px-8 py-8">
+        <div className="mb-6">
+          <h1 className="text-2xl font-bold text-white">Comunidad</h1>
+          <p className="text-zinc-500 text-sm mt-1">
+            Avistamientos, fotos y observadores de especies nativas de Chile
+          </p>
+        </div>
+        <ComunidadTabs />
       </div>
-      <ComunidadTabs />
-    </main>
+    </div>
   )
 }

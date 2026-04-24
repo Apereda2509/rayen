@@ -24,8 +24,14 @@ interface Avistamiento {
 }
 
 const REGION_NAMES: Record<string, string> = {
+  // Códigos ISO actuales
+  AP: 'Arica y Parinacota', TA: 'Tarapacá', AN: 'Antofagasta', AT: 'Atacama',
+  CO: 'Coquimbo', VA: 'Valparaíso', RM: 'Metropolitana', OH: "O'Higgins",
+  MA: 'Maule', NB: 'Ñuble', BI: 'Biobío', AR: 'La Araucanía',
+  LR: 'Los Ríos', LL: 'Los Lagos', AI: 'Aysén', MG: 'Magallanes',
+  // Códigos numéricos romanos (legacy)
   XV: 'Arica y Parinacota', I: 'Tarapacá', II: 'Antofagasta', III: 'Atacama',
-  IV: 'Coquimbo', V: 'Valparaíso', RM: 'Metropolitana', VI: "O'Higgins",
+  IV: 'Coquimbo', V: 'Valparaíso', VI: "O'Higgins",
   VII: 'Maule', XVI: 'Ñuble', VIII: 'Biobío', IX: 'La Araucanía',
   XIV: 'Los Ríos', X: 'Los Lagos', XI: 'Aysén', XII: 'Magallanes',
 }
