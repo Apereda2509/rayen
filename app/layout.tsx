@@ -4,6 +4,7 @@ import { Inter, Space_Grotesk } from 'next/font/google'
 import './globals.css'
 import { Navbar } from '@/components/ui/Navbar'
 import { Footer } from '@/components/ui/Footer'
+import { CustomCursor } from '@/components/ui/CustomCursor'
 import { Providers } from './providers'
 
 const inter = Inter({
@@ -66,6 +67,7 @@ export default function RootLayout({
       </head>
       <body className="min-h-screen bg-stone-50 text-stone-900 antialiased">
         <Providers>
+          <CustomCursor />
           <Navbar />
           <main>{children}</main>
           <Footer />
