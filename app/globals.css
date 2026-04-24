@@ -82,11 +82,6 @@
 }
 
 /* ── Tech Marquee ─────────────────────────────────────────── */
-@keyframes marquee {
-  0%   { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
-}
-
 .tech-logo {
   height: 28px;
   width: auto;
