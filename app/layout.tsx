@@ -40,6 +40,13 @@ export const metadata: Metadata = {
     description: 'Chile florece cuando lo conocemos.',
     creator: '@rayenchile',
   },
+  icons: {
+    icon: [
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+      { url: '/favicon.ico' },
+    ],
+    apple: '/favicon.svg',
+  },
   robots: {
     index: true,
     follow: true,
