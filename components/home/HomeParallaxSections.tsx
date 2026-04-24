@@ -1,11 +1,41 @@
 'use client'
 
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion'
 import type { SpeciesSummary } from '@/lib/types'
 import { ConservationBadge } from '@/components/species/ConservationBadge'
+
+function proxied(url: string | null | undefined): string | null | undefined {
+  if (!url) return url
+  if (url.includes('wikimedia.org')) return `/api/img?url=${encodeURIComponent(url)}`
+  return url
+}
+
+function SpeciesImage({ src, alt }: { src: string | null | undefined; alt: string }) {
+  const [error, setError] = useState(false)
+  const url = proxied(src)
+
+  if (!url || error) {
+    return (
+      <div className="w-full h-full bg-zinc-800 flex items-center justify-center px-4">
+        <span className="text-zinc-400 text-sm text-center leading-snug">{alt}</span>
+      </div>
+    )
+  }
+
+  return (
+    <img
+      src={url}
+      alt={alt}
+      referrerPolicy="no-referrer"
+      className="w-full h-full object-cover"
+      loading="lazy"
+      onError={() => setError(true)}
+    />
+  )
+}
 
 const MapPreview = dynamic(() => import('./MapPreview'), { ssr: false })
 
@@ -68,18 +98,7 @@ function SectionEspecies({ species, reduced }: { species: SpeciesSummary[]; redu
               >
                 {/* Imagen */}
                 <div className="relative aspect-[4/3]">
-                  {sp.primaryPhoto ? (
-                    <img
-                      src={sp.primaryPhoto}
-                      alt={sp.commonName}
-                      className="w-full h-full object-cover"
-                      loading="lazy"
-                    />
-                  ) : (
-                    <div className="w-full h-full bg-zinc-800 flex items-center justify-center">
-                      <span className="text-zinc-600 text-sm">Sin foto</span>
-                    </div>
-                  )}
+                  <SpeciesImage src={sp.primaryPhoto} alt={sp.commonName} />
 
                   {/* Badge UICN */}
                   {sp.uicnStatus && (
