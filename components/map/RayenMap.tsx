@@ -8,6 +8,7 @@ import Map, {
 import type { LayerProps, MapLayerMouseEvent, MapMouseEvent } from 'react-map-gl'
 import Link from 'next/link'
 import { ConservationBadge } from '@/components/species/ConservationBadge'
+import { UICN_LABELS } from '@/lib/types'
 import type { UICNStatus } from '@/lib/types'
 
 // ── Vista inicial centrada en Chile ──────────────────────────
@@ -423,10 +424,10 @@ function HoverTooltip({ tooltip }: { tooltip: TooltipInfo }) {
       </span>
       {uicnStatus && (
         <span
-          className="text-[10px] font-bold text-white px-1.5 py-0.5 rounded flex-shrink-0"
+          className="text-[10px] font-semibold text-white px-2 py-0.5 rounded-full flex-shrink-0"
           style={{ backgroundColor: UICN_COLORS[uicnStatus] ?? '#888' }}
         >
-          {uicnStatus}
+          {UICN_LABELS[uicnStatus as keyof typeof UICN_LABELS] ?? uicnStatus}
         </span>
       )}
     </div>

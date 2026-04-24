@@ -367,15 +367,15 @@ export interface APIError {
 // ── Constantes de UI ─────────────────────────────────────────
 
 export const UICN_LABELS: Record<UICNStatus, string> = {
-  EX:  'Extinto',
-  EW:  'Extinto en la naturaleza',
-  CR:  'En peligro crítico',
-  EN:  'En peligro',
+  EX:  'Extinta',
+  EW:  'Extinta en Estado Silvestre',
+  CR:  'En Peligro Crítico',
+  EN:  'En Peligro',
   VU:  'Vulnerable',
-  NT:  'Casi amenazada',
-  LC:  'Preocupación menor',
-  DD:  'Datos insuficientes',
-  NE:  'No evaluada',
+  NT:  'Casi Amenazado',
+  LC:  'Preocupación Menor',
+  DD:  'Datos Insuficientes',
+  NE:  'No Evaluada',
 }
 
 export const UICN_COLORS: Record<UICNStatus, string> = {

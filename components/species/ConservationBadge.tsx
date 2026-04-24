@@ -54,19 +54,14 @@ export function ConservationBadge({
     return (
       <span
         className={cn(
-          'inline-flex items-center gap-1 font-semibold whitespace-nowrap',
-          'text-xs px-3 py-1 rounded-full shadow-md backdrop-blur-sm uppercase',
+          'inline-flex items-center font-semibold whitespace-nowrap',
+          'text-xs px-3 py-1 rounded-full shadow-md backdrop-blur-sm',
           PHOTO_OVERLAY_STYLES[status],
           className
         )}
         title={`Estado UICN: ${UICN_LABELS[status]}`}
       >
-        {status}
-        {showLabel && (
-          <span className="font-normal normal-case opacity-90">
-            {UICN_LABELS[status]}
-          </span>
-        )}
+        {UICN_LABELS[status]}
       </span>
     )
   }

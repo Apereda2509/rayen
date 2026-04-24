@@ -4,23 +4,18 @@ import { useState, useMemo } from 'react'
 import { Search, X } from 'lucide-react'
 import { SpeciesCard } from '@/components/species/SpeciesCard'
 import type { SpeciesSummary, UICNStatus, SpeciesType } from '@/lib/types'
+import { UICN_LABELS } from '@/lib/types'
 import { cn } from '@/lib/utils'
 
-type UICNFilter = 'all' | UICNStatus
-type TypeFilter = 'all' | SpeciesType
-type OriginFilter = 'all' | 'endemica'
-
-const UICN_OPTIONS: { value: UICNFilter; label: string }[] = [
-  { value: 'all', label: 'Todas' },
-  { value: 'CR', label: 'CR' },
-  { value: 'EN', label: 'EN' },
-  { value: 'VU', label: 'VU' },
-  { value: 'NT', label: 'NT' },
-  { value: 'LC', label: 'LC' },
+const UICN_OPTIONS: { value: UICNStatus; label: string }[] = [
+  { value: 'CR', label: UICN_LABELS.CR },
+  { value: 'EN', label: UICN_LABELS.EN },
+  { value: 'VU', label: UICN_LABELS.VU },
+  { value: 'NT', label: UICN_LABELS.NT },
+  { value: 'LC', label: UICN_LABELS.LC },
 ]
 
-const TYPE_OPTIONS: { value: TypeFilter; label: string }[] = [
-  { value: 'all',      label: 'Todos' },
+const TYPE_OPTIONS: { value: SpeciesType; label: string }[] = [
   { value: 'mamifero', label: 'Mamífero' },
   { value: 'ave',      label: 'Ave' },
   { value: 'reptil',   label: 'Reptil' },
@@ -29,11 +24,6 @@ const TYPE_OPTIONS: { value: TypeFilter; label: string }[] = [
   { value: 'insecto',  label: 'Insecto' },
   { value: 'planta',   label: 'Planta' },
   { value: 'hongo',    label: 'Hongo' },
-]
-
-const ORIGIN_OPTIONS: { value: OriginFilter; label: string }[] = [
-  { value: 'all',      label: 'Todos' },
-  { value: 'endemica', label: 'Endémica' },
 ]
 
 function Chip({
@@ -63,8 +53,8 @@ function Chip({
 
 function FilterRow({ label, children }: { label: string; children: React.ReactNode }) {
   return (
-    <div className="flex items-center gap-3 min-w-0">
-      <span className="text-xs font-medium text-zinc-400 uppercase tracking-wide flex-shrink-0 w-14">
+    <div className="flex items-start gap-3 min-w-0">
+      <span className="text-xs font-medium text-zinc-400 uppercase tracking-wide flex-shrink-0 w-14 pt-1">
         {label}
       </span>
       <div className="flex flex-wrap gap-1.5">
@@ -74,36 +64,40 @@ function FilterRow({ label, children }: { label: string; children: React.ReactNo
   )
 }
 
+function toggle<T>(arr: T[], value: T): T[] {
+  return arr.includes(value) ? arr.filter((v) => v !== value) : [...arr, value]
+}
+
 interface Props {
   species: SpeciesSummary[]
   total: number
 }
 
 export function SpeciesFilterGrid({ species, total }: Props) {
-  const [uicn, setUicn] = useState<UICNFilter>('all')
-  const [type, setType] = useState<TypeFilter>('all')
-  const [origin, setOrigin] = useState<OriginFilter>('all')
-  const [query, setQuery] = useState('')
+  const [uicns, setUicns]   = useState<UICNStatus[]>([])
+  const [types, setTypes]   = useState<SpeciesType[]>([])
+  const [endemic, setEndemic] = useState(false)
+  const [query, setQuery]   = useState('')
 
-  const hasFilters = uicn !== 'all' || type !== 'all' || origin !== 'all' || query.trim() !== ''
+  const hasFilters = uicns.length > 0 || types.length > 0 || endemic || query.trim() !== ''
 
   function clearFilters() {
-    setUicn('all')
-    setType('all')
-    setOrigin('all')
+    setUicns([])
+    setTypes([])
+    setEndemic(false)
     setQuery('')
   }
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase()
     return species.filter((sp) => {
-      if (uicn !== 'all' && sp.uicnStatus !== uicn) return false
-      if (type !== 'all' && sp.type !== type) return false
-      if (origin === 'endemica' && !sp.isEndemic) return false
+      if (uicns.length > 0 && (sp.uicnStatus == null || !uicns.includes(sp.uicnStatus))) return false
+      if (types.length > 0 && !types.includes(sp.type)) return false
+      if (endemic && !sp.isEndemic) return false
       if (q && !sp.commonName.toLowerCase().includes(q) && !sp.scientificName.toLowerCase().includes(q)) return false
       return true
     })
-  }, [species, uicn, type, origin, query])
+  }, [species, uicns, types, endemic, query])
 
   return (
     <div>
@@ -132,8 +126,13 @@ export function SpeciesFilterGrid({ species, total }: Props) {
 
         {/* Estado UICN */}
         <FilterRow label="Estado">
+          <Chip active={uicns.length === 0} onClick={() => setUicns([])}>Todos</Chip>
           {UICN_OPTIONS.map((opt) => (
-            <Chip key={opt.value} active={uicn === opt.value} onClick={() => setUicn(opt.value)}>
+            <Chip
+              key={opt.value}
+              active={uicns.includes(opt.value)}
+              onClick={() => setUicns((prev) => toggle(prev, opt.value))}
+            >
               {opt.label}
             </Chip>
           ))}
@@ -141,8 +140,13 @@ export function SpeciesFilterGrid({ species, total }: Props) {
 
         {/* Tipo */}
         <FilterRow label="Tipo">
+          <Chip active={types.length === 0} onClick={() => setTypes([])}>Todos</Chip>
           {TYPE_OPTIONS.map((opt) => (
-            <Chip key={opt.value} active={type === opt.value} onClick={() => setType(opt.value)}>
+            <Chip
+              key={opt.value}
+              active={types.includes(opt.value)}
+              onClick={() => setTypes((prev) => toggle(prev, opt.value))}
+            >
               {opt.label}
             </Chip>
           ))}
@@ -150,11 +154,8 @@ export function SpeciesFilterGrid({ species, total }: Props) {
 
         {/* Origen */}
         <FilterRow label="Origen">
-          {ORIGIN_OPTIONS.map((opt) => (
-            <Chip key={opt.value} active={origin === opt.value} onClick={() => setOrigin(opt.value)}>
-              {opt.label}
-            </Chip>
-          ))}
+          <Chip active={!endemic} onClick={() => setEndemic(false)}>Todos</Chip>
+          <Chip active={endemic} onClick={() => setEndemic((v) => !v)}>Endémica</Chip>
         </FilterRow>
       </div>
 
