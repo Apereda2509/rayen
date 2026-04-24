@@ -62,10 +62,10 @@ function StatCard({
       }
     >
       <Icon className={`h-6 w-6 mx-auto mb-2 ${iconColor}`} strokeWidth={1.5} />
-      <p className="font-grotesk text-3xl font-bold text-stone-900">
+      <p className="font-grotesk text-3xl font-bold text-white">
         <AnimatedNumber to={stat.value} duration={stat.countDuration} reduced={reduced} />
       </p>
-      <p className="text-sm text-stone-500 mt-1">{stat.label}</p>
+      <p className="text-sm text-zinc-400 mt-1">{stat.label}</p>
     </motion.div>
   )
 }
@@ -109,7 +109,7 @@ export function HomeStats({
   ]
 
   return (
-    <section className="bg-stone-50 border-b border-stone-200">
+    <section className="bg-zinc-950 border-b border-zinc-900">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-12">
         <div className="grid grid-cols-3 gap-6 max-w-2xl mx-auto">
           {stats.map((stat) => (
