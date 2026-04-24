@@ -2,15 +2,34 @@
 
 import Link from 'next/link'
 import { ArrowRight, Mail } from 'lucide-react'
-import {
-  motion,
-  useScroll,
-  useTransform,
-  useReducedMotion,
-} from 'framer-motion'
+import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion'
 import { useRef } from 'react'
 
-// ── Helper animations ─────────────────────────────────────────
+// ── Animation primitives ──────────────────────────────────────
+
+function Anim({
+  children,
+  delay = 0,
+  className,
+}: {
+  children: React.ReactNode
+  delay?: number
+  className?: string
+}) {
+  const reduced = useReducedMotion()
+  if (reduced) return <div className={className}>{children}</div>
+  return (
+    <motion.div
+      className={className}
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.3 }}
+      transition={{ duration: 0.7, ease: 'easeOut', delay }}
+    >
+      {children}
+    </motion.div>
+  )
+}
 
 function FadeUp({
   children,
@@ -66,6 +85,39 @@ function RevealDivider() {
   )
 }
 
+// Section separator — subtle gradient, not a hard line
+function SectionSep() {
+  return (
+    <div className="h-px mx-6 sm:mx-8 md:mx-24 lg:mx-40 bg-gradient-to-r from-transparent via-zinc-800 to-transparent" />
+  )
+}
+
+// Full-viewport section wrapper
+function FullSection({ children, className }: { children: React.ReactNode; className?: string }) {
+  return (
+    <div
+      className={[
+        'min-h-screen flex flex-col justify-center',
+        'px-6 sm:px-8 md:px-24 lg:px-40 py-20',
+        className,
+      ].filter(Boolean).join(' ')}
+    >
+      {children}
+    </div>
+  )
+}
+
+// Section title in Space Grotesk
+function SectionTitle({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
+  return (
+    <Anim delay={delay}>
+      <h2 className="font-grotesk text-4xl sm:text-5xl md:text-7xl font-bold text-white mb-8 leading-tight">
+        {children}
+      </h2>
+    </Anim>
+  )
+}
+
 // ── Sticky Hero ───────────────────────────────────────────────
 
 function StickyHero() {
@@ -116,7 +168,7 @@ function StickyHero() {
   )
 }
 
-// ── Página ────────────────────────────────────────────────────
+// ── Page ──────────────────────────────────────────────────────
 
 export default function SobrePage() {
   const reduced = useReducedMotion()
@@ -125,195 +177,193 @@ export default function SobrePage() {
     <main>
       <StickyHero />
 
-      {/*
-        Content card emerges from below during the hero transform.
-        negative margin-top pulls it up into the viewport while the
-        hero is still animating. z-10 keeps it above the sticky layer.
-        reduced-motion: no negative margin, no rounded top.
-      */}
+      {/* Content card — emerges from below during hero animation */}
       <div
         className={[
           'relative z-10 bg-zinc-950',
-          reduced
-            ? ''
-            : '-mt-[60vh] sm:-mt-[60vh] rounded-t-3xl',
+          reduced ? '' : '-mt-[60vh] rounded-t-3xl',
         ].join(' ')}
       >
-        {/* ── Secciones principales ── */}
-        <div className="max-w-3xl mx-auto px-6 sm:px-8 pt-16 pb-10">
 
-          <FadeUp>
-            <Section title="La visión">
-              <p className="text-zinc-300 leading-relaxed">
-                Chile tiene una de las biodiversidades más únicas del planeta, pero la mayoría
-                de sus habitantes no la conoce. Rayen nació para cambiar eso — para que cada
-                chileno pueda conocer, valorar y proteger las especies que comparten su territorio.
-              </p>
-            </Section>
-          </FadeUp>
+        {/* ── 1. La visión ── */}
+        <FullSection>
+          <SectionTitle>La visión</SectionTitle>
+          <Anim delay={0.2}>
+            <p className="text-xl md:text-2xl text-zinc-300 leading-relaxed max-w-3xl">
+              Chile tiene una de las biodiversidades más únicas del planeta, pero la mayoría
+              de sus habitantes no la conoce. Rayen nació para cambiar eso — para que cada
+              chileno pueda conocer, valorar y proteger las especies que comparten su territorio.
+            </p>
+          </Anim>
+        </FullSection>
 
-          <FadeUp delay={0.05}>
-            <Section title="El creador">
-              <p className="text-zinc-300 leading-relaxed mb-3">
-                Ángel Pereda Jiménez — Santiago de Chile.
-              </p>
-              <a
-                href="mailto:angelperedajimenez@gmail.com"
-                className="inline-flex items-center gap-2 text-[#00E676] hover:text-[#52F599] transition-colors text-sm font-medium"
-              >
-                <Mail className="h-4 w-4" />
-                angelperedajimenez@gmail.com
-              </a>
-            </Section>
-          </FadeUp>
+        <SectionSep />
 
-          <FadeUp delay={0.1}>
-            <Section title="¿Quieres colaborar?">
-              <p className="text-zinc-300 leading-relaxed">
-                Si eres biólogo, fotógrafo, educador o simplemente te apasiona la naturaleza
-                chilena, escríbeme a{' '}
-                <a
-                  href="mailto:angelperedajimenez@gmail.com"
-                  className="text-[#00E676] hover:text-[#52F599] transition-colors"
-                >
-                  angelperedajimenez@gmail.com
-                </a>
-                . Rayen crece con cada persona que se suma.
-              </p>
-            </Section>
-          </FadeUp>
+        {/* ── 2. El creador ── */}
+        <FullSection>
+          <SectionTitle>El creador</SectionTitle>
+          <Anim delay={0.2}>
+            <p className="text-xl md:text-2xl text-zinc-300 leading-relaxed mb-6">
+              Ángel Pereda Jiménez — Santiago de Chile.
+            </p>
+            <a
+              href="mailto:angelperedajimenez@gmail.com"
+              className="inline-flex items-center gap-2 text-[#00E676] hover:text-[#52F599] transition-colors text-lg font-medium"
+            >
+              <Mail className="h-5 w-5" />
+              angelperedajimenez@gmail.com
+            </a>
+          </Anim>
+        </FullSection>
 
-        </div>
+        <SectionSep />
 
-        {/* ── Manual de Marca ── */}
-        <div className="max-w-5xl mx-auto px-6 sm:px-8 py-16">
+        {/* ── 3. Manual de Marca ── */}
 
-          <FadeUp>
-            <h2 className="font-grotesk text-4xl sm:text-5xl font-bold text-white mb-3">
-              Manual de Marca
-            </h2>
-            <p className="text-zinc-400 text-sm mb-16">
+        {/* Title block — full viewport */}
+        <FullSection>
+          <SectionTitle>Manual de Marca</SectionTitle>
+          <Anim delay={0.2}>
+            <p className="text-xl md:text-2xl text-zinc-400 leading-relaxed max-w-2xl">
               Las decisiones visuales de Rayen no son estética por estética — cada una tiene una razón.
             </p>
-          </FadeUp>
+          </Anim>
+        </FullSection>
 
-          {/* El nombre */}
-          <FadeUp>
-            <BrandSection title="El nombre">
-              <p className="text-zinc-300 leading-relaxed text-lg max-w-2xl">
-                Rayen viene del mapudungun y significa flor. Cinco letras, sin acentos, pronunciable
-                en español e inglés. Una palabra del pueblo originario más presente en Chile, porque
-                este proyecto es sobre la naturaleza de este territorio — y esa naturaleza tiene nombres
-                que preceden al español por siglos.
-              </p>
-            </BrandSection>
-          </FadeUp>
-          <RevealDivider />
+        {/* Brand manual content — extends naturally below */}
+        <div className="px-6 sm:px-8 md:px-24 lg:px-40 pb-20">
+          <div className="max-w-4xl">
 
-          {/* El logo */}
-          <BrandSection title="El logo">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 items-center">
-              <SlideInLeft>
-                <div className="flex flex-col items-center justify-center rounded-2xl bg-zinc-900 border border-zinc-800 py-14 px-8 gap-6">
-                  <svg viewBox="0 0 40 40" fill="none" className="w-32 h-32" aria-hidden="true">
-                    <circle cx="20" cy="20"    r="3.5" fill="#00E676" />
-                    <circle cx="34" cy="20"    r="5"   fill="#00E676" opacity="0.85" />
-                    <circle cx="27" cy="32.12" r="5"   fill="#00E676" opacity="0.85" />
-                    <circle cx="13" cy="32.12" r="5"   fill="#00E676" opacity="0.85" />
-                    <circle cx="6"  cy="20"    r="5"   fill="#00E676" opacity="0.85" />
-                    <circle cx="13" cy="7.88"  r="5"   fill="#00E676" opacity="0.85" />
-                    <circle cx="27" cy="7.88"  r="5"   fill="#00E676" opacity="0.85" />
-                  </svg>
-                  <span className="font-grotesk text-2xl font-semibold tracking-widest uppercase text-[#00E676]">
-                    RAYEN
-                  </span>
-                </div>
-              </SlideInLeft>
-              <FadeUp>
-                <p className="text-zinc-300 leading-relaxed text-lg">
-                  El Grid Bloom son siete nodos conectados: seis en anillo hexagonal, uno al centro.
-                  Representa una red de especies. La biodiversidad no es una lista — es un sistema
-                  donde todo está relacionado. Si sacas un nodo, el sistema cambia.
+            <FadeUp>
+              <BrandBlock title="El nombre">
+                <p className="text-zinc-300 leading-relaxed text-lg max-w-2xl">
+                  Rayen viene del mapudungun y significa flor. Cinco letras, sin acentos, pronunciable
+                  en español e inglés. Una palabra del pueblo originario más presente en Chile, porque
+                  este proyecto es sobre la naturaleza de este territorio — y esa naturaleza tiene nombres
+                  que preceden al español por siglos.
                 </p>
-              </FadeUp>
-            </div>
-          </BrandSection>
-          <RevealDivider />
+              </BrandBlock>
+            </FadeUp>
+            <RevealDivider />
 
-          {/* Colores */}
-          <FadeUp>
-            <BrandSection title="Colores">
-              <ColorSwatches />
-            </BrandSection>
-          </FadeUp>
-          <RevealDivider />
-
-          {/* Tipografías */}
-          <FadeUp>
-            <BrandSection title="Tipografías">
-              <div className="space-y-5">
-                <div className="rounded-xl bg-zinc-900 border border-zinc-800 px-8 py-7">
-                  <div className="flex items-baseline justify-between mb-4 flex-wrap gap-2">
-                    <span className="text-xs font-medium text-zinc-400 uppercase tracking-wide">Space Grotesk</span>
-                    <span className="text-xs text-zinc-600">Títulos y logo</span>
+            <BrandBlock title="El logo">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 items-center">
+                <SlideInLeft>
+                  <div className="flex flex-col items-center justify-center rounded-2xl bg-zinc-900 border border-zinc-800 py-14 px-8 gap-6">
+                    <svg viewBox="0 0 40 40" fill="none" className="w-32 h-32" aria-hidden="true">
+                      <circle cx="20" cy="20"    r="3.5" fill="#00E676" />
+                      <circle cx="34" cy="20"    r="5"   fill="#00E676" opacity="0.85" />
+                      <circle cx="27" cy="32.12" r="5"   fill="#00E676" opacity="0.85" />
+                      <circle cx="13" cy="32.12" r="5"   fill="#00E676" opacity="0.85" />
+                      <circle cx="6"  cy="20"    r="5"   fill="#00E676" opacity="0.85" />
+                      <circle cx="13" cy="7.88"  r="5"   fill="#00E676" opacity="0.85" />
+                      <circle cx="27" cy="7.88"  r="5"   fill="#00E676" opacity="0.85" />
+                    </svg>
+                    <span className="font-grotesk text-2xl font-semibold tracking-widest uppercase text-[#00E676]">
+                      RAYEN
+                    </span>
                   </div>
-                  <p className="font-grotesk text-6xl sm:text-7xl font-bold text-[#00E676] leading-none">RAYEN</p>
-                </div>
-                <div className="rounded-xl bg-zinc-900 border border-zinc-800 px-8 py-7">
-                  <div className="flex items-baseline justify-between mb-4 flex-wrap gap-2">
-                    <span className="text-xs font-medium text-zinc-400 uppercase tracking-wide">Inter</span>
-                    <span className="text-xs text-zinc-600">Interfaz y cuerpo</span>
-                  </div>
-                  <p className="text-2xl sm:text-3xl text-zinc-300 leading-snug">
-                    La biodiversidad de Chile en un solo lugar.
+                </SlideInLeft>
+                <FadeUp>
+                  <p className="text-zinc-300 leading-relaxed text-lg">
+                    El Grid Bloom son siete nodos conectados: seis en anillo hexagonal, uno al centro.
+                    Representa una red de especies. La biodiversidad no es una lista — es un sistema
+                    donde todo está relacionado. Si sacas un nodo, el sistema cambia.
                   </p>
-                </div>
-                <div className="rounded-xl bg-zinc-900 border border-zinc-800 px-8 py-7">
-                  <div className="flex items-baseline justify-between mb-4 flex-wrap gap-2">
-                    <span className="text-xs font-medium text-zinc-400 uppercase tracking-wide">Lora</span>
-                    <span className="text-xs text-zinc-600">Nombres científicos</span>
-                  </div>
-                  <p className="font-serif italic text-2xl sm:text-3xl text-zinc-400 leading-snug">
-                    Lapageria rosea
-                  </p>
-                </div>
+                </FadeUp>
               </div>
-            </BrandSection>
-          </FadeUp>
-          <RevealDivider />
+            </BrandBlock>
+            <RevealDivider />
 
-          {/* Tono de voz */}
-          <FadeUp>
-            <BrandSection title="Tono de voz" last>
-              <p className="text-zinc-300 leading-relaxed text-lg max-w-2xl">
-                Rayen habla de forma directa y cercana, sin tecnicismos innecesarios. No somos una
-                institución — somos un proyecto independiente que cree que conocer la naturaleza es
-                el primer paso para cuidarla. Usamos la segunda persona: tú, no usted. Preferimos
-                frases cortas. Y nunca prometemos lo que aún no existe.
-              </p>
-            </BrandSection>
-          </FadeUp>
+            <FadeUp>
+              <BrandBlock title="Colores">
+                <ColorSwatches />
+              </BrandBlock>
+            </FadeUp>
+            <RevealDivider />
 
-          {/* CTA final */}
-          <FadeUp>
-            <div className="mt-16 flex justify-center">
+            <FadeUp>
+              <BrandBlock title="Tipografías">
+                <div className="space-y-5">
+                  <div className="rounded-xl bg-zinc-900 border border-zinc-800 px-8 py-7">
+                    <div className="flex items-baseline justify-between mb-4 flex-wrap gap-2">
+                      <span className="text-xs font-medium text-zinc-400 uppercase tracking-wide">Space Grotesk</span>
+                      <span className="text-xs text-zinc-600">Títulos y logo</span>
+                    </div>
+                    <p className="font-grotesk text-6xl sm:text-7xl font-bold text-[#00E676] leading-none">RAYEN</p>
+                  </div>
+                  <div className="rounded-xl bg-zinc-900 border border-zinc-800 px-8 py-7">
+                    <div className="flex items-baseline justify-between mb-4 flex-wrap gap-2">
+                      <span className="text-xs font-medium text-zinc-400 uppercase tracking-wide">Inter</span>
+                      <span className="text-xs text-zinc-600">Interfaz y cuerpo</span>
+                    </div>
+                    <p className="text-2xl sm:text-3xl text-zinc-300 leading-snug">
+                      La biodiversidad de Chile en un solo lugar.
+                    </p>
+                  </div>
+                  <div className="rounded-xl bg-zinc-900 border border-zinc-800 px-8 py-7">
+                    <div className="flex items-baseline justify-between mb-4 flex-wrap gap-2">
+                      <span className="text-xs font-medium text-zinc-400 uppercase tracking-wide">Lora</span>
+                      <span className="text-xs text-zinc-600">Nombres científicos</span>
+                    </div>
+                    <p className="font-serif italic text-2xl sm:text-3xl text-zinc-400 leading-snug">
+                      Lapageria rosea
+                    </p>
+                  </div>
+                </div>
+              </BrandBlock>
+            </FadeUp>
+            <RevealDivider />
+
+            <FadeUp>
+              <BrandBlock title="Tono de voz" last>
+                <p className="text-zinc-300 leading-relaxed text-lg max-w-2xl">
+                  Rayen habla de forma directa y cercana, sin tecnicismos innecesarios. No somos una
+                  institución — somos un proyecto independiente que cree que conocer la naturaleza es
+                  el primer paso para cuidarla. Usamos la segunda persona: tú, no usted. Preferimos
+                  frases cortas. Y nunca prometemos lo que aún no existe.
+                </p>
+              </BrandBlock>
+            </FadeUp>
+
+          </div>
+        </div>
+
+        <SectionSep />
+
+        {/* ── 4. ¿Quieres colaborar? ── */}
+        <FullSection>
+          <SectionTitle>¿Quieres colaborar?</SectionTitle>
+          <Anim delay={0.2}>
+            <p className="text-xl md:text-2xl text-zinc-300 leading-relaxed max-w-3xl mb-6">
+              Si eres biólogo, fotógrafo, educador o simplemente te apasiona la naturaleza
+              chilena, escríbeme a{' '}
+              <a
+                href="mailto:angelperedajimenez@gmail.com"
+                className="text-[#00E676] hover:text-[#52F599] transition-colors"
+              >
+                angelperedajimenez@gmail.com
+              </a>
+              . Rayen crece con cada persona que se suma.
+            </p>
+            <div className="mt-12">
               <Link
                 href="/especies"
-                className="inline-flex items-center gap-2 bg-neon-400 hover:bg-neon-300 text-black font-medium px-8 py-3.5 rounded-lg transition-colors"
+                className="inline-flex items-center gap-2 bg-[#00E676] hover:bg-[#52F599] text-black font-semibold px-8 py-4 rounded-lg transition-colors text-lg"
               >
                 Explorar especies
-                <ArrowRight className="h-4 w-4" />
+                <ArrowRight className="h-5 w-5" />
               </Link>
             </div>
-          </FadeUp>
+          </Anim>
+        </FullSection>
 
-        </div>
       </div>
     </main>
   )
 }
 
-// ── Color swatches con stagger ────────────────────────────────
+// ── Color swatches ────────────────────────────────────────────
 
 const SWATCHES = [
   { bg: '#00E676', border: undefined,           name: 'Verde Neón',    hex: '#00E676', use: 'Color primario. Acciones, links, elementos activos.' },
@@ -365,18 +415,7 @@ function SwatchLabel({ name, hex, use }: { name: string; hex: string; use: strin
 
 // ── Layout helpers ────────────────────────────────────────────
 
-function Section({ title, children }: { title: string; children: React.ReactNode }) {
-  return (
-    <section className="mb-10">
-      <h2 className="text-xl font-semibold text-white mb-3 pb-2 border-b border-zinc-800">
-        {title}
-      </h2>
-      {children}
-    </section>
-  )
-}
-
-function BrandSection({
+function BrandBlock({
   title,
   children,
   last = false,
