@@ -159,11 +159,11 @@ export function Navbar() {
 
                     <DropdownSep />
 
-                    <DropdownLink href="/legal/privacidad" icon={<Shield className="h-4 w-4" />} onClick={closeAll}>
+                    <DropdownLink href="/privacidad" icon={<Shield className="h-4 w-4" />} onClick={closeAll}>
                       Política de privacidad
                     </DropdownLink>
-                    <DropdownLink href="/legal/uso" icon={<FileText className="h-4 w-4" />} onClick={closeAll}>
-                      Políticas de uso
+                    <DropdownLink href="/terminos" icon={<FileText className="h-4 w-4" />} onClick={closeAll}>
+                      Términos de Uso
                     </DropdownLink>
 
                     <DropdownSep />
@@ -255,15 +255,15 @@ export function Navbar() {
                       Panel de administrador
                     </Link>
                   )}
-                  <Link href="/legal/privacidad" onClick={closeAll}
+                  <Link href="/privacidad" onClick={closeAll}
                     className="flex items-center gap-2 rounded-md px-3 py-2 text-sm text-white/70 hover:text-white hover:bg-carbon-800">
                     <Shield className="h-4 w-4" />
                     Política de privacidad
                   </Link>
-                  <Link href="/legal/uso" onClick={closeAll}
+                  <Link href="/terminos" onClick={closeAll}
                     className="flex items-center gap-2 rounded-md px-3 py-2 text-sm text-white/70 hover:text-white hover:bg-carbon-800">
                     <FileText className="h-4 w-4" />
-                    Políticas de uso
+                    Términos de Uso
                   </Link>
                   <button
                     onClick={() => { closeAll(); signOut({ callbackUrl: '/' }) }}

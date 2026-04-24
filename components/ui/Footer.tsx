@@ -41,7 +41,8 @@ export function Footer() {
                   GitHub
                 </a>
               </li>
-              <li><Link href="/legal" className="hover:text-neon-400 transition-colors">Términos y privacidad</Link></li>
+              <li><Link href="/terminos" className="hover:text-neon-400 transition-colors">Términos de Uso</Link></li>
+              <li><Link href="/privacidad" className="hover:text-neon-400 transition-colors">Política de Privacidad</Link></li>
             </ul>
           </div>
         </div>
