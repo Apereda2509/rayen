@@ -8,7 +8,7 @@ VALUES
     'Metropolitana',
     ST_SetSRID(ST_MakePoint(-70.47, -33.20), 4326),
     'Ubicado en el cajón del río Yerba Loca, en las comunas de Lo Barnechea y Colina. Protege ecosistemas de alta montaña y una importante diversidad de flora y fauna andina.',
-    'https://images.unsplash.com/photo-1601084881623-cdf9a8ea242c?w=1280&q=80'
+    'https://upload.wikimedia.org/wikipedia/commons/e/e8/Estero_Yerba_loca.jpg'
   ),
   (
     'Santuario de la Naturaleza Laguna El Peral',
@@ -17,7 +17,7 @@ VALUES
     'Valparaíso',
     ST_SetSRID(ST_MakePoint(-71.61, -33.58), 4326),
     'Humedal costero ubicado en El Quisco. Refugio de aves acuáticas migratorias y residentes, incluyendo especies amenazadas.',
-    'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1280&q=80'
+    'https://upload.wikimedia.org/wikipedia/commons/1/1a/Laguna_el_peral%2C_Chile.JPG'
   ),
   (
     'Santuario de la Naturaleza Carlos Anwandter',
@@ -26,7 +26,7 @@ VALUES
     'Los Ríos',
     ST_SetSRID(ST_MakePoint(-73.14, -39.77), 4326),
     'Humedal del río Cruces, cerca de Valdivia. Sitio Ramsar y hábitat crítico para el cisne de cuello negro y otras aves acuáticas.',
-    'https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?w=1280&q=80'
+    'https://upload.wikimedia.org/wikipedia/commons/e/e2/Humedales_de_los_rios_cruces_y_chorocomayo_en_la_ciudad_de_Valdivia%2C_Chile_02.jpg'
   )
 ON CONFLICT (slug) DO UPDATE SET
   name        = EXCLUDED.name,
