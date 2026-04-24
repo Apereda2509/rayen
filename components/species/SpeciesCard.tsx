@@ -138,7 +138,7 @@ export function SpeciesCard({ species, variant = 'card', className }: Props) {
 
         {uicnStatus && (
           <div className="absolute top-2 left-2">
-            <ConservationBadge status={uicnStatus} size="sm" />
+            <ConservationBadge status={uicnStatus} photoOverlay showLabel={false} />
           </div>
         )}
 

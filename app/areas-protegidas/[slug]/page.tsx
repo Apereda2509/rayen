@@ -4,7 +4,9 @@ import Image from 'next/image'
 import nextDynamic from 'next/dynamic'
 import sql from '@/lib/db'
 import { getProtectedAreaBySlug, getSightingsNearArea } from '@/lib/db'
+import { ConservationBadge } from '@/components/species/ConservationBadge'
 import type { Metadata } from 'next'
+import type { UICNStatus } from '@/lib/types'
 
 export async function generateStaticParams() {
   const areas = await sql<{ slug: string }[]>`SELECT slug FROM protected_areas`
@@ -232,10 +234,13 @@ export default async function AreaPage({ params }: Props) {
                     <div className="flex h-full items-center justify-center text-stone-200 text-xs">Sin foto</div>
                   )}
                   {s.uicnStatus && (
-                    <span className="absolute top-2 left-2 text-[10px] font-bold text-white px-1.5 py-0.5 rounded"
-                      style={{ backgroundColor: UICN_COLORS[s.uicnStatus] ?? '#888' }}>
-                      {s.uicnStatus}
-                    </span>
+                    <div className="absolute top-2 left-2">
+                      <ConservationBadge
+                        status={s.uicnStatus as UICNStatus}
+                        photoOverlay
+                        showLabel={false}
+                      />
+                    </div>
                   )}
                 </div>
                 <div className="p-2.5">
@@ -251,7 +256,3 @@ export default async function AreaPage({ params }: Props) {
   )
 }
 
-const UICN_COLORS: Record<string, string> = {
-  CR: '#D85A30', EN: '#D85A30', VU: '#F59E0B',
-  NT: '#78716C', LC: '#00E676', DD: '#888780',
-}

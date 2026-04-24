@@ -6,9 +6,12 @@ interface Props {
   status: UICNStatus
   size?: 'sm' | 'md' | 'lg'
   showLabel?: boolean
+  /** Render with solid high-contrast styles for placement over photos */
+  photoOverlay?: boolean
   className?: string
 }
 
+// For use in regular UI (cards info section, detail pages, lists)
 const STATUS_STYLES: Record<UICNStatus, string> = {
   EX:  'bg-stone-900  text-stone-100',
   EW:  'bg-pink-950   text-pink-100',
@@ -21,6 +24,19 @@ const STATUS_STYLES: Record<UICNStatus, string> = {
   NE:  'bg-stone-100  text-stone-500',
 }
 
+// For use over photographs — solid backgrounds, always legible
+const PHOTO_OVERLAY_STYLES: Record<UICNStatus, string> = {
+  EX:  'bg-stone-900   text-white',
+  EW:  'bg-pink-950    text-white',
+  CR:  'bg-[#D85A30]   text-white',
+  EN:  'bg-[#D85A30]/90 text-white',
+  VU:  'bg-amber-500   text-black',
+  NT:  'bg-zinc-600    text-white',
+  LC:  'bg-[#00E676]   text-black',
+  DD:  'bg-zinc-500    text-white',
+  NE:  'bg-zinc-400    text-white',
+}
+
 const SIZE_STYLES = {
   sm: 'text-xs px-2 py-0.5 rounded',
   md: 'text-xs font-medium px-2.5 py-1 rounded-md',
@@ -31,8 +47,30 @@ export function ConservationBadge({
   status,
   size = 'md',
   showLabel = true,
+  photoOverlay = false,
   className,
 }: Props) {
+  if (photoOverlay) {
+    return (
+      <span
+        className={cn(
+          'inline-flex items-center gap-1 font-semibold whitespace-nowrap',
+          'text-xs px-3 py-1 rounded-full shadow-md backdrop-blur-sm uppercase',
+          PHOTO_OVERLAY_STYLES[status],
+          className
+        )}
+        title={`Estado UICN: ${UICN_LABELS[status]}`}
+      >
+        {status}
+        {showLabel && (
+          <span className="font-normal normal-case opacity-90">
+            {UICN_LABELS[status]}
+          </span>
+        )}
+      </span>
+    )
+  }
+
   return (
     <span
       className={cn(
