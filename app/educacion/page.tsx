@@ -51,8 +51,8 @@ export default async function EducacionPage() {
             </Link>
           </div>
 
-          {/* Card Aula */}
-          <div className="relative bg-zinc-900 border border-[#00E676] rounded-2xl p-8 flex flex-col overflow-hidden">
+          {/* Card Aula — próximamente */}
+          <div className="relative bg-zinc-900 border border-[#00E676] rounded-2xl p-8 flex flex-col overflow-hidden cursor-not-allowed">
             <span className="absolute top-4 right-4 rounded-full bg-[#00E676] px-3 py-1 text-xs font-semibold text-black">
               Próximamente
             </span>
@@ -63,12 +63,9 @@ export default async function EducacionPage() {
             <p className="text-zinc-400 flex-1 mb-6">
               Presentaciones adaptadas por nivel educativo para usar en clases. Modo pizarra incluido.
             </p>
-            <Link
-              href="/educacion/aula"
-              className="inline-flex items-center gap-2 self-start rounded-lg bg-[#00E676] hover:bg-[#00c85e] px-5 py-2.5 text-sm font-semibold text-black transition-colors"
-            >
+            <span className="inline-flex items-center gap-2 self-start rounded-lg bg-[#00E676] px-5 py-2.5 text-sm font-semibold text-black opacity-50 pointer-events-none select-none">
               Entrar al Aula →
-            </Link>
+            </span>
           </div>
         </div>
       </section>
