@@ -40,6 +40,13 @@ export default async function AulaPage() {
           <span className="text-zinc-400">Aula</span>
         </nav>
 
+        <div className="mb-8 rounded-xl bg-zinc-900 border border-zinc-800 px-5 py-4 flex items-center gap-3">
+          <span className="text-[#00E676] text-lg">🚧</span>
+          <p className="text-zinc-400 text-sm">
+            Esta sección está en desarrollo. Vuelve pronto.
+          </p>
+        </div>
+
         <NivelSelector presentaciones={presentaciones} />
       </div>
     </div>

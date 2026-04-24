@@ -52,8 +52,11 @@ export default async function EducacionPage() {
           </div>
 
           {/* Card Aula */}
-          <div className="bg-zinc-900 border border-[#00E676] rounded-2xl p-8 flex flex-col">
-            <span className="inline-block mb-4 rounded-full bg-[#00E676] px-3 py-1 text-xs font-semibold text-black self-start">
+          <div className="relative bg-zinc-900 border border-[#00E676] rounded-2xl p-8 flex flex-col overflow-hidden">
+            <span className="absolute top-4 right-4 rounded-full bg-[#00E676] px-3 py-1 text-xs font-semibold text-black">
+              Próximamente
+            </span>
+            <span className="inline-block mb-4 rounded-full bg-[#00E676]/10 border border-[#00E676]/30 px-3 py-1 text-xs font-semibold text-[#00E676] self-start">
               Para profesores
             </span>
             <h2 className="font-grotesk font-bold text-3xl text-white mb-3">Aula</h2>
