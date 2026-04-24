@@ -83,12 +83,8 @@
 
 /* ── Tech Marquee ─────────────────────────────────────────── */
 @keyframes marquee {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
-}
-
-.animate-marquee {
-  animation: marquee 20s linear infinite;
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
 }
 
 .tech-logo {
