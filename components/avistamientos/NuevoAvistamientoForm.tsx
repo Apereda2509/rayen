@@ -56,6 +56,7 @@ export function NuevoAvistamientoForm({ defaultSpeciesSlug }: Props) {
   const [selectedSpecies, setSelectedSpecies] = useState<SpeciesOption | null>(null)
   const [dropdownOpen, setDropdownOpen] = useState(false)
   const [loadingSpecies, setLoadingSpecies] = useState(false)
+  const [speciesNotFound, setSpeciesNotFound] = useState(false)
   const speciesDropdownRef = useRef<HTMLDivElement>(null)
 
   // ── Fecha ──────────────────────────────────────────────────
@@ -108,13 +109,11 @@ export function NuevoAvistamientoForm({ defaultSpeciesSlug }: Props) {
           : `/api/species?limit=20`
         const res = await fetch(url)
         const json = await res.json()
-        const items: SpeciesOption[] = speciesQuery
-          ? json
-          : (json.data ?? []).map((s: SpeciesOption) => ({
-              slug: s.slug, commonName: s.commonName,
-              scientificName: s.scientificName, type: s.type,
-            }))
+        // Garantizar que siempre sea un array — la API puede devolver { error: ... }
+        const raw = speciesQuery ? json : (json.data ?? [])
+        const items: SpeciesOption[] = Array.isArray(raw) ? raw : []
         setSpeciesList(items)
+        setSpeciesNotFound(speciesQuery.trim().length > 0 && items.length === 0)
       } catch { /* silently ignore */ }
       finally { setLoadingSpecies(false) }
     }, 250)
@@ -218,7 +217,7 @@ export function NuevoAvistamientoForm({ defaultSpeciesSlug }: Props) {
     setSelectedSpecies(s); setSpeciesQuery(s.commonName); setDropdownOpen(false)
   }
   function clearSpecies() {
-    setSelectedSpecies(null); setSpeciesQuery(''); setDropdownOpen(true)
+    setSelectedSpecies(null); setSpeciesQuery(''); setDropdownOpen(true); setSpeciesNotFound(false)
   }
 
   function selectArea(a: AreaOption) {
@@ -288,14 +287,18 @@ export function NuevoAvistamientoForm({ defaultSpeciesSlug }: Props) {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     setError(null)
-    if (!selectedSpecies) return setError('Selecciona una especie.')
+    if (!selectedSpecies && !speciesQuery.trim()) return setError('Indica la especie observada.')
     if (!date) return setError('Indica la fecha del avistamiento.')
     if (!location) return setError('Marca la ubicación.')
 
     setSubmitting(true)
     try {
       const fd = new FormData()
-      fd.append('speciesSlug', selectedSpecies.slug)
+      if (selectedSpecies) {
+        fd.append('speciesSlug', selectedSpecies.slug)
+      } else {
+        fd.append('speciesNameFree', speciesQuery.trim())
+      }
       fd.append('observedAt', date)
       fd.append('lat', String(location.lat))
       fd.append('lng', String(location.lng))
@@ -374,7 +377,7 @@ export function NuevoAvistamientoForm({ defaultSpeciesSlug }: Props) {
                 </div>
               ) : speciesList.length === 0 ? (
                 <p className="px-4 py-3 text-sm text-stone-400">Sin resultados</p>
-              ) : (
+              ) : /* never */ (
                 speciesList.map((s) => (
                   <button key={s.slug} type="button" onMouseDown={() => selectSpecies(s)}
                     className="w-full text-left px-4 py-2.5 hover:bg-stone-50 transition-colors">
@@ -389,6 +392,11 @@ export function NuevoAvistamientoForm({ defaultSpeciesSlug }: Props) {
         {selectedSpecies && (
           <p className="mt-1.5 text-xs text-neon-600 font-medium">
             Seleccionada: {selectedSpecies.commonName} — <span className="italic">{selectedSpecies.scientificName}</span>
+          </p>
+        )}
+        {speciesNotFound && !selectedSpecies && (
+          <p className="mt-2 text-xs text-stone-500 leading-relaxed">
+            No encontramos esta especie en nuestra base de datos. Puedes escribir el nombre de todas formas y lo revisaremos.
           </p>
         )}
       </div>

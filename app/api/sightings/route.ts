@@ -12,6 +12,7 @@ export async function POST(req: Request) {
 
   const formData = await req.formData()
   const speciesSlug        = formData.get('speciesSlug')        as string | null
+  const speciesNameFree    = formData.get('speciesNameFree')    as string | null
   const observedAt         = formData.get('observedAt')         as string | null
   const latRaw             = formData.get('lat')                as string | null
   const lngRaw             = formData.get('lng')                as string | null
@@ -20,7 +21,7 @@ export async function POST(req: Request) {
   const isSpeciesCandidate = formData.get('isSpeciesCandidate') === 'true'
 
   // Validation
-  if (!speciesSlug || !observedAt || !latRaw || !lngRaw) {
+  if ((!speciesSlug && !speciesNameFree) || !observedAt || !latRaw || !lngRaw) {
     return NextResponse.json({ error: 'Faltan campos requeridos.' }, { status: 400 })
   }
 
@@ -35,12 +36,16 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'La fecha no puede ser futura.' }, { status: 400 })
   }
 
-  // Resolve species id by slug
-  const [species] = await sql<{ id: string }[]>`
-    SELECT id FROM species WHERE slug = ${speciesSlug} AND published = TRUE
-  `
-  if (!species) {
-    return NextResponse.json({ error: 'Especie no encontrada.' }, { status: 404 })
+  // Resolve species id by slug (optional — puede ser texto libre)
+  let speciesId: string | null = null
+  if (speciesSlug) {
+    const [species] = await sql<{ id: string }[]>`
+      SELECT id FROM species WHERE slug = ${speciesSlug} AND published = TRUE
+    `
+    if (!species) {
+      return NextResponse.json({ error: 'Especie no encontrada.' }, { status: 404 })
+    }
+    speciesId = species.id
   }
 
   // Resolve DB user id by email
@@ -100,9 +105,10 @@ export async function POST(req: Request) {
   // (full reverse geocoding can be added later via PostGIS)
 
   const [sighting] = await sql`
-    INSERT INTO sightings (species_id, user_id, location, observed_at, photo_url, notes)
+    INSERT INTO sightings (species_id, species_name_free, user_id, location, observed_at, photo_url, notes)
     VALUES (
-      ${species.id},
+      ${speciesId},
+      ${speciesNameFree ?? null},
       ${dbUser.id},
       ST_SetSRID(ST_MakePoint(${lng}, ${lat}), 4326),
       ${observedAt},
@@ -112,11 +118,11 @@ export async function POST(req: Request) {
     RETURNING id, observed_at AS "observedAt", verified
   `
 
-  // Registrar foto en tabla photos si se subió
-  if (photoUrl) {
+  // Registrar foto en tabla photos si se subió (solo si hay species_id)
+  if (photoUrl && speciesId) {
     await sql`
       INSERT INTO photos (user_id, species_id, sighting_id, url, is_species_candidate)
-      VALUES (${dbUser.id}, ${species.id}, ${sighting.id}, ${photoUrl}, ${isSpeciesCandidate})
+      VALUES (${dbUser.id}, ${speciesId}, ${sighting.id}, ${photoUrl}, ${isSpeciesCandidate})
     `
   }
 

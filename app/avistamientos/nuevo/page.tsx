@@ -2,6 +2,7 @@ import { auth } from '@/auth'
 import Link from 'next/link'
 import { LogIn, Eye } from 'lucide-react'
 import { NuevoAvistamientoForm } from '@/components/avistamientos/NuevoAvistamientoForm'
+import { SightingErrorBoundary } from '@/components/avistamientos/SightingErrorBoundary'
 
 // No cachear — necesita sesión fresca
 export const dynamic = 'force-dynamic'
@@ -41,7 +42,9 @@ export default async function NuevoAvistamientoPage({ searchParams }: Props) {
 
       {/* Contenido condicional según sesión */}
       {session?.user ? (
-        <NuevoAvistamientoForm defaultSpeciesSlug={searchParams.especie} />
+        <SightingErrorBoundary>
+          <NuevoAvistamientoForm defaultSpeciesSlug={searchParams.especie} />
+        </SightingErrorBoundary>
       ) : (
         <div className="rounded-2xl border border-stone-200 bg-stone-50 px-8 py-12 text-center">
           <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-stone-100 text-stone-600">
