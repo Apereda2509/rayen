@@ -1,7 +1,7 @@
 export const dynamic = 'force-dynamic'
 
 import { getSpeciesSummaries } from '@/lib/db'
-import { SpeciesCard } from '@/components/species/SpeciesCard'
+import { SpeciesFilterGrid } from '@/components/especies/SpeciesFilterGrid'
 
 export const metadata = {
   title: 'Especies — Rayen',
@@ -14,7 +14,7 @@ export default async function EspeciesPage() {
   let dbError = false
 
   try {
-    const result = await getSpeciesSummaries({ limit: 100 })
+    const result = await getSpeciesSummaries({ limit: 200 })
     species = result.data
     total = result.total
   } catch (err) {
@@ -24,15 +24,10 @@ export default async function EspeciesPage() {
 
   return (
     <main className="max-w-7xl mx-auto px-4 py-10">
-      {/* Encabezado */}
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-stone-800">Especies</h1>
-        <p className="mt-1 text-stone-500">
-          {total} {total === 1 ? 'especie registrada' : 'especies registradas'} en la plataforma
-        </p>
       </div>
 
-      {/* Grilla de tarjetas */}
       {dbError ? (
         <div className="text-center py-20 text-stone-400">
           <p className="text-lg font-medium text-stone-600">Error temporal al cargar las especies</p>
@@ -43,11 +38,7 @@ export default async function EspeciesPage() {
           <p className="text-lg">No hay especies publicadas aún.</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-          {species.map((sp) => (
-            <SpeciesCard key={sp.id} species={sp} variant="card" />
-          ))}
-        </div>
+        <SpeciesFilterGrid species={species} total={total} />
       )}
     </main>
   )
