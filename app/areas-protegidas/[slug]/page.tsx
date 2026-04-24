@@ -8,9 +8,17 @@ import { ConservationBadge } from '@/components/species/ConservationBadge'
 import type { Metadata } from 'next'
 import type { UICNStatus } from '@/lib/types'
 
+// dynamicParams=true (default) — slugs not pre-generated are rendered on demand
+export const dynamicParams = true
+
 export async function generateStaticParams() {
-  const areas = await sql<{ slug: string }[]>`SELECT slug FROM protected_areas`
-  return areas.map((a) => ({ slug: a.slug }))
+  try {
+    const areas = await sql<{ slug: string }[]>`SELECT slug FROM protected_areas`
+    return areas.map((a) => ({ slug: a.slug }))
+  } catch {
+    // DB pool exhausted at build time — fall back to full on-demand SSR
+    return []
+  }
 }
 
 // Shown when DB/network errors occur so the app doesn't crash completely
