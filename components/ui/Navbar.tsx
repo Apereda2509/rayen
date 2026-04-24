@@ -200,11 +200,11 @@ export function Navbar() {
 
         {/* Nav móvil */}
         {mobileOpen && (
-          <div className="md:hidden border-t border-white/10 bg-carbon-900 px-4 py-3">
+          <div className="md:hidden border-t border-white/10 bg-[#0A0A0A] px-4 py-2">
             {NAV_LINKS.map(({ href, label }) => (
               <Link key={href} href={href} onClick={closeAll}
                 className={cn(
-                  'block rounded-md px-3 py-2 text-sm',
+                  'block rounded-md px-3 py-4 text-sm',
                   pathname === href
                     ? 'bg-carbon-700 text-neon-400 font-medium'
                     : 'text-white/70 hover:text-white hover:bg-carbon-800'
@@ -217,7 +217,7 @@ export function Navbar() {
               <Link
                 href={session ? '/avistamientos/nuevo' : '/login?callbackUrl=/avistamientos/nuevo&razon=reporte'}
                 onClick={closeAll}
-                className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-neon-400 hover:text-white hover:bg-carbon-800"
+                className="flex items-center gap-2 rounded-md px-3 py-4 text-sm font-medium text-neon-400 hover:text-white hover:bg-carbon-800"
               >
                 <Plus className="h-4 w-4" />
                 Reportar avistamiento
@@ -228,7 +228,7 @@ export function Navbar() {
               {session ? (
                 <>
                   <Link href="/perfil" onClick={closeAll}
-                    className="flex items-center gap-2 rounded-md px-3 py-2 text-sm text-white/80 hover:text-white hover:bg-carbon-800">
+                    className="flex items-center gap-2 rounded-md px-3 py-4 text-sm text-white/80 hover:text-white hover:bg-carbon-800">
                     {avatarUrl ? (
                       <Image src={avatarUrl} alt={session.user?.name ?? 'Usuario'} width={22} height={22} className="rounded-full ring-1 ring-neon-400" />
                     ) : (
@@ -237,37 +237,37 @@ export function Navbar() {
                     Ver perfil
                   </Link>
                   <Link href="/ayuda" onClick={closeAll}
-                    className="flex items-center gap-2 rounded-md px-3 py-2 text-sm text-white/70 hover:text-white hover:bg-carbon-800">
+                    className="flex items-center gap-2 rounded-md px-3 py-4 text-sm text-white/70 hover:text-white hover:bg-carbon-800">
                     <HelpCircle className="h-4 w-4" />
                     Centro de ayuda
                   </Link>
                   <button
                     onClick={() => { setMobileOpen(false); setErrorModalOpen(true) }}
-                    className="flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm text-white/70 hover:text-white hover:bg-carbon-800"
+                    className="flex w-full items-center gap-2 rounded-md px-3 py-4 text-sm text-white/70 hover:text-white hover:bg-carbon-800"
                   >
                     <AlertCircle className="h-4 w-4" />
                     Informar un error
                   </button>
                   {session.user?.email === ADMIN_EMAIL && (
                     <Link href="/admin" onClick={closeAll}
-                      className="flex items-center gap-2 rounded-md px-3 py-2 text-sm text-white/70 hover:text-white hover:bg-carbon-800">
+                      className="flex items-center gap-2 rounded-md px-3 py-4 text-sm text-white/70 hover:text-white hover:bg-carbon-800">
                       <ShieldCheck className="h-4 w-4" />
                       Panel de administrador
                     </Link>
                   )}
                   <Link href="/privacidad" onClick={closeAll}
-                    className="flex items-center gap-2 rounded-md px-3 py-2 text-sm text-white/70 hover:text-white hover:bg-carbon-800">
+                    className="flex items-center gap-2 rounded-md px-3 py-4 text-sm text-white/70 hover:text-white hover:bg-carbon-800">
                     <Shield className="h-4 w-4" />
                     Política de privacidad
                   </Link>
                   <Link href="/terminos" onClick={closeAll}
-                    className="flex items-center gap-2 rounded-md px-3 py-2 text-sm text-white/70 hover:text-white hover:bg-carbon-800">
+                    className="flex items-center gap-2 rounded-md px-3 py-4 text-sm text-white/70 hover:text-white hover:bg-carbon-800">
                     <FileText className="h-4 w-4" />
                     Términos de Uso
                   </Link>
                   <button
                     onClick={() => { closeAll(); signOut({ callbackUrl: '/' }) }}
-                    className="flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm text-red-400 hover:text-red-300 hover:bg-carbon-800"
+                    className="flex w-full items-center gap-2 rounded-md px-3 py-4 text-sm text-red-400 hover:text-red-300 hover:bg-carbon-800"
                   >
                     <LogOut className="h-4 w-4" />
                     Cerrar sesión
@@ -275,7 +275,7 @@ export function Navbar() {
                 </>
               ) : status !== 'loading' ? (
                 <Link href="/login" onClick={closeAll}
-                  className="flex items-center gap-2 rounded-md px-3 py-2 text-sm text-white/70 hover:text-white hover:bg-carbon-800">
+                  className="flex items-center gap-2 rounded-md px-3 py-4 text-sm text-white/70 hover:text-white hover:bg-carbon-800">
                   <LogIn className="h-4 w-4" />
                   Iniciar sesión
                 </Link>

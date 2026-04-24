@@ -35,7 +35,7 @@ try {
         'Valparaíso',
         ST_SetSRID(ST_MakePoint(-71.61, -33.58), 4326),
         'Humedal costero ubicado en El Quisco. Refugio de aves acuáticas migratorias y residentes, incluyendo especies amenazadas.',
-        'https://upload.wikimedia.org/wikipedia/commons/1/1a/Laguna_el_peral%2C_Chile.JPG'
+        'https://upload.wikimedia.org/wikipedia/commons/5/5f/Laguna_el_peral.jpg'
       ),
       (
         'Santuario de la Naturaleza Carlos Anwandter',

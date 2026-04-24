@@ -90,8 +90,8 @@ export function HeroFrameExpand() {
           <div className="absolute inset-0 bg-carbon-900/70" aria-hidden="true" />
 
           {/* Hero content */}
-          <div className="relative z-10 h-full flex items-center text-white">
-            <div className="max-w-6xl mx-auto px-4 sm:px-6 w-full">
+          <div className="relative z-10 h-full flex items-start sm:items-center text-white">
+            <div className="max-w-6xl mx-auto px-4 sm:px-6 w-full pt-24 pb-16 sm:pt-0 sm:pb-0">
               <div className="max-w-3xl">
                 <p className="font-grotesk text-neon-400 text-sm font-medium uppercase tracking-wider mb-4">
                   Plataforma de biodiversidad chilena
@@ -110,19 +110,19 @@ export function HeroFrameExpand() {
                 <div className="mt-10 flex flex-col sm:flex-row flex-wrap gap-4">
                   <Link
                     href="/mapa"
-                    className="inline-flex items-center gap-2 bg-neon-400 hover:bg-neon-300 text-black font-medium px-6 py-3 rounded-lg transition-colors"
+                    className="flex justify-center items-center gap-2 w-full sm:w-auto bg-neon-400 hover:bg-neon-300 text-black font-medium px-6 py-3 rounded-lg transition-colors"
                   >
                     Explorar el mapa
                   </Link>
                   <Link
                     href="/especies"
-                    className="inline-flex items-center gap-2 border border-neon-400/40 hover:border-neon-400 text-white/90 px-6 py-3 rounded-lg transition-colors"
+                    className="flex justify-center items-center gap-2 w-full sm:w-auto border border-neon-400/40 hover:border-neon-400 text-white/90 px-6 py-3 rounded-lg transition-colors"
                   >
                     Ver especies
                   </Link>
                   <Link
                     href={reportHref}
-                    className="inline-flex items-center gap-2 border border-[#00E676] text-[#00E676] hover:bg-[#00E676] hover:text-black px-6 py-3 rounded-lg transition-colors"
+                    className="flex justify-center items-center gap-2 w-full sm:w-auto border border-[#00E676] text-[#00E676] hover:bg-[#00E676] hover:text-black px-6 py-3 rounded-lg transition-colors"
                     style={{ borderWidth: '1.5px' }}
                   >
                     Reportar avistamiento

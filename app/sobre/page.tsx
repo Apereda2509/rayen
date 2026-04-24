@@ -208,9 +208,9 @@ export default function SobrePage() {
             </p>
             <a
               href="mailto:angelperedajimenez@gmail.com"
-              className="inline-flex items-center gap-2 text-[#00E676] hover:text-[#52F599] transition-colors text-lg font-medium"
+              className="inline-flex items-center gap-2 text-[#00E676] hover:text-[#52F599] transition-colors text-lg font-medium break-all"
             >
-              <Mail className="h-5 w-5" />
+              <Mail className="h-5 w-5 flex-shrink-0" />
               angelperedajimenez@gmail.com
             </a>
           </Anim>
@@ -340,7 +340,7 @@ export default function SobrePage() {
               chilena, escríbeme a{' '}
               <a
                 href="mailto:angelperedajimenez@gmail.com"
-                className="text-[#00E676] hover:text-[#52F599] transition-colors"
+                className="text-[#00E676] hover:text-[#52F599] transition-colors break-all"
               >
                 angelperedajimenez@gmail.com
               </a>
