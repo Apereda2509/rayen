@@ -86,10 +86,12 @@ export default async function HomePage() {
             Una plataforma. Toda la biodiversidad de Chile.
           </h2>
           <p className="text-lg text-stone-600 leading-relaxed">
-            Rayen reúne en un solo lugar fichas de especies, mapas interactivos,
-            avistamientos ciudadanos, leyes de protección y formas concretas de actuar.
-            Todo el contenido es de código abierto, verificado y construido en colaboración
-            con universidades y organizaciones chilenas.
+            Rayen reúne fichas de especies, mapas, leyes de protección y formas concretas
+            de actuar. Un proyecto independiente, construido con fuentes públicas verificadas
+            — SAG, Ministerio del Medio Ambiente e IUCN.
+          </p>
+          <p className="mt-4 text-base text-stone-400">
+            Hecho por una persona, abierto a colaboradores que quieran sumar.
           </p>
         </div>
       </section>
