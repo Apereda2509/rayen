@@ -285,9 +285,9 @@
       "media": [
         {
           "type": "foto",
-          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Bombus_dahlbomii.jpg/800px-Bombus_dahlbomii.jpg",
-          "credit": "Wikimedia Commons",
-          "license": "CC-BY-SA",
+          "url": "https://upload.wikimedia.org/wikipedia/commons/e/e7/Bombus_dahlbomii.jpg",
+          "credit": "Wikimedia Commons / Yerlan Abenov",
+          "license": "CC-BY-SA-4.0",
           "isPrimary": true
         }
       ]
