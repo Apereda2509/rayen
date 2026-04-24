@@ -7,7 +7,7 @@ import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'Áreas Protegidas de Chile',
-  description: 'Explora los parques nacionales, reservas nacionales y monumentos naturales de Chile administrados por CONAF.',
+  description: 'Parques nacionales, reservas y santuarios de la naturaleza de Chile. Explora las áreas protegidas por región y tipo.',
 }
 
 export default async function AreasProtegidasPage() {

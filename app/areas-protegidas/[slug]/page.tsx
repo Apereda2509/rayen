@@ -84,9 +84,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   try {
     const area = await getProtectedAreaBySlug(params.slug)
     if (!area) return { title: 'Área no encontrada' }
+    const tipo = TIPO_LABELS[area.type] ?? area.type
+    const description = area.description?.slice(0, 160) ?? `${tipo} en ${area.regionName ?? 'Chile'}. Explora su biodiversidad y avistamientos de especies.`
     return {
-      title: `${area.name} — Área Protegida`,
-      description: area.description ?? `${TIPO_LABELS[area.type] ?? area.type} en ${area.regionName ?? 'Chile'}`,
+      title: area.name,
+      description,
+      openGraph: area.photoUrl ? {
+        images: [{ url: area.photoUrl, width: 1200, height: 630 }],
+      } : undefined,
     }
   } catch {
     return { title: 'Área Protegida' }

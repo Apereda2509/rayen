@@ -21,25 +21,34 @@ const spaceGrotesk = Space_Grotesk({
 })
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://rayen.app'),
   title: {
-    default: 'Rayen — Biodiversidad Chilena',
+    default: 'Rayen — Biodiversidad de Chile',
     template: '%s | Rayen',
   },
-  description: 'Chile florece cuando lo conocemos. Explora la fauna y flora nativa de Chile, conoce su estado de conservación y descubre cómo protegerla.',
-  keywords: ['biodiversidad', 'Chile', 'fauna', 'flora', 'conservación', 'especies', 'mapa'],
+  description: 'Fichas de especies, mapas interactivos y formas concretas de actuar por la biodiversidad nativa de Chile. Un proyecto independiente con fuentes verificadas.',
+  keywords: ['biodiversidad Chile', 'especies nativas Chile', 'conservación Chile', 'fauna chilena', 'flora chilena', 'áreas protegidas Chile'],
+  authors: [{ name: 'Ángel Pereda Jiménez' }],
+  creator: 'Ángel Pereda Jiménez',
   openGraph: {
-    title: 'Rayen — Biodiversidad Chilena',
-    description: 'Chile florece cuando lo conocemos.',
+    type: 'website',
+    locale: 'es_CL',
     url: 'https://rayen.app',
     siteName: 'Rayen',
-    locale: 'es_CL',
-    type: 'website',
+    title: 'Rayen — Biodiversidad de Chile',
+    description: 'Fichas de especies, mapas interactivos y formas concretas de actuar por la biodiversidad nativa de Chile.',
+    images: [{
+      url: '/og-image.svg',
+      width: 1200,
+      height: 630,
+      alt: 'Rayen — Biodiversidad de Chile',
+    }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Rayen',
-    description: 'Chile florece cuando lo conocemos.',
-    creator: '@rayenchile',
+    title: 'Rayen — Biodiversidad de Chile',
+    description: 'Fichas de especies, mapas interactivos y formas concretas de actuar por la biodiversidad nativa de Chile.',
+    images: ['/og-image.svg'],
   },
   icons: {
     icon: [
@@ -51,6 +60,11 @@ export const metadata: Metadata = {
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-image-preview': 'large',
+    },
   },
 }
 

@@ -5,8 +5,8 @@ import sql from '@/lib/db'
 import { AccionTabs } from '@/components/accion/AccionTabs'
 
 export const metadata = {
-  title: 'Acción — Rayen',
-  description: 'Firma peticiones, conoce organizaciones conservacionistas, el marco legal ambiental de Chile y qué hacer ante emergencias ambientales.',
+  title: 'Acción — Cómo proteger la biodiversidad',
+  description: 'Formas concretas de actuar por la biodiversidad chilena: peticiones, leyes de protección y organizaciones.',
 }
 
 async function getPetitions(userId: string | null) {

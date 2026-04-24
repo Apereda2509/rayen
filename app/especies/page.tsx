@@ -5,8 +5,8 @@ import { getSpeciesSummaries } from '@/lib/db'
 import { SpeciesFilterGrid } from '@/components/especies/SpeciesFilterGrid'
 
 export const metadata = {
-  title: 'Especies — Rayen',
-  description: 'Catálogo de biodiversidad chilena. Explora mamíferos, aves, plantas y más.',
+  title: 'Especies — Fauna y Flora de Chile',
+  description: 'Explora las especies nativas y endémicas de Chile. Fichas verificadas con estado de conservación UICN, distribución y amenazas.',
 }
 
 export default async function EspeciesPage() {

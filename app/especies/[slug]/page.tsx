@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
+import Image from 'next/image'
 import nextDynamic from 'next/dynamic'
 import { getSpeciesBySlug } from '@/lib/db'
 import { ConservationBadge } from '@/components/species/ConservationBadge'
@@ -24,9 +25,15 @@ interface Props {
 export async function generateMetadata({ params }: Props) {
   const species = await getSpeciesBySlug(params.slug)
   if (!species) return {}
+  const uicnLabel = species.uicnStatus ? (UICN_LABELS[species.uicnStatus] ?? species.uicnStatus) : 'No evaluado'
+  const description = `${species.commonName} (${species.scientificName}) — Estado UICN: ${uicnLabel}. ${species.description?.slice(0, 120) ?? ''}`
+  const primaryPhoto = species.media?.find((m) => m.isPrimary) ?? species.media?.[0]
   return {
-    title: `${species.commonName} — Rayen`,
-    description: species.description?.slice(0, 160),
+    title: species.commonName,
+    description: description.slice(0, 160),
+    openGraph: primaryPhoto?.url ? {
+      images: [{ url: primaryPhoto.url, width: 1200, height: 630 }],
+    } : undefined,
   }
 }
 
@@ -55,11 +62,13 @@ export default async function EspeciePage({ params }: Props) {
         <div className="relative w-full md:w-72 h-60 flex-shrink-0 rounded-2xl overflow-hidden bg-stone-100">
           {photoUrl ? (
             <>
-              <img
+              <Image
                 src={photoUrl}
                 alt={species.commonName}
-                referrerPolicy="no-referrer"
-                className="absolute inset-0 w-full h-full object-cover"
+                fill
+                priority
+                sizes="(max-width: 768px) 100vw, 288px"
+                className="object-cover"
               />
               <span className="absolute bottom-1 right-2 text-[10px] text-white/70">
                 © {primaryPhoto?.credit}

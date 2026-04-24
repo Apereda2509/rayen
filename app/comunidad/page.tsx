@@ -1,6 +1,9 @@
 import { ComunidadFeed } from '@/components/comunidad/ComunidadFeed'
 
-export const metadata = { title: 'Comunidad — Rayen' }
+export const metadata = {
+  title: 'Comunidad — Avistamientos ciudadanos',
+  description: 'Avistamientos de especies reportados por la comunidad de Rayen en todo Chile.',
+}
 
 export default function ComunidadPage() {
   return (

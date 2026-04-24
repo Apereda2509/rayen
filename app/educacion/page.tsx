@@ -1,4 +1,7 @@
-export const metadata = { title: 'Educación — Rayen' }
+export const metadata = {
+  title: 'Educación — Aprende sobre biodiversidad',
+  description: 'Recursos educativos sobre la biodiversidad nativa de Chile.',
+}
 
 export default function EducacionPage() {
   return (
