@@ -254,7 +254,7 @@ function SectionColaborar({ reduced }: { reduced: boolean }) {
           <div className="mt-8">
             <a
               href="mailto:angelperedajimenez@gmail.com"
-              className="font-mono text-lg text-[#00E676] hover:underline underline-offset-4"
+              className="font-mono text-sm md:text-base text-[#00E676] hover:underline underline-offset-4 break-all"
             >
               angelperedajimenez@gmail.com
             </a>
