@@ -54,8 +54,8 @@ export function HeroFrameExpand() {
 
   const videoUrl = process.env.NEXT_PUBLIC_HERO_VIDEO_URL
 
-  // Contenido compartido entre versión mobile y desktop
-  const heroContent = (_mobile: boolean) => (
+  // Contenido del hero — layout diferenciado para móvil y desktop
+  const heroContent = (mobile: boolean) => (
     <>
       {/* Video background */}
       {videoUrl ? (
@@ -76,8 +76,14 @@ export function HeroFrameExpand() {
       {/* Dark overlay */}
       <div className="absolute inset-0 bg-carbon-900/70" aria-hidden="true" />
 
-      {/* Text content — centrado sobre el video */}
-      <div className="absolute inset-0 z-10 flex flex-col items-center justify-center text-center text-white px-6 md:px-16">
+      {/* Text content */}
+      {/* Móvil: relative + min-h para que el contenido pueda crecer sin cortarse */}
+      {/* Desktop: absolute inset-0 para cubrir el frame animado */}
+      <div className={
+        mobile
+          ? 'relative z-10 min-h-[100svh] flex flex-col items-center justify-center text-center text-white px-6 py-16'
+          : 'absolute inset-0 z-10 flex flex-col items-center justify-center text-center text-white px-6 md:px-16'
+      }>
         <p className="font-grotesk text-neon-400 text-sm font-medium uppercase tracking-wider mb-4">
           Plataforma de biodiversidad chilena
         </p>
@@ -89,22 +95,39 @@ export function HeroFrameExpand() {
           Explora la fauna y flora nativa de Chile, conoce su estado de conservación
           y descubre cómo cada especie sostiene los ecosistemas que también te sostienen a ti.
         </p>
-        <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
+        {/* Botones: en móvil apilados en columna con pb-16; en desktop en fila */}
+        <div className={
+          mobile
+            ? 'mt-8 flex flex-col items-center gap-3 w-full pb-16'
+            : 'mt-8 flex flex-row gap-4 justify-center'
+        }>
           <Link
             href="/mapa"
-            className="inline-flex items-center justify-center gap-2 w-full sm:w-auto max-w-xs sm:max-w-none bg-neon-400 hover:bg-neon-300 text-black font-medium px-8 py-3 rounded-lg transition-colors"
+            className={
+              mobile
+                ? 'inline-flex items-center justify-center gap-2 w-full max-w-xs bg-neon-400 hover:bg-neon-300 text-black font-medium px-8 py-3 rounded-lg transition-colors'
+                : 'inline-flex items-center justify-center gap-2 bg-neon-400 hover:bg-neon-300 text-black font-medium px-8 py-3 rounded-lg transition-colors'
+            }
           >
             Explorar el mapa
           </Link>
           <Link
             href="/especies"
-            className="inline-flex items-center justify-center gap-2 w-full sm:w-auto max-w-xs sm:max-w-none border border-neon-400/40 hover:border-neon-400 text-white/90 px-8 py-3 rounded-lg transition-colors"
+            className={
+              mobile
+                ? 'inline-flex items-center justify-center gap-2 w-full max-w-xs border border-neon-400/40 hover:border-neon-400 text-white/90 px-8 py-3 rounded-lg transition-colors'
+                : 'inline-flex items-center justify-center gap-2 border border-neon-400/40 hover:border-neon-400 text-white/90 px-8 py-3 rounded-lg transition-colors'
+            }
           >
             Ver especies
           </Link>
           <Link
             href={reportHref}
-            className="inline-flex items-center justify-center gap-2 w-full sm:w-auto max-w-xs sm:max-w-none border border-[#00E676] text-[#00E676] hover:bg-[#00E676] hover:text-black px-8 py-3 rounded-lg transition-colors"
+            className={
+              mobile
+                ? 'inline-flex items-center justify-center gap-2 w-full max-w-xs border border-[#00E676] text-[#00E676] hover:bg-[#00E676] hover:text-black px-8 py-3 rounded-lg transition-colors'
+                : 'inline-flex items-center justify-center gap-2 border border-[#00E676] text-[#00E676] hover:bg-[#00E676] hover:text-black px-8 py-3 rounded-lg transition-colors'
+            }
             style={{ borderWidth: '1.5px' }}
           >
             Reportar avistamiento
@@ -116,8 +139,8 @@ export function HeroFrameExpand() {
 
   return (
     <>
-      {/* ── Móvil: sin animación sticky — se expande con el contenido ── */}
-      <div className="sm:hidden relative bg-[#0A0A0A] overflow-hidden min-h-[100svh]">
+      {/* ── Móvil: sin animación sticky — el contenido determina la altura ── */}
+      <div className="sm:hidden relative bg-[#0A0A0A]">
         {heroContent(true)}
       </div>
 
