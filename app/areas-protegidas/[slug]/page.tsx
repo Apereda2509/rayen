@@ -5,6 +5,7 @@ import nextDynamic from 'next/dynamic'
 import sql from '@/lib/db'
 import { getProtectedAreaBySlug, getSightingsNearArea } from '@/lib/db'
 import { ConservationBadge } from '@/components/species/ConservationBadge'
+import { AreaFotosFeed } from '@/components/comunidad/AreaFotosFeed'
 import type { Metadata } from 'next'
 import type { UICNStatus } from '@/lib/types'
 
@@ -207,6 +208,12 @@ export default async function AreaPage({ params }: Props) {
           <p className="text-stone-600 leading-relaxed">{area.description}</p>
         </section>
       )}
+
+      {/* Fotos de la comunidad */}
+      <section className="mb-12">
+        <h2 className="text-lg font-semibold text-stone-900 mb-4">Fotos de la comunidad</h2>
+        <AreaFotosFeed defaultAreaSlug={area.slug} />
+      </section>
 
       {/* Avistamientos cercanos */}
       <section>
