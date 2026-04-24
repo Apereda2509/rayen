@@ -42,6 +42,10 @@ function ZonaImagen({
   speciesScientificName?: string | null
 }) {
   const tipo = slide.tipo
+  const imageUrl = slide.imagen_url ?? speciesImageUrl ?? null
+  const [imgError, setImgError] = useState(false)
+
+  useEffect(() => { setImgError(false) }, [imageUrl])
 
   // Slides especiales: SVG en lugar de foto
   if (tipo === 'actividad') {
@@ -67,9 +71,7 @@ function ZonaImagen({
   }
 
   // Prioridad: imagen_url del slide > imagen de la especie > fallback neutro
-  const imageUrl = slide.imagen_url ?? speciesImageUrl ?? null
-
-  if (imageUrl) {
+  if (imageUrl && !imgError) {
     return (
       <div className="relative h-full w-full overflow-hidden">
         <Image
@@ -78,6 +80,7 @@ function ZonaImagen({
           fill
           sizes="(max-width: 768px) 100vw, 40vw"
           className="object-cover object-center"
+          onError={() => setImgError(true)}
           draggable={false}
         />
         {/* Overlay gradiente inferior */}
@@ -92,10 +95,15 @@ function ZonaImagen({
     )
   }
 
-  // Sin imagen disponible: fondo neutro
+  // Sin imagen o error al cargar: fondo neutro con nombre de especie
   return (
-    <div className="flex h-full w-full items-center justify-center bg-zinc-900">
-      <div className="h-16 w-16 rounded-full border border-zinc-700" />
+    <div className="flex h-full w-full flex-col items-center justify-center gap-3 bg-zinc-800 px-6 text-center">
+      {speciesScientificName && (
+        <p className="font-serif text-sm italic text-zinc-400 leading-snug">
+          {speciesScientificName}
+        </p>
+      )}
+      <div className="h-10 w-10 rounded-full border border-zinc-600" />
     </div>
   )
 }
