@@ -16,14 +16,18 @@ interface PresentacionRow {
   slides: Slide[]
   species_common_name: string | null
   species_slug: string | null
+  species_scientific_name: string | null
+  species_image_url: string | null
 }
 
 async function getPresentacion(slug: string): Promise<PresentacionRow | null> {
   const [row] = await sql<PresentacionRow[]>`
     SELECT
       p.id, p.slug, p.titulo, p.nivel, p.slides, p.species_id,
-      s.common_name AS species_common_name,
-      s.slug        AS species_slug
+      s.common_name     AS species_common_name,
+      s.slug            AS species_slug,
+      s.scientific_name AS species_scientific_name,
+      (SELECT url FROM media WHERE species_id = s.id AND is_primary = TRUE LIMIT 1) AS species_image_url
     FROM presentaciones p
     LEFT JOIN species s ON s.id = p.species_id
     WHERE p.slug = ${slug} AND p.published = TRUE
@@ -66,7 +70,6 @@ export default async function PresentacionPage({ params }: Props) {
     <div className="bg-[#0A0A0A] min-h-screen">
       <div className="max-w-4xl mx-auto px-6 md:px-8 py-12">
 
-        {/* Breadcrumb */}
         <nav className="text-xs text-zinc-600 mb-8 flex items-center gap-1.5">
           <Link href="/educacion" className="hover:text-zinc-400 transition-colors">Educación</Link>
           <span>/</span>
@@ -75,7 +78,6 @@ export default async function PresentacionPage({ params }: Props) {
           <span className="text-zinc-400 truncate max-w-[200px]">{presentacion.titulo}</span>
         </nav>
 
-        {/* Metadatos */}
         <div className="flex flex-wrap items-center gap-3 mb-8">
           <span className="rounded-full border border-zinc-700 px-3 py-1 text-xs text-zinc-400">
             {NIVEL_LABELS[presentacion.nivel]}
@@ -94,6 +96,8 @@ export default async function PresentacionPage({ params }: Props) {
           titulo={presentacion.titulo}
           nivel={presentacion.nivel}
           slides={presentacion.slides}
+          speciesImageUrl={presentacion.species_image_url}
+          speciesScientificName={presentacion.species_scientific_name}
         />
       </div>
     </div>
