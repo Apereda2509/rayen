@@ -352,6 +352,13 @@ export async function createSighting(
   return sighting
 }
 
+// ── Especies destacadas para el home ─────────────────────────
+
+export async function getFeaturedSpecies(limit = 6): Promise<SpeciesSummary[]> {
+  const result = await getSpeciesSummaries({ limit, page: 1 })
+  return result.data
+}
+
 // ── Estadísticas ─────────────────────────────────────────────
 
 export async function getPlatformStats() {

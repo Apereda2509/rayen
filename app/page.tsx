@@ -2,21 +2,32 @@
 export const dynamic = 'force-dynamic'
 
 import Link from 'next/link'
-import { ArrowRight, MapPin, Users, AlertTriangle } from 'lucide-react'
-import { getPlatformStats } from '@/lib/db'
+import { MapPin, AlertTriangle } from 'lucide-react'
+import { getPlatformStats, getFeaturedSpecies } from '@/lib/db'
+import { HomeParallaxSections } from '@/components/home/HomeParallaxSections'
+import type { SpeciesSummary } from '@/lib/types'
 
 export default async function HomePage() {
-  let stats = { total_species: 0, endangered: 0, endemic: 0, verified_sightings: 0, total_users: 0 }
+  let stats = { total_species: 35, endangered: 12, endemic: 18 }
+  let featuredSpecies: SpeciesSummary[] = []
+
   try {
-    stats = await getPlatformStats()
-  } catch (e) {
-    stats = { total_species: 30, endangered: 12, endemic: 18, verified_sightings: 142, total_users: 56 }
+    const raw = await getPlatformStats()
+    stats = { total_species: raw.total_species, endangered: raw.endangered, endemic: raw.endemic }
+  } catch {
+    // fallback values are already set above
+  }
+
+  try {
+    featuredSpecies = await getFeaturedSpecies(6)
+  } catch {
+    featuredSpecies = []
   }
 
   return (
     <div className="min-h-[calc(100vh-3.5rem)]">
 
-      {/* Hero */}
+      {/* Hero — no tocar */}
       <section className="relative overflow-hidden bg-carbon-900 text-white h-screen">
         {process.env.NEXT_PUBLIC_HERO_VIDEO_URL && (
           <video
@@ -53,7 +64,6 @@ export default async function HomePage() {
                   className="inline-flex items-center gap-2 bg-neon-400 hover:bg-neon-300 text-black font-medium px-6 py-3 rounded-lg transition-colors"
                 >
                   Explorar el mapa
-                  <ArrowRight className="h-4 w-4" />
                 </Link>
                 <Link
                   href="/especies"
@@ -67,34 +77,19 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Stats */}
+      {/* Stats — 3 reales */}
       <section className="bg-stone-50 border-b border-stone-200">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-12">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+          <div className="grid grid-cols-3 gap-6 max-w-2xl mx-auto">
             <Stat label="Especies documentadas" value={stats.total_species} icon={MapPin} />
             <Stat label="En peligro" value={stats.endangered} icon={AlertTriangle} accent="coral" />
             <Stat label="Endémicas de Chile" value={stats.endemic} icon={MapPin} />
-            <Stat label="Avistamientos comunidad" value={stats.verified_sightings} icon={Users} />
           </div>
         </div>
       </section>
 
-      {/* Misión */}
-      <section className="bg-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 py-20 text-center">
-          <h2 className="text-3xl font-bold text-stone-900 mb-6">
-            Una plataforma. Toda la biodiversidad de Chile.
-          </h2>
-          <p className="text-lg text-stone-600 leading-relaxed">
-            Rayen reúne fichas de especies, mapas, leyes de protección y formas concretas
-            de actuar. Un proyecto independiente, construido con fuentes públicas verificadas
-            — SAG, Ministerio del Medio Ambiente e IUCN.
-          </p>
-          <p className="mt-4 text-base text-stone-400">
-            Hecho por una persona, abierto a colaboradores que quieran sumar.
-          </p>
-        </div>
-      </section>
+      {/* Secciones parallax */}
+      <HomeParallaxSections species={featuredSpecies} />
 
     </div>
   )
@@ -105,9 +100,7 @@ function Stat({
 }: {
   label: string; value: number; icon: any; accent?: 'neon' | 'coral'
 }) {
-  const colors = accent === 'coral'
-    ? 'text-coral-400'
-    : 'text-neon-400'
+  const colors = accent === 'coral' ? 'text-coral-400' : 'text-neon-400'
 
   return (
     <div className="text-center">
