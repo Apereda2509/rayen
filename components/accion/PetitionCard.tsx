@@ -1,7 +1,6 @@
 'use client'
 
 import { useState } from 'react'
-import Image from 'next/image'
 import { FileText, CheckCircle } from 'lucide-react'
 import { ConservationBadge } from '@/components/species/ConservationBadge'
 import type { UICNStatus } from '@/lib/types'
@@ -77,18 +76,19 @@ export function PetitionCard({ petition, isLoggedIn }: Props) {
   }
 
   return (
-    <div className="rounded-2xl border border-stone-200 bg-white overflow-hidden hover:border-neon-400/40 hover:shadow-md transition-all flex flex-col">
-      {/* Imagen */}
-      <div className="relative h-44 bg-stone-100 flex-shrink-0">
+    <div className="flex rounded-2xl border border-zinc-800 bg-zinc-900 overflow-hidden min-h-48 transition-transform duration-200 hover:scale-[1.01]">
+      {/* Imagen izquierda — 40% */}
+      <div className="relative w-2/5 flex-shrink-0">
         {petition.imageUrl ? (
           <img
             src={petition.imageUrl}
             alt={petition.title}
             className="w-full h-full object-cover"
+            referrerPolicy="no-referrer"
           />
         ) : (
-          <div className="w-full h-full flex items-center justify-center text-stone-300">
-            <FileText className="h-12 w-12" />
+          <div className="w-full h-full flex items-center justify-center bg-zinc-800">
+            <FileText className="h-12 w-12 text-zinc-600" />
           </div>
         )}
         {petition.species?.uicnStatus && (
@@ -96,84 +96,72 @@ export function PetitionCard({ petition, isLoggedIn }: Props) {
             <ConservationBadge
               status={petition.species.uicnStatus as UICNStatus}
               size="sm"
-              showLabel={true}
+              showLabel
             />
           </div>
         )}
       </div>
 
-      <div className="p-5 flex flex-col flex-1">
-        {petition.species && (
-          <p className="text-xs text-neon-600 font-medium mb-1.5">
-            Especie: {petition.species.commonName}
-          </p>
-        )}
-
-        <h3 className="font-semibold text-stone-900 leading-snug mb-2 text-base">
+      {/* Contenido derecha — 60% */}
+      <div className="p-4 flex flex-col flex-1 min-w-0">
+        <h3 className="font-grotesk font-semibold text-white leading-snug mb-2 text-sm">
           {petition.title}
         </h3>
 
-        <p className="text-sm text-stone-500 line-clamp-3 mb-4 flex-1">
+        <p className="text-xs text-zinc-400 line-clamp-3 mb-3 flex-1 leading-relaxed">
           {petition.description}
         </p>
 
-        {/* Progreso */}
-        <div className="mb-4">
-          <div className="flex justify-between items-baseline mb-1.5">
-            <span className="text-2xl font-bold text-stone-900">
+        {/* Barra de progreso */}
+        <div className="mb-3">
+          <div className="flex justify-between items-baseline mb-1">
+            <span className="text-base font-bold text-white font-grotesk">
               {signedCount.toLocaleString('es-CL')}
             </span>
-            <span className="text-xs text-stone-400">
-              de {petition.goal.toLocaleString('es-CL')} firmas
+            <span className="text-[10px] text-zinc-500">
+              / {petition.goal.toLocaleString('es-CL')}
             </span>
           </div>
-          <div className="h-2 rounded-full bg-stone-100 overflow-hidden">
+          <div className="h-1.5 rounded-full bg-zinc-800 overflow-hidden">
             <div
-              className="h-full bg-neon-400 rounded-full transition-all duration-500"
+              className="h-full bg-[#00E676] rounded-full transition-all duration-500"
               style={{ width: `${progress}%` }}
             />
           </div>
-          <p className="text-xs text-stone-400 mt-1">
-            {progress.toFixed(0)}% completado
-          </p>
         </div>
 
-        {/* Botón firmar */}
+        {petition.organization && (
+          <p className="text-[10px] text-zinc-500 mb-3 truncate">
+            Dirigida a: {petition.organization.name}
+          </p>
+        )}
+
         <button
           onClick={handleSign}
           disabled={hasSigned || loading}
           className={`
-            w-full py-2.5 px-4 rounded-xl font-medium text-sm transition-all
+            w-full py-2 px-3 rounded-xl font-medium text-xs transition-all
             ${hasSigned
-              ? 'bg-stone-100 text-stone-600 cursor-default border border-stone-200'
+              ? 'bg-zinc-800 text-zinc-500 cursor-default'
               : loading
-                ? 'bg-stone-100 text-stone-400 cursor-wait'
-                : 'bg-neon-400 hover:bg-neon-300 text-black cursor-pointer'
+                ? 'bg-zinc-800 text-zinc-500 cursor-wait'
+                : 'bg-[#00E676] hover:bg-[#52F599] text-black cursor-pointer'
             }
           `}
         >
           {hasSigned
-            ? <span className="flex items-center justify-center gap-1.5"><CheckCircle className="h-4 w-4" /> Ya firmaste</span>
-            : loading ? 'Firmando...' : 'Firmar petición'
-          }
+            ? <span className="flex items-center justify-center gap-1.5"><CheckCircle className="h-3.5 w-3.5" /> Ya firmaste</span>
+            : loading ? 'Firmando...' : 'Firmar petición'}
         </button>
 
         {message && (
-          <p className={`text-xs mt-2 text-center ${
-            message.startsWith('Gracias') ? 'text-neon-600' : 'text-stone-500'
+          <p className={`text-[10px] mt-1.5 text-center ${
+            message.startsWith('Gracias') ? 'text-[#00E676]' : 'text-zinc-500'
           }`}>
             {message}
             {message.includes('sesión') && (
-              <a href="/login" className="ml-1 text-neon-600 underline">Ingresar</a>
+              <a href="/login" className="ml-1 text-[#00E676] underline">Ingresar</a>
             )}
-          </p>
-        )}
-
-        {petition.endsAt && (
-          <p className="text-xs text-stone-400 text-center mt-2">
-            Cierra: {new Date(petition.endsAt).toLocaleDateString('es-CL', {
-              day: 'numeric', month: 'long', year: 'numeric'
-            })}
           </p>
         )}
       </div>

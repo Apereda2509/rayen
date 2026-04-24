@@ -376,7 +376,7 @@ export function HomeParallaxSections({ species }: Props) {
         aria-hidden
         style={{
           height: 120,
-          background: 'linear-gradient(to bottom, transparent, #0A0A0A)',
+          background: 'linear-gradient(to bottom, rgba(10,10,10,0), #0A0A0A)',
           marginTop: -1,
           pointerEvents: 'none',
         }}

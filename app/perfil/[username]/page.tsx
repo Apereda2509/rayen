@@ -29,20 +29,27 @@ export default async function PerfilPublicoPage({ params }: Props) {
 
   if (!user) notFound()
 
-  // Si el visitante es el dueño del perfil, redirigir a /perfil
   if (session?.user?.email === user.email) {
     redirect('/perfil')
   }
 
-  const [{ sightings_count }] = await sql<{ sightings_count: number }[]>`
-    SELECT COUNT(*)::int AS sightings_count FROM sightings WHERE user_id = ${user.id} AND verified = TRUE
-  `
-  const [{ species_fav_count }] = await sql<{ species_fav_count: number }[]>`
-    SELECT COUNT(*)::int AS species_fav_count FROM species_favorites WHERE user_id = ${user.id}
-  `
-  const [{ photos_count }] = await sql<{ photos_count: number }[]>`
-    SELECT COUNT(*)::int AS photos_count FROM photos WHERE user_id = ${user.id}
-  `
+  const [
+    [{ sightings_count }],
+    [{ unique_species_count }],
+    [{ regions_count }],
+  ] = await Promise.all([
+    sql<{ sightings_count: number }[]>`
+      SELECT COUNT(*)::int AS sightings_count FROM sightings WHERE user_id = ${user.id} AND verified = TRUE
+    `,
+    sql<{ unique_species_count: number }[]>`
+      SELECT COUNT(DISTINCT species_id)::int AS unique_species_count
+      FROM sightings WHERE user_id = ${user.id} AND verified = TRUE
+    `,
+    sql<{ regions_count: number }[]>`
+      SELECT COUNT(DISTINCT region_code)::int AS regions_count
+      FROM sightings WHERE user_id = ${user.id} AND verified = TRUE AND region_code IS NOT NULL
+    `,
+  ])
 
   const photos = await sql<{
     id: string; url: string; license: string; favorites_count: number; created_at: string
@@ -74,9 +81,11 @@ export default async function PerfilPublicoPage({ params }: Props) {
     id: string; observed_at: string; verified: boolean; region_code: string | null
     photo_url: string | null; notes: string | null
     commonName: string; scientificName: string; speciesSlug: string
+    uicnStatus: string | null
   }[]>`
     SELECT sg.id, sg.observed_at, sg.verified, sg.region_code, sg.photo_url, sg.notes,
-           s.common_name AS "commonName", s.scientific_name AS "scientificName", s.slug AS "speciesSlug"
+           s.common_name AS "commonName", s.scientific_name AS "scientificName",
+           s.slug AS "speciesSlug", s.uicn_status::text AS "uicnStatus"
     FROM sightings sg JOIN species s ON s.id = sg.species_id
     WHERE sg.user_id = ${user.id} AND sg.verified = TRUE
     ORDER BY sg.created_at DESC LIMIT 50
@@ -86,7 +95,7 @@ export default async function PerfilPublicoPage({ params }: Props) {
     <PerfilClient
       user={user}
       sessionEmail={session?.user?.email ?? undefined}
-      stats={{ sightings_count, species_fav_count, photos_count }}
+      stats={{ sightings_count, unique_species_count, regions_count }}
       photos={photos}
       speciesFavorites={speciesFavorites}
       sightings={sightings}

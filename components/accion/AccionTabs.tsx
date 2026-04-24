@@ -8,7 +8,7 @@ import { LegalSection } from './LegalSection'
 import { ActionGuides } from './ActionGuides'
 
 const ORG_TYPE_OPTIONS = [
-  { value: '',             label: 'Todos los tipos' },
+  { value: '',             label: 'Todos' },
   { value: 'ong',         label: 'ONG' },
   { value: 'fundacion',   label: 'Fundación' },
   { value: 'universidad', label: 'Universidad' },
@@ -16,10 +16,10 @@ const ORG_TYPE_OPTIONS = [
 ]
 
 const TABS = [
-  { id: 'peticiones',    label: 'Peticiones',      icon: FileSignature },
-  { id: 'organizaciones', label: 'Organizaciones', icon: Building2 },
-  { id: 'legal',         label: 'Marco legal',     icon: Scale },
-  { id: 'guias',         label: 'Guías de acción', icon: Megaphone },
+  { id: 'peticiones',     label: 'Peticiones',      icon: FileSignature },
+  { id: 'organizaciones', label: 'Organizaciones',  icon: Building2 },
+  { id: 'legal',          label: 'Marco legal',     icon: Scale },
+  { id: 'guias',          label: 'Guías de acción', icon: Megaphone },
 ]
 
 type TabId = 'peticiones' | 'organizaciones' | 'legal' | 'guias'
@@ -42,7 +42,7 @@ export function AccionTabs({ petitions, organizations, laws, isLoggedIn }: Props
   return (
     <div>
       {/* Tabs */}
-      <div className="flex flex-wrap gap-2 mb-8 border-b border-stone-200 pb-0">
+      <div className="flex flex-wrap gap-1 mb-8 border-b border-zinc-800 pb-0">
         {TABS.map(({ id, label, icon: Icon }) => (
           <button
             key={id}
@@ -50,8 +50,8 @@ export function AccionTabs({ petitions, organizations, laws, isLoggedIn }: Props
             className={`
               inline-flex items-center gap-2 px-4 py-2.5 text-sm font-medium rounded-t-xl border-b-2 transition-colors
               ${activeTab === id
-                ? 'text-neon-600 border-neon-400 bg-stone-50'
-                : 'text-stone-500 border-transparent hover:text-stone-800 hover:bg-stone-50'
+                ? 'text-[#00E676] border-[#00E676] bg-zinc-900'
+                : 'text-zinc-500 border-transparent hover:text-zinc-300 hover:bg-zinc-900/50'
               }
             `}
           >
@@ -65,9 +65,9 @@ export function AccionTabs({ petitions, organizations, laws, isLoggedIn }: Props
       {activeTab === 'peticiones' && (
         <div>
           {petitions.length === 0 ? (
-            <p className="text-stone-400 text-center py-12">No hay peticiones activas en este momento.</p>
+            <p className="text-zinc-500 text-center py-12">No hay peticiones activas en este momento.</p>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
               {petitions.map(p => (
                 <PetitionCard key={p.id} petition={p} isLoggedIn={isLoggedIn} />
               ))}
@@ -79,7 +79,6 @@ export function AccionTabs({ petitions, organizations, laws, isLoggedIn }: Props
       {/* Tab: Organizaciones */}
       {activeTab === 'organizaciones' && (
         <div>
-          {/* Filtro por tipo */}
           <div className="flex flex-wrap gap-2 mb-6">
             {ORG_TYPE_OPTIONS.map(opt => (
               <button
@@ -88,8 +87,8 @@ export function AccionTabs({ petitions, organizations, laws, isLoggedIn }: Props
                 className={`
                   text-sm px-3 py-1.5 rounded-lg font-medium transition-colors
                   ${orgTypeFilter === opt.value
-                    ? 'bg-neon-400 text-black'
-                    : 'bg-stone-100 text-stone-600 hover:bg-stone-200'
+                    ? 'bg-[#00E676] text-black'
+                    : 'bg-zinc-800 text-zinc-400 hover:bg-zinc-700 hover:text-zinc-200'
                   }
                 `}
               >
@@ -99,7 +98,7 @@ export function AccionTabs({ petitions, organizations, laws, isLoggedIn }: Props
           </div>
 
           {filteredOrgs.length === 0 ? (
-            <p className="text-stone-400 text-center py-12">No hay organizaciones con ese filtro.</p>
+            <p className="text-zinc-500 text-center py-12">No hay organizaciones con ese filtro.</p>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
               {filteredOrgs.map(org => (

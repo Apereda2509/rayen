@@ -1,4 +1,7 @@
-import { Globe, Mail, Phone } from 'lucide-react'
+'use client'
+
+import { useState } from 'react'
+import { Globe, Mail } from 'lucide-react'
 
 const ORG_TYPE_LABELS: Record<string, string> = {
   ong:           'ONG',
@@ -8,16 +11,6 @@ const ORG_TYPE_LABELS: Record<string, string> = {
   empresa_b:     'Empresa B',
   activismo:     'Activismo',
   investigacion: 'Investigación',
-}
-
-const ORG_TYPE_COLORS: Record<string, string> = {
-  ong:           'bg-stone-100 text-stone-700',
-  fundacion:     'bg-violet-50 text-violet-700',
-  universidad:   'bg-blue-50  text-blue-700',
-  gobierno:      'bg-amber-50 text-amber-700',
-  empresa_b:     'bg-stone-100 text-stone-700',
-  activismo:     'bg-red-50   text-red-700',
-  investigacion: 'bg-indigo-50 text-indigo-700',
 }
 
 interface Organization {
@@ -38,37 +31,54 @@ interface Props {
   org: Organization
 }
 
-export function OrganizationCard({ org }: Props) {
+function OrgInitials({ name }: { name: string }) {
+  const initials = name
+    .split(' ')
+    .filter(w => w.length > 2)
+    .map(w => w[0])
+    .join('')
+    .slice(0, 2)
+    .toUpperCase()
   return (
-    <div className="rounded-2xl border border-stone-200 bg-white p-5 hover:border-neon-400/40 hover:shadow-sm transition-all flex flex-col gap-3">
+    <div className="h-16 w-16 rounded-full bg-zinc-800 border border-zinc-700 flex-shrink-0 flex items-center justify-center font-grotesk font-bold text-[#00E676] text-lg">
+      {initials || name.slice(0, 2).toUpperCase()}
+    </div>
+  )
+}
+
+export function OrganizationCard({ org }: Props) {
+  const [imgError, setImgError] = useState(false)
+
+  return (
+    <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-6 hover:border-zinc-700 transition-all flex flex-col gap-4">
       {/* Cabecera */}
-      <div className="flex items-start gap-3">
-        {org.logoUrl ? (
+      <div className="flex items-center gap-3">
+        {org.logoUrl && !imgError ? (
           <img
             src={org.logoUrl}
             alt={org.name}
-            className="h-12 w-12 rounded-xl object-contain bg-stone-50 border border-stone-100 flex-shrink-0 p-1"
+            className="h-16 w-16 rounded-full object-contain bg-zinc-800 border border-zinc-700 flex-shrink-0 p-1.5"
+            onError={() => setImgError(true)}
+            referrerPolicy="no-referrer"
           />
         ) : (
-          <div className="h-12 w-12 rounded-xl bg-stone-100 border border-stone-200 flex-shrink-0 flex items-center justify-center text-stone-600 font-bold text-lg">
-            {org.name.charAt(0)}
-          </div>
+          <OrgInitials name={org.name} />
         )}
-        <div className="min-w-0 flex-1">
-          <h3 className="font-semibold text-stone-900 text-sm leading-tight line-clamp-2">
+        <div className="min-w-0">
+          <h3 className="font-grotesk font-semibold text-white text-sm leading-tight">
             {org.name}
           </h3>
           <div className="flex flex-wrap gap-1.5 mt-1.5">
-            <span className={`text-xs px-2 py-0.5 rounded font-medium ${ORG_TYPE_COLORS[org.type] ?? 'bg-stone-100 text-stone-600'}`}>
+            <span className="text-xs px-2 py-0.5 rounded bg-zinc-800 text-zinc-400">
               {ORG_TYPE_LABELS[org.type] ?? org.type}
             </span>
             {org.national && (
-              <span className="text-xs px-2 py-0.5 rounded bg-stone-100 text-stone-500">
+              <span className="text-xs px-2 py-0.5 rounded bg-zinc-800 text-zinc-500">
                 Nacional
               </span>
             )}
             {org.regionName && !org.national && (
-              <span className="text-xs px-2 py-0.5 rounded bg-stone-100 text-stone-500 truncate">
+              <span className="text-xs px-2 py-0.5 rounded bg-zinc-800 text-zinc-500 truncate">
                 {org.regionName}
               </span>
             )}
@@ -78,40 +88,31 @@ export function OrganizationCard({ org }: Props) {
 
       {/* Descripción */}
       {org.description && (
-        <p className="text-sm text-stone-500 line-clamp-3 leading-relaxed">
+        <p className="text-sm text-zinc-400 line-clamp-2 leading-relaxed flex-1">
           {org.description}
         </p>
       )}
 
-      {/* Contacto */}
-      <div className="flex flex-wrap gap-2 mt-auto pt-1">
+      {/* Links */}
+      <div className="flex gap-4 mt-auto pt-1">
         {org.website && (
           <a
             href={org.website}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 text-xs font-medium text-stone-700 bg-stone-50 hover:bg-stone-100 px-3 py-1.5 rounded-lg transition-colors"
+            className="text-zinc-500 hover:text-[#00E676] transition-colors"
+            aria-label="Sitio web"
           >
-            <Globe className="h-3.5 w-3.5" />
-            Sitio web
+            <Globe className="h-4 w-4" />
           </a>
         )}
         {org.email && (
           <a
             href={`mailto:${org.email}`}
-            className="inline-flex items-center gap-1.5 text-xs font-medium text-stone-600 bg-stone-100 hover:bg-stone-200 px-3 py-1.5 rounded-lg transition-colors"
+            className="text-zinc-500 hover:text-[#00E676] transition-colors"
+            aria-label="Email"
           >
-            <Mail className="h-3.5 w-3.5" />
-            Email
-          </a>
-        )}
-        {org.phone && (
-          <a
-            href={`tel:${org.phone}`}
-            className="inline-flex items-center gap-1.5 text-xs font-medium text-stone-600 bg-stone-100 hover:bg-stone-200 px-3 py-1.5 rounded-lg transition-colors"
-          >
-            <Phone className="h-3.5 w-3.5" />
-            {org.phone}
+            <Mail className="h-4 w-4" />
           </a>
         )}
       </div>

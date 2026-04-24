@@ -98,54 +98,58 @@ export default async function AccionPage() {
 
   if (fetchError) {
     return (
-      <main className="max-w-7xl mx-auto px-4 py-16 text-center">
-        <h1 className="text-2xl font-bold text-stone-800 mb-2">Acción temporalmente no disponible</h1>
-        <p className="text-stone-500 max-w-md mx-auto text-sm">
-          Estamos teniendo problemas para cargar el contenido. Por favor intenta de nuevo en unos minutos.
-        </p>
-      </main>
+      <div className="bg-[#0A0A0A] min-h-screen flex items-center justify-center">
+        <div className="text-center px-4">
+          <h1 className="font-grotesk text-2xl font-bold text-white mb-2">Acción temporalmente no disponible</h1>
+          <p className="text-zinc-500 max-w-md mx-auto text-sm">
+            Estamos teniendo problemas para cargar el contenido. Por favor intenta de nuevo en unos minutos.
+          </p>
+        </div>
+      </div>
     )
   }
 
   return (
-    <main className="max-w-7xl mx-auto px-4 py-10">
-      {/* Hero */}
-      <div className="mb-10">
-        <h1 className="text-3xl font-bold text-stone-900 mb-2">Acción</h1>
-        <p className="text-stone-500 max-w-2xl">
-          La biodiversidad de Chile necesita defensores. Firma peticiones, conoce las
-          organizaciones que trabajan en conservación, entiende el marco legal y aprende
-          qué hacer cuando presencias una emergencia ambiental.
-        </p>
-      </div>
+    <div className="bg-[#0A0A0A] min-h-screen">
+      <div className="max-w-7xl mx-auto px-4 py-10">
+        {/* Hero */}
+        <div className="mb-10">
+          <h1 className="font-grotesk text-3xl font-bold text-white mb-2">Acción</h1>
+          <p className="text-zinc-400 max-w-2xl">
+            La biodiversidad de Chile necesita defensores. Firma peticiones, conoce las
+            organizaciones que trabajan en conservación, entiende el marco legal y aprende
+            qué hacer cuando presencias una emergencia ambiental.
+          </p>
+        </div>
 
-      {/* Stats rápidas */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-10">
-        <div className="rounded-2xl bg-stone-100 border border-stone-200 p-4 text-center">
-          <p className="text-2xl font-bold text-stone-800">{petitions.length}</p>
-          <p className="text-xs text-stone-600 mt-0.5">Peticiones activas</p>
+        {/* Stats rápidas */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-10">
+          <div className="rounded-2xl bg-zinc-900 border border-zinc-800 p-4 text-center">
+            <p className="font-grotesk text-2xl font-bold text-white">{petitions.length}</p>
+            <p className="text-xs text-zinc-500 mt-0.5">Peticiones activas</p>
+          </div>
+          <div className="rounded-2xl bg-zinc-900 border border-zinc-800 p-4 text-center">
+            <p className="font-grotesk text-2xl font-bold text-[#00E676]">{organizations.length}</p>
+            <p className="text-xs text-zinc-500 mt-0.5">Organizaciones aliadas</p>
+          </div>
+          <div className="rounded-2xl bg-zinc-900 border border-zinc-800 p-4 text-center">
+            <p className="font-grotesk text-2xl font-bold text-[#00E676]">{laws.length}</p>
+            <p className="text-xs text-zinc-500 mt-0.5">Leyes de protección</p>
+          </div>
+          <div className="rounded-2xl bg-zinc-900 border border-zinc-800 p-4 text-center">
+            <p className="font-grotesk text-2xl font-bold text-[#00E676]">6</p>
+            <p className="text-xs text-zinc-500 mt-0.5">Guías de acción</p>
+          </div>
         </div>
-        <div className="rounded-2xl bg-violet-50 border border-violet-100 p-4 text-center">
-          <p className="text-2xl font-bold text-violet-700">{organizations.length}</p>
-          <p className="text-xs text-violet-600 mt-0.5">Organizaciones aliadas</p>
-        </div>
-        <div className="rounded-2xl bg-blue-50 border border-blue-100 p-4 text-center">
-          <p className="text-2xl font-bold text-blue-700">{laws.length}</p>
-          <p className="text-xs text-blue-600 mt-0.5">Leyes de protección</p>
-        </div>
-        <div className="rounded-2xl bg-amber-50 border border-amber-100 p-4 text-center">
-          <p className="text-2xl font-bold text-amber-700">6</p>
-          <p className="text-xs text-amber-600 mt-0.5">Guías de emergencia</p>
-        </div>
-      </div>
 
-      {/* Tabs con contenido */}
-      <AccionTabs
-        petitions={JSON.parse(JSON.stringify(petitions))}
-        organizations={JSON.parse(JSON.stringify(organizations))}
-        laws={JSON.parse(JSON.stringify(laws))}
-        isLoggedIn={isLoggedIn}
-      />
-    </main>
+        {/* Tabs con contenido */}
+        <AccionTabs
+          petitions={JSON.parse(JSON.stringify(petitions))}
+          organizations={JSON.parse(JSON.stringify(organizations))}
+          laws={JSON.parse(JSON.stringify(laws))}
+          isLoggedIn={isLoggedIn}
+        />
+      </div>
+    </div>
   )
 }

@@ -277,9 +277,11 @@ export async function getSightingsForMap(filters?: {
       s.type,
       s.uicn_status AS "uicnStatus",
       s.is_endemic AS "isEndemic",
-      (SELECT url FROM media WHERE species_id = s.id AND is_primary = TRUE LIMIT 1) AS "primaryPhoto"
+      (SELECT url FROM media WHERE species_id = s.id AND is_primary = TRUE LIMIT 1) AS "primaryPhoto",
+      u.name AS "observerName"
     FROM sightings sg
     JOIN species s ON s.id = sg.species_id
+    LEFT JOIN users u ON u.id = sg.user_id
     WHERE sg.verified = ${verified}
       ${speciesId ? sql`AND sg.species_id = ${speciesId}` : sql``}
       ${regionCode ? sql`AND sg.region_code = ${regionCode}` : sql``}

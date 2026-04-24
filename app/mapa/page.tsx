@@ -5,6 +5,7 @@ import { Suspense } from 'react'
 import nextDynamic from 'next/dynamic'
 import { MapFilters } from '@/components/map/MapFilters'
 import { MapLegend } from '@/components/map/MapLegend'
+import { MapSpeciesList } from '@/components/map/MapSpeciesList'
 import { MobileFiltersButton } from '@/components/map/MobileFiltersButton'
 import { getSightingsForMap } from '@/lib/db'
 
@@ -70,15 +71,39 @@ export default async function MapaPage({ searchParams }: Props) {
       scientificName: s.scientificName ?? '',
       uicnStatus: s.uicnStatus,
       photoUrl: s.primaryPhoto ?? s.photoUrl,
+      observedAt: s.observedAt ?? null,
+      observerName: s.observerName ?? null,
     },
   }))
 
+  // Computa lista de especies únicas con conteo para el panel lateral
+  const speciesMap = new Map<string, {
+    slug: string; commonName: string; uicnStatus: string | null; count: number
+  }>()
+  for (const f of features) {
+    const { slug, commonName, uicnStatus } = f.properties
+    const existing = speciesMap.get(slug)
+    if (existing) {
+      existing.count++
+    } else {
+      speciesMap.set(slug, { slug, commonName, uicnStatus, count: 1 })
+    }
+  }
+  const speciesList = Array.from(speciesMap.values()).sort((a, b) => b.count - a.count)
+
   return (
     <div className="relative h-[calc(100vh-3.5rem)] flex">
-      <aside className="hidden lg:block w-64 border-r border-stone-200 bg-white overflow-y-auto scroll-thin">
-        <Suspense fallback={<div className="p-4 text-sm text-stone-400">Cargando filtros…</div>}>
-          <MapFilters />
-        </Suspense>
+      <aside className="hidden lg:flex lg:flex-col w-64 border-r border-zinc-800 bg-[#0A0A0A] overflow-hidden">
+        <div className="overflow-y-auto flex-1 scroll-thin">
+          <Suspense fallback={<div className="p-4 text-sm text-zinc-500">Cargando filtros…</div>}>
+            <MapFilters />
+          </Suspense>
+        </div>
+        {speciesList.length > 0 && (
+          <div className="border-t border-zinc-800 flex-shrink-0 max-h-64 overflow-y-auto scroll-thin">
+            <MapSpeciesList species={speciesList} />
+          </div>
+        )}
       </aside>
 
       <div className="flex-1 relative" data-cursor="dark">
@@ -90,7 +115,8 @@ export default async function MapaPage({ searchParams }: Props) {
           />
         </Suspense>
 
-        <div className="absolute bottom-4 left-4 z-10">
+        {/* Leyenda — esquina inferior derecha */}
+        <div className="absolute bottom-4 right-4 z-10">
           <MapLegend />
         </div>
 
@@ -102,10 +128,10 @@ export default async function MapaPage({ searchParams }: Props) {
 
 function MapSkeleton() {
   return (
-    <div className="h-full w-full flex items-center justify-center bg-stone-100">
+    <div className="h-full w-full flex items-center justify-center bg-zinc-950">
       <div className="text-center">
-        <div className="h-12 w-12 mx-auto rounded-full border-2 border-neon-400 border-t-transparent animate-spin" />
-        <p className="mt-4 text-sm text-stone-500">Cargando mapa...</p>
+        <div className="h-12 w-12 mx-auto rounded-full border-2 border-[#00E676] border-t-transparent animate-spin" />
+        <p className="mt-4 text-sm text-zinc-400">Cargando mapa...</p>
       </div>
     </div>
   )

@@ -26,15 +26,23 @@ export default async function PerfilPage() {
 
   if (!user) redirect('/login')
 
-  const [{ sightings_count }] = await sql<{ sightings_count: number }[]>`
-    SELECT COUNT(*)::int AS sightings_count FROM sightings WHERE user_id = ${user.id}
-  `
-  const [{ species_fav_count }] = await sql<{ species_fav_count: number }[]>`
-    SELECT COUNT(*)::int AS species_fav_count FROM species_favorites WHERE user_id = ${user.id}
-  `
-  const [{ photos_count }] = await sql<{ photos_count: number }[]>`
-    SELECT COUNT(*)::int AS photos_count FROM photos WHERE user_id = ${user.id}
-  `
+  const [
+    [{ sightings_count }],
+    [{ unique_species_count }],
+    [{ regions_count }],
+  ] = await Promise.all([
+    sql<{ sightings_count: number }[]>`
+      SELECT COUNT(*)::int AS sightings_count FROM sightings WHERE user_id = ${user.id}
+    `,
+    sql<{ unique_species_count: number }[]>`
+      SELECT COUNT(DISTINCT species_id)::int AS unique_species_count
+      FROM sightings WHERE user_id = ${user.id}
+    `,
+    sql<{ regions_count: number }[]>`
+      SELECT COUNT(DISTINCT region_code)::int AS regions_count
+      FROM sightings WHERE user_id = ${user.id} AND region_code IS NOT NULL
+    `,
+  ])
 
   // Fotos del usuario
   const photos = await sql<{
@@ -64,14 +72,16 @@ export default async function PerfilPage() {
     WHERE sf.user_id = ${user.id} ORDER BY sf.created_at DESC
   `
 
-  // Avistamientos
+  // Avistamientos con uicnStatus
   const sightings = await sql<{
     id: string; observed_at: string; verified: boolean; region_code: string | null
     photo_url: string | null; notes: string | null
     commonName: string; scientificName: string; speciesSlug: string
+    uicnStatus: string | null
   }[]>`
     SELECT sg.id, sg.observed_at, sg.verified, sg.region_code, sg.photo_url, sg.notes,
-           s.common_name AS "commonName", s.scientific_name AS "scientificName", s.slug AS "speciesSlug"
+           s.common_name AS "commonName", s.scientific_name AS "scientificName",
+           s.slug AS "speciesSlug", s.uicn_status::text AS "uicnStatus"
     FROM sightings sg JOIN species s ON s.id = sg.species_id
     WHERE sg.user_id = ${user.id} ORDER BY sg.created_at DESC LIMIT 50
   `
@@ -80,7 +90,7 @@ export default async function PerfilPage() {
     <PerfilClient
       user={user}
       sessionEmail={session.user.email}
-      stats={{ sightings_count, species_fav_count, photos_count }}
+      stats={{ sightings_count, unique_species_count, regions_count }}
       photos={photos}
       speciesFavorites={speciesFavorites}
       sightings={sightings}

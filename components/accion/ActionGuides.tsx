@@ -1,202 +1,137 @@
-import { Phone, AlertTriangle, TreePine, Droplets, MapPin, FlaskConical } from 'lucide-react'
-
-interface Step {
-  text: string
-}
-
-interface Contact {
-  label: string
-  value: string
-  href?: string
-}
+import { ExternalLink } from 'lucide-react'
 
 interface Guide {
-  icon: React.ElementType
-  color: string
   title: string
-  urgency: 'alta' | 'media' | 'baja'
-  steps: Step[]
-  contacts: Contact[]
-}
-
-const URGENCY_STYLES = {
-  alta:  'bg-red-50 border-red-200',
-  media: 'bg-amber-50 border-amber-200',
-  baja:  'bg-stone-50 border-stone-200',
-}
-
-const URGENCY_LABELS = {
-  alta:  'Urgente',
-  media: 'Importante',
-  baja:  'Voluntario',
-}
-
-const URGENCY_BADGE = {
-  alta:  'bg-red-100 text-red-700',
-  media: 'bg-amber-100 text-amber-700',
-  baja:  'bg-stone-100 text-stone-600',
+  description: string
+  steps?: string[]
+  contact?: { label: string; href: string }
 }
 
 const guides: Guide[] = [
   {
-    icon: AlertTriangle,
-    color: 'text-red-500',
-    title: 'Encontré un animal herido',
-    urgency: 'alta',
+    title: 'Cómo reportar un avistamiento de especie amenazada',
+    description: 'Si encuentras un animal herido o ves una especie en peligro, estos son los pasos y contactos correctos.',
     steps: [
-      { text: 'No toques ni muevas al animal sin guía — puede empeorar su estado o morderte.' },
-      { text: 'Llama al CONAF (130) o SAG (800 600 000) para orientación inmediata.' },
-      { text: 'Si es necesario, fotografía el animal y su entorno para el reporte.' },
-      { text: 'Si el animal está en peligro inmediato en zona urbana, puedes contenerlo con una caja con ventilación.' },
+      'Fotografía el animal sin acercarte.',
+      'Anota la ubicación exacta con coordenadas GPS.',
+      'Llama al SAG: 600 450 4200.',
+      'Reporta en Rayen con foto y ubicación.',
     ],
-    contacts: [
-      { label: 'CONAF 24/7', value: '130', href: 'tel:130' },
-      { label: 'SAG', value: '800 600 000', href: 'tel:800600000' },
-    ],
+    contact: { label: 'SAG — 600 450 4200', href: 'tel:6004504200' },
   },
   {
-    icon: AlertTriangle,
-    color: 'text-orange-500',
-    title: 'Vi caza o captura ilegal',
-    urgency: 'alta',
+    title: 'Qué hacer si encuentras fauna silvestre herida',
+    description: 'No toques al animal. Estas organizaciones de rescate pueden ayudarte en todo Chile.',
     steps: [
-      { text: 'No te enfrentes a los cazadores — tu seguridad es primero.' },
-      { text: 'Documenta discretamente: hora, lugar, descripción de personas y vehículos.' },
-      { text: 'Llama al SAG o PDI con la información recabada.' },
-      { text: 'Puedes hacer la denuncia en forma anónima.' },
+      'Mantén distancia y evita el contacto directo.',
+      'Fotografía al animal y anota su ubicación.',
+      'Llama al CONAF (130) para orientación inmediata.',
+      'Si está en zona urbana, puedes contenerlo con una caja ventilada.',
     ],
-    contacts: [
-      { label: 'SAG', value: '800 600 000', href: 'tel:800600000' },
-      { label: 'PDI', value: '134', href: 'tel:134' },
-      { label: 'SAG Denuncia online', value: 'sag.gob.cl', href: 'https://www.sag.gob.cl' },
-    ],
+    contact: { label: 'CONAF — conaf.cl/contacto', href: 'https://www.conaf.cl' },
   },
   {
-    icon: TreePine,
-    color: 'text-neon-600',
-    title: 'Encontré tala ilegal de bosque',
-    urgency: 'media',
+    title: 'Cómo denunciar tala ilegal o daño ambiental',
+    description: 'La tala ilegal es uno de los principales daños a la biodiversidad. Puedes denunciarla de forma anónima.',
     steps: [
-      { text: 'Documenta la ubicación exacta (coordenadas GPS si puedes).' },
-      { text: 'Fotografía los árboles talados, maquinaria o personas involucradas.' },
-      { text: 'Reporta a CONAF (guardaparques o central) y a la SMA si involucra área protegida.' },
-      { text: 'Guarda tu denuncia — puede ser clave en procesos sancionatorios.' },
+      'Documenta con fotos sin exponerte.',
+      'Anota coordenadas GPS del lugar.',
+      'Denuncia en la Superintendencia del Medio Ambiente.',
     ],
-    contacts: [
-      { label: 'CONAF', value: '130', href: 'tel:130' },
-      { label: 'SMA Denuncia', value: 'sma.gob.cl', href: 'https://www.sma.gob.cl/index.php/sma/denuncias' },
-    ],
+    contact: { label: 'SMA — sma.gob.cl', href: 'https://www.sma.gob.cl/index.php/sma/denuncias' },
   },
   {
-    icon: Droplets,
-    color: 'text-blue-500',
-    title: 'Vi contaminación de río o lago',
-    urgency: 'media',
+    title: 'Plantas nativas para tu jardín o balcón',
+    description: 'Plantar especies nativas atrae fauna local, consume menos agua y fortalece el ecosistema de tu barrio.',
     steps: [
-      { text: 'No toques el agua contaminada — puede contener agentes tóxicos.' },
-      { text: 'Documenta el lugar, hora, tipo de vertimiento y posible fuente.' },
-      { text: 'Reporta a la SMA o SERNAPESCA con fotos y coordenadas.' },
-      { text: 'Si hay peces muertos, también avisa a SERNAPESCA por posible sanción pesquera.' },
+      'Elige especies de tu región: Copihue, Quillay, Boldo, Maqui o Peumo.',
+      'Consulta el vivero CONAF más cercano para obtener plantas.',
+      'Evita plaguicidas — atrae polinizadores nativos.',
     ],
-    contacts: [
-      { label: 'SMA', value: '600 888 7622', href: 'tel:6008887622' },
-      { label: 'SERNAPESCA', value: '800 320 032', href: 'tel:800320032' },
-      { label: 'SMA Denuncia', value: 'sma.gob.cl', href: 'https://www.sma.gob.cl/index.php/sma/denuncias' },
-    ],
+    contact: { label: 'CONAF — viveros de plantas nativas', href: 'https://www.conaf.cl' },
   },
   {
-    icon: MapPin,
-    color: 'text-violet-500',
-    title: 'Quiero adoptar un territorio',
-    urgency: 'baja',
+    title: 'Cómo participar en ciencia ciudadana',
+    description: 'Tu celular es una herramienta científica. Estas plataformas usan tus observaciones para investigar la biodiversidad.',
     steps: [
-      { text: 'Revisa los programas de voluntariado de CONAF para parques nacionales.' },
-      { text: 'Contacta organizaciones como Rewilding Chile o Fundación Bosque Nativo para iniciativas de restauración.' },
-      { text: 'Considera el programa de Custodios de la Naturaleza del MMA.' },
-      { text: 'Únetete a grupos locales de limpieza y monitoreo de humedales o playas.' },
+      'Descarga iNaturalist y fotografía especies en tu entorno.',
+      'Para aves, usa eBird Chile — muy valorado por científicos.',
+      'Participa en bioblitz del Museo de Historia Natural.',
+      'Tus registros alimentan bases de datos como GBIF.',
     ],
-    contacts: [
-      { label: 'Voluntariado CONAF', value: 'conaf.cl', href: 'https://www.conaf.cl' },
-      { label: 'Rewilding Chile', value: 'rewildingchile.org', href: 'https://rewildingchile.org' },
-    ],
+    contact: { label: 'iNaturalist — inaturalist.org', href: 'https://www.inaturalist.org/observations?place_id=7259' },
   },
   {
-    icon: FlaskConical,
-    color: 'text-neon-600',
-    title: 'Quiero hacer ciencia ciudadana',
-    urgency: 'baja',
+    title: 'Organizaciones donde puedes ser voluntario',
+    description: 'Estas organizaciones buscan voluntarios para trabajo de campo, educación ambiental y conservación activa.',
     steps: [
-      { text: 'Descarga iNaturalist y empieza a registrar especies en tu entorno cotidiano.' },
-      { text: 'Para aves, usa eBird (Cornell Lab) — muy valorado por científicos chilenos.' },
-      { text: 'Participa en los "bioblitz" organizados por el Museo de Historia Natural.' },
-      { text: 'Tus registros alimentan bases de datos científicas globales como GBIF.' },
+      'WWF Chile: campañas de conservación y voluntariado.',
+      'Fundación Plantemos para el Planeta: reforestación.',
+      'CODEFF: defensa de la fauna nativa.',
     ],
-    contacts: [
-      { label: 'iNaturalist Chile', value: 'inaturalist.org', href: 'https://www.inaturalist.org/observations?place_id=7259' },
-      { label: 'eBird Chile', value: 'ebird.org', href: 'https://ebird.org/region/CL' },
-      { label: 'GBIF', value: 'gbif.org', href: 'https://www.gbif.org' },
-    ],
+    contact: { label: 'WWF Chile — wwf.cl', href: 'https://www.wwf.cl' },
   },
 ]
 
 export function ActionGuides() {
   return (
-    <div className="space-y-4">
-      <p className="text-sm text-stone-500 mb-5">
-        ¿No sabes qué hacer ante una situación de emergencia ambiental? Aquí están los
-        pasos concretos y los contactos correctos para actuar de forma efectiva.
+    <div>
+      <p className="text-sm text-zinc-500 mb-6">
+        Herramientas concretas para actuar por la biodiversidad de Chile — desde tu jardín
+        hasta una denuncia ambiental.
       </p>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {guides.map((guide) => {
-          const Icon = guide.icon
-          return (
-            <div
-              key={guide.title}
-              className={`rounded-2xl border p-5 ${URGENCY_STYLES[guide.urgency]}`}
+        {guides.map((guide, index) => (
+          <div
+            key={guide.title}
+            className="relative rounded-2xl border border-zinc-800 bg-zinc-900 p-6 hover:border-zinc-700 transition-all flex flex-col gap-3"
+          >
+            {/* Número esquina superior derecha */}
+            <span
+              className="absolute top-4 right-5 font-grotesk font-bold text-5xl leading-none select-none pointer-events-none"
+              style={{ color: '#00E676', opacity: 0.15 }}
+              aria-hidden
             >
-              {/* Cabecera */}
-              <div className="flex items-start gap-3 mb-3">
-                <div className="flex-shrink-0 mt-0.5">
-                  <Icon className={`h-5 w-5 ${guide.color}`} />
-                </div>
-                <div className="flex-1">
-                  <div className="flex items-center gap-2 flex-wrap">
-                    <h3 className="font-semibold text-stone-900 text-sm">{guide.title}</h3>
-                    <span className={`text-xs px-2 py-0.5 rounded font-medium ${URGENCY_BADGE[guide.urgency]}`}>
-                      {URGENCY_LABELS[guide.urgency]}
-                    </span>
-                  </div>
-                </div>
-              </div>
+              {index + 1}
+            </span>
 
-              {/* Pasos */}
-              <ol className="space-y-1.5 mb-4">
+            <h3 className="font-grotesk font-semibold text-white text-base leading-snug pr-10">
+              {guide.title}
+            </h3>
+
+            <p className="text-sm text-zinc-400 leading-relaxed line-clamp-3">
+              {guide.description}
+            </p>
+
+            {guide.steps && (
+              <ol className="space-y-1.5 flex-1">
                 {guide.steps.map((step, i) => (
-                  <li key={i} className="flex gap-2 text-sm text-stone-600">
-                    <span className="flex-shrink-0 font-semibold text-stone-400 w-4">{i + 1}.</span>
-                    <span>{step.text}</span>
+                  <li key={i} className="flex gap-2 text-sm text-zinc-400">
+                    <span
+                      className="flex-shrink-0 font-grotesk font-semibold text-xs mt-0.5 w-4"
+                      style={{ color: '#00E676' }}
+                    >
+                      {i + 1}.
+                    </span>
+                    <span>{step}</span>
                   </li>
                 ))}
               </ol>
+            )}
 
-              {/* Contactos */}
-              <div className="flex flex-wrap gap-2">
-                {guide.contacts.map((contact) => (
-                  <a
-                    key={contact.label}
-                    href={contact.href ?? '#'}
-                    target={contact.href?.startsWith('http') ? '_blank' : undefined}
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 text-xs font-medium bg-white border border-stone-200 text-stone-700 hover:border-neon-400/40 hover:text-neon-600 px-2.5 py-1 rounded-lg transition-colors"
-                  >
-                    <Phone className="h-3 w-3" />
-                    {contact.label}: {contact.value}
-                  </a>
-                ))}
-              </div>
-            </div>
-          )
-        })}
+            {guide.contact && (
+              <a
+                href={guide.contact.href}
+                target={guide.contact.href.startsWith('http') ? '_blank' : undefined}
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 text-xs text-zinc-500 hover:text-zinc-300 transition-colors mt-auto pt-1"
+              >
+                <ExternalLink className="h-3.5 w-3.5 flex-shrink-0" />
+                {guide.contact.label}
+              </a>
+            )}
+          </div>
+        ))}
       </div>
     </div>
   )

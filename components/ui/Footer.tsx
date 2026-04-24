@@ -15,8 +15,8 @@ export function Footer() {
               </span>
             </div>
             <p className="text-sm leading-relaxed max-w-md">
-              Chile florece cuando lo conocemos. Plataforma abierta de biodiversidad,
-              construida con la comunidad y respaldada por instituciones científicas.
+              Chile florece cuando lo conocemos. Proyecto independiente sin fines de lucro,
+              construido con fuentes verificadas.
             </p>
           </div>
 
@@ -35,12 +35,6 @@ export function Footer() {
             <h4 className="text-white text-sm font-semibold mb-3">Proyecto</h4>
             <ul className="space-y-1.5 text-sm">
               <li><Link href="/sobre" className="hover:text-neon-400 transition-colors">Sobre Rayen</Link></li>
-              <li><Link href="/contribuir" className="hover:text-neon-400 transition-colors">Contribuir</Link></li>
-              <li>
-                <a href="https://github.com/rayen-app/rayen" target="_blank" rel="noopener" className="hover:text-neon-400 transition-colors">
-                  GitHub
-                </a>
-              </li>
               <li><Link href="/terminos" className="hover:text-neon-400 transition-colors">Términos de Uso</Link></li>
               <li><Link href="/privacidad" className="hover:text-neon-400 transition-colors">Política de Privacidad</Link></li>
             </ul>
