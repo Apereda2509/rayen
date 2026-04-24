@@ -4,6 +4,7 @@ export const dynamic = 'force-dynamic'
 import { getPlatformStats, getFeaturedSpecies } from '@/lib/db'
 import { HeroFrameExpand } from '@/components/home/HeroFrameExpand'
 import { HomeStats } from '@/components/home/HomeStats'
+import { TechMarquee } from '@/components/home/TechMarquee'
 import { HomeParallaxSections } from '@/components/home/HomeParallaxSections'
 import type { SpeciesSummary } from '@/lib/types'
 
@@ -36,6 +37,9 @@ export default async function HomePage() {
         endangered={stats.endangered}
         endemic={stats.endemic}
       />
+
+      {/* Marquee de tecnologías */}
+      <TechMarquee />
 
       {/* Secciones parallax */}
       <HomeParallaxSections species={featuredSpecies} />

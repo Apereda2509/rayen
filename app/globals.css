@@ -81,6 +81,27 @@
   transform: scale(1.08);
 }
 
+/* ── Tech Marquee ─────────────────────────────────────────── */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  animation: marquee 20s linear infinite;
+}
+
+.tech-logo {
+  height: 28px;
+  width: auto;
+  filter: brightness(0) invert(0.4);
+  transition: filter 0.2s ease;
+}
+
+.tech-logo:hover {
+  filter: brightness(0) invert(0.7);
+}
+
 /* ── Scrollbar minimalista ────────────────────────────────── */
 .scroll-thin {
   scrollbar-width: thin;
