@@ -52,6 +52,9 @@ function ZonaImagen({
 
   useEffect(() => { setImgError(false) }, [imageUrl])
 
+  console.log('[ZonaImagen] slide completo:', JSON.stringify(slide))
+  console.log('[ZonaImagen] tipo:', slide.tipo, '| imageUrl:', slide.imagen_url)
+
   // Slides especiales: SVG en lugar de foto
   const SVG_MAP: Partial<Record<NonNullable<Slide['tipo']>, React.ReactNode>> = {
     actividad:  <IlustracionActividad />,
