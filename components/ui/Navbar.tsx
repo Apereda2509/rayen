@@ -21,7 +21,7 @@ const NAV_LINKS = [
   { href: '/comunidad',        label: 'Comunidad' },
   { href: '/accion',           label: 'Acción' },
   { href: '/educacion',        label: 'Educación' },
-  { href: '/sobre',            label: 'Sobre' },
+  { href: '/sobre',            label: 'Sobre Rayen' },
 ]
 
 export function Navbar() {

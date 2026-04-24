@@ -96,52 +96,6 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Identidad visual */}
-      <section className="bg-[#0A0A0A]">
-        <div className="max-w-2xl mx-auto px-4 sm:px-6 py-24">
-          <h2 className="font-grotesk text-3xl font-bold text-white mb-10">
-            Por qué Rayen se ve así
-          </h2>
-
-          <p className="text-zinc-300 leading-relaxed mb-10">
-            Cada decisión visual de Rayen tiene una razón. No es estética por estética — es intención.
-          </p>
-
-          <div className="space-y-8">
-            {[
-              {
-                title: 'El nombre',
-                body: 'Rayen viene del mapudungun y significa "flor". Cinco letras, sin acentos, fácil de pronunciar en español y en inglés. Elegimos una palabra de la lengua más hablada del pueblo originario más presente en Chile porque este proyecto es sobre la naturaleza de este territorio, y esa naturaleza tiene nombres que preceden al español por siglos.',
-              },
-              {
-                title: 'El logo',
-                body: 'El símbolo es un Grid Bloom: siete nodos conectados — seis en anillo hexagonal, uno en el centro. Representa una red de especies. La biodiversidad no es una lista de animales; es un sistema donde todo está relacionado. Si sacas un nodo, el sistema cambia. El logo lo dice sin palabras.',
-              },
-              {
-                title: 'El verde',
-                body: 'No usamos el verde "ecológico" genérico. Usamos #00E676 — un verde neón, vivo, urgente. Porque la conservación no es un tema tranquilo. Las especies se están perdiendo ahora. El color tiene que sentirse así.',
-              },
-              {
-                title: 'El negro',
-                body: 'El fondo es #0A0A0A — casi negro, no completamente. Rayen no es un proyecto decorativo. La oscuridad le da peso a lo que se muestra sobre ella.',
-              },
-              {
-                title: 'El coral',
-                body: 'Solo aparece cuando algo está en peligro crítico o en peligro. #D85A30. No lo usamos para decorar — lo reservamos para lo urgente, para que cuando lo veas, sepas que hay que prestar atención.',
-              },
-              {
-                title: 'Las tipografías',
-                body: 'Space Grotesk para los títulos: técnica pero con carácter humano. Inter para el cuerpo: legible en cualquier pantalla, accesible para cualquier persona. Lora en cursiva para los nombres científicos: porque la taxonomía tiene su propia voz y merece respeto tipográfico.',
-              },
-            ].map(({ title, body }) => (
-              <div key={title}>
-                <h3 className="font-grotesk text-base font-semibold text-[#00E676] mb-2">{title}</h3>
-                <p className="text-zinc-300 leading-relaxed">{body}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
     </div>
   )
 }
