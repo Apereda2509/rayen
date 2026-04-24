@@ -48,7 +48,7 @@ INSERT INTO presentaciones (slug, titulo, nivel, species_id, slides) VALUES
  '[
   {"titulo": "El huemul", "texto": "El huemul es un ciervo que vive en las montañas de Chile. Es grande, café y tiene cuernos.", "imagen_url": "https://static.inaturalist.org/photos/236504721/large.jpeg"},
   {"titulo": "En el escudo de Chile", "texto": "El huemul está en el escudo de Chile. ¡Es uno de los animales más importantes del país!", "imagen_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Escudo_de_armas_de_Chile.svg/800px-Escudo_de_armas_de_Chile.svg.png"},
-  {"titulo": "Necesita ayuda", "texto": "Hoy quedan muy pocos huemules. Necesitan nuestra ayuda para sobrevivir.", "imagen_url": "https://static.inaturalist.org/photos/236504721/large.jpeg"},
+  {"titulo": "Necesita ayuda", "texto": "Hoy quedan muy pocos huemules. Necesitan nuestra ayuda para sobrevivir.", "tipo": "peligro"},
   {"titulo": "¡Dibuja un huemul!", "texto": "¿Puedes dibujar un huemul? Coloréalo de café con el paisaje de montaña.", "tipo": "actividad"}
 ]'::jsonb),
 
@@ -57,8 +57,8 @@ INSERT INTO presentaciones (slug, titulo, nivel, species_id, slides) VALUES
  '[
   {"titulo": "¿Dónde vive?", "texto": "El huemul vive en la Patagonia chilena y argentina. Le gustan los bosques fríos y las montañas nevadas.", "imagen_url": "https://static.inaturalist.org/photos/236504721/large.jpeg"},
   {"titulo": "En el escudo de Chile", "texto": "Está en el escudo de Chile junto al cóndor. Pero hoy está en peligro de desaparecer.", "imagen_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Escudo_de_armas_de_Chile.svg/800px-Escudo_de_armas_de_Chile.svg.png"},
-  {"titulo": "¿Por qué está en peligro?", "texto": "Perdió su hogar cuando los bosques fueron talados. Los perros domésticos también los atacan.", "imagen_url": "https://static.inaturalist.org/photos/236504721/large.jpeg"},
-  {"titulo": "Quedan muy pocos", "texto": "Quedan menos de 2.000 huemules en el mundo. Científicos y guardaparques trabajan para protegerlos.", "imagen_url": "https://static.inaturalist.org/photos/236504721/large.jpeg"},
+  {"titulo": "¿Por qué está en peligro?", "texto": "Perdió su hogar cuando los bosques fueron talados. Los perros domésticos también los atacan.", "tipo": "peligro"},
+  {"titulo": "Quedan muy pocos", "texto": "Quedan menos de 2.000 huemules en el mundo. Científicos y guardaparques trabajan para protegerlos.", "tipo": "datos"},
   {"titulo": "¿Qué puedes hacer tú?", "texto": "¿Qué podrías hacer para ayudar a proteger al huemul?", "tipo": "pregunta"}
 ]'::jsonb),
 
@@ -66,9 +66,9 @@ INSERT INTO presentaciones (slug, titulo, nivel, species_id, slides) VALUES
  (SELECT id FROM species WHERE slug = 'huemul'),
  '[
   {"titulo": "Hippocamelus bisulcus", "texto": "Estado UICN: En Peligro (EN). Población estimada: menos de 2.000 individuos.", "imagen_url": "https://static.inaturalist.org/photos/236504721/large.jpeg"},
-  {"titulo": "Distribución", "texto": "Andes patagónicos entre el Biobío y Magallanes. Hábitat: bosque templado, matorrales de alta montaña, zonas de nieve.", "imagen_url": "https://static.inaturalist.org/photos/236504721/large.jpeg"},
-  {"titulo": "Amenazas", "lista": ["Pérdida y fragmentación del hábitat", "Depredación por perros domésticos", "Enfermedades transmitidas por ganado", "Caza histórica (hoy prohibida)"], "imagen_url": "https://static.inaturalist.org/photos/236504721/large.jpeg"},
-  {"titulo": "Protección legal", "texto": "Protegido por la Ley de Caza (Ley 19.473). Programas de monitoreo en Torres del Paine y Lago Cochrane.", "imagen_url": "https://static.inaturalist.org/photos/236504721/large.jpeg"},
+  {"titulo": "Distribución", "texto": "Andes patagónicos entre el Biobío y Magallanes. Hábitat: bosque templado, matorrales de alta montaña, zonas de nieve.", "tipo": "ecosistema"},
+  {"titulo": "Amenazas", "lista": ["Pérdida y fragmentación del hábitat", "Depredación por perros domésticos", "Enfermedades transmitidas por ganado", "Caza histórica (hoy prohibida)"], "tipo": "peligro"},
+  {"titulo": "Protección legal", "texto": "Protegido por la Ley de Caza (Ley 19.473). Programas de monitoreo en Torres del Paine y Lago Cochrane.", "tipo": "ley"},
   {"titulo": "Para analizar", "texto": "¿Por qué la fragmentación del hábitat es tan dañina para una especie como el huemul?", "tipo": "pregunta"}
 ]'::jsonb),
 
@@ -76,9 +76,9 @@ INSERT INTO presentaciones (slug, titulo, nivel, species_id, slides) VALUES
  (SELECT id FROM species WHERE slug = 'huemul'),
  '[
   {"titulo": "Taxonomía y estado", "texto": "Hippocamelus bisulcus (Molina, 1782). Orden: Artiodactyla — Familia: Cervidae. Estado IUCN: EN — Tendencia: decreciente.", "imagen_url": "https://static.inaturalist.org/photos/236504721/large.jpeg"},
-  {"titulo": "Colapso poblacional", "texto": "La población se redujo más del 90% en el siglo XX. El ganado transmite Neospora caninum y otras enfermedades al huemul sin inmunidad adaptada.", "imagen_url": "https://static.inaturalist.org/photos/236504721/large.jpeg"},
-  {"titulo": "Marco legal", "lista": ["Ley 19.473: especie prohibida de cazar", "DS 151/2007: clasificado En Peligro por el MMA", "Apéndice I del CITES: comercio internacional prohibido"], "imagen_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Escudo_de_armas_de_Chile.svg/800px-Escudo_de_armas_de_Chile.svg.png"},
-  {"titulo": "Indicador ecosistémico", "texto": "Su presencia indica bosques templados intactos. Su desaparición señala colapso del ecosistema andino-patagónico.", "imagen_url": "https://static.inaturalist.org/photos/236504721/large.jpeg"},
+  {"titulo": "Colapso poblacional", "texto": "La población se redujo más del 90% en el siglo XX. El ganado transmite Neospora caninum y otras enfermedades al huemul sin inmunidad adaptada.", "tipo": "datos"},
+  {"titulo": "Marco legal", "lista": ["Ley 19.473: especie prohibida de cazar", "DS 151/2007: clasificado En Peligro por el MMA", "Apéndice I del CITES: comercio internacional prohibido"], "tipo": "ley"},
+  {"titulo": "Indicador ecosistémico", "texto": "Su presencia indica bosques templados intactos. Su desaparición señala colapso del ecosistema andino-patagónico.", "tipo": "ecosistema"},
   {"titulo": "Debate", "texto": "¿Es suficiente la protección legal sin recuperación del hábitat? ¿Qué rol juega la comunidad local en la conservación efectiva?", "tipo": "debate"}
 ]'::jsonb)
 

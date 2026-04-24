@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import Image from 'next/image'
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
 import { X, ChevronLeft, ChevronRight, Maximize2 } from 'lucide-react'
@@ -9,6 +9,11 @@ import {
   IlustracionActividad,
   IlustracionPregunta,
   IlustracionDebate,
+  IlustracionMapa,
+  IlustracionPeligro,
+  IlustracionLey,
+  IlustracionEcosistema,
+  IlustracionDatos,
 } from './SlideIlustracion'
 
 export interface Slide {
@@ -17,7 +22,7 @@ export interface Slide {
   lista?: string[]
   imagen?: string
   imagen_url?: string
-  tipo?: 'actividad' | 'pregunta' | 'debate'
+  tipo?: 'actividad' | 'pregunta' | 'debate' | 'mapa' | 'peligro' | 'ley' | 'ecosistema' | 'datos'
 }
 
 type Nivel = 'kinder' | 'basica' | 'media_baja' | 'media_alta'
@@ -48,24 +53,21 @@ function ZonaImagen({
   useEffect(() => { setImgError(false) }, [imageUrl])
 
   // Slides especiales: SVG en lugar de foto
-  if (tipo === 'actividad') {
-    return (
-      <div className="flex h-full w-full items-center justify-center bg-zinc-950 p-8">
-        <IlustracionActividad />
-      </div>
-    )
+  const SVG_MAP: Partial<Record<NonNullable<Slide['tipo']>, React.ReactNode>> = {
+    actividad:  <IlustracionActividad />,
+    pregunta:   <IlustracionPregunta />,
+    debate:     <IlustracionDebate />,
+    mapa:       <IlustracionMapa />,
+    peligro:    <IlustracionPeligro />,
+    ley:        <IlustracionLey />,
+    ecosistema: <IlustracionEcosistema />,
+    datos:      <IlustracionDatos />,
   }
-  if (tipo === 'pregunta') {
+
+  if (tipo && SVG_MAP[tipo]) {
     return (
       <div className="flex h-full w-full items-center justify-center bg-zinc-950 p-8">
-        <IlustracionPregunta />
-      </div>
-    )
-  }
-  if (tipo === 'debate') {
-    return (
-      <div className="flex h-full w-full items-center justify-center bg-zinc-950 p-8">
-        <IlustracionDebate />
+        {SVG_MAP[tipo]}
       </div>
     )
   }
