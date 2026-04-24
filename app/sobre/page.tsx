@@ -10,7 +10,7 @@ import {
 } from 'framer-motion'
 import { useRef } from 'react'
 
-// ── Helper components ─────────────────────────────────────────
+// ── Helper animations ─────────────────────────────────────────
 
 function FadeUp({
   children,
@@ -77,9 +77,9 @@ function StickyHero() {
     offset: ['start start', 'end end'],
   })
 
-  const scale          = useTransform(scrollYProgress, [0, 0.6],  [1, 0.35])
-  const x              = useTransform(scrollYProgress, [0, 0.6],  ['0vw', '-30vw'])
-  const y              = useTransform(scrollYProgress, [0, 0.6],  ['0vh', '-35vh'])
+  const scale           = useTransform(scrollYProgress, [0, 0.6], [1, 0.35])
+  const x               = useTransform(scrollYProgress, [0, 0.6], ['0vw', '-30vw'])
+  const y               = useTransform(scrollYProgress, [0, 0.6], ['0vh', '-35vh'])
   const subtitleOpacity = useTransform(scrollYProgress, [0, 0.3], [1, 0])
 
   if (reduced) {
@@ -97,14 +97,9 @@ function StickyHero() {
   }
 
   return (
-    /* Outer container: 200vh creates the scroll distance that drives the animation */
     <div ref={containerRef} style={{ height: '200vh' }}>
-      {/* Sticky layer: stays fixed in viewport while outer container scrolls */}
       <div className="sticky top-0 h-screen bg-[#0A0A0A] flex items-center justify-center overflow-hidden">
-        <motion.div
-          style={{ scale, x, y }}
-          className="text-center px-6"
-        >
+        <motion.div style={{ scale, x, y }} className="text-center px-6">
           <h1 className="font-grotesk text-7xl sm:text-8xl font-bold text-white leading-none">
             Sobre Rayen
           </h1>
@@ -124,71 +119,74 @@ function StickyHero() {
 // ── Página ────────────────────────────────────────────────────
 
 export default function SobrePage() {
+  const reduced = useReducedMotion()
+
   return (
     <main>
       <StickyHero />
 
-      {/* Contenido principal */}
-      <div className="max-w-3xl mx-auto px-6 sm:px-8 py-16">
+      {/*
+        Content card emerges from below during the hero transform.
+        negative margin-top pulls it up into the viewport while the
+        hero is still animating. z-10 keeps it above the sticky layer.
+        reduced-motion: no negative margin, no rounded top.
+      */}
+      <div
+        className={[
+          'relative z-10 bg-zinc-950',
+          reduced
+            ? ''
+            : '-mt-[60vh] sm:-mt-[60vh] rounded-t-3xl',
+        ].join(' ')}
+      >
+        {/* ── Secciones principales ── */}
+        <div className="max-w-3xl mx-auto px-6 sm:px-8 pt-16 pb-10">
 
-        <FadeUp>
-          <Section title="La visión">
-            <p className="text-stone-600 leading-relaxed">
-              Chile tiene una de las biodiversidades más únicas del planeta, pero la mayoría
-              de sus habitantes no la conoce. Rayen nació para cambiar eso — para que cada
-              chileno pueda conocer, valorar y proteger las especies que comparten su territorio.
-            </p>
-          </Section>
-        </FadeUp>
+          <FadeUp>
+            <Section title="La visión">
+              <p className="text-zinc-300 leading-relaxed">
+                Chile tiene una de las biodiversidades más únicas del planeta, pero la mayoría
+                de sus habitantes no la conoce. Rayen nació para cambiar eso — para que cada
+                chileno pueda conocer, valorar y proteger las especies que comparten su territorio.
+              </p>
+            </Section>
+          </FadeUp>
 
-        <FadeUp delay={0.05}>
-          <Section title="El creador">
-            <p className="text-stone-600 leading-relaxed mb-3">
-              Ángel Pereda Jiménez — Santiago de Chile.
-            </p>
-            <a
-              href="mailto:angelperedajimenez@gmail.com"
-              className="inline-flex items-center gap-2 text-neon-600 hover:text-neon-500 transition-colors text-sm font-medium"
-            >
-              <Mail className="h-4 w-4" />
-              angelperedajimenez@gmail.com
-            </a>
-          </Section>
-        </FadeUp>
-
-        <FadeUp delay={0.1}>
-          <Section title="¿Quieres colaborar?">
-            <p className="text-stone-600 leading-relaxed mb-3">
-              Si eres biólogo, fotógrafo, educador o simplemente te apasiona la naturaleza
-              chilena, escríbeme a{' '}
+          <FadeUp delay={0.05}>
+            <Section title="El creador">
+              <p className="text-zinc-300 leading-relaxed mb-3">
+                Ángel Pereda Jiménez — Santiago de Chile.
+              </p>
               <a
                 href="mailto:angelperedajimenez@gmail.com"
-                className="text-neon-600 hover:text-neon-500 transition-colors"
+                className="inline-flex items-center gap-2 text-[#00E676] hover:text-[#52F599] transition-colors text-sm font-medium"
               >
+                <Mail className="h-4 w-4" />
                 angelperedajimenez@gmail.com
               </a>
-              . Rayen crece con cada persona que se suma.
-            </p>
-          </Section>
-        </FadeUp>
+            </Section>
+          </FadeUp>
 
-        <FadeUp delay={0.15}>
-          <div className="mt-8">
-            <Link
-              href="/especies"
-              className="inline-flex items-center gap-2 bg-neon-400 hover:bg-neon-300 text-black font-medium px-6 py-3 rounded-lg transition-colors"
-            >
-              Explorar especies
-              <ArrowRight className="h-4 w-4" />
-            </Link>
-          </div>
-        </FadeUp>
+          <FadeUp delay={0.1}>
+            <Section title="¿Quieres colaborar?">
+              <p className="text-zinc-300 leading-relaxed">
+                Si eres biólogo, fotógrafo, educador o simplemente te apasiona la naturaleza
+                chilena, escríbeme a{' '}
+                <a
+                  href="mailto:angelperedajimenez@gmail.com"
+                  className="text-[#00E676] hover:text-[#52F599] transition-colors"
+                >
+                  angelperedajimenez@gmail.com
+                </a>
+                . Rayen crece con cada persona que se suma.
+              </p>
+            </Section>
+          </FadeUp>
 
-      </div>
+        </div>
 
-      {/* Manual de Marca */}
-      <section className="bg-zinc-950">
-        <div className="max-w-5xl mx-auto px-6 sm:px-8 py-20">
+        {/* ── Manual de Marca ── */}
+        <div className="max-w-5xl mx-auto px-6 sm:px-8 py-16">
 
           <FadeUp>
             <h2 className="font-grotesk text-4xl sm:text-5xl font-bold text-white mb-3">
@@ -296,8 +294,21 @@ export default function SobrePage() {
             </BrandSection>
           </FadeUp>
 
+          {/* CTA final */}
+          <FadeUp>
+            <div className="mt-16 flex justify-center">
+              <Link
+                href="/especies"
+                className="inline-flex items-center gap-2 bg-neon-400 hover:bg-neon-300 text-black font-medium px-8 py-3.5 rounded-lg transition-colors"
+              >
+                Explorar especies
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
+          </FadeUp>
+
         </div>
-      </section>
+      </div>
     </main>
   )
 }
@@ -305,10 +316,10 @@ export default function SobrePage() {
 // ── Color swatches con stagger ────────────────────────────────
 
 const SWATCHES = [
-  { bg: '#00E676', border: undefined,          name: 'Verde Neón',    hex: '#00E676', use: 'Color primario. Acciones, links, elementos activos.' },
+  { bg: '#00E676', border: undefined,           name: 'Verde Neón',    hex: '#00E676', use: 'Color primario. Acciones, links, elementos activos.' },
   { bg: '#0A0A0A', border: '1px solid #3f3f46', name: 'Negro Profundo', hex: '#0A0A0A', use: 'Fondos principales. Da peso y seriedad.' },
   { bg: '#FFFFFF', border: '1px solid #d4d4d8', name: 'Blanco',         hex: '#FFFFFF', use: 'Fondos secundarios. Texto sobre negro.' },
-  { bg: '#D85A30', border: undefined,          name: 'Coral',         hex: '#D85A30', use: 'Solo para alertas. Especies en peligro crítico o en peligro.' },
+  { bg: '#D85A30', border: undefined,           name: 'Coral',         hex: '#D85A30', use: 'Solo para alertas. Especies en peligro crítico o en peligro.' },
 ]
 
 function ColorSwatches() {
@@ -316,12 +327,11 @@ function ColorSwatches() {
   return (
     <div className="grid grid-cols-2 sm:grid-cols-4 gap-5">
       {SWATCHES.map(({ bg, border, name, hex, use }, i) => {
-        const textDark = bg === '#00E676' || bg === '#FFFFFF'
         if (reduced) {
           return (
             <div key={hex} className="flex flex-col">
               <div className="h-40 rounded-xl" style={{ background: bg, border }} />
-              <SwatchLabel name={name} hex={hex} use={use} dark={textDark} />
+              <SwatchLabel name={name} hex={hex} use={use} />
             </div>
           )
         }
@@ -335,7 +345,7 @@ function ColorSwatches() {
             transition={{ duration: 0.4, ease: 'easeOut', delay: i * 0.1 }}
           >
             <div className="h-40 rounded-xl" style={{ background: bg, border }} />
-            <SwatchLabel name={name} hex={hex} use={use} dark={textDark} />
+            <SwatchLabel name={name} hex={hex} use={use} />
           </motion.div>
         )
       })}
@@ -343,7 +353,7 @@ function ColorSwatches() {
   )
 }
 
-function SwatchLabel({ name, hex, use, dark }: { name: string; hex: string; use: string; dark: boolean }) {
+function SwatchLabel({ name, hex, use }: { name: string; hex: string; use: string }) {
   return (
     <div className="pt-3 pb-1">
       <p className="text-sm font-semibold text-white">{name}</p>
@@ -353,12 +363,12 @@ function SwatchLabel({ name, hex, use, dark }: { name: string; hex: string; use:
   )
 }
 
-// ── Componentes de layout ─────────────────────────────────────
+// ── Layout helpers ────────────────────────────────────────────
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <section className="mb-10">
-      <h2 className="text-xl font-semibold text-stone-800 mb-3 pb-2 border-b border-stone-100">
+      <h2 className="text-xl font-semibold text-white mb-3 pb-2 border-b border-zinc-800">
         {title}
       </h2>
       {children}
