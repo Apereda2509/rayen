@@ -54,85 +54,95 @@ export function HeroFrameExpand() {
 
   const videoUrl = process.env.NEXT_PUBLIC_HERO_VIDEO_URL
 
-  return (
-    // 130vh outer container — scroll travel space para la animación
-    <div ref={containerRef} style={{ height: '130vh' }}>
-
-      {/* Sticky: se queda fijo mientras el usuario scrollea a través de los 250vh */}
-      <div className="sticky top-0 h-screen overflow-hidden bg-[#0A0A0A]">
-
-        {/* Frame animado — llena el sticky, scale crea los márgenes visuales */}
-        <motion.div
-          className="absolute inset-0 overflow-hidden"
-          style={
-            reduced
-              ? { borderRadius: '0px', boxShadow: 'none' }
-              : { borderRadius, scale, boxShadow }
-          }
+  // Contenido compartido entre versión mobile y desktop
+  const heroContent = (mobile: boolean) => (
+    <>
+      {/* Video background */}
+      {videoUrl ? (
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover"
+          aria-hidden="true"
         >
-          {/* Video background */}
-          {videoUrl ? (
-            <video
-              autoPlay
-              muted
-              loop
-              playsInline
-              className="absolute inset-0 w-full h-full object-cover"
-              aria-hidden="true"
-            >
-              <source src={videoUrl} type="video/mp4" />
-            </video>
-          ) : (
-            <div className="absolute inset-0 bg-carbon-900" />
-          )}
+          <source src={videoUrl} type="video/mp4" />
+        </video>
+      ) : (
+        <div className="absolute inset-0 bg-carbon-900" />
+      )}
 
-          {/* Dark overlay */}
-          <div className="absolute inset-0 bg-carbon-900/70" aria-hidden="true" />
+      {/* Dark overlay */}
+      <div className="absolute inset-0 bg-carbon-900/70" aria-hidden="true" />
 
-          {/* Hero content */}
-          <div className="relative z-10 h-full flex items-start sm:items-center text-white">
-            <div className="max-w-6xl mx-auto px-4 sm:px-6 w-full pt-24 pb-16 sm:pt-0 sm:pb-0">
-              <div className="max-w-3xl">
-                <p className="font-grotesk text-neon-400 text-sm font-medium uppercase tracking-wider mb-4">
-                  Plataforma de biodiversidad chilena
-                </p>
-                <h1 className="font-grotesk text-4xl lg:text-6xl font-bold leading-tight tracking-tight">
-                  Chile florece <br />
-                  <span className="text-neon-400">cuando lo conocemos.</span>
-                </h1>
-                <p className="mt-6 text-lg text-white/80 leading-relaxed max-w-2xl">
-                  Explora la fauna y flora nativa de Chile, conoce su estado de conservación
-                  y descubre cómo cada especie sostiene los ecosistemas que también te sostienen a ti.
-                </p>
-                <p className="mt-4 text-lg text-zinc-300 leading-relaxed max-w-2xl">
-                  Cada avistamiento cuenta. Si ves una especie en la naturaleza, repórtala — tu observación ayuda a documentar la biodiversidad de Chile.
-                </p>
-                <div className="mt-10 flex flex-col sm:flex-row flex-wrap gap-4">
-                  <Link
-                    href="/mapa"
-                    className="flex justify-center items-center gap-2 w-full sm:w-auto bg-neon-400 hover:bg-neon-300 text-black font-medium px-6 py-3 rounded-lg transition-colors"
-                  >
-                    Explorar el mapa
-                  </Link>
-                  <Link
-                    href="/especies"
-                    className="flex justify-center items-center gap-2 w-full sm:w-auto border border-neon-400/40 hover:border-neon-400 text-white/90 px-6 py-3 rounded-lg transition-colors"
-                  >
-                    Ver especies
-                  </Link>
-                  <Link
-                    href={reportHref}
-                    className="flex justify-center items-center gap-2 w-full sm:w-auto border border-[#00E676] text-[#00E676] hover:bg-[#00E676] hover:text-black px-6 py-3 rounded-lg transition-colors"
-                    style={{ borderWidth: '1.5px' }}
-                  >
-                    Reportar avistamiento
-                  </Link>
-                </div>
-              </div>
+      {/* Text content */}
+      <div className="relative z-10 flex flex-col justify-start text-white px-4 sm:px-6 pt-24 pb-12">
+        <div className="max-w-6xl mx-auto w-full">
+          <div className="max-w-3xl">
+            <p className="font-grotesk text-neon-400 text-sm font-medium uppercase tracking-wider mb-4">
+              Plataforma de biodiversidad chilena
+            </p>
+            <h1 className="font-grotesk text-4xl lg:text-6xl font-bold leading-tight tracking-tight">
+              Chile florece <br />
+              <span className="text-neon-400">cuando lo conocemos.</span>
+            </h1>
+            <p className="mt-4 text-base sm:text-lg text-white/80 leading-relaxed max-w-2xl">
+              Explora la fauna y flora nativa de Chile, conoce su estado de conservación
+              y descubre cómo cada especie sostiene los ecosistemas que también te sostienen a ti.
+            </p>
+            <p className="mt-3 text-base sm:text-lg text-zinc-300 leading-relaxed max-w-2xl">
+              Cada avistamiento cuenta. Si ves una especie en la naturaleza, repórtala — tu observación ayuda a documentar la biodiversidad de Chile.
+            </p>
+            <div className="mt-8 flex flex-col gap-3">
+              <Link
+                href="/mapa"
+                className="flex justify-center items-center gap-2 w-full bg-neon-400 hover:bg-neon-300 text-black font-medium px-6 py-3 rounded-lg transition-colors"
+              >
+                Explorar el mapa
+              </Link>
+              <Link
+                href="/especies"
+                className="flex justify-center items-center gap-2 w-full border border-neon-400/40 hover:border-neon-400 text-white/90 px-6 py-3 rounded-lg transition-colors"
+              >
+                Ver especies
+              </Link>
+              <Link
+                href={reportHref}
+                className="flex justify-center items-center gap-2 w-full border border-[#00E676] text-[#00E676] hover:bg-[#00E676] hover:text-black px-6 py-3 rounded-lg transition-colors"
+                style={{ borderWidth: '1.5px' }}
+              >
+                Reportar avistamiento
+              </Link>
             </div>
           </div>
-        </motion.div>
+        </div>
       </div>
-    </div>
+    </>
+  )
+
+  return (
+    <>
+      {/* ── Móvil: sin animación sticky — se expande con el contenido ── */}
+      <div className="sm:hidden relative bg-[#0A0A0A] overflow-hidden">
+        {heroContent(true)}
+      </div>
+
+      {/* ── Desktop: animación frame-expand con sticky ── */}
+      <div ref={containerRef} className="hidden sm:block" style={{ height: '130vh' }}>
+        <div className="sticky top-0 h-screen overflow-hidden bg-[#0A0A0A]">
+          <motion.div
+            className="absolute inset-0 overflow-hidden"
+            style={
+              reduced
+                ? { borderRadius: '0px', boxShadow: 'none' }
+                : { borderRadius, scale, boxShadow }
+            }
+          >
+            {heroContent(false)}
+          </motion.div>
+        </div>
+      </div>
+    </>
   )
 }
