@@ -1,8 +1,14 @@
 'use client'
 
-import { useRef } from 'react'
+import { useRef, useEffect } from 'react'
 import Link from 'next/link'
-import { motion, useScroll, useTransform, useReducedMotion, cubicBezier } from 'framer-motion'
+import {
+  motion,
+  useMotionValue,
+  useTransform,
+  useReducedMotion,
+  cubicBezier,
+} from 'framer-motion'
 
 const EASE = cubicBezier(0.25, 0.1, 0.25, 1)
 
@@ -10,38 +16,49 @@ export function HeroFrameExpand() {
   const containerRef = useRef<HTMLDivElement>(null)
   const reduced = !!useReducedMotion()
 
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ['start start', 'end end'],
-  })
+  // window.scroll directo — evita problemas con useScroll/target en Next.js App Router
+  const scrollProgress = useMotionValue(0)
 
-  // Animated frame properties: scroll 0→0.6 drives the full expansion
-  const frameOffset = useTransform(scrollYProgress, [0, 0.6], ['40px', '0px'], { ease: EASE })
-  const borderRadius = useTransform(scrollYProgress, [0, 0.6], ['16px', '0px'], { ease: EASE })
-  const scale = useTransform(scrollYProgress, [0, 0.6], [0.88, 1], { ease: EASE })
+  useEffect(() => {
+    function onScroll() {
+      const el = containerRef.current
+      if (!el) return
+      const total = el.offsetHeight - window.innerHeight
+      const progress = total > 0 ? Math.min(1, Math.max(0, window.scrollY / total)) : 0
+      console.log('[HeroFrameExpand] scrollProgress:', progress.toFixed(3))
+      scrollProgress.set(progress)
+    }
+    window.addEventListener('scroll', onScroll, { passive: true })
+    onScroll() // set initial value
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [scrollProgress])
+
+  // Animación en el primer 40% del recorrido (100vh de scroll aprox.)
+  const borderRadius = useTransform(scrollProgress, [0, 0.4], ['16px', '0px'], { ease: EASE })
+  const scale = useTransform(scrollProgress, [0, 0.4], [0.88, 1], { ease: EASE })
   const boxShadow = useTransform(
-    scrollYProgress,
-    [0, 0.6],
-    ['0px 25px 60px rgba(0,0,0,0.50)', '0px 0px 0px rgba(0,0,0,0.00)'],
+    scrollProgress,
+    [0, 0.4],
+    ['0px 25px 60px rgba(0,0,0,0.55)', '0px 0px 0px rgba(0,0,0,0.00)'],
     { ease: EASE }
   )
 
   const videoUrl = process.env.NEXT_PUBLIC_HERO_VIDEO_URL
 
   return (
-    // 250vh outer container — provides scroll travel space for the animation
+    // 250vh outer container — scroll travel space para la animación
     <div ref={containerRef} style={{ height: '250vh' }}>
 
-      {/* Sticky inner: stays fixed in viewport while user scrolls through 250vh */}
+      {/* Sticky: se queda fijo mientras el usuario scrollea a través de los 250vh */}
       <div className="sticky top-0 h-screen overflow-hidden bg-[#0A0A0A]">
 
-        {/* Animated frame */}
+        {/* Frame animado — llena el sticky, scale crea los márgenes visuales */}
         <motion.div
-          className="absolute overflow-hidden"
+          className="absolute inset-0 overflow-hidden"
           style={
             reduced
-              ? { top: 0, left: 0, right: 0, bottom: 0, borderRadius: '0px', scale: 1, boxShadow: 'none' }
-              : { top: frameOffset, left: frameOffset, right: frameOffset, bottom: frameOffset, borderRadius, scale, boxShadow }
+              ? { borderRadius: '0px', boxShadow: 'none' }
+              : { borderRadius, scale, boxShadow }
           }
         >
           {/* Video background */}
@@ -63,7 +80,7 @@ export function HeroFrameExpand() {
           {/* Dark overlay */}
           <div className="absolute inset-0 bg-carbon-900/70" aria-hidden="true" />
 
-          {/* Hero content — static, never animates */}
+          {/* Hero content */}
           <div className="relative z-10 h-full flex items-center text-white">
             <div className="max-w-6xl mx-auto px-4 sm:px-6 w-full">
               <div className="max-w-3xl">
