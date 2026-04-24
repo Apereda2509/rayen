@@ -49,3 +49,7 @@ coverage/
 public/hero-video.mp4
 public/*.mp4
 public/*.mov
+
+# Claude Code internals
+.claude/
+.claire/
