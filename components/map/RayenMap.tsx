@@ -7,6 +7,7 @@ import Map, {
 } from 'react-map-gl'
 import type { LayerProps, MapLayerMouseEvent, MapMouseEvent } from 'react-map-gl'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { MapPin } from 'lucide-react'
 import { ConservationBadge } from '@/components/species/ConservationBadge'
 import { UICN_LABELS } from '@/lib/types'
@@ -32,6 +33,13 @@ const UICN_COLOR_EXPRESSION: any = [
   'DD', '#888780',
   '#5F5E5A',
 ]
+
+// ── SNASPE tipo labels ────────────────────────────────────────
+const SNASPE_TIPO_LABELS: Record<string, string> = {
+  Parques:    'Parque Nacional',
+  Reservas:   'Reserva Nacional',
+  Monumentos: 'Monumento Natural',
+}
 
 interface SightingFeature {
   type: 'Feature'
@@ -68,6 +76,15 @@ interface TooltipInfo {
   uicnStatus: UICNStatus | null
 }
 
+interface SnaspeHoverInfo {
+  x: number
+  y: number
+  nombre: string
+  tipo: string | null
+  superficie_ha: number | null
+  region: string | null
+}
+
 interface AreaPopupInfo {
   longitude: number
   latitude: number
@@ -87,6 +104,7 @@ interface Props {
 }
 
 export function RayenMap({ sightings, showProtectedAreas = false, selectedAreaSlugs = [], onMarkerClick, selectedSlug }: Props) {
+  const router = useRouter()
   const mapRef = useRef<MapRef>(null)
   const [popupInfo, setPopupInfo] = useState<{
     longitude: number
@@ -95,9 +113,12 @@ export function RayenMap({ sightings, showProtectedAreas = false, selectedAreaSl
   } | null>(null)
   const [areaPopup, setAreaPopup] = useState<AreaPopupInfo | null>(null)
   const [tooltip, setTooltip] = useState<TooltipInfo | null>(null)
+  const [snaspeHover, setSnaspeHover] = useState<SnaspeHoverInfo | null>(null)
   const [areasGeojson, setAreasGeojson] = useState<any>(null)
+  const [snaspeGeojson, setSnaspeGeojson] = useState<any>(null)
   const [locating, setLocating] = useState(false)
 
+  // ── Carga áreas protegidas (puntos) ──────────────────────
   useEffect(() => {
     if (!showProtectedAreas) { setAreasGeojson(null); return }
     fetch('/api/protected-areas')
@@ -106,7 +127,17 @@ export function RayenMap({ sightings, showProtectedAreas = false, selectedAreaSl
       .catch(() => setAreasGeojson(null))
   }, [showProtectedAreas])
 
-  // Fly to species sightings when selectedSlug changes
+  // ── Carga polígonos SNASPE al montar ─────────────────────
+  useEffect(() => {
+    fetch('/api/snaspe')
+      .then(r => r.json())
+      .then(data => {
+        if (data?.features?.length) setSnaspeGeojson(data)
+      })
+      .catch(() => setSnaspeGeojson(null))
+  }, [])
+
+  // ── FlyTo cuando cambia especie seleccionada ─────────────
   useEffect(() => {
     if (!selectedSlug) return
     const map = mapRef.current
@@ -158,7 +189,35 @@ export function RayenMap({ sightings, showProtectedAreas = false, selectedAreaSl
     features: sightings,
   }), [sightings])
 
-  // ── Layers ────────────────────────────────────────────────
+  // ── Layer definitions ─────────────────────────────────────
+
+  const snaspeFillLayer: LayerProps = {
+    id: 'snaspe-fill',
+    type: 'fill',
+    source: 'snaspe',
+    paint: {
+      'fill-color': '#00E676',
+      'fill-opacity': [
+        'match', ['get', 'tipo'],
+        'Parques',    0.15,
+        'Reservas',   0.10,
+        'Monumentos', 0.12,
+        0.08,
+      ] as any,
+    },
+  }
+
+  const snaspeLineLayer: LayerProps = {
+    id: 'snaspe-line',
+    type: 'line',
+    source: 'snaspe',
+    paint: {
+      'line-color': '#00E676',
+      'line-width': 1.5,
+      'line-opacity': 0.6,
+    },
+  }
+
   const clusterLayer: LayerProps = {
     id: 'clusters',
     type: 'circle',
@@ -233,11 +292,12 @@ export function RayenMap({ sightings, showProtectedAreas = false, selectedAreaSl
     },
   }
 
-  // ── Click handler ────────────────────────────────────────
+  // ── Click handler ─────────────────────────────────────────
   const onClick = useCallback(async (e: MapLayerMouseEvent) => {
     const map = mapRef.current?.getMap()
     if (!map) return
 
+    // Prioridad 1: área protegida (puntos existentes)
     const areaHits = map.queryRenderedFeatures(e.point, { layers: ['areas-circle'] })
     if (areaHits.length > 0) {
       const props = areaHits[0].properties
@@ -254,12 +314,36 @@ export function RayenMap({ sightings, showProtectedAreas = false, selectedAreaSl
       return
     }
 
+    // Prioridad 2: polígono SNASPE
+    const snaspeHits = map.queryRenderedFeatures(e.point, { layers: ['snaspe-fill'] })
+    if (snaspeHits.length > 0) {
+      const props = snaspeHits[0].properties
+      if (props?.rayen_slug) {
+        router.push(`/areas-protegidas/${props.rayen_slug}`)
+      } else {
+        // Sin slug: mostrar popup informativo
+        setPopupInfo(null)
+        setAreaPopup({
+          longitude: e.lngLat.lng,
+          latitude: e.lngLat.lat,
+          name: props?.nombre ?? '',
+          type: props?.tipo ?? '',
+          regionName: props?.region ?? null,
+          areaHa: props?.superficie_ha ?? null,
+          slug: '',
+        })
+      }
+      return
+    }
+
+    // Prioridad 3: cluster → zoom
     const clusterHits = map.queryRenderedFeatures(e.point, { layers: ['clusters'] })
     if (clusterHits.length > 0) {
       map.easeTo({ center: [e.lngLat.lng, e.lngLat.lat], zoom: Math.min(map.getZoom() + 2, 16), duration: 500 })
       return
     }
 
+    // Prioridad 4: punto de avistamiento
     const features = e.features
     if (!features?.length) { setPopupInfo(null); setAreaPopup(null); return }
 
@@ -299,37 +383,46 @@ export function RayenMap({ sightings, showProtectedAreas = false, selectedAreaSl
     } catch (err) {
       console.error('Error cargando especie:', err)
     }
-  }, [onMarkerClick])
+  }, [onMarkerClick, router])
 
-  // ── Hover tooltip ────────────────────────────────────────
+  // ── Hover ─────────────────────────────────────────────────
   const onMouseMove = useCallback((e: MapMouseEvent) => {
     const map = mapRef.current?.getMap()
     if (!map) return
 
+    // Puntos de avistamiento (máxima prioridad)
     const hits = map.queryRenderedFeatures(e.point, { layers: ['unclustered-point'] })
     if (hits.length > 0) {
       const props = hits[0].properties
       map.getCanvas().style.cursor = 'pointer'
-      setTooltip({
-        x: e.point.x,
-        y: e.point.y,
-        commonName: props?.commonName ?? '',
-        photoUrl: props?.photoUrl ?? null,
-        uicnStatus: props?.uicnStatus ?? null,
-      })
+      setTooltip({ x: e.point.x, y: e.point.y, commonName: props?.commonName ?? '', photoUrl: props?.photoUrl ?? null, uicnStatus: props?.uicnStatus ?? null })
+      setSnaspeHover(null)
       return
     }
 
+    // Áreas protegidas (puntos)
     const areaHits = map.queryRenderedFeatures(e.point, { layers: ['areas-circle'] })
     if (areaHits.length > 0) {
       const props = areaHits[0].properties
       map.getCanvas().style.cursor = 'pointer'
-      setTooltip({
+      setTooltip({ x: e.point.x, y: e.point.y, commonName: props?.name ?? '', photoUrl: null, uicnStatus: null })
+      setSnaspeHover(null)
+      return
+    }
+
+    // Polígonos SNASPE
+    const snaspeHits = map.queryRenderedFeatures(e.point, { layers: ['snaspe-fill'] })
+    if (snaspeHits.length > 0) {
+      const props = snaspeHits[0].properties
+      map.getCanvas().style.cursor = 'pointer'
+      setTooltip(null)
+      setSnaspeHover({
         x: e.point.x,
         y: e.point.y,
-        commonName: props?.name ?? '',
-        photoUrl: null,
-        uicnStatus: null,
+        nombre: props?.nombre ?? '',
+        tipo: props?.tipo ?? null,
+        superficie_ha: props?.superficie_ha ?? null,
+        region: props?.region ?? null,
       })
       return
     }
@@ -337,14 +430,16 @@ export function RayenMap({ sightings, showProtectedAreas = false, selectedAreaSl
     const clusterHits = map.queryRenderedFeatures(e.point, { layers: ['clusters'] })
     map.getCanvas().style.cursor = clusterHits.length > 0 ? 'pointer' : ''
     setTooltip(null)
+    setSnaspeHover(null)
   }, [])
 
   const onMouseLeave = useCallback(() => {
     if (mapRef.current) mapRef.current.getCanvas().style.cursor = ''
     setTooltip(null)
+    setSnaspeHover(null)
   }, [])
 
-  // ── Centrar en mi ubicación ───────────────────────────────
+  // ── Geolocalización ───────────────────────────────────────
   function handleLocate() {
     if (!navigator.geolocation) return
     setLocating(true)
@@ -370,7 +465,7 @@ export function RayenMap({ sightings, showProtectedAreas = false, selectedAreaSl
         mapStyle="mapbox://styles/mapbox/outdoors-v12"
         mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_TOKEN}
         style={{ width: '100%', height: '100%' }}
-        interactiveLayerIds={['clusters', 'unclustered-point', 'areas-circle']}
+        interactiveLayerIds={['clusters', 'unclustered-point', 'areas-circle', 'snaspe-fill']}
         onClick={onClick}
         onMouseMove={onMouseMove}
         onMouseLeave={onMouseLeave}
@@ -379,6 +474,14 @@ export function RayenMap({ sightings, showProtectedAreas = false, selectedAreaSl
         maxZoom={16}
       >
         <NavigationControl position="top-right" showCompass={false} />
+
+        {/* Polígonos SNASPE — debajo de todo lo demás */}
+        {snaspeGeojson && (
+          <Source id="snaspe" type="geojson" data={snaspeGeojson}>
+            <Layer {...snaspeFillLayer} />
+            <Layer {...snaspeLineLayer} />
+          </Source>
+        )}
 
         {showProtectedAreas && filteredAreasGeojson && (
           <Source id="protected-areas" type="geojson" data={filteredAreasGeojson}>
@@ -441,11 +544,12 @@ export function RayenMap({ sightings, showProtectedAreas = false, selectedAreaSl
       </button>
 
       {tooltip && <HoverTooltip tooltip={tooltip} />}
+      {snaspeHover && <SnaspeTooltip info={snaspeHover} />}
     </div>
   )
 }
 
-// ── Tooltip hover ─────────────────────────────────────────────
+// ── Tooltip hover — avistamientos ─────────────────────────────
 const UICN_COLORS: Record<string, string> = {
   CR: '#D85A30', EN: '#D85A30', VU: '#F59E0B',
   NT: '#78716C', LC: '#00E676', DD: '#888780',
@@ -459,12 +563,7 @@ function HoverTooltip({ tooltip }: { tooltip: TooltipInfo }) {
       style={{ left: x + 14, top: y - 40, transform: 'translateY(-50%)' }}
     >
       {photoUrl && (
-        <img
-          src={photoUrl}
-          alt={commonName}
-          className="h-8 w-8 rounded-md object-cover flex-shrink-0"
-          referrerPolicy="no-referrer"
-        />
+        <img src={photoUrl} alt={commonName} className="h-8 w-8 rounded-md object-cover flex-shrink-0" referrerPolicy="no-referrer" />
       )}
       <span className="font-medium text-stone-800 whitespace-nowrap max-w-[160px] truncate">
         {commonName}
@@ -481,15 +580,38 @@ function HoverTooltip({ tooltip }: { tooltip: TooltipInfo }) {
   )
 }
 
-// ── Popup de especie al hacer click ───────────────────────────
-const REGION_NAMES: Record<string, string> = {
-  AP: 'Arica y Parinacota', TA: 'Tarapacá', AN: 'Antofagasta',
-  AT: 'Atacama', CO: 'Coquimbo', VA: 'Valparaíso', RM: 'Metropolitana',
-  LI: "O'Higgins", ML: 'Maule', NB: 'Ñuble', BI: 'Biobío',
-  AR: 'La Araucanía', LR: 'Los Ríos', LL: 'Los Lagos',
-  AI: 'Aysén', MA: 'Magallanes',
+// ── Tooltip hover — polígonos SNASPE ─────────────────────────
+function SnaspeTooltip({ info }: { info: SnaspeHoverInfo }) {
+  const { x, y, nombre, tipo, superficie_ha, region } = info
+  const tipoLabel = tipo ? (SNASPE_TIPO_LABELS[tipo] ?? tipo) : null
+  // Strip "[Tipo]" suffix from nombre for display
+  const displayName = nombre.replace(/\s*\[.*?\]\s*$/, '').trim()
+  return (
+    <div
+      className="pointer-events-none absolute z-20 rounded-xl bg-zinc-900/95 border border-zinc-700 shadow-xl px-3 py-2.5 min-w-[180px] max-w-[240px]"
+      style={{ left: x + 14, top: y - 60, transform: 'translateY(-50%)' }}
+    >
+      <p className="font-grotesk font-semibold text-white text-sm leading-tight truncate">
+        {displayName}
+      </p>
+      {tipoLabel && (
+        <p className="text-[#00E676] text-xs mt-0.5">{tipoLabel}</p>
+      )}
+      {region && (
+        <p className="text-zinc-400 text-xs mt-1 capitalize lowercase">
+          {region.charAt(0).toUpperCase() + region.slice(1).toLowerCase()}
+        </p>
+      )}
+      {superficie_ha != null && (
+        <p className="text-zinc-500 text-xs mt-0.5">
+          {Number(superficie_ha).toLocaleString('es-CL')} ha
+        </p>
+      )}
+    </div>
+  )
 }
 
+// ── Popup de especie al hacer click ───────────────────────────
 function SpeciesPopup({ species }: { species: PopupSpecies }) {
   const { slug, commonName, scientificName, uicnStatus, photoUrl, observedAt, observerName } = species
   const statusHex = uicnStatus ? (UICN_COLORS[uicnStatus] ?? '#666') : null
@@ -498,50 +620,29 @@ function SpeciesPopup({ species }: { species: PopupSpecies }) {
     <div className="w-[280px] p-3">
       <div className="flex gap-3">
         {photoUrl && (
-          <img
-            src={photoUrl}
-            alt={commonName}
-            referrerPolicy="no-referrer"
-            className="h-[60px] w-[60px] rounded-lg object-cover flex-shrink-0"
-          />
+          <img src={photoUrl} alt={commonName} referrerPolicy="no-referrer" className="h-[60px] w-[60px] rounded-lg object-cover flex-shrink-0" />
         )}
         <div className="flex-1 min-w-0">
-          <h3 className="font-grotesk font-semibold text-white text-sm leading-tight truncate">
-            {commonName}
-          </h3>
-          <p className="font-serif italic text-zinc-400 text-xs mt-0.5 truncate">
-            {scientificName}
-          </p>
+          <h3 className="font-grotesk font-semibold text-white text-sm leading-tight truncate">{commonName}</h3>
+          <p className="font-serif italic text-zinc-400 text-xs mt-0.5 truncate">{scientificName}</p>
           {statusHex && uicnStatus && (
-            <span
-              className="inline-block mt-1.5 text-xs font-semibold px-1.5 py-0.5 rounded"
-              style={{ backgroundColor: `${statusHex}22`, color: statusHex }}
-            >
+            <span className="inline-block mt-1.5 text-xs font-semibold px-1.5 py-0.5 rounded" style={{ backgroundColor: `${statusHex}22`, color: statusHex }}>
               {uicnStatus}
             </span>
           )}
         </div>
       </div>
-
       {(observedAt || observerName) && (
         <div className="mt-2.5 pt-2.5 border-t border-zinc-800 space-y-0.5">
           {observedAt && (
             <p className="text-zinc-500 text-xs">
-              {new Date(observedAt).toLocaleDateString('es-CL', {
-                day: 'numeric', month: 'long', year: 'numeric',
-              })}
+              {new Date(observedAt).toLocaleDateString('es-CL', { day: 'numeric', month: 'long', year: 'numeric' })}
             </p>
           )}
-          {observerName && (
-            <p className="text-zinc-500 text-xs">por {observerName}</p>
-          )}
+          {observerName && <p className="text-zinc-500 text-xs">por {observerName}</p>}
         </div>
       )}
-
-      <Link
-        href={`/especies/${slug}`}
-        className="mt-3 inline-flex items-center gap-1 text-[#00E676] text-xs hover:underline"
-      >
+      <Link href={`/especies/${slug}`} className="mt-3 inline-flex items-center gap-1 text-[#00E676] text-xs hover:underline">
         Ver ficha →
       </Link>
     </div>
@@ -550,39 +651,48 @@ function SpeciesPopup({ species }: { species: PopupSpecies }) {
 
 // ── Popup de área protegida ────────────────────────────────────
 const AREA_TYPE_LABELS: Record<string, string> = {
-  parque_nacional:     'Parque Nacional',
-  reserva_nacional:    'Reserva Nacional',
-  monumento_natural:   'Monumento Natural',
-  santuario_naturaleza:'Santuario de la Naturaleza',
-  area_marina:         'Área Marina Protegida',
-  sitio_ramsar:        'Sitio Ramsar',
+  parque_nacional:      'Parque Nacional',
+  reserva_nacional:     'Reserva Nacional',
+  monumento_natural:    'Monumento Natural',
+  santuario_naturaleza: 'Santuario de la Naturaleza',
+  area_marina:          'Área Marina Protegida',
+  sitio_ramsar:         'Sitio Ramsar',
+  Parques:              'Parque Nacional',
+  Reservas:             'Reserva Nacional',
+  Monumentos:           'Monumento Natural',
 }
 
 function AreaPopupCard({ area }: { area: AreaPopupInfo }) {
   return (
-    <div className="w-[260px] p-3 bg-white rounded-xl">
+    <div className="w-[260px] p-3">
       <div className="flex items-start gap-2 mb-2">
         <div>
-          <h3 className="font-semibold text-stone-900 text-sm leading-tight">{area.name}</h3>
-          <p className="text-[11px] text-[#00C760] font-medium mt-0.5">
+          <h3 className="font-grotesk font-semibold text-white text-sm leading-tight">
+            {area.name.replace(/\s*\[.*?\]\s*$/, '').trim()}
+          </h3>
+          <p className="text-[11px] text-[#00E676] font-medium mt-0.5">
             {AREA_TYPE_LABELS[area.type] ?? area.type}
           </p>
         </div>
       </div>
       {area.regionName && (
-        <p className="text-xs text-stone-500 mb-1">{area.regionName}</p>
+        <p className="text-xs text-zinc-400 mb-1">
+          {area.regionName.charAt(0).toUpperCase() + area.regionName.slice(1).toLowerCase()}
+        </p>
       )}
       {area.areaHa && (
-        <p className="text-xs text-stone-500 mb-2">
+        <p className="text-xs text-zinc-500 mb-3">
           {Number(area.areaHa).toLocaleString('es-CL')} ha
         </p>
       )}
-      <Link
-        href={`/areas-protegidas/${area.slug}`}
-        className="flex items-center justify-center gap-1 w-full rounded-lg bg-[#00E676] hover:bg-[#52F599] px-3 py-2 text-xs font-medium text-black transition-colors"
-      >
-        Ver área completa →
-      </Link>
+      {area.slug && (
+        <Link
+          href={`/areas-protegidas/${area.slug}`}
+          className="flex items-center justify-center gap-1 w-full rounded-lg bg-[#00E676] hover:bg-[#52F599] px-3 py-2 text-xs font-medium text-black transition-colors"
+        >
+          Ver área completa →
+        </Link>
+      )}
     </div>
   )
 }
