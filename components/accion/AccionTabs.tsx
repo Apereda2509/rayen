@@ -1,8 +1,8 @@
 'use client'
 
-import { useState, useRef } from 'react'
+import { useState } from 'react'
 import { FileSignature, Building2, Scale, Megaphone } from 'lucide-react'
-import { motion, useInView } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { PetitionCard } from './PetitionCard'
 import { OrganizationCard } from './OrganizationCard'
 import { LegalSection } from './LegalSection'
@@ -33,14 +33,11 @@ interface Props {
 }
 
 function SectionTitle({ children }: { children: React.ReactNode }) {
-  const ref = useRef<HTMLDivElement>(null)
-  const inView = useInView(ref, { once: true, amount: 0.3 })
-
   return (
     <motion.div
-      ref={ref}
       initial={{ opacity: 0, y: 30 }}
-      animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.3 }}
       transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
     >
       {children}
@@ -128,17 +125,9 @@ export function AccionTabs({ petitions, organizations, laws, isLoggedIn }: Props
           {filteredOrgs.length === 0 ? (
             <p className="text-zinc-500 text-center py-12">No hay organizaciones con ese filtro.</p>
           ) : (
-            <div className="flex flex-col gap-3 max-w-4xl mx-auto">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 max-w-7xl mx-auto">
               {filteredOrgs.map((org, i) => (
-                <motion.div
-                  key={org.id}
-                  initial={{ opacity: 0, y: 50 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: '-80px' }}
-                  transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: i * 0.08 }}
-                >
-                  <OrganizationCard org={org} index={i} />
-                </motion.div>
+                <OrganizationCard key={org.id} org={org} index={i} />
               ))}
             </div>
           )}
