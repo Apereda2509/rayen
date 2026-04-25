@@ -1,6 +1,5 @@
 'use client'
 
-import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
 
@@ -8,6 +7,26 @@ const TYPE_BADGE: Record<string, { label: string; className: string }> = {
   ley:                    { label: 'Ley',                    className: 'bg-blue-900/80 text-blue-300' },
   decreto:                { label: 'Decreto',                className: 'bg-amber-900/80 text-amber-300' },
   convenio_internacional: { label: 'Convenio Internacional', className: 'bg-purple-900/80 text-purple-300' },
+}
+
+const LAW_LOGO_MAP: Record<string, string> = {
+  'cites':         '/logos/laws/cites.png',
+  'diversidad':    '/logos/laws/cbd.png',
+  'caza':          '/logos/laws/sag.png',
+  'araucaria':     '/logos/laws/minagri.png',
+  'bosque':        '/logos/laws/conaf.png',
+  'humedales':     '/logos/laws/mma.png',
+  'clasificación': '/logos/laws/mma.png',
+  'sbap':          '/logos/laws/mma.png',
+  'biodiversidad': '/logos/laws/mma.png',
+}
+
+function getLawLogo(name: string): string | null {
+  const lower = name.toLowerCase()
+  for (const [key, val] of Object.entries(LAW_LOGO_MAP)) {
+    if (lower.includes(key)) return val
+  }
+  return null
 }
 
 function BuildingIcon() {
@@ -50,11 +69,11 @@ interface Props {
 }
 
 export function LawCard({ law, index = 0 }: Props) {
-  const [imgError, setImgError] = useState(false)
   const router = useRouter()
 
   const badge = TYPE_BADGE[law.type] ?? { label: law.type, className: 'bg-zinc-800/80 text-zinc-300' }
   const emisorShort = shortenEmisor(law.emisor)
+  const logoSrc = getLawLogo(law.name)
 
   return (
     <motion.div
@@ -69,38 +88,33 @@ export function LawCard({ law, index = 0 }: Props) {
         onClick={() => router.push(`/accion/marco-legal/${law.id}`)}
         className="bg-zinc-900 border border-zinc-800 rounded-2xl overflow-hidden cursor-pointer h-full flex flex-col"
       >
-        {/* Imagen superior */}
-        <div className="relative w-full aspect-video overflow-hidden flex-shrink-0">
-          {law.imageUrl && !imgError ? (
-            <>
-              <img
-                src={law.imageUrl}
-                alt={law.name}
-                className="w-full h-full object-cover"
-                onError={() => setImgError(true)}
-                referrerPolicy="no-referrer"
-              />
-              <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-zinc-900/80 to-transparent" />
-            </>
+        {/* Logo institucional sobre fondo blanco */}
+        <div className="relative w-full aspect-video bg-white flex items-center justify-center p-8 flex-shrink-0">
+          {logoSrc ? (
+            <img
+              src={logoSrc}
+              alt={law.name}
+              className="max-h-full max-w-full object-contain"
+            />
           ) : (
-            <div className="w-full h-full bg-zinc-800 flex flex-col items-center justify-center gap-2 px-4">
-              <span className={`text-[11px] font-semibold px-2.5 py-1 rounded-full ${badge.className}`}>
-                {badge.label}
-              </span>
-              <span className="text-zinc-500 text-xs">{law.year}</span>
-            </div>
+            <span
+              className="font-bold text-zinc-800 text-4xl"
+              style={{ fontFamily: 'var(--font-space-grotesk), sans-serif' }}
+            >
+              {law.name.slice(0, 2).toUpperCase()}
+            </span>
           )}
 
           {/* Badge tipo — esquina superior izquierda */}
           <div className="absolute top-3 left-3">
-            <span className={`text-[10px] font-semibold px-2.5 py-1 rounded-full backdrop-blur-sm ${badge.className}`}>
+            <span className={`text-[10px] font-semibold px-2.5 py-1 rounded-full ${badge.className}`}>
               {badge.label}
             </span>
           </div>
 
           {/* Año — esquina superior derecha */}
           <div className="absolute top-3 right-3">
-            <span className="text-zinc-400 text-xs bg-black/50 rounded px-2 py-1 backdrop-blur-sm">
+            <span className="text-zinc-600 text-xs bg-zinc-100 rounded px-2 py-1">
               {law.year}
             </span>
           </div>

@@ -1,13 +1,31 @@
 'use client'
 
-import { useRef } from 'react'
-import { useScroll, useTransform, motion, useReducedMotion } from 'framer-motion'
 import Link from 'next/link'
 
 const TYPE_BADGE: Record<string, { label: string; className: string }> = {
   ley:                    { label: 'Ley',                    className: 'bg-blue-900/80 text-blue-300' },
   decreto:                { label: 'Decreto',                className: 'bg-amber-900/80 text-amber-300' },
   convenio_internacional: { label: 'Convenio Internacional', className: 'bg-purple-900/80 text-purple-300' },
+}
+
+const LAW_LOGO_MAP: Record<string, string> = {
+  'cites':         '/logos/laws/cites.png',
+  'diversidad':    '/logos/laws/cbd.png',
+  'caza':          '/logos/laws/sag.png',
+  'araucaria':     '/logos/laws/minagri.png',
+  'bosque':        '/logos/laws/conaf.png',
+  'humedales':     '/logos/laws/mma.png',
+  'clasificación': '/logos/laws/mma.png',
+  'sbap':          '/logos/laws/mma.png',
+  'biodiversidad': '/logos/laws/mma.png',
+}
+
+function getLawLogo(name: string): string | null {
+  const lower = name.toLowerCase()
+  for (const [key, val] of Object.entries(LAW_LOGO_MAP)) {
+    if (lower.includes(key)) return val
+  }
+  return null
 }
 
 interface Law {
@@ -30,69 +48,64 @@ interface Props {
 }
 
 export function LawDetailClient({ law }: Props) {
-  const heroRef = useRef<HTMLDivElement>(null)
-  const reduced = useReducedMotion()
-  const { scrollY } = useScroll()
-
-  const imageY = useTransform(scrollY, [0, 600], reduced ? [0, 0] : [0, 150])
-
   const badge = TYPE_BADGE[law.type] ?? { label: law.type, className: 'bg-zinc-800/80 text-zinc-300' }
+  const logoSrc = getLawLogo(law.name)
 
   return (
     <div className="bg-[#0A0A0A] min-h-screen">
-      {/* HERO con parallax */}
-      <div ref={heroRef} className="relative min-h-[45vh] flex items-end overflow-hidden">
-        {/* Imagen de fondo con parallax */}
-        {law.imageUrl && (
-          <motion.div
-            className="absolute inset-0"
-            style={{ y: imageY }}
+      {/* HERO — logo institucional sobre fondo oscuro */}
+      <div className="relative min-h-[45vh] bg-[#0A0A0A] flex flex-col items-center justify-center px-6 pt-24 pb-12">
+
+        {/* Breadcrumb */}
+        <div className="absolute top-8 left-6 md:left-10">
+          <Link
+            href="/accion?tab=marco-legal"
+            className="text-zinc-400 text-sm hover:text-white transition-colors flex items-center gap-1.5"
           >
+            ← Volver al Marco Legal
+          </Link>
+        </div>
+
+        {/* Logo institucional sobre fondo blanco */}
+        <div
+          className="bg-white rounded-2xl px-10 py-6 mb-8 flex items-center justify-center"
+          style={{ minWidth: '220px', minHeight: '110px' }}
+        >
+          {logoSrc ? (
             <img
-              src={law.imageUrl}
-              alt={law.name}
-              className="w-full h-full object-cover scale-110"
-              referrerPolicy="no-referrer"
+              src={logoSrc}
+              alt={law.emisor ?? law.name}
+              className="max-h-20 max-w-xs object-contain"
             />
-          </motion.div>
-        )}
-        {!law.imageUrl && (
-          <div className="absolute inset-0 bg-zinc-900" />
-        )}
-
-        {/* Overlay */}
-        <div className="absolute inset-0 bg-black/60" />
-
-        {/* Contenido hero */}
-        <div className="relative z-10 w-full max-w-3xl mx-auto px-6 pb-14 pt-28">
-          {/* Breadcrumb */}
-          <div className="mb-6">
-            <Link
-              href="/accion?tab=marco-legal"
-              className="text-zinc-400 text-sm hover:text-white transition-colors flex items-center gap-1.5"
+          ) : (
+            <span
+              className="font-bold text-zinc-800 text-3xl"
+              style={{ fontFamily: 'var(--font-space-grotesk), sans-serif' }}
             >
-              ← Volver al Marco Legal
-            </Link>
-          </div>
-
-          <div className="flex flex-wrap items-center gap-3 mb-4">
-            <span className={`text-xs font-semibold px-3 py-1 rounded-full backdrop-blur-sm ${badge.className}`}>
-              {badge.label}
+              {law.name.slice(0, 2).toUpperCase()}
             </span>
-            <span className="text-zinc-400 text-sm">{law.year}</span>
-          </div>
-
-          <h1
-            className="text-4xl md:text-5xl font-bold text-white leading-tight"
-            style={{ fontFamily: 'var(--font-space-grotesk), sans-serif' }}
-          >
-            {law.name}
-          </h1>
-
-          {law.emisor && (
-            <p className="text-zinc-300 mt-3 text-sm">{law.emisor}</p>
           )}
         </div>
+
+        {/* Badge tipo + año */}
+        <div className="flex flex-wrap items-center justify-center gap-3 mb-4">
+          <span className={`text-xs font-semibold px-3 py-1 rounded-full ${badge.className}`}>
+            {badge.label}
+          </span>
+          <span className="text-zinc-400 text-sm">{law.year}</span>
+        </div>
+
+        {/* Título */}
+        <h1
+          className="text-4xl md:text-5xl font-bold text-white leading-tight text-center max-w-3xl"
+          style={{ fontFamily: 'var(--font-space-grotesk), sans-serif' }}
+        >
+          {law.name}
+        </h1>
+
+        {law.emisor && (
+          <p className="text-zinc-400 mt-3 text-sm text-center">{law.emisor}</p>
+        )}
       </div>
 
       {/* CONTENIDO */}
