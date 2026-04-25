@@ -292,18 +292,22 @@ export function RayenMap({
     const map = mapRef.current?.getMap()
     if (!map) return
 
-    const areaHits = map.queryRenderedFeatures(e.point, { layers: ['areas-circle'] })
-    if (areaHits.length > 0) {
-      const p = areaHits[0].properties
-      onAreaClick?.({ nombre: p?.name ?? '', tipo: p?.type ?? null, region: p?.regionName ?? null, superficie_ha: p?.areaHa ?? null, slug: p?.slug ?? undefined })
-      return
+    if (map.getLayer('areas-circle')) {
+      const areaHits = map.queryRenderedFeatures(e.point, { layers: ['areas-circle'] })
+      if (areaHits.length > 0) {
+        const p = areaHits[0].properties
+        onAreaClick?.({ nombre: p?.name ?? '', tipo: p?.type ?? null, region: p?.regionName ?? null, superficie_ha: p?.areaHa ?? null, slug: p?.slug ?? undefined })
+        return
+      }
     }
 
-    const snaspeHits = map.queryRenderedFeatures(e.point, { layers: ['snaspe-fill'] })
-    if (snaspeHits.length > 0) {
-      const p = snaspeHits[0].properties
-      onAreaClick?.({ nombre: p?.nombre ?? '', tipo: p?.tipo ?? null, region: p?.region ?? null, superficie_ha: p?.superficie_ha ?? null })
-      return
+    if (map.getLayer('snaspe-fill')) {
+      const snaspeHits = map.queryRenderedFeatures(e.point, { layers: ['snaspe-fill'] })
+      if (snaspeHits.length > 0) {
+        const p = snaspeHits[0].properties
+        onAreaClick?.({ nombre: p?.nombre ?? '', tipo: p?.tipo ?? null, region: p?.region ?? null, superficie_ha: p?.superficie_ha ?? null })
+        return
+      }
     }
 
     const clusterHits = map.queryRenderedFeatures(e.point, { layers: ['clusters'] })
@@ -342,16 +346,20 @@ export function RayenMap({
       return
     }
 
-    const areaHits = map.queryRenderedFeatures(e.point, { layers: ['areas-circle'] })
-    if (areaHits.length > 0) {
-      const p = areaHits[0].properties
-      map.getCanvas().style.cursor = 'pointer'
-      setTooltip({ x: e.point.x, y: e.point.y, commonName: p?.name ?? '', photoUrl: null, uicnStatus: null, regionCode: null })
-      setSnaspeHover(null)
-      return
+    if (map.getLayer('areas-circle')) {
+      const areaHits = map.queryRenderedFeatures(e.point, { layers: ['areas-circle'] })
+      if (areaHits.length > 0) {
+        const p = areaHits[0].properties
+        map.getCanvas().style.cursor = 'pointer'
+        setTooltip({ x: e.point.x, y: e.point.y, commonName: p?.name ?? '', photoUrl: null, uicnStatus: null, regionCode: null })
+        setSnaspeHover(null)
+        return
+      }
     }
 
-    const snaspeHits = map.queryRenderedFeatures(e.point, { layers: ['snaspe-fill'] })
+    const snaspeHits = map.getLayer('snaspe-fill')
+      ? map.queryRenderedFeatures(e.point, { layers: ['snaspe-fill'] })
+      : []
     if (snaspeHits.length > 0) {
       const feature = snaspeHits[0]
       const p = feature.properties
