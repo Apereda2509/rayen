@@ -101,7 +101,9 @@ export default async function AccionPage() {
     return (
       <div className="bg-[#0A0A0A] min-h-screen flex items-center justify-center">
         <div className="text-center px-4">
-          <h1 className="font-grotesk text-2xl font-bold text-white mb-2">Acción temporalmente no disponible</h1>
+          <h1 className="font-grotesk text-2xl font-bold text-white mb-2">
+            Acción temporalmente no disponible
+          </h1>
           <p className="text-zinc-500 max-w-md mx-auto text-sm">
             Estamos teniendo problemas para cargar el contenido. Por favor intenta de nuevo en unos minutos.
           </p>
@@ -112,15 +114,14 @@ export default async function AccionPage() {
 
   return (
     <div className="bg-[#0A0A0A] min-h-screen">
-      <div className="max-w-7xl mx-auto px-4 py-10">
-        {/* Hero con parallax */}
-        <AccionHero
-          petitionsCount={petitions.length}
-          orgsCount={organizations.length}
-          lawsCount={laws.length}
-        />
+      {/* Hero cinematográfico — ancho completo */}
+      <AccionHero
+        petitionsCount={petitions.length}
+        orgsCount={organizations.length}
+      />
 
-        {/* Tabs con contenido */}
+      {/* Contenido con tabs */}
+      <div id="accion-tabs" className="max-w-7xl mx-auto px-4 py-10">
         <AccionTabs
           petitions={JSON.parse(JSON.stringify(petitions))}
           organizations={JSON.parse(JSON.stringify(organizations))}

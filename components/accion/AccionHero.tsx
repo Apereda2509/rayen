@@ -1,109 +1,184 @@
 'use client'
 
-import { useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion'
+import Link from 'next/link'
+
+// Video de fondo: usa la variable de entorno NEXT_PUBLIC_HERO_VIDEO_URL
+// Si no existe, fallback a demo Cloudinary (naturaleza)
+const VIDEO_SRC =
+  process.env.NEXT_PUBLIC_HERO_VIDEO_URL ||
+  'https://res.cloudinary.com/demo/video/upload/v1/samples/sea-turtle.mp4'
+
+// Imagen poster (fallback si el video no carga o prefers-reduced-motion)
+const POSTER_SRC =
+  'https://inaturalist-open-data.s3.amazonaws.com/photos/343001023/large.jpg'
+
+// ── Contador animado ──────────────────────────────────────────
+function AnimatedCount({ target, suffix = '' }: { target: number; suffix?: string }) {
+  const [count, setCount] = useState(0)
+  const started = useRef(false)
+
+  useEffect(() => {
+    if (started.current) return
+    started.current = true
+    const duration = 1400
+    const start = performance.now()
+    function tick(now: number) {
+      const progress = Math.min((now - start) / duration, 1)
+      const eased = 1 - Math.pow(1 - progress, 3)
+      setCount(Math.round(eased * target))
+      if (progress < 1) requestAnimationFrame(tick)
+    }
+    requestAnimationFrame(tick)
+  }, [target])
+
+  return (
+    <span style={{ fontFamily: 'var(--font-space-grotesk), sans-serif' }}>
+      {count.toLocaleString('es-CL')}
+      {suffix}
+    </span>
+  )
+}
 
 interface Props {
   petitionsCount: number
   orgsCount: number
-  lawsCount: number
 }
 
-export function AccionHero({ petitionsCount, orgsCount, lawsCount }: Props) {
-  const ref = useRef<HTMLDivElement>(null)
+export function AccionHero({ petitionsCount, orgsCount }: Props) {
   const reduced = useReducedMotion()
+  const { scrollY } = useScroll()
 
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ['start start', 'end start'],
-  })
-
-  const bgY = useTransform(scrollYProgress, [0, 1], reduced ? [0, 0] : [0, 150])
-  const textY = useTransform(scrollYProgress, [0, 1], reduced ? [0, 0] : [0, 60])
-  const opacity = useTransform(scrollYProgress, [0, 0.7], [1, 0])
+  // El texto sube a 0.15x la velocidad del scroll
+  const textY = useTransform(scrollY, [0, 600], reduced ? [0, 0] : [0, -90])
+  const opacity = useTransform(scrollY, [0, 400], [1, 0])
 
   return (
-    <div ref={ref} className="relative overflow-hidden mb-10">
-      {/* Fondo degradado con parallax */}
-      <motion.div
-        className="absolute inset-0 pointer-events-none"
-        style={{ y: bgY }}
-      >
-        <div className="absolute inset-0 bg-gradient-to-br from-zinc-900 via-[#0A0A0A] to-zinc-900" />
-        {/* Orbe decorativo verde */}
-        <div className="absolute -top-20 -right-20 w-96 h-96 rounded-full bg-[#00E676]/5 blur-3xl" />
-        <div className="absolute top-10 -left-10 w-64 h-64 rounded-full bg-[#00E676]/3 blur-2xl" />
-      </motion.div>
+    <div className="relative min-h-[70vh] overflow-hidden flex items-center">
+      {/* ── Fondo de video ──────────────────────────────────── */}
+      {!reduced ? (
+        <video
+          className="absolute inset-0 w-full h-full object-cover pointer-events-none"
+          src={VIDEO_SRC}
+          poster={POSTER_SRC}
+          autoPlay
+          loop
+          muted
+          playsInline
+          aria-hidden="true"
+        />
+      ) : (
+        /* Cuando el usuario prefiere reduced-motion, usar solo imagen */
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: `url(${POSTER_SRC})` }}
+          aria-hidden="true"
+        />
+      )}
 
-      {/* Contenido hero con parallax suave */}
-      <motion.div className="relative z-10 py-12" style={{ y: textY, opacity }}>
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
+      {/* ── Overlay degradado ───────────────────────────────── */}
+      <div
+        className="absolute inset-0"
+        style={{
+          background:
+            'linear-gradient(to bottom, rgba(0,0,0,0.70) 0%, rgba(0,0,0,0.40) 50%, #0A0A0A 100%)',
+        }}
+      />
+
+      {/* ── Contenido con parallax ──────────────────────────── */}
+      <motion.div
+        className="relative z-10 w-full flex flex-col items-center justify-center text-center px-6 pt-20 pb-16"
+        style={{ y: textY, opacity }}
+      >
+        {/* Eyebrow */}
+        <motion.span
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: 'easeOut' }}
+          className="inline-block text-sm font-medium tracking-widest uppercase mb-4"
+          style={{ color: '#00E676', fontFamily: 'var(--font-inter), sans-serif' }}
         >
-          <span className="inline-block text-[#00E676] text-xs font-semibold tracking-widest uppercase mb-3">
-            Actúa por la biodiversidad
-          </span>
-          <h1
-            className="text-4xl md:text-5xl font-bold text-white mb-4 leading-tight"
-            style={{ fontFamily: 'var(--font-space-grotesk), sans-serif' }}
-          >
-            Acción
-          </h1>
-          <p
-            className="text-zinc-400 max-w-2xl text-base md:text-lg leading-relaxed"
-            style={{ fontFamily: 'var(--font-inter), sans-serif' }}
-          >
-            La biodiversidad de Chile necesita defensores. Firma peticiones, conoce las
-            organizaciones que trabajan en conservación, entiende el marco legal y aprende
-            qué hacer cuando presencias una emergencia ambiental.
-          </p>
-        </motion.div>
+          Tu acción importa
+        </motion.span>
 
-        {/* Stats */}
+        {/* Título principal */}
+        <motion.h1
+          initial={{ opacity: 0, y: 28 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.1, ease: 'easeOut' }}
+          className="text-5xl md:text-7xl font-bold text-white leading-tight max-w-4xl"
+          style={{ fontFamily: 'var(--font-space-grotesk), sans-serif' }}
+        >
+          Protege la biodiversidad de Chile
+        </motion.h1>
+
+        {/* Subtítulo */}
+        <motion.p
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.2, ease: 'easeOut' }}
+          className="text-xl text-zinc-300 max-w-2xl mt-6 leading-relaxed"
+          style={{ fontFamily: 'var(--font-inter), sans-serif' }}
+        >
+          Firma peticiones, conoce el marco legal y únete a las organizaciones que
+          trabajan por la naturaleza nativa de Chile.
+        </motion.p>
+
+        {/* CTAs */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.15, ease: 'easeOut' }}
-          className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-8"
+          transition={{ duration: 0.6, delay: 0.32, ease: 'easeOut' }}
+          className="flex flex-wrap gap-4 justify-center mt-10"
         >
-          <div className="rounded-2xl bg-zinc-900 border border-zinc-800 p-4 text-center">
-            <p
-              className="text-2xl font-bold text-white"
-              style={{ fontFamily: 'var(--font-space-grotesk), sans-serif' }}
-            >
-              {petitionsCount}
-            </p>
-            <p className="text-xs text-zinc-500 mt-0.5">Peticiones activas</p>
-          </div>
-          <div className="rounded-2xl bg-zinc-900 border border-zinc-800 p-4 text-center">
-            <p
-              className="text-2xl font-bold text-[#00E676]"
-              style={{ fontFamily: 'var(--font-space-grotesk), sans-serif' }}
-            >
-              {orgsCount}
-            </p>
-            <p className="text-xs text-zinc-500 mt-0.5">Organizaciones aliadas</p>
-          </div>
-          <div className="rounded-2xl bg-zinc-900 border border-zinc-800 p-4 text-center">
-            <p
-              className="text-2xl font-bold text-[#00E676]"
-              style={{ fontFamily: 'var(--font-space-grotesk), sans-serif' }}
-            >
-              {lawsCount}
-            </p>
-            <p className="text-xs text-zinc-500 mt-0.5">Leyes de protección</p>
-          </div>
-          <div className="rounded-2xl bg-zinc-900 border border-zinc-800 p-4 text-center">
-            <p
-              className="text-2xl font-bold text-[#00E676]"
-              style={{ fontFamily: 'var(--font-space-grotesk), sans-serif' }}
-            >
-              6
-            </p>
-            <p className="text-xs text-zinc-500 mt-0.5">Guías de acción</p>
-          </div>
+          <Link
+            href="#peticiones"
+            onClick={e => {
+              e.preventDefault()
+              document.querySelector('[data-tab="peticiones"]')?.dispatchEvent(new MouseEvent('click', { bubbles: true }))
+              window.scrollTo({ top: document.getElementById('accion-tabs')?.offsetTop ?? 600, behavior: 'smooth' })
+            }}
+            className="bg-[#00E676] text-black font-semibold rounded-xl px-8 py-3 hover:bg-[#00C060] transition-colors text-sm"
+          >
+            Firmar una petición
+          </Link>
+          <Link
+            href="#legal"
+            onClick={e => {
+              e.preventDefault()
+              window.scrollTo({ top: document.getElementById('accion-tabs')?.offsetTop ?? 600, behavior: 'smooth' })
+            }}
+            className="border border-zinc-500 text-white rounded-xl px-8 py-3 hover:bg-zinc-800/70 transition-colors text-sm backdrop-blur-sm"
+          >
+            Ver el Marco Legal
+          </Link>
+        </motion.div>
+
+        {/* Stat row */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.5, ease: 'easeOut' }}
+          className="flex items-center gap-0 mt-14 divide-x divide-zinc-600"
+        >
+          {[
+            { value: petitionsCount, label: 'peticiones activas' },
+            { value: orgsCount,      label: 'organizaciones aliadas' },
+            { value: 106,            label: 'áreas protegidas' },
+          ].map(({ value, label }, i) => (
+            <div key={i} className="flex flex-col items-center px-8 first:pl-0 last:pr-0">
+              <span className="text-3xl font-bold text-white tabular-nums">
+                <AnimatedCount target={value} />
+              </span>
+              <span
+                className="text-xs text-zinc-400 mt-1 whitespace-nowrap"
+                style={{ fontFamily: 'var(--font-inter), sans-serif' }}
+              >
+                {label}
+              </span>
+            </div>
+          ))}
         </motion.div>
       </motion.div>
     </div>
