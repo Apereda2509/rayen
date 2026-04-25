@@ -64,6 +64,7 @@ export default async function MapaPage({ searchParams }: Props) {
       photoUrl: s.primaryPhoto ?? s.photoUrl,
       observedAt: s.observedAt ?? null,
       observerName: s.observerName ?? null,
+      regionCode: s.regionCode ?? null,
     },
   }))
 
