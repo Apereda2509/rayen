@@ -2,7 +2,7 @@
 
 import { useState, useMemo, useCallback } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
-import { Search, List, X, ChevronLeft, ChevronRight } from 'lucide-react'
+import { Search, List, X } from 'lucide-react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import nextDynamic from 'next/dynamic'
 import { MapLegend } from '@/components/map/MapLegend'
@@ -103,7 +103,7 @@ export function MapLayout({
   const [search, setSearch] = useState('')
   const [selectedSlug, setSelectedSlug] = useState<string | null>(null)
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true)
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false)
 
   // ── URL push ─────────────────────────────────────────────
   const pushFilters = useCallback((
@@ -400,66 +400,35 @@ export function MapLayout({
   }
 
   return (
-    <div className="flex h-[calc(100vh-3.5rem)]">
+    <div className="relative h-[calc(100vh-3.5rem)]">
 
-      {/* ── Desktop sidebar wrapper (handles collapse) ───────── */}
-      <div className="hidden lg:block relative flex-shrink-0 h-full">
-        <motion.aside
-          className="h-full flex flex-col bg-zinc-950 overflow-hidden"
-          animate={{ width: isSidebarOpen ? 320 : 0 }}
-          transition={{ duration: 0.3, ease: 'easeInOut' }}
-        >
-          {/* Fixed-width inner — clips at the aside boundary */}
-          <div className="w-80 h-full flex flex-col">
-
-            {/* Header */}
-            <div className="p-4 border-b border-zinc-800 flex-shrink-0">
-              <h2 className="font-grotesk font-semibold text-white text-lg leading-tight">
-                Avistamientos
-              </h2>
-              <p className="text-zinc-500 text-sm mt-0.5">
-                {speciesList.length} especies documentadas
-              </p>
-              <div className="relative mt-3">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-500 pointer-events-none" />
-                <input
-                  type="text"
-                  placeholder="Buscar especie..."
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                  className="w-full bg-zinc-900 border border-zinc-800 rounded-lg pl-9 pr-3 py-2 text-sm text-zinc-200 placeholder:text-zinc-600 focus:outline-none focus:border-zinc-700 transition-colors"
-                />
-              </div>
-            </div>
-
-            {/* Scrollable filters + species list */}
-            <SidebarBody />
-          </div>
-
-          {/* Right border line */}
-          <div className="absolute right-0 top-0 h-full w-px bg-zinc-800 pointer-events-none" />
-        </motion.aside>
-
-        {/* Collapse / expand toggle button */}
-        <button
-          onClick={() => setIsSidebarOpen((v) => !v)}
-          className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 z-20 bg-zinc-800 border border-zinc-700 rounded-full p-1.5 text-zinc-400 hover:text-white hover:bg-zinc-700 transition-colors shadow-md"
-          aria-label={isSidebarOpen ? 'Colapsar sidebar' : 'Expandir sidebar'}
-        >
-          {isSidebarOpen
-            ? <ChevronLeft className="h-3.5 w-3.5" />
-            : <ChevronRight className="h-3.5 w-3.5" />}
-        </button>
-      </div>
-
-      {/* ── Map column ───────────────────────────────────────── */}
-      <div className="flex-1 relative" data-cursor="dark">
+      {/* ── Map — always full area ────────────────────────────── */}
+      <div className="w-full h-full" data-cursor="dark">
         <RayenMap
           sightings={sightings as any}
           showProtectedAreas={showProtectedAreas}
           selectedAreaSlugs={selectedAreaSlugs}
           selectedSlug={selectedSlug}
         />
+
+        {/* Desktop: floating open button (hidden when sidebar is open) */}
+        <AnimatePresence>
+          {!isSidebarOpen && (
+            <motion.button
+              key="open-btn"
+              initial={{ opacity: 0, x: -8 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -8 }}
+              transition={{ duration: 0.2 }}
+              onClick={() => setIsSidebarOpen(true)}
+              className="hidden lg:flex absolute top-4 left-4 z-10 items-center gap-2 bg-zinc-900 border border-zinc-800 rounded-xl px-3 py-2 hover:bg-zinc-800 transition-colors shadow-lg"
+              aria-label="Abrir panel de especies"
+            >
+              <GridBloomLogo size={20} />
+              <span className="font-grotesk font-semibold text-white text-sm">Especies</span>
+            </motion.button>
+          )}
+        </AnimatePresence>
 
         <div className="absolute bottom-4 right-4 z-10">
           <MapLegend />
@@ -474,6 +443,54 @@ export function MapLayout({
           <List className="h-5 w-5" />
         </button>
       </div>
+
+      {/* ── Desktop sidebar — slides over the map ────────────── */}
+      <AnimatePresence>
+        {isSidebarOpen && (
+          <motion.aside
+            key="sidebar"
+            initial={{ x: -320 }}
+            animate={{ x: 0 }}
+            exit={{ x: -320 }}
+            transition={{ duration: 0.3, ease: 'easeInOut' }}
+            className="hidden lg:flex lg:flex-col absolute left-0 top-0 h-full w-80 bg-zinc-950 border-r border-zinc-800 z-20 shadow-2xl"
+          >
+            {/* Header */}
+            <div className="p-4 border-b border-zinc-800 flex-shrink-0">
+              <div className="flex items-start justify-between">
+                <div>
+                  <h2 className="font-grotesk font-semibold text-white text-lg leading-tight">
+                    Avistamientos
+                  </h2>
+                  <p className="text-zinc-500 text-sm mt-0.5">
+                    {speciesList.length} especies documentadas
+                  </p>
+                </div>
+                <button
+                  onClick={() => setIsSidebarOpen(false)}
+                  className="text-zinc-400 hover:text-white transition-colors p-1 -mr-1 flex-shrink-0 mt-0.5"
+                  aria-label="Cerrar panel"
+                >
+                  <X className="h-5 w-5" />
+                </button>
+              </div>
+              <div className="relative mt-3">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-500 pointer-events-none" />
+                <input
+                  type="text"
+                  placeholder="Buscar especie..."
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  className="w-full bg-zinc-900 border border-zinc-800 rounded-lg pl-9 pr-3 py-2 text-sm text-zinc-200 placeholder:text-zinc-600 focus:outline-none focus:border-zinc-700 transition-colors"
+                />
+              </div>
+            </div>
+
+            {/* Scrollable filters + species list */}
+            <SidebarBody />
+          </motion.aside>
+        )}
+      </AnimatePresence>
 
       {/* ── Mobile drawer ────────────────────────────────────── */}
       <AnimatePresence>
@@ -592,6 +609,27 @@ function DarkCheckbox({
       />
       {label}
     </label>
+  )
+}
+
+function GridBloomLogo({ size = 20 }: { size?: number }) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 32 32"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+    >
+      <circle cx="16" cy="16" r="2.5" fill="#00E676" />
+      <circle cx="16" cy="7"  r="3.5" fill="#00E676" />
+      <circle cx="23.8" cy="11.5" r="3.5" fill="#00E676" />
+      <circle cx="23.8" cy="20.5" r="3.5" fill="#00E676" />
+      <circle cx="16" cy="25" r="3.5" fill="#00E676" />
+      <circle cx="8.2" cy="20.5" r="3.5" fill="#00E676" />
+      <circle cx="8.2" cy="11.5" r="3.5" fill="#00E676" />
+    </svg>
   )
 }
 
