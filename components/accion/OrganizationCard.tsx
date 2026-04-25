@@ -108,25 +108,17 @@ const logoMap: Record<string, string> = {
   'fundacion-rewilding-chile':     '/logos/rewilding-chile.png',
   'sbap':                          '/logos/sbap.svg',
   'tompkins-conservation':         '/logos/tompkins.svg',
-  'uach-ies':                      '/logos/uach.png',
-  'universidad-austral':           '/logos/uach.png',
+  'uach-ies':                      '/logos/uach.jpg',
+  'universidad-austral':           '/logos/uach.jpg',
   'wcs-chile':                     '/logos/wcs-chile.webp',
   'wildlife-conservation-society': '/logos/wcs-chile.webp',
   'wwf-chile':                     '/logos/wwf.png',
 }
 
-const lightBgLogos = [
-  'oceana-chile', 'wwf-chile', 'tompkins-conservation',
-  'fundacion-bosque-nativo', 'centro-cultural-bosque-nativo',
-  'conaf', 'ieb-chile', 'ieb', 'wcs-chile', 'wildlife-conservation-society', 'uach-ies', 'universidad-austral',
-]
-
 export function OrganizationCard({ org, index }: Props) {
   const meta = (org.slug ? orgMeta[org.slug] : undefined) ?? { foco: 'Conservación ambiental', zona: 'Chile' }
   const typeLabel = ORG_TYPE_LABELS[org.type] ?? org.type
   const logoSrc = org.slug ? (logoMap[org.slug] ?? null) : null
-  const isLight = org.slug ? lightBgLogos.includes(org.slug) : false
-  const logoBg = isLight ? 'bg-white' : 'bg-zinc-800'
 
   const initials = org.name
     .split(' ')
@@ -140,11 +132,25 @@ export function OrganizationCard({ org, index }: Props) {
       {/* Columna logo */}
       <div className="flex-shrink-0 flex flex-col items-center">
         {logoSrc ? (
-          <div className={`w-20 h-20 rounded-2xl ${logoBg} p-2 flex items-center justify-center ring-1 ring-zinc-700`}>
-            <img src={logoSrc} alt={org.name} className="w-full h-full object-contain" />
+          <div className="w-20 h-20 rounded-2xl bg-white p-2.5 flex items-center justify-center ring-1 ring-zinc-700 flex-shrink-0">
+            <img
+              src={logoSrc}
+              alt={org.name}
+              className="w-full h-full object-contain"
+              onError={(e) => {
+                const el = e.currentTarget
+                el.style.display = 'none'
+                const parent = el.parentElement!
+                parent.className = 'w-20 h-20 rounded-2xl bg-zinc-800 ring-1 ring-zinc-700 flex items-center justify-center flex-shrink-0'
+                const span = document.createElement('span')
+                span.className = 'font-bold text-[#00E676] text-xl'
+                span.textContent = org.name.split(' ').map((w: string) => w[0]).slice(0, 2).join('')
+                parent.appendChild(span)
+              }}
+            />
           </div>
         ) : (
-          <div className="w-20 h-20 rounded-2xl bg-zinc-800 ring-1 ring-zinc-700 flex items-center justify-center">
+          <div className="w-20 h-20 rounded-2xl bg-zinc-800 ring-1 ring-zinc-700 flex items-center justify-center flex-shrink-0">
             <span className="font-grotesk font-bold text-[#00E676] text-xl">{initials}</span>
           </div>
         )}
