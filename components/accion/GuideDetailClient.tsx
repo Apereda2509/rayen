@@ -89,21 +89,21 @@ export function GuideDetailClient({ guide, guideNumber }: Props) {
 
         <div className="relative max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
           {/* Columna izquierda — texto */}
-          <motion.div style={{ y: titleY }}>
+          <motion.div style={{ y: titleY }} className="flex flex-col">
             <Link
               href="/accion?tab=guias"
-              className="inline-flex items-center gap-1.5 text-zinc-500 hover:text-white text-sm transition-colors mb-8"
+              className="inline-flex items-center gap-1.5 text-zinc-500 hover:text-white text-sm transition-colors mb-6 w-fit"
             >
               <ArrowLeftIcon />
               Volver a Guías
             </Link>
 
-            <span className="inline-flex items-center bg-[#00E676]/10 text-[#00E676] border border-[#00E676]/20 rounded-full px-4 py-1.5 text-xs tracking-widest uppercase font-medium">
+            <span className="inline-flex items-center bg-[#00E676]/10 text-[#00E676] border border-[#00E676]/20 rounded-full px-4 py-1.5 text-xs tracking-widest uppercase font-medium w-fit mb-4">
               {guide.category}
             </span>
 
             <h1
-              className="font-grotesk font-bold text-white leading-[1.05] mt-6"
+              className="font-grotesk font-bold text-white leading-[1.05]"
               style={{ fontSize: 'clamp(2.5rem, 5vw, 4.5rem)' }}
             >
               {guide.title}
