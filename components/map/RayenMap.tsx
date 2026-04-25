@@ -41,6 +41,17 @@ const SNASPE_TIPO_LABELS: Record<string, string> = {
   Monumentos: 'Monumento Natural',
 }
 
+// ── Ecosystem → SNASPE regions mapping ───────────────────────
+const ECO_TO_REGIONS: Record<string, string[]> = {
+  desierto_atacama:         ['DE TARAPACA', 'DE ANTOFAGASTA'],
+  altiplano:                ['DE TARAPACA', 'DE ANTOFAGASTA'],
+  matorral_esclerofilo:     ['DE VALPARAISO', 'METROPOLITANA', 'DEL LIBERTADOR B OHIGGINS', 'DEL MAULE'],
+  bosque_valdiviano:        ['DEL BIO-BIO', 'DE LA ARAUCANIA', 'DE LOS LAGOS'],
+  bosque_andino_patagonico: ['DE AISEN', 'DE MAGALLANES y ANTARTICA CHILENA'],
+  litoral_rocoso:           ['DEL BIO-BIO', 'DE LA ARAUCANIA', 'DE LOS LAGOS'],
+  humedales:                ['DE AISEN', 'DE MAGALLANES y ANTARTICA CHILENA'],
+}
+
 interface SightingFeature {
   type: 'Feature'
   geometry: { type: 'Point'; coordinates: [number, number] }
@@ -101,9 +112,12 @@ interface Props {
   selectedAreaSlugs?: string[]
   onMarkerClick?: (speciesId: string) => void
   selectedSlug?: string | null
+  snaspeTipo?: string | null
+  snaspeRegion?: string | null
+  snaspeEcos?: Set<string>
 }
 
-export function RayenMap({ sightings, showProtectedAreas = false, selectedAreaSlugs = [], onMarkerClick, selectedSlug }: Props) {
+export function RayenMap({ sightings, showProtectedAreas = false, selectedAreaSlugs = [], onMarkerClick, selectedSlug, snaspeTipo, snaspeRegion, snaspeEcos }: Props) {
   const router = useRouter()
   const mapRef = useRef<MapRef>(null)
   const [popupInfo, setPopupInfo] = useState<{
@@ -117,6 +131,7 @@ export function RayenMap({ sightings, showProtectedAreas = false, selectedAreaSl
   const [areasGeojson, setAreasGeojson] = useState<any>(null)
   const [snaspeGeojson, setSnaspeGeojson] = useState<any>(null)
   const [locating, setLocating] = useState(false)
+  const [mapLoaded, setMapLoaded] = useState(false)
   const hoveredSnaspeId = useRef<number | null>(null)
 
   // ── Carga áreas protegidas (puntos) ──────────────────────
@@ -141,6 +156,53 @@ export function RayenMap({ sightings, showProtectedAreas = false, selectedAreaSl
         setSnaspeGeojson(null)
       })
   }, [])
+
+  // ── Feature-state: selected/dimmed por filtros SNASPE ────
+  useEffect(() => {
+    const map = mapRef.current?.getMap()
+    if (!map || !mapLoaded || !snaspeGeojson) return
+    if (!map.getSource('snaspe')) return
+
+    const hasTipo   = snaspeTipo != null
+    const hasRegion = snaspeRegion != null
+    const hasEco    = (snaspeEcos?.size ?? 0) > 0
+    const hasFilter = hasTipo || hasRegion || hasEco
+
+    let ecoRegions: Set<string> | null = null
+    if (hasEco && snaspeEcos) {
+      ecoRegions = new Set<string>()
+      snaspeEcos.forEach((eco) => {
+        ;(ECO_TO_REGIONS[eco] ?? []).forEach((r) => ecoRegions!.add(r))
+      })
+    }
+
+    snaspeGeojson.features.forEach((f: any) => {
+      const id = f.id
+      if (id == null) return
+      const p = f.properties
+
+      if (!hasFilter) {
+        map.setFeatureState({ source: 'snaspe', id }, { selected: false, dimmed: false })
+        return
+      }
+
+      let matches = true
+      if (hasTipo) {
+        matches = snaspeTipo === '__sin_tipo__'
+          ? (!p.tipo || p.tipo === '')
+          : p.tipo === snaspeTipo
+      }
+      if (matches && hasRegion) {
+        matches = p.region === snaspeRegion
+      }
+      if (matches && ecoRegions) {
+        matches = ecoRegions.has(p.region)
+      }
+
+      map.setFeatureState({ source: 'snaspe', id }, { selected: matches, dimmed: !matches })
+    })
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [snaspeTipo, snaspeRegion, snaspeEcos, snaspeGeojson, mapLoaded])
 
   // ── FlyTo cuando cambia especie seleccionada ─────────────
   useEffect(() => {
@@ -202,7 +264,13 @@ export function RayenMap({ sightings, showProtectedAreas = false, selectedAreaSl
     source: 'snaspe',
     paint: {
       'fill-color': '#00E676',
-      'fill-opacity': ['case', ['boolean', ['feature-state', 'hover'], false], 0.5, 0.12] as any,
+      'fill-opacity': [
+        'case',
+        ['boolean', ['feature-state', 'hover'],     false], 0.5,
+        ['boolean', ['feature-state', 'selected'],  false], 0.5,
+        ['boolean', ['feature-state', 'dimmed'],    false], 0.03,
+        0.12,
+      ] as any,
     },
   }
 
@@ -211,9 +279,24 @@ export function RayenMap({ sightings, showProtectedAreas = false, selectedAreaSl
     type: 'line',
     source: 'snaspe',
     paint: {
-      'line-color': '#00E676',
-      'line-width': ['case', ['boolean', ['feature-state', 'hover'], false], 5, 2] as any,
-      'line-opacity': ['case', ['boolean', ['feature-state', 'hover'], false], 1, 0.8] as any,
+      'line-color': [
+        'case',
+        ['boolean', ['feature-state', 'selected'], false], '#000000',
+        '#00E676',
+      ] as any,
+      'line-width': [
+        'case',
+        ['boolean', ['feature-state', 'hover'],    false], 5,
+        ['boolean', ['feature-state', 'selected'], false], 3,
+        2,
+      ] as any,
+      'line-opacity': [
+        'case',
+        ['boolean', ['feature-state', 'hover'],    false], 1,
+        ['boolean', ['feature-state', 'selected'], false], 1,
+        ['boolean', ['feature-state', 'dimmed'],   false], 0.2,
+        0.8,
+      ] as any,
     },
   }
 
@@ -224,7 +307,11 @@ export function RayenMap({ sightings, showProtectedAreas = false, selectedAreaSl
     paint: {
       'line-color': '#00E676',
       'line-width': ['case', ['boolean', ['feature-state', 'hover'], false], 12, 0] as any,
-      'line-opacity': ['case', ['boolean', ['feature-state', 'hover'], false], 0.3, 0] as any,
+      'line-opacity': [
+        'case',
+        ['boolean', ['feature-state', 'dimmed'], false], 0,
+        ['case', ['boolean', ['feature-state', 'hover'], false], 0.3, 0],
+      ] as any,
       'line-blur': 6,
     },
   }
@@ -501,6 +588,7 @@ export function RayenMap({ sightings, showProtectedAreas = false, selectedAreaSl
         mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_TOKEN}
         style={{ width: '100%', height: '100%' }}
         interactiveLayerIds={['clusters', 'unclustered-point', 'areas-circle', 'snaspe-fill']}
+        onLoad={() => setMapLoaded(true)}
         onClick={onClick}
         onMouseMove={onMouseMove}
         onMouseLeave={onMouseLeave}

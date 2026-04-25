@@ -70,6 +70,30 @@ const ECOSYSTEMS = [
   { slug: 'humedales',                label: 'Humedales' },
 ]
 
+const SNASPE_TIPOS: { value: string | null; label: string }[] = [
+  { value: null,            label: 'Todos' },
+  { value: 'Parques',       label: 'Parques' },
+  { value: 'Reservas',      label: 'Reservas' },
+  { value: 'Monumentos',    label: 'Monumentos' },
+  { value: '__sin_tipo__',  label: 'Sin clasificar' },
+]
+
+const REGION_LABELS: [string, string][] = [
+  ['DE TARAPACA',                       'Tarapacá'],
+  ['DE ANTOFAGASTA',                    'Antofagasta'],
+  ['DE ATACAMA',                        'Atacama'],
+  ['DE COQUIMBO',                       'Coquimbo'],
+  ['DE VALPARAISO',                     'Valparaíso'],
+  ['METROPOLITANA',                     'Metropolitana'],
+  ['DEL LIBERTADOR B OHIGGINS',         "O'Higgins"],
+  ['DEL MAULE',                         'Maule'],
+  ['DEL BIO-BIO',                       'Biobío'],
+  ['DE LA ARAUCANIA',                   'La Araucanía'],
+  ['DE LOS LAGOS',                      'Los Lagos'],
+  ['DE AISEN',                          'Aysén'],
+  ['DE MAGALLANES y ANTARTICA CHILENA', 'Magallanes'],
+]
+
 // ── Component ────────────────────────────────────────────────
 
 export function MapLayout({
@@ -104,6 +128,8 @@ export function MapLayout({
   const [selectedSlug, setSelectedSlug] = useState<string | null>(null)
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
+  const [snaspeTipo, setSnaspeTipo] = useState<string | null>(null)
+  const [snaspeRegion, setSnaspeRegion] = useState<string | null>(null)
 
   // ── URL push ─────────────────────────────────────────────
   const pushFilters = useCallback((
@@ -267,6 +293,38 @@ export function MapLayout({
           </div>
         </Section>
 
+        {/* Tipo de área SNASPE */}
+        <Section title="Tipo de área">
+          <div className="flex flex-wrap gap-1.5">
+            {SNASPE_TIPOS.map(({ value, label }) => (
+              <FilterChip
+                key={value ?? 'todos'}
+                active={snaspeTipo === value}
+                onClick={() => {
+                  if (value === null) setSnaspeTipo(null)
+                  else setSnaspeTipo(snaspeTipo === value ? null : value)
+                }}
+              >
+                {label}
+              </FilterChip>
+            ))}
+          </div>
+        </Section>
+
+        {/* Región SNASPE */}
+        <Section title="Región">
+          <select
+            value={snaspeRegion ?? ''}
+            onChange={(e) => setSnaspeRegion(e.target.value || null)}
+            className="w-full text-xs rounded-lg border border-zinc-800 bg-zinc-900 px-3 py-2 text-white focus:border-[#00E676] focus:outline-none transition-colors [color-scheme:dark]"
+          >
+            <option value="">Todas las regiones</option>
+            {REGION_LABELS.map(([key, label]) => (
+              <option key={key} value={key}>{label}</option>
+            ))}
+          </select>
+        </Section>
+
         {/* Atributos */}
         <Section title="Atributos">
           <div className="space-y-2">
@@ -409,6 +467,9 @@ export function MapLayout({
           showProtectedAreas={showProtectedAreas}
           selectedAreaSlugs={selectedAreaSlugs}
           selectedSlug={selectedSlug}
+          snaspeTipo={snaspeTipo}
+          snaspeRegion={snaspeRegion}
+          snaspeEcos={selectedEcos}
         />
 
         {/* Desktop: floating open button (hidden when sidebar is open) */}
