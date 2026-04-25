@@ -5,7 +5,7 @@ import { FileSignature, Building2, Scale, Megaphone } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { PetitionCard } from './PetitionCard'
 import { OrganizationCard } from './OrganizationCard'
-import { LegalSection } from './LegalSection'
+import { LawCard } from './LawCard'
 import { ActionGuides } from './ActionGuides'
 
 const ORG_TYPE_OPTIONS = [
@@ -14,6 +14,13 @@ const ORG_TYPE_OPTIONS = [
   { value: 'fundacion',   label: 'Fundación' },
   { value: 'universidad', label: 'Universidad' },
   { value: 'gobierno',    label: 'Gobierno' },
+]
+
+const LAW_TYPE_OPTIONS = [
+  { value: '',                     label: 'Todos' },
+  { value: 'ley',                  label: 'Ley' },
+  { value: 'decreto',              label: 'Decreto' },
+  { value: 'convenio_internacional', label: 'Convenio Internacional' },
 ]
 
 const TABS = [
@@ -48,10 +55,15 @@ function SectionTitle({ children }: { children: React.ReactNode }) {
 export function AccionTabs({ petitions, organizations, laws, isLoggedIn }: Props) {
   const [activeTab, setActiveTab] = useState<TabId>('peticiones')
   const [orgTypeFilter, setOrgTypeFilter] = useState('')
+  const [lawTypeFilter, setLawTypeFilter] = useState('')
 
   const filteredOrgs = orgTypeFilter
     ? organizations.filter(o => o.type === orgTypeFilter)
     : organizations
+
+  const filteredLaws = lawTypeFilter
+    ? laws.filter((l: any) => l.type === lawTypeFilter)
+    : laws
 
   return (
     <div>
@@ -139,13 +151,42 @@ export function AccionTabs({ petitions, organizations, laws, isLoggedIn }: Props
         <div>
           <SectionTitle>
             <h2
-              className="text-2xl font-bold text-white mb-6"
+              className="text-2xl font-bold text-white mb-4"
               style={{ fontFamily: 'var(--font-space-grotesk), sans-serif' }}
             >
               Marco legal de protección
             </h2>
+            <p className="text-zinc-500 text-sm max-w-2xl mb-6 leading-relaxed">
+              Chile cuenta con un marco legal robusto para la conservación de la biodiversidad. Estas son las principales leyes, decretos y convenios internacionales que protegen la fauna y flora silvestre.
+            </p>
+            <div className="flex flex-wrap gap-2 mb-6">
+              {LAW_TYPE_OPTIONS.map(opt => (
+                <button
+                  key={opt.value}
+                  onClick={() => setLawTypeFilter(opt.value)}
+                  className={`
+                    text-sm px-3 py-1.5 rounded-lg font-medium transition-colors
+                    ${lawTypeFilter === opt.value
+                      ? 'bg-[#00E676] text-black'
+                      : 'bg-zinc-800 text-zinc-400 hover:bg-zinc-700 hover:text-zinc-200'
+                    }
+                  `}
+                >
+                  {opt.label}
+                </button>
+              ))}
+            </div>
           </SectionTitle>
-          <LegalSection laws={laws} />
+
+          {filteredLaws.length === 0 ? (
+            <p className="text-zinc-500 text-center py-12">No hay leyes con ese filtro.</p>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {filteredLaws.map((law: any, i: number) => (
+                <LawCard key={law.id} law={law} index={i} />
+              ))}
+            </div>
+          )}
         </div>
       )}
 

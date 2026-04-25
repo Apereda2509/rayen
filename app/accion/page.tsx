@@ -70,7 +70,12 @@ async function getOrganizations() {
 
 async function getLaws() {
   return sql`
-    SELECT id, name, number, year, type, description, url
+    SELECT
+      id, name, number, year, type::text, description, url,
+      emisor, image_url AS "imageUrl",
+      short_description AS "shortDescription",
+      full_description  AS "fullDescription",
+      relevance
     FROM laws
     ORDER BY year DESC
   `
