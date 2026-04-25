@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion'
-import Link from 'next/link'
 
 // Video de fondo: usa la variable de entorno NEXT_PUBLIC_HERO_VIDEO_URL
 // Si no existe, fallback a demo Cloudinary (naturaleza)
@@ -124,36 +123,6 @@ export function AccionHero({ petitionsCount, orgsCount }: Props) {
           Firma peticiones, conoce el marco legal y únete a las organizaciones que
           trabajan por la naturaleza nativa de Chile.
         </motion.p>
-
-        {/* CTAs */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.32, ease: 'easeOut' }}
-          className="flex flex-wrap gap-4 justify-center mt-10"
-        >
-          <Link
-            href="#peticiones"
-            onClick={e => {
-              e.preventDefault()
-              document.querySelector('[data-tab="peticiones"]')?.dispatchEvent(new MouseEvent('click', { bubbles: true }))
-              window.scrollTo({ top: document.getElementById('accion-tabs')?.offsetTop ?? 600, behavior: 'smooth' })
-            }}
-            className="bg-[#00E676] text-black font-semibold rounded-xl px-8 py-3 hover:bg-[#00C060] transition-colors text-sm"
-          >
-            Firmar una petición
-          </Link>
-          <Link
-            href="#legal"
-            onClick={e => {
-              e.preventDefault()
-              window.scrollTo({ top: document.getElementById('accion-tabs')?.offsetTop ?? 600, behavior: 'smooth' })
-            }}
-            className="border border-zinc-500 text-white rounded-xl px-8 py-3 hover:bg-zinc-800/70 transition-colors text-sm backdrop-blur-sm"
-          >
-            Ver el Marco Legal
-          </Link>
-        </motion.div>
 
         {/* Stat row */}
         <motion.div
