@@ -117,6 +117,7 @@ export function RayenMap({ sightings, showProtectedAreas = false, selectedAreaSl
   const [areasGeojson, setAreasGeojson] = useState<any>(null)
   const [snaspeGeojson, setSnaspeGeojson] = useState<any>(null)
   const [locating, setLocating] = useState(false)
+  const hoveredSnaspeId = useRef<number | null>(null)
 
   // ── Carga áreas protegidas (puntos) ──────────────────────
   useEffect(() => {
@@ -201,13 +202,7 @@ export function RayenMap({ sightings, showProtectedAreas = false, selectedAreaSl
     source: 'snaspe',
     paint: {
       'fill-color': '#00E676',
-      'fill-opacity': [
-        'match', ['get', 'tipo'],
-        'Parques',    0.15,
-        'Reservas',   0.10,
-        'Monumentos', 0.12,
-        0.08,
-      ] as any,
+      'fill-opacity': ['case', ['boolean', ['feature-state', 'hover'], false], 0.35, 0.12] as any,
     },
   }
 
@@ -217,8 +212,8 @@ export function RayenMap({ sightings, showProtectedAreas = false, selectedAreaSl
     source: 'snaspe',
     paint: {
       'line-color': '#00E676',
-      'line-width': 1.5,
-      'line-opacity': 0.6,
+      'line-width': ['case', ['boolean', ['feature-state', 'hover'], false], 3, 2] as any,
+      'line-opacity': ['case', ['boolean', ['feature-state', 'hover'], false], 1, 0.8] as any,
     },
   }
 
@@ -417,7 +412,20 @@ export function RayenMap({ sightings, showProtectedAreas = false, selectedAreaSl
     // Polígonos SNASPE
     const snaspeHits = map.queryRenderedFeatures(e.point, { layers: ['snaspe-fill'] })
     if (snaspeHits.length > 0) {
-      const props = snaspeHits[0].properties
+      const feature = snaspeHits[0]
+      const props = feature.properties
+      const featureId = feature.id as number | undefined
+
+      // Limpiar hover anterior
+      if (hoveredSnaspeId.current !== null) {
+        map.setFeatureState({ source: 'snaspe', id: hoveredSnaspeId.current }, { hover: false })
+      }
+      // Activar hover nuevo
+      if (featureId != null) {
+        map.setFeatureState({ source: 'snaspe', id: featureId }, { hover: true })
+        hoveredSnaspeId.current = featureId
+      }
+
       map.getCanvas().style.cursor = 'pointer'
       setTooltip(null)
       setSnaspeHover({
@@ -431,6 +439,12 @@ export function RayenMap({ sightings, showProtectedAreas = false, selectedAreaSl
       return
     }
 
+    // Saliendo de SNASPE — limpiar feature-state
+    if (hoveredSnaspeId.current !== null) {
+      map.setFeatureState({ source: 'snaspe', id: hoveredSnaspeId.current }, { hover: false })
+      hoveredSnaspeId.current = null
+    }
+
     const clusterHits = map.queryRenderedFeatures(e.point, { layers: ['clusters'] })
     map.getCanvas().style.cursor = clusterHits.length > 0 ? 'pointer' : ''
     setTooltip(null)
@@ -438,6 +452,11 @@ export function RayenMap({ sightings, showProtectedAreas = false, selectedAreaSl
   }, [])
 
   const onMouseLeave = useCallback(() => {
+    const map = mapRef.current?.getMap()
+    if (map && hoveredSnaspeId.current !== null) {
+      map.setFeatureState({ source: 'snaspe', id: hoveredSnaspeId.current }, { hover: false })
+      hoveredSnaspeId.current = null
+    }
     if (mapRef.current) mapRef.current.getCanvas().style.cursor = ''
     setTooltip(null)
     setSnaspeHover(null)

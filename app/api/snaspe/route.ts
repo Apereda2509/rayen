@@ -29,8 +29,9 @@ export async function GET() {
 
     const featureCollection = {
       type: 'FeatureCollection',
-      features: rows.map((row) => ({
+      features: rows.map((row, i) => ({
         type: 'Feature',
+        id: i,
         geometry: row.geometry,
         properties: {
           nombre:       row.nombre,
