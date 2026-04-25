@@ -34,14 +34,14 @@ interface Props {
 
 function SectionTitle({ children }: { children: React.ReactNode }) {
   const ref = useRef<HTMLDivElement>(null)
-  const inView = useInView(ref, { once: true, margin: '-60px' })
+  const inView = useInView(ref, { once: true, amount: 0.3 })
 
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 24 }}
-      animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
-      transition={{ duration: 0.5, ease: 'easeOut' }}
+      initial={{ opacity: 0, y: 30 }}
+      animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+      transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
     >
       {children}
     </motion.div>
@@ -97,6 +97,12 @@ export function AccionTabs({ petitions, organizations, laws, isLoggedIn }: Props
       {activeTab === 'organizaciones' && (
         <div>
           <SectionTitle>
+            <h2
+              className="text-2xl font-bold text-white mb-4"
+              style={{ fontFamily: 'var(--font-space-grotesk), sans-serif' }}
+            >
+              Organizaciones aliadas
+            </h2>
             <div className="flex flex-wrap gap-2 mb-6">
               {ORG_TYPE_OPTIONS.map(opt => (
                 <button
@@ -119,15 +125,16 @@ export function AccionTabs({ petitions, organizations, laws, isLoggedIn }: Props
           {filteredOrgs.length === 0 ? (
             <p className="text-zinc-500 text-center py-12">No hay organizaciones con ese filtro.</p>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            <div className="flex flex-col gap-3 max-w-4xl mx-auto">
               {filteredOrgs.map((org, i) => (
                 <motion.div
                   key={org.id}
                   initial={{ opacity: 0, y: 40 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, ease: 'easeOut', delay: i * 0.07 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: '-60px' }}
+                  transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: i * 0.07 }}
                 >
-                  <OrganizationCard org={org} />
+                  <OrganizationCard org={org} index={i} />
                 </motion.div>
               ))}
             </div>
