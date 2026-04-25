@@ -20,7 +20,7 @@ export const guides: Guide[] = [
     difficulty: 'Fácil',
     estimatedTime: '10 min',
     imageUrl:
-      'https://images.unsplash.com/photo-1474511320723-9a56873867b5?w=900&q=80',
+      'https://inaturalist-open-data.s3.amazonaws.com/photos/1865294/medium.jpg',
     steps: [
       'Fotografía el animal sin acercarte ni perturbarlo.',
       'Anota la ubicación exacta con coordenadas GPS.',
@@ -38,7 +38,7 @@ export const guides: Guide[] = [
     difficulty: 'Fácil',
     estimatedTime: '5 min',
     imageUrl:
-      'https://images.unsplash.com/photo-1564349683136-77e08dba1ef7?w=900&q=80',
+      'https://inaturalist-open-data.s3.amazonaws.com/photos/263624688/medium.jpg',
     steps: [
       'Mantén distancia y evita el contacto directo.',
       'Fotografía al animal y anota su ubicación exacta.',
