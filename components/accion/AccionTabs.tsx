@@ -1,7 +1,8 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { FileSignature, Building2, Scale, Megaphone } from 'lucide-react'
+import { motion, useInView } from 'framer-motion'
 import { PetitionCard } from './PetitionCard'
 import { OrganizationCard } from './OrganizationCard'
 import { LegalSection } from './LegalSection'
@@ -29,6 +30,22 @@ interface Props {
   organizations: any[]
   laws: any[]
   isLoggedIn: boolean
+}
+
+function SectionTitle({ children }: { children: React.ReactNode }) {
+  const ref = useRef<HTMLDivElement>(null)
+  const inView = useInView(ref, { once: true, margin: '-60px' })
+
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 24 }}
+      animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
+      transition={{ duration: 0.5, ease: 'easeOut' }}
+    >
+      {children}
+    </motion.div>
+  )
 }
 
 export function AccionTabs({ petitions, organizations, laws, isLoggedIn }: Props) {
@@ -61,15 +78,15 @@ export function AccionTabs({ petitions, organizations, laws, isLoggedIn }: Props
         ))}
       </div>
 
-      {/* Tab: Peticiones */}
+      {/* Tab: Peticiones — cards con fadeInUp escalonado */}
       {activeTab === 'peticiones' && (
         <div>
           {petitions.length === 0 ? (
             <p className="text-zinc-500 text-center py-12">No hay peticiones activas en este momento.</p>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-              {petitions.map(p => (
-                <PetitionCard key={p.id} petition={p} isLoggedIn={isLoggedIn} />
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+              {petitions.map((p, i) => (
+                <PetitionCard key={p.id} petition={p} index={i} />
               ))}
             </div>
           )}
@@ -79,30 +96,39 @@ export function AccionTabs({ petitions, organizations, laws, isLoggedIn }: Props
       {/* Tab: Organizaciones */}
       {activeTab === 'organizaciones' && (
         <div>
-          <div className="flex flex-wrap gap-2 mb-6">
-            {ORG_TYPE_OPTIONS.map(opt => (
-              <button
-                key={opt.value}
-                onClick={() => setOrgTypeFilter(opt.value)}
-                className={`
-                  text-sm px-3 py-1.5 rounded-lg font-medium transition-colors
-                  ${orgTypeFilter === opt.value
-                    ? 'bg-[#00E676] text-black'
-                    : 'bg-zinc-800 text-zinc-400 hover:bg-zinc-700 hover:text-zinc-200'
-                  }
-                `}
-              >
-                {opt.label}
-              </button>
-            ))}
-          </div>
+          <SectionTitle>
+            <div className="flex flex-wrap gap-2 mb-6">
+              {ORG_TYPE_OPTIONS.map(opt => (
+                <button
+                  key={opt.value}
+                  onClick={() => setOrgTypeFilter(opt.value)}
+                  className={`
+                    text-sm px-3 py-1.5 rounded-lg font-medium transition-colors
+                    ${orgTypeFilter === opt.value
+                      ? 'bg-[#00E676] text-black'
+                      : 'bg-zinc-800 text-zinc-400 hover:bg-zinc-700 hover:text-zinc-200'
+                    }
+                  `}
+                >
+                  {opt.label}
+                </button>
+              ))}
+            </div>
+          </SectionTitle>
 
           {filteredOrgs.length === 0 ? (
             <p className="text-zinc-500 text-center py-12">No hay organizaciones con ese filtro.</p>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-              {filteredOrgs.map(org => (
-                <OrganizationCard key={org.id} org={org} />
+              {filteredOrgs.map((org, i) => (
+                <motion.div
+                  key={org.id}
+                  initial={{ opacity: 0, y: 40 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, ease: 'easeOut', delay: i * 0.07 }}
+                >
+                  <OrganizationCard org={org} />
+                </motion.div>
               ))}
             </div>
           )}
@@ -111,12 +137,32 @@ export function AccionTabs({ petitions, organizations, laws, isLoggedIn }: Props
 
       {/* Tab: Marco Legal */}
       {activeTab === 'legal' && (
-        <LegalSection laws={laws} />
+        <div>
+          <SectionTitle>
+            <h2
+              className="text-2xl font-bold text-white mb-6"
+              style={{ fontFamily: 'var(--font-space-grotesk), sans-serif' }}
+            >
+              Marco legal de protección
+            </h2>
+          </SectionTitle>
+          <LegalSection laws={laws} />
+        </div>
       )}
 
       {/* Tab: Guías de acción */}
       {activeTab === 'guias' && (
-        <ActionGuides />
+        <div>
+          <SectionTitle>
+            <h2
+              className="text-2xl font-bold text-white mb-6"
+              style={{ fontFamily: 'var(--font-space-grotesk), sans-serif' }}
+            >
+              Guías de acción
+            </h2>
+          </SectionTitle>
+          <ActionGuides />
+        </div>
       )}
     </div>
   )

@@ -91,6 +91,15 @@ export default async function PerfilPublicoPage({ params }: Props) {
     ORDER BY sg.created_at DESC LIMIT 50
   `
 
+  // Peticiones firmadas (sección pública)
+  const signedPetitions = await sql<{ id: string; slug: string; title: string }[]>`
+    SELECT p.id, p.slug, p.title
+    FROM petition_signatures ps
+    JOIN petitions p ON p.id = ps.petition_id
+    WHERE ps.user_id = ${user.id}::uuid AND p.active = TRUE
+    ORDER BY ps.created_at DESC
+  `
+
   return (
     <PerfilClient
       user={user}
@@ -99,6 +108,7 @@ export default async function PerfilPublicoPage({ params }: Props) {
       photos={photos}
       speciesFavorites={speciesFavorites}
       sightings={sightings}
+      signedPetitions={signedPetitions}
       isOwner={false}
     />
   )

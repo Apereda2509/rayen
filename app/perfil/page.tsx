@@ -72,6 +72,15 @@ export default async function PerfilPage() {
     WHERE sf.user_id = ${user.id} ORDER BY sf.created_at DESC
   `
 
+  // Peticiones firmadas
+  const signedPetitions = await sql<{ id: string; slug: string; title: string }[]>`
+    SELECT p.id, p.slug, p.title
+    FROM petition_signatures ps
+    JOIN petitions p ON p.id = ps.petition_id
+    WHERE ps.user_id = ${user.id}::uuid AND p.active = TRUE
+    ORDER BY ps.created_at DESC
+  `
+
   // Avistamientos con uicnStatus
   const sightings = await sql<{
     id: string; observed_at: string; verified: boolean; region_code: string | null
@@ -94,6 +103,7 @@ export default async function PerfilPage() {
       photos={photos}
       speciesFavorites={speciesFavorites}
       sightings={sightings}
+      signedPetitions={signedPetitions}
       isOwner={true}
     />
   )

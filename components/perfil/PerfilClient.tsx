@@ -37,6 +37,12 @@ interface Sighting {
   uicnStatus: string | null
 }
 
+interface SignedPetition {
+  id: string
+  slug: string
+  title: string
+}
+
 interface Props {
   user: UserData
   sessionEmail?: string
@@ -44,6 +50,7 @@ interface Props {
   photos: Photo[]
   speciesFavorites: SpeciesFav[]
   sightings: Sighting[]
+  signedPetitions: SignedPetition[]
   isOwner: boolean
 }
 
@@ -79,7 +86,7 @@ function AnimatedStat({ value, label }: { value: number; label: string }) {
   )
 }
 
-export function PerfilClient({ user, stats, photos, speciesFavorites, sightings, isOwner }: Props) {
+export function PerfilClient({ user, stats, photos, speciesFavorites, sightings, signedPetitions, isOwner }: Props) {
   const [tab, setTab] = useState<Tab>('fotos')
   const [editOpen, setEditOpen] = useState(false)
   const [selectedPhoto, setSelectedPhoto] = useState<Photo | null>(null)
@@ -410,6 +417,26 @@ export function PerfilClient({ user, stats, photos, speciesFavorites, sightings,
                 ))}
               </div>
             )}
+          </div>
+        )}
+
+        {/* Sección: Peticiones firmadas */}
+        {signedPetitions.length > 0 && (
+          <div className="mt-10">
+            <h2 className="font-grotesk font-semibold text-white text-base mb-4">
+              Peticiones firmadas
+            </h2>
+            <div className="flex flex-nowrap gap-2 overflow-x-auto pb-2 scrollbar-hide">
+              {signedPetitions.map(p => (
+                <Link
+                  key={p.id}
+                  href={`/accion/peticiones/${p.slug}`}
+                  className="flex-shrink-0 bg-zinc-800 hover:bg-zinc-700 rounded-full px-4 py-2 text-sm text-white transition-colors whitespace-nowrap"
+                >
+                  {p.title}
+                </Link>
+              ))}
+            </div>
           </div>
         )}
 
