@@ -215,6 +215,16 @@ export function RayenMap({
 
   const geojson = useMemo(() => ({ type: 'FeatureCollection' as const, features: sightings }), [sightings])
 
+  // Only include a layer in interactiveLayerIds when it's actually mounted —
+  // react-map-gl queries these internally on every pointer event and throws
+  // if a listed layer doesn't exist in the map style.
+  const interactiveLayers = useMemo(() => {
+    const base: string[] = ['clusters', 'unclustered-point']
+    if (snaspeGeojson) base.push('snaspe-fill')
+    if (showProtectedAreas && filteredAreasGeojson) base.push('areas-circle')
+    return base
+  }, [snaspeGeojson, showProtectedAreas, filteredAreasGeojson])
+
   // ── Layer definitions ─────────────────────────────────────
   const snaspeFillLayer: LayerProps = {
     id: 'snaspe-fill', type: 'fill', source: 'snaspe',
@@ -409,7 +419,7 @@ export function RayenMap({
         mapStyle="mapbox://styles/mapbox/outdoors-v12"
         mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_TOKEN}
         style={{ width: '100%', height: '100%' }}
-        interactiveLayerIds={['clusters', 'unclustered-point', 'areas-circle', 'snaspe-fill']}
+        interactiveLayerIds={interactiveLayers}
         onLoad={() => setMapLoaded(true)}
         onClick={onClick}
         onMouseMove={onMouseMove}
