@@ -202,7 +202,7 @@ export function RayenMap({ sightings, showProtectedAreas = false, selectedAreaSl
     source: 'snaspe',
     paint: {
       'fill-color': '#00E676',
-      'fill-opacity': ['case', ['boolean', ['feature-state', 'hover'], false], 0.35, 0.12] as any,
+      'fill-opacity': ['case', ['boolean', ['feature-state', 'hover'], false], 0.5, 0.12] as any,
     },
   }
 
@@ -212,8 +212,20 @@ export function RayenMap({ sightings, showProtectedAreas = false, selectedAreaSl
     source: 'snaspe',
     paint: {
       'line-color': '#00E676',
-      'line-width': ['case', ['boolean', ['feature-state', 'hover'], false], 3, 2] as any,
+      'line-width': ['case', ['boolean', ['feature-state', 'hover'], false], 5, 2] as any,
       'line-opacity': ['case', ['boolean', ['feature-state', 'hover'], false], 1, 0.8] as any,
+    },
+  }
+
+  const snaspeGlowLayer: LayerProps = {
+    id: 'snaspe-glow',
+    type: 'line',
+    source: 'snaspe',
+    paint: {
+      'line-color': '#00E676',
+      'line-width': ['case', ['boolean', ['feature-state', 'hover'], false], 12, 0] as any,
+      'line-opacity': ['case', ['boolean', ['feature-state', 'hover'], false], 0.3, 0] as any,
+      'line-blur': 6,
     },
   }
 
@@ -502,6 +514,7 @@ export function RayenMap({ sightings, showProtectedAreas = false, selectedAreaSl
         {snaspeGeojson && (
           <Source id="snaspe" type="geojson" data={snaspeGeojson}>
             <Layer {...snaspeFillLayer} />
+            <Layer {...snaspeGlowLayer} />
             <Layer {...snaspeLineLayer} />
           </Source>
         )}
