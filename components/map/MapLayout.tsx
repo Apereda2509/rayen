@@ -618,7 +618,14 @@ function SpeciesDrawerContent({ info }: { info: SpeciesClickInfo }) {
   const uicnStatus = (species?.uicnStatus ?? species?.uicn_status ?? info.uicnStatus) as UICNStatus | null
   const uicnColor = uicnStatus ? (UICN_COLORS[uicnStatus] ?? '#666') : null
   const description = safeString(species?.description)
-  const threatsLocal = safeString(species?.threatsLocal ?? species?.threats_local)
+  const threatsRaw = species?.threatsLocal ?? species?.threats_local
+  const threatsLocal: { name: string; magnitude?: string; description?: string }[] | null = (() => {
+    if (!threatsRaw) return null
+    try {
+      const parsed = typeof threatsRaw === 'string' ? JSON.parse(threatsRaw) : threatsRaw
+      return Array.isArray(parsed) ? parsed : null
+    } catch { return null }
+  })()
   const commonName = safeString(info.commonName)
   const scientificName = safeString(info.scientificName)
   const observerName = safeString(info.observerName)
@@ -660,12 +667,19 @@ function SpeciesDrawerContent({ info }: { info: SpeciesClickInfo }) {
             </p>
           )}
 
-          {threatsLocal && (
+          {Array.isArray(threatsLocal) && threatsLocal.length > 0 && (
             <div>
-              <p className="text-zinc-500 text-xs uppercase tracking-widest mb-2">Amenazas</p>
-              <p className="text-zinc-300 text-sm leading-relaxed">
-                {threatsLocal.slice(0, 300)}{threatsLocal.length > 300 ? '…' : ''}
-              </p>
+              <p className="text-zinc-500 text-xs uppercase tracking-widest mb-2">AMENAZAS</p>
+              {threatsLocal.map((threat, i) => (
+                <div key={i} className="mb-2">
+                  <span className="text-white text-sm font-medium">{threat.name}</span>
+                  {threat.description && (
+                    <p className="text-zinc-400 text-xs leading-relaxed mt-0.5 line-clamp-2">
+                      {threat.description}
+                    </p>
+                  )}
+                </div>
+              ))}
             </div>
           )}
 
