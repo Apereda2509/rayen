@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useMemo, useCallback, useEffect } from 'react'
+import React, { Component, useState, useMemo, useCallback, useEffect } from 'react'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { Search, List, X, MapPin, TreePine, Shield, Star } from 'lucide-react'
 import { useRouter, useSearchParams } from 'next/navigation'
@@ -11,6 +11,28 @@ import { AreaMultiSelect } from '@/components/ui/AreaMultiSelect'
 import { SPECIES_TYPE_LABELS, UICN_LABELS, type SpeciesType, type UICNStatus } from '@/lib/types'
 import { cn } from '@/lib/utils'
 import type { SpeciesClickInfo, AreaClickInfo } from '@/components/map/RayenMap'
+
+// ── Error boundary ────────────────────────────────────────────
+class DrawerErrorBoundary extends Component<
+  { children: React.ReactNode },
+  { hasError: boolean }
+> {
+  constructor(props: { children: React.ReactNode }) {
+    super(props)
+    this.state = { hasError: false }
+  }
+  static getDerivedStateFromError() { return { hasError: true } }
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div className="flex-1 flex items-center justify-center p-6 text-center">
+          <p className="text-zinc-500 text-sm">No se pudo cargar la ficha.</p>
+        </div>
+      )
+    }
+    return this.props.children
+  }
+}
 
 // ── Dynamic map import ───────────────────────────────────────
 const RayenMap = nextDynamic(
@@ -560,10 +582,12 @@ function RightDrawer({ content, onClose }: { content: NonNullable<DrawerContent>
       >
         <X className="w-4 h-4" />
       </button>
-      {content.kind === 'species'
-        ? <SpeciesDrawerContent info={content.info} />
-        : <AreaDrawerContent info={content.info} />
-      }
+      <DrawerErrorBoundary>
+        {content.kind === 'species'
+          ? <SpeciesDrawerContent info={content.info} />
+          : <AreaDrawerContent info={content.info} />
+        }
+      </DrawerErrorBoundary>
     </motion.div>
   )
 }
@@ -585,8 +609,10 @@ function SpeciesDrawerContent({ info }: { info: SpeciesClickInfo }) {
   const photoUrl = species?.media?.find((m: any) => m.isPrimary || m.is_primary)?.url ?? info.photoUrl
   const uicnStatus = (species?.uicnStatus ?? species?.uicn_status ?? info.uicnStatus) as UICNStatus | null
   const uicnColor = uicnStatus ? (UICN_COLORS[uicnStatus] ?? '#666') : null
-  const description: string | null = species?.description ?? null
-  const threatsLocal: string | null = species?.threatsLocal ?? species?.threats_local ?? null
+  const rawDesc = species?.description ?? null
+  const description: string | null = typeof rawDesc === 'string' ? rawDesc : null
+  const rawThreats = species?.threatsLocal ?? species?.threats_local ?? null
+  const threatsLocal: string | null = typeof rawThreats === 'string' ? rawThreats : null
 
   if (loading) {
     return (
