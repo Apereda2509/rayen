@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useMemo, useCallback, useEffect } from 'react'
+import { useState, useMemo, useCallback, useEffect, Component } from 'react'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { Search, List, X, MapPin, TreePine, Shield, Star } from 'lucide-react'
 import { useRouter, useSearchParams } from 'next/navigation'
@@ -560,12 +560,44 @@ function RightDrawer({ content, onClose }: { content: NonNullable<DrawerContent>
       >
         <X className="w-4 h-4" />
       </button>
-      {content.kind === 'species'
-        ? <SpeciesDrawerContent info={content.info} />
-        : <AreaDrawerContent info={content.info} />
-      }
+      <DrawerErrorBoundary>
+        {content.kind === 'species'
+          ? <SpeciesDrawerContent info={content.info} />
+          : <AreaDrawerContent info={content.info} />
+        }
+      </DrawerErrorBoundary>
     </motion.div>
   )
+}
+
+// ── Safe string coercion (prevents React "object as child" crashes) ──────────
+const safeString = (val: unknown): string => {
+  if (typeof val === 'string') return val
+  if (val === null || val === undefined) return ''
+  if (typeof val === 'object') return JSON.stringify(val)
+  return String(val)
+}
+
+// ── Error boundary for drawer content ────────────────────────────────────────
+class DrawerErrorBoundary extends Component<
+  { children: React.ReactNode },
+  { hasError: boolean }
+> {
+  constructor(props: { children: React.ReactNode }) {
+    super(props)
+    this.state = { hasError: false }
+  }
+  static getDerivedStateFromError() { return { hasError: true } }
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div className="flex-1 flex items-center justify-center p-6 text-center">
+          <p className="text-zinc-500 text-sm">No se pudo cargar la ficha</p>
+        </div>
+      )
+    }
+    return this.props.children
+  }
 }
 
 // ── Species drawer content ────────────────────────────────────
@@ -585,8 +617,11 @@ function SpeciesDrawerContent({ info }: { info: SpeciesClickInfo }) {
   const photoUrl = species?.media?.find((m: any) => m.isPrimary || m.is_primary)?.url ?? info.photoUrl
   const uicnStatus = (species?.uicnStatus ?? species?.uicn_status ?? info.uicnStatus) as UICNStatus | null
   const uicnColor = uicnStatus ? (UICN_COLORS[uicnStatus] ?? '#666') : null
-  const description: string | null = species?.description ?? null
-  const threatsLocal: string | null = species?.threatsLocal ?? species?.threats_local ?? null
+  const description = safeString(species?.description)
+  const threatsLocal = safeString(species?.threatsLocal ?? species?.threats_local)
+  const commonName = safeString(info.commonName)
+  const scientificName = safeString(info.scientificName)
+  const observerName = safeString(info.observerName)
 
   if (loading) {
     return (
@@ -602,7 +637,7 @@ function SpeciesDrawerContent({ info }: { info: SpeciesClickInfo }) {
         {/* Hero */}
         <div className="relative">
           {photoUrl
-            ? <img src={photoUrl} alt={info.commonName} referrerPolicy="no-referrer" className="w-full h-56 object-cover" />
+            ? <img src={photoUrl} alt={commonName} referrerPolicy="no-referrer" className="w-full h-56 object-cover" />
             : <div className="w-full h-56 bg-zinc-900" />
           }
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-zinc-950 pointer-events-none" />
@@ -612,8 +647,8 @@ function SpeciesDrawerContent({ info }: { info: SpeciesClickInfo }) {
             </span>
           )}
           <div className="absolute bottom-0 left-0 right-0 p-4">
-            <h2 className="font-grotesk font-bold text-white text-2xl leading-tight">{info.commonName}</h2>
-            <p className="font-serif italic text-zinc-400 text-sm mt-0.5">{info.scientificName}</p>
+            <h2 className="font-grotesk font-bold text-white text-2xl leading-tight">{commonName}</h2>
+            <p className="font-serif italic text-zinc-400 text-sm mt-0.5">{scientificName}</p>
           </div>
         </div>
 
@@ -641,7 +676,7 @@ function SpeciesDrawerContent({ info }: { info: SpeciesClickInfo }) {
                   {new Date(info.observedAt).toLocaleDateString('es-CL', { day: 'numeric', month: 'long', year: 'numeric' })}
                 </p>
               )}
-              {info.observerName && <p className="text-zinc-500 text-xs">Observado por {info.observerName}</p>}
+              {observerName && <p className="text-zinc-500 text-xs">Observado por {observerName}</p>}
             </div>
           )}
         </div>

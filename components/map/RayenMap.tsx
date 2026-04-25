@@ -219,11 +219,12 @@ export function RayenMap({
   // react-map-gl queries these internally on every pointer event and throws
   // if a listed layer doesn't exist in the map style.
   const interactiveLayers = useMemo(() => {
+    if (!mapLoaded) return []
     const base: string[] = ['clusters', 'unclustered-point']
     if (snaspeGeojson) base.push('snaspe-fill')
     if (showProtectedAreas && filteredAreasGeojson) base.push('areas-circle')
     return base
-  }, [snaspeGeojson, showProtectedAreas, filteredAreasGeojson])
+  }, [mapLoaded, snaspeGeojson, showProtectedAreas, filteredAreasGeojson])
 
   // ── Layer definitions ─────────────────────────────────────
   const snaspeFillLayer: LayerProps = {
@@ -320,10 +321,12 @@ export function RayenMap({
       }
     }
 
-    const clusterHits = map.queryRenderedFeatures(e.point, { layers: ['clusters'] })
-    if (clusterHits.length > 0) {
-      map.easeTo({ center: [e.lngLat.lng, e.lngLat.lat], zoom: Math.min(map.getZoom() + 2, 16), duration: 500 })
-      return
+    if (map.getLayer('clusters')) {
+      const clusterHits = map.queryRenderedFeatures(e.point, { layers: ['clusters'] })
+      if (clusterHits.length > 0) {
+        map.easeTo({ center: [e.lngLat.lng, e.lngLat.lat], zoom: Math.min(map.getZoom() + 2, 16), duration: 500 })
+        return
+      }
     }
 
     const features = e.features
@@ -347,13 +350,15 @@ export function RayenMap({
     const map = mapRef.current?.getMap()
     if (!map) return
 
-    const hits = map.queryRenderedFeatures(e.point, { layers: ['unclustered-point'] })
-    if (hits.length > 0) {
-      const p = hits[0].properties
-      map.getCanvas().style.cursor = 'pointer'
-      setTooltip({ x: e.point.x, y: e.point.y, commonName: p?.commonName ?? '', photoUrl: p?.photoUrl ?? null, uicnStatus: p?.uicnStatus ?? null, regionCode: p?.regionCode ?? null })
-      setSnaspeHover(null)
-      return
+    if (map.getLayer('unclustered-point')) {
+      const hits = map.queryRenderedFeatures(e.point, { layers: ['unclustered-point'] })
+      if (hits.length > 0) {
+        const p = hits[0].properties
+        map.getCanvas().style.cursor = 'pointer'
+        setTooltip({ x: e.point.x, y: e.point.y, commonName: p?.commonName ?? '', photoUrl: p?.photoUrl ?? null, uicnStatus: p?.uicnStatus ?? null, regionCode: p?.regionCode ?? null })
+        setSnaspeHover(null)
+        return
+      }
     }
 
     if (map.getLayer('areas-circle')) {
@@ -386,7 +391,9 @@ export function RayenMap({
       map.setFeatureState({ source: 'snaspe', id: hoveredSnaspeId.current }, { hover: false })
       hoveredSnaspeId.current = null
     }
-    const clusterHits = map.queryRenderedFeatures(e.point, { layers: ['clusters'] })
+    const clusterHits = map.getLayer('clusters')
+      ? map.queryRenderedFeatures(e.point, { layers: ['clusters'] })
+      : []
     map.getCanvas().style.cursor = clusterHits.length > 0 ? 'pointer' : ''
     setTooltip(null); setSnaspeHover(null)
   }, [])
