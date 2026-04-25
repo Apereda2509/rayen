@@ -1,9 +1,8 @@
 'use client'
 
-import { motion, useReducedMotion } from 'framer-motion'
+import { motion } from 'framer-motion'
 import Link from 'next/link'
 import Image from 'next/image'
-import { useState } from 'react'
 
 interface Articulo {
   id: string
@@ -14,148 +13,92 @@ interface Articulo {
   tiempo_lectura: number
 }
 
-function PatronSVG({ numero }: { numero: string }) {
-  const patternId = `diag-${numero}`
+function PatronSVG() {
   return (
-    <svg
-      width="100%"
-      height="100%"
-      xmlns="http://www.w3.org/2000/svg"
-      style={{ borderRadius: 12 }}
-    >
+    <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
       <defs>
-        <pattern
-          id={patternId}
-          width="20"
-          height="20"
-          patternUnits="userSpaceOnUse"
-          patternTransform="rotate(45)"
-        >
+        <pattern id="diag" width="20" height="20" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
           <line x1="0" y1="0" x2="0" y2="20" stroke="#27272a" strokeWidth="1" />
         </pattern>
       </defs>
-      <rect width="100%" height="100%" fill={`url(#${patternId})`} rx="12" />
-      <text
-        x="50%"
-        y="50%"
-        textAnchor="middle"
-        dominantBaseline="middle"
-        fontSize="96"
-        fontWeight="800"
-        fontFamily="var(--font-space-grotesk), sans-serif"
-        fill="#3f3f46"
-        opacity="0.6"
-      >
-        {numero}
-      </text>
+      <rect width="100%" height="100%" fill="url(#diag)" />
     </svg>
   )
 }
 
 function ArticuloCard({ articulo, index }: { articulo: Articulo; index: number }) {
-  const [hovered, setHovered] = useState(false)
-  const reduced = useReducedMotion()
-  const numero = String(index + 1).padStart(2, '0')
-
   return (
     <motion.div
-      initial={reduced ? false : { opacity: 0, y: 30 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, ease: 'easeOut', delay: index * 0.1 }}
-      className="relative mt-6"
-      onHoverStart={() => setHovered(true)}
-      onHoverEnd={() => setHovered(false)}
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-40px' }}
+      transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1], delay: index * 0.07 }}
     >
-      {/* Folder tab */}
-      <motion.div
-        animate={{ width: hovered ? 128 : 96 }}
-        transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-        className="absolute -top-6 left-0 h-6 bg-[#00E676] rounded-t-md flex items-center justify-center overflow-hidden"
-        style={{ minWidth: 96 }}
-      >
-        <span
-          className="text-black text-xs font-bold select-none whitespace-nowrap"
-          style={{ fontFamily: 'var(--font-space-grotesk), sans-serif' }}
-        >
-          {numero}
-        </span>
-      </motion.div>
+      <Link href={`/educacion/explora/${articulo.slug}`} className="group block">
+        <div className="bg-zinc-900 border border-zinc-800 rounded-2xl overflow-hidden group-hover:border-zinc-700 group-hover:scale-[1.02] transition-all duration-300 cursor-pointer">
+          {/* Imagen */}
+          <div className="relative aspect-video w-full overflow-hidden">
+            {articulo.imagen_url ? (
+              <Image
+                src={articulo.imagen_url}
+                alt={articulo.titulo}
+                fill
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                className="object-cover"
+              />
+            ) : (
+              <div className="w-full h-full bg-zinc-800">
+                <PatronSVG />
+              </div>
+            )}
 
-      {/* Card */}
-      <motion.div
-        animate={{ scale: hovered ? 1.01 : 1 }}
-        transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-        style={{
-          boxShadow: hovered
-            ? '0 25px 50px -12px rgba(0, 230, 118, 0.08)'
-            : '0 0 0 0 transparent',
-        }}
-        className="relative min-h-48 bg-zinc-900 border border-zinc-800 rounded-2xl overflow-hidden"
-      >
-        {/* Left border accent */}
-        <motion.div
-          animate={{ height: hovered ? '100%' : '0%' }}
-          transition={{ duration: 0.3, ease: 'easeOut' }}
-          className="absolute left-0 top-0 w-1 bg-[#00E676] z-10"
-        />
+            {/* Overlay degradado */}
+            <div className="absolute inset-0 bg-gradient-to-t from-zinc-900/90 via-zinc-900/30 to-transparent" />
 
-        <Link
-          href={`/educacion/explora/${articulo.slug}`}
-          className="flex h-full min-h-48"
-        >
-          {/* Left column */}
-          <div className="flex-1 min-w-0 p-6 pl-7 flex flex-col justify-between">
-            <div>
-              <p className="text-zinc-500 text-xs uppercase tracking-widest mb-4">
-                {articulo.tiempo_lectura} min de lectura
-              </p>
-              <h2
-                className="font-bold text-3xl md:text-4xl text-white leading-tight"
-                style={{ fontFamily: 'var(--font-space-grotesk), sans-serif' }}
-              >
-                {articulo.titulo}
-              </h2>
-              {articulo.subtitulo && (
-                <p
-                  className="text-zinc-400 text-base line-clamp-2 mt-3"
-                  style={{ fontFamily: 'var(--font-inter), sans-serif' }}
-                >
-                  {articulo.subtitulo}
-                </p>
-              )}
-            </div>
-            <span
-              className="text-[#00E676] text-sm mt-6 hover:underline self-start"
-              style={{ fontFamily: 'var(--font-inter), sans-serif' }}
-            >
-              Leer →
+            {/* Badge categoría top-left */}
+            <span className="absolute top-3 left-3 bg-black/60 text-zinc-300 text-[10px] rounded-full px-2.5 py-1 backdrop-blur-sm">
+              Artículo
+            </span>
+
+            {/* Badge tiempo de lectura top-right */}
+            <span className="absolute top-3 right-3 bg-black/60 text-zinc-300 text-[10px] rounded-full px-2.5 py-1 backdrop-blur-sm">
+              {articulo.tiempo_lectura} min
             </span>
           </div>
 
-          {/* Right column — hidden on mobile */}
-          <div className="hidden md:block w-[35%] shrink-0 p-4 pl-0">
-            <div className="relative w-full h-full min-h-40 rounded-xl overflow-hidden">
-              {articulo.imagen_url ? (
-                <Image
-                  src={articulo.imagen_url}
-                  alt={articulo.titulo}
-                  fill
-                  className="object-cover"
-                />
-              ) : (
-                <PatronSVG numero={numero} />
-              )}
+          {/* Contenido */}
+          <div className="p-5">
+            <h2
+              className="font-semibold text-white text-base line-clamp-2 leading-snug"
+              style={{ fontFamily: 'var(--font-space-grotesk), sans-serif' }}
+            >
+              {articulo.titulo}
+            </h2>
+            {articulo.subtitulo && (
+              <p
+                className="text-zinc-400 text-sm line-clamp-3 mt-2 leading-relaxed"
+                style={{ fontFamily: 'var(--font-inter), sans-serif' }}
+              >
+                {articulo.subtitulo}
+              </p>
+            )}
+
+            {/* Footer */}
+            <div className="border-t border-zinc-800 mt-3 pt-3">
+              <span className="text-[#00E676] text-xs font-medium">
+                Leer artículo →
+              </span>
             </div>
           </div>
-        </Link>
-      </motion.div>
+        </div>
+      </Link>
     </motion.div>
   )
 }
 
 export default function ExploraFeed({ articulos }: { articulos: Articulo[] }) {
   return (
-    <div className="flex flex-col gap-4">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
       {articulos.map((a, i) => (
         <ArticuloCard key={a.id} articulo={a} index={i} />
       ))}

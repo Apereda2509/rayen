@@ -126,7 +126,7 @@ export function SpeciesCard({ species, variant = 'card', className }: Props) {
     <Link href={`/especies/${slug}`} className={cn('group block', className)}>
       <div className="bg-zinc-900 border border-zinc-800 rounded-2xl overflow-hidden group-hover:border-zinc-700 group-hover:scale-[1.02] transition-all duration-300 cursor-pointer">
         {/* Bloque imagen */}
-        <div className="relative h-52 w-full overflow-hidden">
+        <div className="relative aspect-video w-full overflow-hidden">
           {photo ? (
             <img
               src={photo}
