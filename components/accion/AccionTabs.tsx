@@ -101,8 +101,11 @@ export function AccionTabs({ petitions, organizations, laws, isLoggedIn }: Props
               className="text-2xl font-bold text-white mb-4"
               style={{ fontFamily: 'var(--font-space-grotesk), sans-serif' }}
             >
-              Organizaciones aliadas
+              Organizaciones que protegen Chile
             </h2>
+            <p className="text-zinc-500 text-sm max-w-2xl mb-6 leading-relaxed">
+              Rayen reúne información sobre las principales organizaciones que trabajan por la biodiversidad chilena. No tenemos afiliación formal con ninguna de ellas — este es un espacio para darles mayor visibilidad y conectar a las personas con quienes ya están actuando.
+            </p>
             <div className="flex flex-wrap gap-2 mb-6">
               {ORG_TYPE_OPTIONS.map(opt => (
                 <button
