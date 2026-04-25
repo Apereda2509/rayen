@@ -15,7 +15,6 @@ export async function GET() {
       tipo: string | null
       region: string | null
       superficie_ha: number | null
-      rayen_slug: string | null
       geometry: object
     }[]>`
       SELECT
@@ -23,7 +22,6 @@ export async function GET() {
         tipo,
         region,
         ROUND(superficie_ha::numeric, 0)  AS superficie_ha,
-        rayen_slug,
         ST_AsGeoJSON(geom)::json           AS geometry
       FROM protected_area_polygons
       ORDER BY superficie_ha DESC NULLS LAST
@@ -39,7 +37,6 @@ export async function GET() {
           tipo:         row.tipo,
           region:       row.region,
           superficie_ha: row.superficie_ha,
-          rayen_slug:   row.rayen_slug,
         },
       })),
     }

@@ -39,11 +39,6 @@ if (!process.env.DATABASE_URL) {
 
 const sql = postgres(process.env.DATABASE_URL, { prepare: false })
 
-// Extrae el nombre base sin el sufijo "[Parques]", "[Reservas]", etc.
-function baseName(snaspe) {
-  return snaspe.replace(/\s*\[.*?\]\s*$/, '').trim()
-}
-
 async function main() {
   console.log(`Leyendo GeoJSON desde: ${GEOJSON_PATH}`)
   const raw = fs.readFileSync(GEOJSON_PATH, 'utf-8')
@@ -79,11 +74,7 @@ async function main() {
   const uniqueAreas = Array.from(groups.values())
   console.log(`Áreas únicas (nombre + tipo): ${uniqueAreas.length}`)
 
-  // ── Paso 3: buscar slugs en protected_areas ───────────────
-  console.log('Buscando coincidencias en protected_areas...')
-  let matched = 0
-
-  // ── Paso 4: insertar en batches ───────────────────────────
+  // ── Paso 3: insertar en batches ───────────────────────────
   const BATCH = 10
   let inserted = 0
 
@@ -91,58 +82,33 @@ async function main() {
     const batch = uniqueAreas.slice(i, i + BATCH)
 
     await Promise.all(batch.map(async (area) => {
-      // Buscar slug por similitud de nombre
-      const name = baseName(area.nombre)
-      let rayenSlug = null
-      try {
-        const [match] = await sql`
-          SELECT slug FROM protected_areas
-          WHERE LOWER(name) LIKE LOWER(${'%' + name + '%'})
-          LIMIT 1
-        `
-        if (match) {
-          rayenSlug = match.slug
-          matched++
-        }
-      } catch (_) {
-        // tabla protected_areas podría no tener datos aún
-      }
-
-      // Construir geometría unificada como GeometryCollection temporal
-      // Usamos ST_Union sobre un array de geoms
       const geomJsons = area.polygons
 
-      // Insertar con ST_Union de todos los polígonos del área
-      // Para un solo polígono usamos ST_Multi; para varios ST_Union → ST_Multi
       if (geomJsons.length === 1) {
         await sql`
           INSERT INTO protected_area_polygons
-            (nombre, tipo, region, superficie_ha, geom, properties, rayen_slug)
+            (nombre, tipo, region, superficie_ha, geom, properties)
           VALUES (
             ${area.nombre},
             ${area.tipo},
             ${area.region},
             ${area.superficie_ha},
             ST_Multi(ST_SetSRID(ST_GeomFromGeoJSON(${geomJsons[0]}), 4326)),
-            ${JSON.stringify(area.properties)},
-            ${rayenSlug}
+            ${JSON.stringify(area.properties)}
           )
         `
       } else {
-        // Para múltiples polígonos: insertar todos como subquery y unir
-        // Construimos una subquery VALUES con cada geometría
-        // Usamos una función auxiliar con ST_Collect + ST_Multi
         const placeholders = geomJsons.map(
           (g) => `ST_SetSRID(ST_GeomFromGeoJSON('${g.replace(/'/g, "''")}'), 4326)`
         ).join(', ')
 
         await sql.unsafe(`
           INSERT INTO protected_area_polygons
-            (nombre, tipo, region, superficie_ha, geom, properties, rayen_slug)
+            (nombre, tipo, region, superficie_ha, geom, properties)
           VALUES (
             $1, $2, $3, $4,
             ST_Multi(ST_Union(ARRAY[${placeholders}])),
-            $5::jsonb, $6
+            $5::jsonb
           )
         `, [
           area.nombre,
@@ -150,7 +116,6 @@ async function main() {
           area.region,
           area.superficie_ha,
           JSON.stringify(area.properties),
-          rayenSlug,
         ])
       }
     }))
@@ -161,7 +126,6 @@ async function main() {
 
   console.log(`\n\nImportación completada.`)
   console.log(`  Áreas insertadas: ${inserted}`)
-  console.log(`  Con slug de Rayen: ${matched}`)
   await sql.end()
 }
 

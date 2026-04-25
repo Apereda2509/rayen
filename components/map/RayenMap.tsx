@@ -132,9 +132,13 @@ export function RayenMap({ sightings, showProtectedAreas = false, selectedAreaSl
     fetch('/api/snaspe')
       .then(r => r.json())
       .then(data => {
+        console.log('[SNASPE] features:', data.features?.length)
         if (data?.features?.length) setSnaspeGeojson(data)
       })
-      .catch(() => setSnaspeGeojson(null))
+      .catch((err) => {
+        console.error('[SNASPE] fetch error:', err)
+        setSnaspeGeojson(null)
+      })
   }, [])
 
   // ── FlyTo cuando cambia especie seleccionada ─────────────
