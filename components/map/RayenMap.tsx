@@ -303,6 +303,33 @@ export function RayenMap({
     const map = mapRef.current?.getMap()
     if (!map) return
 
+    // Prioridad 1: puntos de avistamiento
+    if (map.getLayer('unclustered-point')) {
+      const sightingHits = map.queryRenderedFeatures(e.point, { layers: ['unclustered-point'] })
+      if (sightingHits.length > 0) {
+        const p = sightingHits[0].properties
+        if (p?.slug) {
+          onSpeciesClick?.({
+            slug: p.slug, commonName: p.commonName ?? '', scientificName: p.scientificName ?? '',
+            uicnStatus: p.uicnStatus ?? null, photoUrl: p.photoUrl ?? null,
+            observedAt: p.observedAt ?? null, observerName: p.observerName ?? null,
+          })
+          onMarkerClick?.(p.speciesId)
+          return
+        }
+      }
+    }
+
+    // Prioridad 2: clusters
+    if (map.getLayer('clusters')) {
+      const clusterHits = map.queryRenderedFeatures(e.point, { layers: ['clusters'] })
+      if (clusterHits.length > 0) {
+        map.easeTo({ center: [e.lngLat.lng, e.lngLat.lat], zoom: Math.min(map.getZoom() + 2, 16), duration: 500 })
+        return
+      }
+    }
+
+    // Prioridad 3: áreas protegidas (círculos)
     if (map.getLayer('areas-circle')) {
       const areaHits = map.queryRenderedFeatures(e.point, { layers: ['areas-circle'] })
       if (areaHits.length > 0) {
@@ -312,6 +339,7 @@ export function RayenMap({
       }
     }
 
+    // Prioridad 4: polígonos SNASPE
     if (map.getLayer('snaspe-fill')) {
       const snaspeHits = map.queryRenderedFeatures(e.point, { layers: ['snaspe-fill'] })
       if (snaspeHits.length > 0) {
@@ -320,29 +348,6 @@ export function RayenMap({
         return
       }
     }
-
-    if (map.getLayer('clusters')) {
-      const clusterHits = map.queryRenderedFeatures(e.point, { layers: ['clusters'] })
-      if (clusterHits.length > 0) {
-        map.easeTo({ center: [e.lngLat.lng, e.lngLat.lat], zoom: Math.min(map.getZoom() + 2, 16), duration: 500 })
-        return
-      }
-    }
-
-    const features = e.features
-    if (!features?.length) return
-    const feature = features[0]
-    const p = feature.properties
-    if (!p?.slug) return
-    const coords = (feature.geometry as any)?.coordinates
-    if (!Array.isArray(coords) || coords.length < 2) return
-
-    onSpeciesClick?.({
-      slug: p.slug, commonName: p.commonName ?? '', scientificName: p.scientificName ?? '',
-      uicnStatus: p.uicnStatus ?? null, photoUrl: p.photoUrl ?? null,
-      observedAt: p.observedAt ?? null, observerName: p.observerName ?? null,
-    })
-    onMarkerClick?.(p.speciesId)
   }, [onMarkerClick, onSpeciesClick, onAreaClick])
 
   // ── Hover handler ─────────────────────────────────────────
