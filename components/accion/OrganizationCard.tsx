@@ -1,6 +1,5 @@
 'use client'
 
-import { useState } from 'react'
 import { motion } from 'framer-motion'
 
 const ORG_TYPE_LABELS: Record<string, string> = {
@@ -90,40 +89,64 @@ interface Props {
   index: number
 }
 
-function OrgInitials({ name }: { name: string }) {
-  const initials = name
-    .split(' ')
-    .filter(w => w.length > 2)
-    .map(w => w[0])
-    .join('')
-    .slice(0, 2)
-    .toUpperCase()
-  return (
-    <div className="h-20 w-20 rounded-2xl bg-zinc-800 ring-1 ring-zinc-700 flex-shrink-0 flex items-center justify-center font-grotesk font-bold text-[#00E676] text-2xl">
-      {initials || name.slice(0, 2).toUpperCase()}
-    </div>
-  )
+const logoMap: Record<string, string> = {
+  'aves-chile':                    '/logos/aves-chile.png',
+  'ballena-azul':                  '/logos/ballena-azul.png',
+  'ccc-chile':                     '/logos/ccc.png',
+  'centro-conservacion-cetaceos':  '/logos/ccc.png',
+  'codeff':                        '/logos/codeff.svg',
+  'conaf':                         '/logos/conaf.png',
+  'fundacion-bosque-nativo':       '/logos/bosque-nativo.webp',
+  'centro-cultural-bosque-nativo': '/logos/bosque-nativo.webp',
+  'ieb-chile':                     '/logos/ieb.jpg',
+  'ieb':                           '/logos/ieb.jpg',
+  'ministerio-medio-ambiente':     '/logos/mma.png',
+  'ong-ballena-azul':              '/logos/ballena-azul.png',
+  'oceana-chile':                  '/logos/oceana.webp',
+  'red-observadores-aves':         '/logos/roc.png',
+  'rewilding-chile':               '/logos/rewilding-chile.png',
+  'fundacion-rewilding-chile':     '/logos/rewilding-chile.png',
+  'sbap':                          '/logos/sbap.svg',
+  'tompkins-conservation':         '/logos/tompkins.svg',
+  'uach-ies':                      '/logos/uach.png',
+  'universidad-austral':           '/logos/uach.png',
+  'wcs-chile':                     '/logos/wcs-chile.webp',
+  'wildlife-conservation-society': '/logos/wcs-chile.webp',
+  'wwf-chile':                     '/logos/wwf.png',
 }
 
+const lightBgLogos = [
+  'oceana-chile', 'wwf-chile', 'tompkins-conservation',
+  'fundacion-bosque-nativo', 'centro-cultural-bosque-nativo',
+  'conaf', 'ieb-chile', 'ieb', 'wcs-chile', 'wildlife-conservation-society', 'uach-ies', 'universidad-austral',
+]
+
 export function OrganizationCard({ org, index }: Props) {
-  const [imgError, setImgError] = useState(false)
   const meta = (org.slug ? orgMeta[org.slug] : undefined) ?? { foco: 'Conservación ambiental', zona: 'Chile' }
   const typeLabel = ORG_TYPE_LABELS[org.type] ?? org.type
+  const logoSrc = org.slug ? (logoMap[org.slug] ?? null) : null
+  const isLight = org.slug ? lightBgLogos.includes(org.slug) : false
+  const logoBg = isLight ? 'bg-white' : 'bg-zinc-800'
+
+  const initials = org.name
+    .split(' ')
+    .map(w => w[0])
+    .slice(0, 2)
+    .join('')
+    .toUpperCase()
 
   return (
     <div className="flex gap-8 items-start w-full bg-zinc-900 border border-zinc-800 border-l-[3px] border-l-[#00E676] rounded-2xl p-7 hover:bg-zinc-800/50 hover:border-zinc-700 hover:border-l-[#00E676] transition-all duration-300">
       {/* Columna logo */}
       <div className="flex-shrink-0 flex flex-col items-center">
-        {org.logoUrl && !imgError ? (
-          <img
-            src={org.logoUrl}
-            alt={org.name}
-            className="h-20 w-20 rounded-2xl object-contain bg-zinc-800 p-2 ring-1 ring-zinc-700"
-            onError={() => setImgError(true)}
-            referrerPolicy="no-referrer"
-          />
+        {logoSrc ? (
+          <div className={`w-20 h-20 rounded-2xl ${logoBg} p-2 flex items-center justify-center ring-1 ring-zinc-700`}>
+            <img src={logoSrc} alt={org.name} className="w-full h-full object-contain" />
+          </div>
         ) : (
-          <OrgInitials name={org.name} />
+          <div className="w-20 h-20 rounded-2xl bg-zinc-800 ring-1 ring-zinc-700 flex items-center justify-center">
+            <span className="font-grotesk font-bold text-[#00E676] text-xl">{initials}</span>
+          </div>
         )}
         <span className="text-[10px] text-center mt-2 rounded-full px-2 py-0.5 bg-zinc-800 text-zinc-500">
           {typeLabel}
