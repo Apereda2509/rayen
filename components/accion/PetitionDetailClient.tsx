@@ -107,7 +107,7 @@ export function PetitionDetailClient({ petition, userEmail, userId, isLoggedIn }
         <div className="relative z-10 w-full max-w-7xl mx-auto px-4 py-12 pb-16">
           {/* Breadcrumb */}
           <div className="flex items-center gap-2 text-sm text-zinc-400 mb-5">
-            <Link href="/accion" className="hover:text-[#00E676] transition-colors">
+            <Link href="/accion?tab=peticiones" className="hover:text-[#00E676] transition-colors">
               Acción
             </Link>
             <span>/</span>

@@ -67,8 +67,11 @@ export function LawDetailClient({ law }: Props) {
         <div className="relative z-10 w-full max-w-3xl mx-auto px-6 pb-14 pt-28">
           {/* Breadcrumb */}
           <div className="mb-6">
-            <Link href="/accion" className="text-zinc-400 text-sm hover:text-zinc-200 transition-colors">
-              ← Volver a Acción
+            <Link
+              href="/accion?tab=marco-legal"
+              className="text-zinc-400 text-sm hover:text-white transition-colors flex items-center gap-1.5"
+            >
+              ← Volver al Marco Legal
             </Link>
           </div>
 

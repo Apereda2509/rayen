@@ -37,6 +37,7 @@ interface Props {
   organizations: any[]
   laws: any[]
   isLoggedIn: boolean
+  initialTab?: string
 }
 
 function SectionTitle({ children }: { children: React.ReactNode }) {
@@ -52,8 +53,8 @@ function SectionTitle({ children }: { children: React.ReactNode }) {
   )
 }
 
-export function AccionTabs({ petitions, organizations, laws, isLoggedIn }: Props) {
-  const [activeTab, setActiveTab] = useState<TabId>('peticiones')
+export function AccionTabs({ petitions, organizations, laws, isLoggedIn, initialTab }: Props) {
+  const [activeTab, setActiveTab] = useState<TabId>((initialTab as TabId) ?? 'peticiones')
   const [orgTypeFilter, setOrgTypeFilter] = useState('')
   const [lawTypeFilter, setLawTypeFilter] = useState('')
 

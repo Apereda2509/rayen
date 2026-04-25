@@ -83,10 +83,11 @@ export function LawCard({ law, index = 0 }: Props) {
               <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-zinc-900/80 to-transparent" />
             </>
           ) : (
-            <div className="w-full h-full bg-zinc-800 flex items-center justify-center px-4">
-              <span className="text-zinc-500 text-sm text-center" style={{ fontFamily: 'var(--font-space-grotesk), sans-serif' }}>
-                {law.name}
+            <div className="w-full h-full bg-zinc-800 flex flex-col items-center justify-center gap-2 px-4">
+              <span className={`text-[11px] font-semibold px-2.5 py-1 rounded-full ${badge.className}`}>
+                {badge.label}
               </span>
+              <span className="text-zinc-500 text-xs">{law.year}</span>
             </div>
           )}
 

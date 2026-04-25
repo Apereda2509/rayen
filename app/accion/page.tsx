@@ -81,10 +81,22 @@ async function getLaws() {
   `
 }
 
-export default async function AccionPage() {
+const TAB_MAP: Record<string, string> = {
+  peticiones: 'peticiones',
+  organizaciones: 'organizaciones',
+  'marco-legal': 'legal',
+  guias: 'guias',
+}
+
+export default async function AccionPage({
+  searchParams,
+}: {
+  searchParams?: { tab?: string }
+}) {
   const session = await auth()
   const userId = session?.user?.dbId ?? null
   const isLoggedIn = !!session?.user?.email
+  const initialTab = TAB_MAP[searchParams?.tab ?? ''] ?? 'peticiones'
 
   let petitions: any[] = []
   let organizations: any[] = []
@@ -132,6 +144,7 @@ export default async function AccionPage() {
           organizations={JSON.parse(JSON.stringify(organizations))}
           laws={JSON.parse(JSON.stringify(laws))}
           isLoggedIn={isLoggedIn}
+          initialTab={initialTab}
         />
       </div>
     </div>
