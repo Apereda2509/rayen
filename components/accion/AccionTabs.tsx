@@ -196,11 +196,14 @@ export function AccionTabs({ petitions, organizations, laws, isLoggedIn, initial
         <div>
           <SectionTitle>
             <h2
-              className="text-2xl font-bold text-white mb-6"
+              className="font-grotesk font-bold text-5xl md:text-7xl text-white leading-[1.0]"
               style={{ fontFamily: 'var(--font-space-grotesk), sans-serif' }}
             >
-              Guías de acción
+              Actúa hoy
             </h2>
+            <p className="text-zinc-400 text-lg max-w-2xl mt-4 mb-10 leading-relaxed">
+              Guías prácticas para proteger la biodiversidad desde tu vida cotidiana.
+            </p>
           </SectionTitle>
           <ActionGuides />
         </div>
