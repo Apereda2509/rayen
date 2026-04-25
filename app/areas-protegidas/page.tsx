@@ -18,35 +18,48 @@ export default async function AreasProtegidasPage() {
     console.error('[areas-protegidas]', e)
   }
 
+  const stats = [
+    { label: 'Total áreas', value: areas.length },
+    { label: 'Parques Nacionales', value: areas.filter((a) => a.type === 'parque_nacional').length },
+    { label: 'Santuarios', value: areas.filter((a) => a.type === 'santuario_naturaleza').length },
+  ]
+
   return (
-    <main className="max-w-7xl mx-auto px-4 sm:px-6 py-10">
-      {/* Header */}
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-stone-900">Áreas Protegidas de Chile</h1>
-        <p className="mt-2 text-stone-500 max-w-2xl">
-          El Sistema Nacional de Áreas Silvestres Protegidas del Estado (SNASPE) administrado por CONAF
-          protege más de 19 millones de hectáreas de ecosistemas únicos.
-        </p>
-      </div>
+    <div className="bg-[#0A0A0A] min-h-screen">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 py-16">
+        {/* Header editorial */}
+        <div className="mb-12">
+          <h1
+            className="font-bold text-white leading-tight"
+            style={{ fontFamily: 'var(--font-space-grotesk), sans-serif', fontSize: 'clamp(3rem, 8vw, 5.5rem)' }}
+          >
+            Áreas protegidas<br />de Chile
+          </h1>
+          <p className="text-zinc-400 text-lg mt-4 max-w-2xl leading-relaxed">
+            Parques nacionales, reservas y santuarios. Más de 19 millones de hectáreas protegidas en todo el territorio nacional.
+          </p>
 
-      {/* Stats rápidas */}
-      <div className="grid grid-cols-3 gap-4 mb-8">
-        {[
-          { label: 'Total áreas', value: areas.length },
-          { label: 'Parques Nacionales', value: areas.filter((a) => a.type === 'parque_nacional').length },
-          { label: 'Santuarios', value: areas.filter((a) => a.type === 'santuario_naturaleza').length },
-        ].map(({ label, value }) => (
-          <div key={label} className="rounded-xl bg-stone-50 border border-stone-200 p-4 text-center">
-            <p className="text-2xl font-bold text-stone-800">{value}</p>
-            <p className="text-xs text-stone-500 mt-0.5">{label}</p>
+          {/* Stats como chips oscuros */}
+          <div className="flex flex-wrap gap-4 mt-8">
+            {stats.map(({ label, value }) => (
+              <div key={label} className="bg-zinc-900 border border-zinc-800 rounded-xl px-5 py-3">
+                <p
+                  className="font-bold text-2xl text-[#00E676]"
+                  style={{ fontFamily: 'var(--font-space-grotesk), sans-serif' }}
+                >
+                  {value}
+                </p>
+                <p className="text-xs text-zinc-500 mt-0.5">{label}</p>
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
+        </div>
 
-      {/* Buscador + filtros + grid */}
-      <Suspense>
-        <AreasFilterGrid areas={areas} />
-      </Suspense>
-    </main>
+        {/* Buscador + filtros + grid */}
+        <Suspense>
+          <AreasFilterGrid areas={areas} />
+        </Suspense>
+      </main>
+    </div>
   )
 }

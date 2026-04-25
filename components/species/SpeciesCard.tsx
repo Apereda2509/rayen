@@ -2,7 +2,7 @@ import Link from 'next/link'
 import { MapPin } from 'lucide-react'
 import { ConservationBadge } from './ConservationBadge'
 import { SPECIES_TYPE_LABELS } from '@/lib/types'
-import type { SpeciesSummary } from '@/lib/types'
+import type { SpeciesSummary, UICNStatus } from '@/lib/types'
 import { cn } from '@/lib/utils'
 
 interface Props {
@@ -17,14 +17,24 @@ function proxied(url: string | null | undefined): string | null | undefined {
   return url
 }
 
+function uicnBadgeClass(status: UICNStatus): string {
+  switch (status) {
+    case 'CR': return 'bg-red-900/80 text-red-300'
+    case 'EN': return 'bg-orange-900/80 text-orange-300'
+    case 'VU': return 'bg-yellow-900/80 text-yellow-300'
+    default:   return 'bg-zinc-700/80 text-zinc-300'
+  }
+}
+
 export function SpeciesCard({ species, variant = 'card', className }: Props) {
   const {
     slug, commonName, scientificName, type,
-    uicnStatus, isEndemic, primaryPhoto, photoCredit,
+    uicnStatus, isEndemic, primaryPhoto,
     regionCodes, verifiedSightings,
   } = species
   const photo = proxied(primaryPhoto)
 
+  // MAP-POPUP — sin cambios
   if (variant === 'map-popup') {
     return (
       <div className={cn('w-64 rounded-xl overflow-hidden bg-white shadow-lg', className)}>
@@ -69,35 +79,41 @@ export function SpeciesCard({ species, variant = 'card', className }: Props) {
     )
   }
 
+  // LIST — estilo oscuro
   if (variant === 'list') {
     return (
       <Link
         href={`/especies/${slug}`}
         className={cn(
-          'flex items-center gap-4 rounded-xl p-3 bg-white border border-stone-200',
-          'hover:border-neon-400/40 hover:shadow-sm transition-all group',
+          'flex items-center gap-4 rounded-xl p-3 bg-zinc-900 border border-zinc-800',
+          'hover:border-zinc-700 transition-all group',
           className
         )}
       >
-        <div className="relative h-16 w-16 flex-shrink-0 rounded-lg overflow-hidden bg-stone-100">
+        <div className="relative h-16 w-16 flex-shrink-0 rounded-lg overflow-hidden bg-zinc-800">
           {photo ? (
-            <img src={photo} alt={commonName} referrerPolicy="no-referrer" className="absolute inset-0 w-full h-full object-cover" />
+            <img
+              src={photo}
+              alt={commonName}
+              referrerPolicy="no-referrer"
+              className="absolute inset-0 w-full h-full object-cover"
+            />
           ) : (
-            <div className="flex h-full items-center justify-center text-stone-300">
+            <div className="flex h-full items-center justify-center text-zinc-600">
               <MapPin className="h-6 w-6" />
             </div>
           )}
         </div>
 
         <div className="flex-1 min-w-0">
-          <h3 className="font-medium text-stone-900 group-hover:text-neon-600 transition-colors truncate">
+          <h3 className="font-medium text-white group-hover:text-[#00E676] transition-colors truncate">
             {commonName}
           </h3>
-          <p className="text-sm text-stone-500 italic truncate">{scientificName}</p>
+          <p className="text-sm text-zinc-500 italic truncate">{scientificName}</p>
           <div className="flex items-center gap-1.5 mt-1">
             {uicnStatus && <ConservationBadge status={uicnStatus} size="sm" showLabel={false} />}
             {isEndemic && (
-              <span className="text-xs text-stone-500 font-medium">Endémica</span>
+              <span className="text-xs text-zinc-400 font-medium">Endémica</span>
             )}
           </div>
         </div>
@@ -105,78 +121,60 @@ export function SpeciesCard({ species, variant = 'card', className }: Props) {
     )
   }
 
-  // Default: card
+  // CARD — rediseño editorial oscuro
   return (
-    <Link
-      href={`/especies/${slug}`}
-      className={cn(
-        'group rounded-2xl overflow-hidden bg-white border border-stone-200',
-        'hover:border-neon-400/40 hover:shadow-md transition-all',
-        className
-      )}
-    >
-      <div className="relative h-48 w-full bg-stone-100">
-        {photo ? (
-          <>
+    <Link href={`/especies/${slug}`} className={cn('group block', className)}>
+      <div className="bg-zinc-900 border border-zinc-800 rounded-2xl overflow-hidden group-hover:border-zinc-700 group-hover:scale-[1.02] transition-all duration-300 cursor-pointer">
+        {/* Bloque imagen */}
+        <div className="relative h-52 w-full overflow-hidden">
+          {photo ? (
             <img
               src={photo}
               alt={commonName}
               referrerPolicy="no-referrer"
-              className="absolute inset-0 w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-300"
+              className="w-full h-full object-cover"
             />
-            {photoCredit && (
-              <span className="absolute bottom-1 right-2 text-[10px] text-white/70">
-                © {photoCredit}
-              </span>
-            )}
-          </>
-        ) : (
-          <div className="flex h-full items-center justify-center text-stone-300">
-            <MapPin className="h-12 w-12" />
-          </div>
-        )}
+          ) : (
+            <div className="w-full h-full bg-zinc-800 flex items-center justify-center">
+              <MapPin className="h-10 w-10 text-zinc-700" />
+            </div>
+          )}
 
-        {uicnStatus && (
-          <div className="absolute top-2 left-2">
-            <ConservationBadge status={uicnStatus} photoOverlay showLabel={false} />
-          </div>
-        )}
+          {/* Overlay degradado */}
+          <div className="absolute inset-0 bg-gradient-to-t from-zinc-900/90 via-zinc-900/20 to-transparent" />
 
-        {isEndemic && (
-          <div className="absolute top-2 right-2">
-            <span className="text-xs font-medium bg-carbon-900 text-white px-2 py-0.5 rounded">
-              Endémica
-            </span>
-          </div>
-        )}
-      </div>
-
-      <div className="p-4">
-        <div className="mb-1">
-          <h3 className="font-semibold text-stone-900 group-hover:text-neon-600 transition-colors leading-snug">
-            {commonName}
-          </h3>
-          <p className="text-sm text-stone-500 italic">{scientificName}</p>
-        </div>
-
-        <div className="flex items-center justify-between mt-3 text-xs text-stone-500">
-          <span className="bg-stone-100 px-2 py-0.5 rounded">
+          {/* Tipo — esquina sup izq */}
+          <span className="absolute top-3 left-3 bg-black/60 text-zinc-300 text-[10px] rounded-full px-2.5 py-1 backdrop-blur-sm">
             {SPECIES_TYPE_LABELS[type]}
           </span>
 
-          {regionCodes?.length && (
-            <span className="flex items-center gap-0.5">
-              <MapPin className="h-3 w-3" />
-              {regionCodes.length === 1 ? regionCodes[0] : `${regionCodes.length} regiones`}
+          {/* Endémica — esquina sup der */}
+          {isEndemic && (
+            <span className="absolute top-3 right-3 bg-[#00E676] text-black text-[10px] font-semibold rounded-full px-2.5 py-1">
+              Endémica
+            </span>
+          )}
+
+          {/* UICN — esquina inf izq */}
+          {uicnStatus && (
+            <span className={`absolute bottom-3 left-3 text-[10px] font-medium rounded-full px-2.5 py-1 ${uicnBadgeClass(uicnStatus)}`}>
+              {uicnStatus}
             </span>
           )}
         </div>
 
-        {verifiedSightings > 0 && (
-          <p className="mt-2 text-xs text-neon-600">
-            {verifiedSightings} avistamiento{verifiedSightings !== 1 ? 's' : ''} verificado{verifiedSightings !== 1 ? 's' : ''}
-          </p>
-        )}
+        {/* Bloque contenido */}
+        <div className="p-4 flex flex-col gap-1">
+          <h3 className="font-grotesk font-semibold text-white text-base line-clamp-1">
+            {commonName}
+          </h3>
+          <p className="text-zinc-500 text-xs italic">{scientificName}</p>
+          {verifiedSightings > 0 && (
+            <p className="text-[#00E676] text-xs mt-1">
+              {verifiedSightings} avistamiento{verifiedSightings !== 1 ? 's' : ''} verificado{verifiedSightings !== 1 ? 's' : ''}
+            </p>
+          )}
+        </div>
       </div>
     </Link>
   )

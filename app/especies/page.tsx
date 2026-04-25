@@ -24,25 +24,35 @@ export default async function EspeciesPage() {
   }
 
   return (
-    <main className="max-w-7xl mx-auto px-4 py-10">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-stone-800">Especies</h1>
-      </div>
+    <div className="bg-[#0A0A0A] min-h-screen">
+      <main className="max-w-7xl mx-auto px-4 py-16">
+        <div className="mb-12">
+          <h1
+            className="font-bold text-white leading-tight"
+            style={{ fontFamily: 'var(--font-space-grotesk), sans-serif', fontSize: 'clamp(3rem, 8vw, 5.5rem)' }}
+          >
+            Fauna y flora<br />de Chile
+          </h1>
+          <p className="text-zinc-400 text-lg mt-4 max-w-2xl leading-relaxed">
+            Explora las especies nativas y endémicas de Chile. Fichas verificadas con estado de conservación UICN, distribución y amenazas.
+          </p>
+        </div>
 
-      {dbError ? (
-        <div className="text-center py-20 text-stone-400">
-          <p className="text-lg font-medium text-stone-600">Error temporal al cargar las especies</p>
-          <p className="text-sm mt-1">Hubo un problema con la base de datos. Inténtalo de nuevo en unos segundos.</p>
-        </div>
-      ) : species.length === 0 ? (
-        <div className="text-center py-20 text-stone-400">
-          <p className="text-lg">No hay especies publicadas aún.</p>
-        </div>
-      ) : (
-        <Suspense>
-          <SpeciesFilterGrid species={species} total={total} />
-        </Suspense>
-      )}
-    </main>
+        {dbError ? (
+          <div className="text-center py-20 text-zinc-600">
+            <p className="text-lg font-medium text-zinc-400">Error temporal al cargar las especies</p>
+            <p className="text-sm mt-1">Hubo un problema con la base de datos. Inténtalo de nuevo en unos segundos.</p>
+          </div>
+        ) : species.length === 0 ? (
+          <div className="text-center py-20 text-zinc-600">
+            <p className="text-lg">No hay especies publicadas aún.</p>
+          </div>
+        ) : (
+          <Suspense>
+            <SpeciesFilterGrid species={species} total={total} />
+          </Suspense>
+        )}
+      </main>
+    </div>
   )
 }

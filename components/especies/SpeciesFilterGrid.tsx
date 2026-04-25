@@ -3,6 +3,7 @@
 import { useState, useMemo, useEffect } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { Search, X } from 'lucide-react'
+import { motion } from 'framer-motion'
 import { SpeciesCard } from '@/components/species/SpeciesCard'
 import type { SpeciesSummary, UICNStatus, SpeciesType } from '@/lib/types'
 import { UICN_LABELS } from '@/lib/types'
@@ -27,18 +28,10 @@ const TYPE_OPTIONS: { value: SpeciesType; label: string }[] = [
   { value: 'hongo',    label: 'Hongo' },
 ]
 
-const VALID_UICN = new Set(['CR', 'EN', 'VU', 'NT', 'LC'])
+const VALID_UICN  = new Set(['CR', 'EN', 'VU', 'NT', 'LC'])
 const VALID_TYPES = new Set(['mamifero', 'ave', 'reptil', 'anfibio', 'pez', 'insecto', 'planta', 'hongo'])
 
-function Chip({
-  active,
-  onClick,
-  children,
-}: {
-  active: boolean
-  onClick: () => void
-  children: React.ReactNode
-}) {
+function Chip({ active, onClick, children }: { active: boolean; onClick: () => void; children: React.ReactNode }) {
   return (
     <button
       type="button"
@@ -47,7 +40,7 @@ function Chip({
         'whitespace-nowrap rounded-full px-3 py-1 text-xs font-medium transition-colors',
         active
           ? 'bg-[#00E676] text-black'
-          : 'bg-zinc-800 text-white hover:bg-zinc-700'
+          : 'bg-zinc-800 text-zinc-300 hover:bg-zinc-700 hover:text-white'
       )}
     >
       {children}
@@ -61,9 +54,7 @@ function FilterRow({ label, children }: { label: string; children: React.ReactNo
       <span className="text-xs font-medium text-zinc-400 uppercase tracking-wide flex-shrink-0 w-14 pt-1">
         {label}
       </span>
-      <div className="flex flex-wrap gap-1.5">
-        {children}
-      </div>
+      <div className="flex flex-wrap gap-1.5">{children}</div>
     </div>
   )
 }
@@ -92,22 +83,16 @@ export function SpeciesFilterGrid({ species, total }: Props) {
     return val.split(',').filter((v) => VALID_TYPES.has(v)) as SpeciesType[]
   })
 
-  const [endemic, setEndemic] = useState<boolean>(() => {
-    return searchParams.get('origen') === 'endemica'
-  })
+  const [endemic, setEndemic] = useState<boolean>(() => searchParams.get('origen') === 'endemica')
 
-  const [query, setQuery] = useState<string>(() => {
-    return searchParams.get('q') ?? ''
-  })
+  const [query, setQuery] = useState<string>(() => searchParams.get('q') ?? '')
 
-  // Sync filter state → URL without triggering a server re-render
   useEffect(() => {
     const params = new URLSearchParams()
     if (uicns.length > 0) params.set('estado', uicns.join(','))
     if (types.length > 0) params.set('tipo', types.join(','))
     if (endemic) params.set('origen', 'endemica')
     if (query.trim()) params.set('q', query.trim())
-
     const qs = params.toString()
     window.history.replaceState(null, '', qs ? `/especies?${qs}` : '/especies')
   }, [uicns, types, endemic, query])
@@ -135,8 +120,7 @@ export function SpeciesFilterGrid({ species, total }: Props) {
   return (
     <div>
       {/* Barra de filtros */}
-      <div className="rounded-2xl bg-zinc-900 px-5 py-4 mb-6 space-y-3">
-        {/* Buscador */}
+      <div className="rounded-2xl bg-zinc-900 border border-zinc-800 px-5 py-4 mb-6 space-y-3">
         <div className="relative">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-400 pointer-events-none" />
           <input
@@ -157,35 +141,24 @@ export function SpeciesFilterGrid({ species, total }: Props) {
           )}
         </div>
 
-        {/* Estado UICN */}
         <FilterRow label="Estado">
           <Chip active={uicns.length === 0} onClick={() => setUicns([])}>Todos</Chip>
           {UICN_OPTIONS.map((opt) => (
-            <Chip
-              key={opt.value}
-              active={uicns.includes(opt.value)}
-              onClick={() => setUicns((prev) => toggle(prev, opt.value))}
-            >
+            <Chip key={opt.value} active={uicns.includes(opt.value)} onClick={() => setUicns((prev) => toggle(prev, opt.value))}>
               {opt.label}
             </Chip>
           ))}
         </FilterRow>
 
-        {/* Tipo */}
         <FilterRow label="Tipo">
           <Chip active={types.length === 0} onClick={() => setTypes([])}>Todos</Chip>
           {TYPE_OPTIONS.map((opt) => (
-            <Chip
-              key={opt.value}
-              active={types.includes(opt.value)}
-              onClick={() => setTypes((prev) => toggle(prev, opt.value))}
-            >
+            <Chip key={opt.value} active={types.includes(opt.value)} onClick={() => setTypes((prev) => toggle(prev, opt.value))}>
               {opt.label}
             </Chip>
           ))}
         </FilterRow>
 
-        {/* Origen */}
         <FilterRow label="Origen">
           <Chip active={!endemic} onClick={() => setEndemic(false)}>Todos</Chip>
           <Chip active={endemic} onClick={() => setEndemic((v) => !v)}>Endémica</Chip>
@@ -195,12 +168,12 @@ export function SpeciesFilterGrid({ species, total }: Props) {
       {/* Conteo + limpiar */}
       <div className="flex items-center justify-between mb-5 min-h-[24px]">
         {hasFilters ? (
-          <p className="text-sm text-stone-500">
-            <span className="font-semibold text-stone-800">{filtered.length}</span>{' '}
+          <p className="text-sm text-zinc-500">
+            <span className="font-semibold text-zinc-200">{filtered.length}</span>{' '}
             {filtered.length === 1 ? 'especie encontrada' : 'especies encontradas'}
           </p>
         ) : (
-          <p className="text-sm text-stone-500">
+          <p className="text-sm text-zinc-500">
             {total} {total === 1 ? 'especie registrada' : 'especies registradas'}
           </p>
         )}
@@ -209,7 +182,7 @@ export function SpeciesFilterGrid({ species, total }: Props) {
           <button
             type="button"
             onClick={clearFilters}
-            className="flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium text-stone-500 hover:text-stone-800 hover:bg-stone-100 transition-colors"
+            className="flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium text-zinc-500 hover:text-zinc-200 hover:bg-zinc-800 transition-colors"
           >
             <X className="h-3 w-3" />
             Limpiar filtros
@@ -219,14 +192,22 @@ export function SpeciesFilterGrid({ species, total }: Props) {
 
       {/* Grilla */}
       {filtered.length === 0 ? (
-        <div className="text-center py-20 text-stone-400">
+        <div className="text-center py-20 text-zinc-600">
           <p className="text-lg">Sin resultados</p>
           <p className="text-sm mt-1">Prueba con otros filtros o limpia la búsqueda.</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-          {filtered.map((sp) => (
-            <SpeciesCard key={sp.id} species={sp} variant="card" />
+          {filtered.map((sp, index) => (
+            <motion.div
+              key={sp.id}
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-40px' }}
+              transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1], delay: index * 0.04 }}
+            >
+              <SpeciesCard species={sp} variant="card" />
+            </motion.div>
           ))}
         </div>
       )}
