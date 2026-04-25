@@ -6,7 +6,7 @@
 import { NextResponse } from 'next/server'
 import sql from '@/lib/db'
 
-export const revalidate = 3600 // ISR: revalidar cada hora
+export const dynamic = 'force-dynamic'
 
 export async function GET() {
   try {
@@ -21,8 +21,8 @@ export async function GET() {
         nombre,
         tipo,
         region,
-        ROUND(superficie_ha::numeric, 0)  AS superficie_ha,
-        ST_AsGeoJSON(geom)::json           AS geometry
+        ROUND(superficie_ha::numeric, 0)    AS superficie_ha,
+        ST_AsGeoJSON(ST_Simplify(geom, 0.01))::json AS geometry
       FROM protected_area_polygons
       ORDER BY superficie_ha DESC NULLS LAST
     `
