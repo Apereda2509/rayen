@@ -24,14 +24,14 @@ export default async function AdminFotosPage() {
   return (
     <div>
       <div className="mb-6">
-        <h1 className="text-xl font-bold text-stone-900">Fotos candidatas a especie</h1>
-        <p className="text-sm text-stone-500 mt-0.5">
+        <h1 className="text-xl font-bold text-white">Fotos candidatas a especie</h1>
+        <p className="text-sm text-zinc-500 mt-0.5">
           {candidates.length} pendiente{candidates.length !== 1 ? 's' : ''} de aprobación
         </p>
       </div>
 
       {candidates.length === 0 ? (
-        <div className="rounded-2xl border border-stone-200 bg-white py-16 text-center text-stone-400">
+        <div className="rounded-2xl border border-zinc-800 bg-zinc-900 py-16 text-center text-zinc-500">
           <p className="text-4xl mb-3">📷</p>
           <p className="font-medium">No hay fotos candidatas pendientes</p>
         </div>

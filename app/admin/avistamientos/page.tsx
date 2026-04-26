@@ -30,8 +30,8 @@ export default async function AdminAvistamientosPage() {
   return (
     <div>
       <div className="mb-6">
-        <h1 className="text-xl font-bold text-stone-900">Avistamientos pendientes</h1>
-        <p className="text-sm text-stone-500 mt-0.5">
+        <h1 className="text-xl font-bold text-white">Avistamientos pendientes</h1>
+        <p className="text-sm text-zinc-500 mt-0.5">
           {rows.length} pendiente{rows.length !== 1 ? 's' : ''} de verificación
         </p>
       </div>

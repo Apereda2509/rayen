@@ -45,8 +45,8 @@ export function PhotoCandidatesList({ initialCandidates }: Props) {
 
   if (candidates.length === 0) {
     return (
-      <div className="rounded-2xl border border-stone-200 bg-white py-16 text-center text-stone-400">
-        <CheckCircle className="h-10 w-10 mx-auto mb-3 text-stone-200" />
+      <div className="rounded-2xl border border-zinc-800 bg-zinc-900 py-16 text-center text-zinc-500">
+        <CheckCircle className="h-10 w-10 mx-auto mb-3 text-zinc-700" />
         <p className="font-medium">No hay fotos candidatas pendientes</p>
       </div>
     )
@@ -59,12 +59,12 @@ export function PhotoCandidatesList({ initialCandidates }: Props) {
         const fb = feedbackId?.id === c.id ? feedbackId.type : null
 
         return (
-          <div key={c.id} className={`rounded-2xl border bg-white overflow-hidden transition-all ${
-            fb === 'approved' ? 'border-neon-400/20 bg-stone-50'
-            : fb === 'rejected' ? 'border-red-200 bg-red-50 opacity-60'
-            : 'border-stone-200'
+          <div key={c.id} className={`rounded-2xl border bg-zinc-900 overflow-hidden transition-all ${
+            fb === 'approved' ? 'border-[#00E676]/20'
+            : fb === 'rejected' ? 'border-red-500/20 opacity-60'
+            : 'border-zinc-800'
           }`}>
-            <div className="relative aspect-square overflow-hidden bg-stone-100">
+            <div className="relative aspect-square overflow-hidden bg-zinc-800">
               <img src={c.url} alt={c.speciesCommonName} className="w-full h-full object-cover" />
               {c.favoritesCount > 0 && (
                 <div className="absolute top-2 right-2 flex items-center gap-1 rounded-full bg-black/60 px-2 py-0.5 text-xs text-white">
@@ -74,16 +74,16 @@ export function PhotoCandidatesList({ initialCandidates }: Props) {
               )}
             </div>
             <div className="p-3">
-              <Link href={`/especies/${c.speciesSlug}`} className="hover:text-neon-600 transition-colors">
-                <p className="font-medium text-stone-800 text-sm truncate">{c.speciesCommonName}</p>
-                <p className="text-xs italic text-stone-400 truncate">{c.speciesScientificName}</p>
+              <Link href={`/especies/${c.speciesSlug}`} className="hover:text-[#00E676] transition-colors">
+                <p className="font-medium text-white text-sm truncate">{c.speciesCommonName}</p>
+                <p className="text-xs italic text-zinc-500 truncate">{c.speciesScientificName}</p>
               </Link>
-              <p className="text-xs text-stone-400 mt-1">por {c.userName}</p>
+              <p className="text-xs text-zinc-500 mt-1">por {c.userName}</p>
               <div className="flex gap-1.5 mt-3">
                 <button
                   onClick={() => handleAction(c.id, 'approve')}
                   disabled={isBusy || !!fb}
-                  className="flex-1 flex items-center justify-center gap-1 rounded-lg bg-neon-400 hover:bg-neon-300 disabled:opacity-60 py-1.5 text-xs font-semibold text-black transition-colors"
+                  className="flex-1 flex items-center justify-center gap-1 rounded-xl bg-[#00E676] hover:opacity-90 disabled:opacity-60 py-1.5 text-xs font-medium text-black transition-colors"
                 >
                   {isBusy ? <Loader2 className="h-3.5 w-3.5 animate-spin" />
                     : fb === 'approved' ? <CheckCircle className="h-3.5 w-3.5" />
@@ -93,7 +93,7 @@ export function PhotoCandidatesList({ initialCandidates }: Props) {
                 <button
                   onClick={() => handleAction(c.id, 'reject')}
                   disabled={isBusy || !!fb}
-                  className="flex-1 flex items-center justify-center gap-1 rounded-lg border border-red-200 hover:bg-red-50 disabled:opacity-60 py-1.5 text-xs font-semibold text-red-600 transition-colors"
+                  className="flex-1 flex items-center justify-center gap-1 rounded-xl bg-zinc-800 border border-zinc-700 hover:border-zinc-600 disabled:opacity-60 py-1.5 text-xs font-medium text-white transition-colors"
                 >
                   <XCircle className="h-3.5 w-3.5" />
                   Rechazar

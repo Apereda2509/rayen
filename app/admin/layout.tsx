@@ -13,22 +13,18 @@ export default async function AdminLayout({ children }: { children: React.ReactN
 
   if (session.user.email !== ADMIN_EMAIL) {
     return (
-      <main className="max-w-lg mx-auto px-4 py-20 text-center">
+      <main className="max-w-lg mx-auto px-4 py-20 text-center bg-[#0A0A0A] min-h-screen">
         <p className="text-4xl mb-4">🚫</p>
-        <h1 className="text-xl font-bold text-stone-800 mb-2">Acceso restringido</h1>
-        <p className="text-stone-500 text-sm">No tienes permiso para acceder a esta sección.</p>
+        <h1 className="text-xl font-bold text-white mb-2">Acceso restringido</h1>
+        <p className="text-zinc-500 text-sm">No tienes permiso para acceder a esta sección.</p>
       </main>
     )
   }
 
   return (
-    <div className="min-h-screen bg-stone-50">
-      <div className="mx-auto max-w-7xl px-4 py-8">
-        <div className="flex gap-6">
-          <AdminNav />
-          <main className="flex-1 min-w-0">{children}</main>
-        </div>
-      </div>
+    <div className="min-h-screen bg-[#0A0A0A] flex">
+      <AdminNav />
+      <main className="flex-1 min-w-0 p-8 bg-[#0A0A0A]">{children}</main>
     </div>
   )
 }

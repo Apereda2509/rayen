@@ -1,7 +1,6 @@
 'use client'
 
 import { useState } from 'react'
-import Image from 'next/image'
 import { CheckCircle, XCircle, Loader2, MapPin, Calendar, User } from 'lucide-react'
 
 export interface PendingSighting {
@@ -51,8 +50,8 @@ export function SightingModerationList({ initialSightings }: Props) {
 
   if (sightings.length === 0) {
     return (
-      <div className="text-center py-16 text-stone-400">
-        <CheckCircle className="h-12 w-12 mx-auto mb-3 text-stone-200" />
+      <div className="text-center py-16 text-zinc-500">
+        <CheckCircle className="h-12 w-12 mx-auto mb-3 text-zinc-700" />
         <p className="text-lg font-medium">No hay avistamientos pendientes</p>
         <p className="text-sm mt-1">Todo está al día.</p>
       </div>
@@ -68,17 +67,17 @@ export function SightingModerationList({ initialSightings }: Props) {
         return (
           <div
             key={s.id}
-            className={`rounded-2xl border bg-white overflow-hidden transition-all ${
+            className={`rounded-2xl border bg-zinc-900 overflow-hidden transition-all ${
               done
                 ? feedback?.type === 'approved'
-                  ? 'border-neon-400/20 bg-stone-50'
-                  : 'border-red-200 bg-red-50 opacity-60'
-                : 'border-stone-200'
+                  ? 'border-[#00E676]/20 bg-zinc-900'
+                  : 'border-red-500/20 opacity-60'
+                : 'border-zinc-800'
             }`}
           >
             <div className="flex gap-4 p-4">
               {/* Foto */}
-              <div className="w-20 h-20 flex-shrink-0 rounded-xl overflow-hidden bg-stone-100">
+              <div className="w-20 h-20 flex-shrink-0 rounded-xl overflow-hidden bg-zinc-800">
                 {s.photoUrl ? (
                   <img
                     src={s.photoUrl}
@@ -86,7 +85,7 @@ export function SightingModerationList({ initialSightings }: Props) {
                     className="w-full h-full object-cover"
                   />
                 ) : (
-                  <div className="w-full h-full flex items-center justify-center text-3xl text-stone-300">
+                  <div className="w-full h-full flex items-center justify-center text-3xl text-zinc-600">
                     📷
                   </div>
                 )}
@@ -94,10 +93,10 @@ export function SightingModerationList({ initialSightings }: Props) {
 
               {/* Info */}
               <div className="flex-1 min-w-0">
-                <p className="font-semibold text-stone-900">{s.commonName}</p>
-                <p className="text-xs italic text-stone-400 mb-2">{s.scientificName}</p>
+                <p className="font-semibold text-white">{s.commonName}</p>
+                <p className="text-xs italic text-zinc-500 mb-2">{s.scientificName}</p>
 
-                <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-stone-500">
+                <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-zinc-500">
                   <span className="flex items-center gap-1">
                     <Calendar className="h-3 w-3" />
                     {new Date(s.observedAt).toLocaleDateString('es-CL', {
@@ -115,7 +114,7 @@ export function SightingModerationList({ initialSightings }: Props) {
                 </div>
 
                 {s.notes && (
-                  <p className="mt-2 text-xs text-stone-500 line-clamp-2 italic">"{s.notes}"</p>
+                  <p className="mt-2 text-xs text-zinc-500 line-clamp-2 italic">"{s.notes}"</p>
                 )}
               </div>
 
@@ -124,7 +123,7 @@ export function SightingModerationList({ initialSightings }: Props) {
                 <button
                   onClick={() => handleAction(s.id, 'approve')}
                   disabled={isBusy}
-                  className="flex items-center gap-1.5 rounded-lg bg-neon-400 hover:bg-neon-300 disabled:opacity-50 px-3 py-2 text-xs font-semibold text-black transition-colors"
+                  className="flex items-center gap-1.5 rounded-xl bg-[#00E676] hover:opacity-90 disabled:opacity-50 px-4 py-2 text-sm font-medium text-black transition-colors"
                 >
                   {isBusy ? (
                     <Loader2 className="h-3.5 w-3.5 animate-spin" />
@@ -136,7 +135,7 @@ export function SightingModerationList({ initialSightings }: Props) {
                 <button
                   onClick={() => handleAction(s.id, 'reject')}
                   disabled={isBusy}
-                  className="flex items-center gap-1.5 rounded-lg border border-red-200 hover:bg-red-50 disabled:opacity-50 px-3 py-2 text-xs font-semibold text-red-600 transition-colors"
+                  className="flex items-center gap-1.5 rounded-xl bg-zinc-800 border border-zinc-700 hover:border-zinc-600 disabled:opacity-50 px-4 py-2 text-sm text-white transition-colors"
                 >
                   <XCircle className="h-3.5 w-3.5" />
                   Rechazar
