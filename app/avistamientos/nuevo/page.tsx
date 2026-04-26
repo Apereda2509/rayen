@@ -23,10 +23,10 @@ export default async function NuevoAvistamientoPage({ searchParams }: Props) {
 
         {/* Breadcrumb */}
         <Link
-          href="/"
+          href="/comunidad"
           className="text-zinc-500 hover:text-white text-sm flex items-center gap-1.5 mb-8 transition-colors"
         >
-          ← Inicio
+          ← Comunidad
         </Link>
 
         {/* Header editorial */}

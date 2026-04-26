@@ -99,6 +99,12 @@ export default async function PresentacionPage({ params }: Props) {
           speciesImageUrl={presentacion.species_image_url}
           speciesScientificName={presentacion.species_scientific_name}
         />
+
+        <div className="mt-12 pt-6 border-t border-zinc-800">
+          <Link href="/educacion/aula" className="text-sm text-zinc-500 hover:text-white transition-colors">
+            ← Volver a Aula
+          </Link>
+        </div>
       </div>
     </div>
   )

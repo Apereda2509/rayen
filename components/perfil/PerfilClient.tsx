@@ -164,6 +164,11 @@ export function PerfilClient({ user, stats, photos, speciesFavorites, sightings,
   return (
     <div className="bg-[#0A0A0A] min-h-screen">
       <div className="max-w-4xl mx-auto px-4 py-8">
+        {/* Volver */}
+        <Link href="/comunidad" className="text-zinc-500 hover:text-white text-sm flex items-center gap-1.5 mb-6 transition-colors w-fit">
+          ← Comunidad
+        </Link>
+
         {/* Header */}
         <div className="flex flex-col sm:flex-row gap-6 items-start sm:items-center mb-8">
           {/* Avatar */}
