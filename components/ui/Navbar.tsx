@@ -64,7 +64,7 @@ export function Navbar() {
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2.5 group">
             <GridBloom className="h-7 w-7 text-neon-400 group-hover:text-neon-300 transition-colors" />
-            <span className="font-grotesk text-lg font-semibold tracking-widest uppercase text-white">
+            <span className="font-grotesk text-lg font-bold tracking-wide text-white">
               RAYEN
             </span>
           </Link>
@@ -126,10 +126,10 @@ export function Navbar() {
 
                 {/* Dropdown */}
                 {dropdownOpen && (
-                  <div className="absolute right-0 mt-2 w-52 rounded-xl border border-stone-200 bg-white shadow-lg py-1 z-50">
-                    <div className="px-4 py-2.5 border-b border-stone-100">
-                      <p className="text-sm font-semibold text-stone-800 truncate">{session.user?.name}</p>
-                      <p className="text-xs text-stone-400 truncate">{session.user?.email}</p>
+                  <div className="absolute right-0 mt-2 w-52 rounded-xl border border-zinc-800 bg-zinc-900 shadow-2xl py-1 z-50">
+                    <div className="px-4 py-2.5 border-b border-zinc-800">
+                      <p className="text-sm font-semibold text-white truncate">{session.user?.name}</p>
+                      <p className="text-xs text-zinc-500 truncate">{session.user?.email}</p>
                     </div>
 
                     <DropdownLink href="/perfil" icon={<User className="h-4 w-4" />} onClick={closeAll}>
@@ -170,7 +170,7 @@ export function Navbar() {
 
                     <button
                       onClick={() => { closeAll(); signOut({ callbackUrl: '/' }) }}
-                      className="flex w-full items-center gap-2.5 px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors"
+                      className="flex w-full items-center gap-2.5 px-4 py-2 text-sm text-red-400 hover:bg-zinc-800 hover:text-red-300 transition-colors"
                     >
                       <LogOut className="h-4 w-4" />
                       Cerrar sesión
@@ -299,7 +299,7 @@ export function Navbar() {
 // ── Componentes auxiliares del dropdown ──────────────────────
 
 function DropdownSep() {
-  return <div className="my-1 border-t border-stone-100" />
+  return <div className="my-1 border-t border-zinc-800" />
 }
 
 function DropdownLink({
@@ -309,8 +309,8 @@ function DropdownLink({
 }) {
   return (
     <Link href={href} onClick={onClick}
-      className="flex items-center gap-2.5 px-4 py-2 text-sm text-stone-700 hover:bg-stone-50 transition-colors">
-      <span className="text-stone-400">{icon}</span>
+      className="flex items-center gap-2.5 px-4 py-2 text-sm text-zinc-300 hover:bg-zinc-800 hover:text-white transition-colors">
+      <span className="text-zinc-600">{icon}</span>
       {children}
     </Link>
   )
@@ -323,8 +323,8 @@ function DropdownButton({
 }) {
   return (
     <button onClick={onClick}
-      className="flex w-full items-center gap-2.5 px-4 py-2 text-sm text-stone-700 hover:bg-stone-50 transition-colors">
-      <span className="text-stone-400">{icon}</span>
+      className="flex w-full items-center gap-2.5 px-4 py-2 text-sm text-zinc-300 hover:bg-zinc-800 hover:text-white transition-colors">
+      <span className="text-zinc-600">{icon}</span>
       {children}
     </button>
   )
@@ -368,14 +368,14 @@ function ErrorReportModal({ userEmail, onClose }: { userEmail: string | null; on
   }, [onClose])
 
   return (
-    <div className="fixed inset-0 z-[200] flex items-center justify-center bg-black/50 px-4" onClick={onClose}>
-      <div className="w-full max-w-sm rounded-2xl bg-white shadow-2xl" onClick={(e) => e.stopPropagation()}>
-        <div className="flex items-center justify-between px-5 py-4 border-b border-stone-100">
+    <div className="fixed inset-0 z-[200] flex items-center justify-center bg-black/70 backdrop-blur-sm px-4" onClick={onClose}>
+      <div className="w-full max-w-sm rounded-2xl bg-zinc-900 border border-zinc-800 shadow-2xl" onClick={(e) => e.stopPropagation()}>
+        <div className="flex items-center justify-between px-5 py-4 border-b border-zinc-800">
           <div className="flex items-center gap-2">
-            <AlertCircle className="h-4 w-4 text-stone-500" />
-            <h2 className="font-semibold text-stone-800 text-sm">Informar un error</h2>
+            <AlertCircle className="h-4 w-4 text-zinc-500" />
+            <h2 className="font-semibold text-white text-sm">Informar un error</h2>
           </div>
-          <button onClick={onClose} className="text-stone-400 hover:text-stone-600">
+          <button onClick={onClose} className="text-zinc-500 hover:text-white transition-colors">
             <X className="h-4 w-4" />
           </button>
         </div>
@@ -383,11 +383,11 @@ function ErrorReportModal({ userEmail, onClose }: { userEmail: string | null; on
         <div className="p-5">
           {sent ? (
             <div className="text-center py-4">
-              <p className="text-sm font-medium text-stone-700">Reporte enviado. Gracias.</p>
+              <p className="text-sm font-medium text-[#00E676]">Reporte enviado. Gracias.</p>
             </div>
           ) : (
             <>
-              <p className="text-xs text-stone-500 mb-3">
+              <p className="text-xs text-zinc-500 mb-3">
                 Describe el error con el mayor detalle posible: qué hiciste, qué esperabas y qué pasó.
               </p>
               <textarea
@@ -395,15 +395,15 @@ function ErrorReportModal({ userEmail, onClose }: { userEmail: string | null; on
                 onChange={(e) => setMessage(e.target.value.slice(0, 1000))}
                 rows={5}
                 placeholder="Ej: Al hacer click en 'Reportar avistamiento' aparece un error en blanco…"
-                className="w-full rounded-lg border border-stone-300 px-3 py-2 text-sm text-stone-800 placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-neon-400 resize-none"
+                className="w-full rounded-xl border border-zinc-700 bg-zinc-800 px-3 py-2.5 text-sm text-white placeholder:text-zinc-600 focus:border-[#00E676] focus:outline-none resize-none transition-colors"
                 autoFocus
               />
-              <p className="text-right text-xs text-stone-400 mt-1">{message.length}/1000</p>
-              {error && <p className="text-xs text-red-600 mt-1">{error}</p>}
+              <p className="text-right text-xs text-zinc-600 mt-1">{message.length}/1000</p>
+              {error && <p className="text-xs text-red-400 mt-1">{error}</p>}
               <button
                 onClick={handleSend}
                 disabled={sending || !message.trim()}
-                className="mt-3 w-full flex items-center justify-center gap-2 rounded-lg bg-neon-400 hover:bg-neon-300 disabled:opacity-50 py-2.5 text-sm font-semibold text-black transition-colors"
+                className="mt-3 w-full flex items-center justify-center gap-2 rounded-xl bg-[#00E676] hover:bg-emerald-400 disabled:opacity-50 py-2.5 text-sm font-semibold text-black transition-colors"
               >
                 {sending && <Loader2 className="h-4 w-4 animate-spin" />}
                 Enviar reporte

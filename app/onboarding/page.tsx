@@ -51,6 +51,20 @@ const SPECIES_GROUPS = [
   { value: 'hongo', label: 'Hongos' },
 ]
 
+const STEP_TITLES = [
+  '¿Cuál es tu rol?',
+  '¿Cuál es tu nivel de experiencia?',
+  '¿En qué regiones sueles estar?',
+  '¿Qué grupos de especies te interesan?',
+]
+
+const STEP_SUBTITLES = [
+  'Cuéntanos cómo te relacionas con la naturaleza.',
+  'Esto nos ayuda a mostrarte contenido relevante.',
+  'Puedes seleccionar varias regiones.',
+  'Puedes seleccionar varios grupos.',
+]
+
 export default function OnboardingPage() {
   const router = useRouter()
   const { update } = useSession()
@@ -82,125 +96,127 @@ export default function OnboardingPage() {
   }
 
   return (
-    <main className="min-h-screen bg-carbon-900 flex items-center justify-center px-4 py-12">
+    <main className="min-h-screen bg-[#0A0A0A] flex items-center justify-center px-4 py-12">
       <div className="w-full max-w-lg">
+
+        {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-2xl font-bold text-white mb-1">Bienvenido/a a Rayen</h1>
-          <p className="text-white/60 text-sm">Cuéntanos un poco sobre ti para personalizar tu experiencia</p>
+          <span className="inline-block bg-[#00E676]/10 text-[#00E676] border border-[#00E676]/20 rounded-full px-4 py-1.5 text-xs tracking-widest uppercase font-medium mb-4">
+            Primeros pasos
+          </span>
+          <h1
+            className="font-bold text-3xl text-white"
+            style={{ fontFamily: 'var(--font-space-grotesk), sans-serif' }}
+          >
+            {STEP_TITLES[step - 1]}
+          </h1>
+          <p className="text-zinc-400 text-sm mt-2">
+            {STEP_SUBTITLES[step - 1]}
+          </p>
         </div>
 
-        <div className="flex gap-2 mb-8">
+        {/* Indicador de pasos */}
+        <div className="flex gap-2 justify-center mb-8">
           {[1, 2, 3, 4].map((s) => (
             <div
               key={s}
               className={cn(
-                'flex-1 h-1.5 rounded-full transition-all',
-                s <= step ? 'bg-neon-400' : 'bg-white/20'
+                'h-2 rounded-full transition-all duration-300',
+                s === step ? 'w-6 bg-[#00E676]' : s < step ? 'w-2 bg-[#00E676]/40' : 'w-2 bg-zinc-700'
               )}
             />
           ))}
         </div>
 
-        <div className="bg-white rounded-2xl p-6 shadow-xl">
+        {/* Card */}
+        <div className="bg-zinc-900 border border-zinc-800 rounded-3xl p-8">
+
           {step === 1 && (
-            <div>
-              <h2 className="text-lg font-semibold text-stone-800 mb-4">¿Cuál es tu rol?</h2>
-              <div className="grid grid-cols-2 gap-2">
-                {ROLES.map((r) => (
-                  <button key={r.value} type="button" onClick={() => setRole(r.value)}
-                    className={cn(
-                      'rounded-xl border-2 px-4 py-3 text-sm font-medium text-left transition-all',
-                      role === r.value
-                        ? 'border-neon-400 bg-stone-50 text-stone-800'
-                        : 'border-stone-200 text-stone-600 hover:border-neon-400/40'
-                    )}>
-                    {r.label}
-                  </button>
-                ))}
-              </div>
+            <div className="grid grid-cols-2 gap-2">
+              {ROLES.map((r) => (
+                <button key={r.value} type="button" onClick={() => setRole(r.value)}
+                  className={cn(
+                    'rounded-xl border-2 px-4 py-3 text-sm font-medium text-left transition-all',
+                    role === r.value
+                      ? 'border-[#00E676] bg-[#00E676]/10 text-white'
+                      : 'border-zinc-700 text-zinc-400 hover:border-zinc-500 hover:text-white'
+                  )}>
+                  {r.label}
+                </button>
+              ))}
             </div>
           )}
 
           {step === 2 && (
-            <div>
-              <h2 className="text-lg font-semibold text-stone-800 mb-4">¿Cuál es tu nivel de experiencia en naturaleza?</h2>
-              <div className="space-y-2">
-                {EXPERIENCE_LEVELS.map((l) => (
-                  <button key={l.value} type="button" onClick={() => setExperienceLevel(l.value)}
-                    className={cn(
-                      'w-full rounded-xl border-2 px-4 py-3 text-left transition-all',
-                      experienceLevel === l.value
-                        ? 'border-neon-400 bg-stone-50'
-                        : 'border-stone-200 hover:border-neon-400/40'
-                    )}>
-                    <p className="font-medium text-stone-800 text-sm">{l.label}</p>
-                    <p className="text-xs text-stone-500 mt-0.5">{l.desc}</p>
-                  </button>
-                ))}
-              </div>
+            <div className="space-y-2">
+              {EXPERIENCE_LEVELS.map((l) => (
+                <button key={l.value} type="button" onClick={() => setExperienceLevel(l.value)}
+                  className={cn(
+                    'w-full rounded-xl border-2 px-4 py-3 text-left transition-all',
+                    experienceLevel === l.value
+                      ? 'border-[#00E676] bg-[#00E676]/10'
+                      : 'border-zinc-700 hover:border-zinc-500'
+                  )}>
+                  <p className={cn('font-medium text-sm', experienceLevel === l.value ? 'text-white' : 'text-zinc-300')}>{l.label}</p>
+                  <p className="text-xs text-zinc-500 mt-0.5">{l.desc}</p>
+                </button>
+              ))}
             </div>
           )}
 
           {step === 3 && (
-            <div>
-              <h2 className="text-lg font-semibold text-stone-800 mb-1">¿En qué regiones de Chile sueles estar?</h2>
-              <p className="text-xs text-stone-400 mb-4">Puedes seleccionar varias</p>
-              <div className="grid grid-cols-2 gap-1.5 max-h-72 overflow-y-auto pr-1">
-                {CHILE_REGIONS.map((r) => (
-                  <button key={r.code} type="button" onClick={() => toggleRegion(r.code)}
-                    className={cn(
-                      'rounded-lg border px-3 py-2 text-xs font-medium text-left transition-all',
-                      regions.includes(r.code)
-                        ? 'border-neon-400 bg-stone-50 text-stone-800'
-                        : 'border-stone-200 text-stone-600 hover:border-neon-400/40'
-                    )}>
-                    {r.name}
-                  </button>
-                ))}
-              </div>
+            <div className="grid grid-cols-2 gap-1.5 max-h-72 overflow-y-auto pr-1">
+              {CHILE_REGIONS.map((r) => (
+                <button key={r.code} type="button" onClick={() => toggleRegion(r.code)}
+                  className={cn(
+                    'rounded-xl border px-3 py-2 text-xs font-medium text-left transition-all',
+                    regions.includes(r.code)
+                      ? 'border-[#00E676] bg-[#00E676]/10 text-white'
+                      : 'border-zinc-700 text-zinc-400 hover:border-zinc-500 hover:text-white'
+                  )}>
+                  {r.name}
+                </button>
+              ))}
             </div>
           )}
 
           {step === 4 && (
-            <div>
-              <h2 className="text-lg font-semibold text-stone-800 mb-1">¿Qué grupos de especies te interesan más?</h2>
-              <p className="text-xs text-stone-400 mb-4">Puedes seleccionar varios</p>
-              <div className="grid grid-cols-2 gap-2">
-                {SPECIES_GROUPS.map((g) => (
-                  <button key={g.value} type="button" onClick={() => toggleGroup(g.value)}
-                    className={cn(
-                      'rounded-xl border-2 px-4 py-3 text-sm font-medium text-left transition-all',
-                      speciesGroups.includes(g.value)
-                        ? 'border-neon-400 bg-stone-50 text-stone-800'
-                        : 'border-stone-200 text-stone-600 hover:border-neon-400/40'
-                    )}>
-                    {g.label}
-                  </button>
-                ))}
-              </div>
+            <div className="grid grid-cols-2 gap-2">
+              {SPECIES_GROUPS.map((g) => (
+                <button key={g.value} type="button" onClick={() => toggleGroup(g.value)}
+                  className={cn(
+                    'rounded-xl border-2 px-4 py-3 text-sm font-medium text-left transition-all',
+                    speciesGroups.includes(g.value)
+                      ? 'border-[#00E676] bg-[#00E676]/10 text-white'
+                      : 'border-zinc-700 text-zinc-400 hover:border-zinc-500 hover:text-white'
+                  )}>
+                  {g.label}
+                </button>
+              ))}
             </div>
           )}
 
-          <div className="flex items-center justify-between mt-6 pt-4 border-t border-stone-100">
+          {/* Navegación */}
+          <div className="flex items-center justify-between mt-6 pt-5 border-t border-zinc-800">
             <button type="button" onClick={() => finish(true)}
-              className="text-sm text-stone-400 hover:text-stone-600 transition-colors">
+              className="text-sm text-zinc-600 hover:text-zinc-300 transition-colors">
               Saltar por ahora
             </button>
             <div className="flex gap-2">
               {step > 1 && (
                 <button type="button" onClick={() => setStep((s) => s - 1)}
-                  className="rounded-lg border border-stone-200 px-4 py-2 text-sm font-medium text-stone-600 hover:bg-stone-50 transition-colors">
+                  className="rounded-xl border border-zinc-700 px-4 py-2 text-sm font-medium text-zinc-400 hover:border-zinc-500 hover:text-white transition-colors">
                   Atrás
                 </button>
               )}
               {step < 4 ? (
                 <button type="button" onClick={() => setStep((s) => s + 1)}
-                  className="rounded-lg bg-neon-400 hover:bg-neon-300 px-5 py-2 text-sm font-semibold text-black transition-colors">
+                  className="rounded-xl bg-[#00E676] hover:bg-emerald-400 px-5 py-2 text-sm font-semibold text-black transition-colors">
                   Siguiente
                 </button>
               ) : (
                 <button type="button" onClick={() => finish(false)} disabled={saving}
-                  className="flex items-center gap-2 rounded-lg bg-neon-400 hover:bg-neon-300 disabled:opacity-60 px-5 py-2 text-sm font-semibold text-black transition-colors">
+                  className="flex items-center gap-2 rounded-xl bg-[#00E676] hover:bg-emerald-400 disabled:opacity-60 px-5 py-2 text-sm font-semibold text-black transition-colors">
                   {saving && <Loader2 className="h-3.5 w-3.5 animate-spin" />}
                   Comenzar
                 </button>

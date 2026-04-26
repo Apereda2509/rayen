@@ -79,7 +79,7 @@ export default function RootLayout({
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
         <link rel="alternate icon" href="/favicon.ico" />
       </head>
-      <body className="min-h-screen bg-stone-50 text-stone-900 antialiased">
+      <body className="min-h-screen bg-[#0A0A0A] text-white antialiased">
         <Providers>
           <CustomCursor />
           <Navbar />
